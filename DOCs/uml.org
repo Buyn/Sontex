@@ -1,0 +1,931 @@
+* UML
+far E:\Temp    
+** Sontex test 
+*** png
+#+begin_src elisp :results output silent
+(buyn-cmd-start "E:\\Temp\\my-diagram.png")
+#+end_src
+
+*** Src
+#+begin_src plantuml :file e:\Temp\my-diagram.png :results output silent
+title Sontex test
+
+object Sontex.py{
+	import global_values_list gl_*
+	main()
+	--
+	cmd_line_arg()
+	df = Load_exel()
+	all_app_list = populate_apps()
+	all_couter_list = apps_get_counters()
+	appart_value_load()
+	load_csv()
+	calc_global_values()
+	calc_appart_value()
+	form_report()
+	save()
+	exit()
+	--
+	if __main__
+	}
+
+note left of Sontex.py
+  load values
+	loand house_counter
+  process apartments
+	with app_list + global + house
+	insert calc values global
+end note
+
+note right of Sontex.py
+  pop_all_values()
+	start from top ofset
+	  find value
+	    count nubrer of empti space
+		make new value in list
+			set for it mnamber of counter
+			end starting row
+			get values of counter nambers
+end note
+
+Sontex.py <-- data_cvs
+Sontex.py <|-- global_values_list_py
+Sontex.py <--> raport_exl
+Sontex.py <|-- Appart_value
+Appart_value <-- data_cvs
+Appart_value <--> raport_exl
+
+
+object global_values_list_py {
+	====
+	| name | calue |
+	| k    | 234   |  
+	| ...  | ...   |
+	----
+	comentari of rus names 
+	end of value # rus name
+	}
+
+object data_cvs{
+	values of individual counters  
+	}
+
+object raport_exl{
+	values of apartaments  
+	valuest of countesr for 
+		each apartaments
+	resulting raport
+	}
+
+
+class Appart_value {
+	int::int
+	start_raw::int
+	countes::int
+	counters_list::list
+	counters_value::list
+	__init__(value::int = none raw)
+	load()
+	save()
+	find_next_app()
+	load_data_from_cvs(path)
+	set_counter(num value)
+	calculate()
+	}
+
+
+#+end_src
+
+*** arhiv
+**** note : 
+note left of Sontex.py
+  This method with Duration
+end note
+
+note right of Sontex.py
+  load exel file if have path
+end note
+
+note top of Sontex.py
+  This method with Duration
+end note
+**** Src00
+#+begin_src plantuml :file e:\Temp\my-diagram.png :results output silent
+title Sontex test
+
+object Sontex.py{
+	import global_values_list
+	--
+	df = load_exel metod01.exl
+	all_values::All_values(global_values_list)
+	load()
+
+	save()
+	}
+
+Sontex.py <-- metod.exl
+Sontex.py <-- data.cvs
+Sontex.py --> raport.exl
+Sontex.py --> global_values_list
+
+object data.cvs{
+	values of individual counters  
+	}
+
+object raport.exl{
+	values of apartaments  
+	valuest of countesr for 
+		each apartaments
+	}
+
+object metod.exl{
+	initial 
+	values of global  
+	}
+
+class Global_values{
+	int::int
+	delta_raw::int
+	delta_colum::int
+	__init__(value::int = none raw colum)
+	load()
+	save()
+	}
+class Appart_value {
+	int::int
+	start_raw::int
+	countes::int
+	counters_list::arrey
+	__init__(value::int = none raw)
+	load()
+	save()
+	}
+class All_values{
+	app_list::Arrey(app_value)
+	global::Arrey(global_values)
+	__init__(global_list = None)
+	add_app(appart_value value)
+	popul_global(global_list)
+	load_apps()
+	save_apps()
+	load_global()
+	save_glabal()
+	}
+
+Sontex.py <|-- All_values
+All_values <|-- Appart_value
+All_values <|-- Global_values
+All_values <|-- global_values_list
+global_values_names --> global_values_list
+
+object global_values_list {
+dictionari
+	====
+	| name | x | y | 
+	| k    | +1| +3 | 
+	|      |   |   | 
+	----
+	}
+
+object global_values_names {
+dictionari
+	====
+	| text          |  name| 
+	| "теплоёмкость"|  tp  |  
+	|   "k"         |   k  | 
+	----
+	}
+#+end_src
+
+
+**** Src01
+#+begin_src plantuml :file e:\Temp\my-diagram.png :results output silent
+title Sontex test
+
+object Sontex.py{
+	import global_values_list
+	--
+	df = load_exel metod01.exl
+	all_values::All_values(global_values_list)
+	load()
+		Proces()
+	add_csv()
+	save()
+	}
+
+note left of Sontex.py
+  load values
+	loand house_counter
+  process apartments
+	with app_list + global + house
+	insert calc values global
+end note
+
+note right of Sontex.py
+  pop_all_values()
+	start from top ofset
+	  find value
+	    count nubrer of empti space
+		make new value in list
+			set for it mnamber of counter
+			end starting row
+			get values of counter nambers
+end note
+
+Sontex.py <-- data_cvs
+Sontex.py <--> raport_exl
+All_values <|-- global_values_list_py
+Sontex.py <|-- All_values
+All_values <|-- Appart_value
+Appart_value <-- data_cvs
+Appart_value <--> raport_exl
+All_values --> raport_exl
+
+
+object global_values_list_py {
+dictionari
+	====
+	| name | x | y | 
+	| k    | +1| +3 | 
+	|      |   |   | 
+	----
+	comentari of rus names
+	}
+
+object data_cvs{
+	values of individual counters  
+	}
+
+object raport_exl{
+	values of apartaments  
+	valuest of countesr for 
+		each apartaments
+	resulting raport
+	}
+
+class All_values{
+	app_list::List(app_value)
+	global::List(global_values)
+	__init__(global_list = None)
+	add_app(appart_value value)
+	popul_global(global_list)
+	load_apps()
+	save_apps()
+	load_global()
+	save_glabal()
+	find_csv_in_list()
+	calculate()
+	}
+
+class Appart_value {
+	int::int
+	start_raw::int
+	countes::int
+	counters_list::list
+	counters_value::list
+	__init__(value::int = none raw)
+	load()
+	save()
+	set_counter(num value)
+	calsulate()
+	}
+
+
+#+end_src
+
+** tochil-main.plantuml
+*** start stop
+F:\Video\Pic\XnViewMP-win\XnViewMP\xnviewmp.exe E:\Temp\Sontex-main.png
+F:\Video\Pic\acdsee32.exe E:\Temp\Sontex-main.png 
+#+HEADER: :file f:\Temp\my-diagram.png
+#+HEADER: :file e:\Temp\my-diagram.png
+E:\Temp\Sontex-main.jpg 
+#+HEADER: :noweb yes 
+#+HEADER: :var RPI = "Rosberi Pi"
+#+HEADER: :file e:\Temp\Sontex-main.jpg
+ #+begin_src plantuml :results output silent
+title Tochil main
+<<arrow>>
+<<package>>
+<<stm>>
+<<RPI_BLOCK>>
+ #+end_src
+<<arrow_com>>
+
+
+ #+RESULTS:
+ [[file:e:\Temp\my-diagram.png]]
+
+
+*** arrows : 
+#+NAME: arrow
+#+begin_src plantuml :file e:\Temp\my-diagram.png 
+stm.i2c_driver_stm "master cmd" <|..+ "slave msg" Rpi.i2c_driver
+stm.i2c_driver_stm	<--  stm.main_stm
+stm.sm_driver_stm			<--  stm.main_stm
+stm.encod_drv			<--  stm.main_stm
+"Step motor"			<|..|>  stm.sm_driver_stm
+stm.diodL_driver  <--  stm.main_stm
+"Diod RGB line"			<|..|>  stm.diodL_driver
+"Encoder"			<|..|>  stm.encod_drv
+"Real time watch"			<|..|>  Rpi.i2c_driver
+"I2C Ports"			<|..|>  Rpi.i2c_driver
+Rpi.Encoder		<--  Rpi.Anliz_mod
+Rpi.AbSM		<--  Rpi.Anliz_mod
+Rpi.pos_tab		*..  Rpi.Anliz_mod
+Rpi.pos_tab		*..  Rpi.Toch_mod
+Rpi.pos_tab		<--  Rpi.main
+Rpi.AbSM		<--  Rpi.Toch_mod
+Rpi.Toch_mod		<--  Rpi.main
+Rpi.Anliz_mod		<--  Rpi.main
+Rpi.Toch_mod		-->  Rpi.Magic
+Rpi.Toch_mod		-->  Rpi.Port_Driver
+Rpi.i2c_driver		<--  Rpi.Encoder
+Rpi.i2c_driver		<--  Rpi.Step_Motor
+Rpi.i2c_driver		<--  Rpi.Port_Driver
+Rpi.AbSM		-->  Rpi.Step_Motor
+Rpi.AbSM		-->  Rpi.Port_Driver
+Rpi.Port_Driver		-->  Rpi.Bitman
+
+#+end_src
+
+*** arrows com : 
+#+NAME: arrow_com
+#+begin_src plantuml :file e:\Temp\my-diagram.png 
+Rpi.i2c_driver		<--  Rpi.i2c_com
+Rpi.Port_Driver		<--  Rpi.i2c_com
+Rpi.Step_Motor		<--  Rpi.i2c_com
+Rpi.Anliz_mod		<--  Rpi.i2c_com
+Rpi.Encoder		<--  Rpi.i2c_com
+Rpi.Toch_mod		<--  Rpi.i2c_com
+Rpi.AbSM		<--  Rpi.i2c_com
+#+end_src
+
+*** package : 
+#+NAME: package
+#+begin_src plantuml :file e:\Temp\my-diagram.png 
+package "Diod RGB line" #DDDDDD {}
+package "Step motor" #DDDDDD{}
+package "I2C Ports" #DDDDDD {}
+package "Real time watch" #DDDDDD{}
+package "Encoder" #DDDDDD{}
+#+end_src
+
+*** stm : 
+:PROPERTIES:
+:header-args: :noweb-ref stm
+:END:
+**** stm prefix
+#+begin_src plantuml :file e:\Temp\tochil-main.jpg
+package stm <<Rectangle>> {
+#+end_src
+**** i2c_driver_stm : 
+#+begin_src plantuml :file e:\Temp\tochil-main.jpg
+	class i2c_driver_stm{
+		PORT = 1
+		msg_list::Arrey
+		cmd_list::Arrey
+		__init__(port_=PORT)
+		add_msg(int data)
+		get_cmd(int time=100)
+		bytes rutine()
+		stop()
+		start()
+		}
+#+end_src
+**** encod_drv : 
+#+begin_src plantuml :file e:\Temp\tochil-main.jpg
+	class encod_drv{
+		self.enc::i2c_driver
+		self._value::int
+		self.pin01::pyb.Pin
+		self.pin02::pyb.Pin
+		self.counter3::int
+		self.last_count::int
+		self.timeout::int
+		self.sensor_time::int
+		__init__(i2c_driver enc)
+    callback_pin01(p)
+    callback_pin02(p)
+    int get_data()
+    bool have_data()
+    print_cheng()
+    reset_time()
+    [msg] rutine(cmd, data)
+    int convert(data)
+		}
+#+end_src
+**** sm_driver_stm : 
+#+begin_src plantuml :file e:\Temp\tochil-main.jpg
+	class sm_driver_stm{
+		steppin::int
+		_end_pin::int
+		_steps::int
+		_lifetime::int
+		_ontime::int
+		_offtime::int
+		__init__(int steppin, int endpin)
+		step()
+		step_on(int steps, int offtime = None)
+		set_ontime(int msec)
+		set_offtime(int msec)
+		int get_lifetime()
+		bool is_endpin()
+		int start_steps(int steps)
+		int homerun(int timeout)
+		rutine(int cmd, arrey data)
+		fullstop()
+		}
+#+end_src
+**** main_stm : 
+#+begin_src plantuml :file e:\Temp\tochil-main.jpg
+	class main_stm{
+		rpi::i2c_driver_stm
+		step_pin01...step_pin05::pyb.Pin
+		end_pin01...end_pin05::pyb.Pin
+		sms[sm01...sm06]::sm_driver
+		main(*args)
+		main_loop()
+		cmd_rutin(arrey msg)
+		}
+#+end_src
+**** stm posfix
+#+begin_src plantuml :file e:\Temp\tochil-main.jpg
+	} 
+
+#+end_src
+*** Rpi : 
+:PROPERTIES:
+:header-args: :noweb-ref RPI_BLOCK
+:END:
+**** Rpi prefix
+#+begin_src plantuml :file e:\Temp\tochil-main.jpg
+package Rpi <<Rectangle>> {
+#+end_src
+**** i2c_com : 
+#+NAME: i2c_com
+#+begin_src plantuml :file e:\Temp\tochil-main.jpg
+	class i2c_com{
+		stm::i2c_driver_stm
+		main(*args)
+		}
+#+end_src
+**** Bitman : 
+#+NAME: Bitman
+#+begin_src plantuml :file e:\Temp\tochil-main.jpg
+	class Bitman{
+		_value::[boolens]
+		__init__(length=8)
+		on(int bite)
+		off(int bite)
+		get(int bite)
+		set(int bite, boolen to_value)
+		int to_int()
+    int __getitem__(int):
+    int __setitem__(int, bool):
+    int __len__():
+		}
+#+end_src
+**** i2c_driver
+#+NAME: i2c_driver
+#+begin_src plantuml :file e:\Temp\tochil-main.jpg
+	class  i2c_driver{
+		adress::int
+		port::int
+		msg_list:: bytes arrey
+		__init__(int port, int adress)
+		send(int date)
+		write_cmd_arg(int dev, int cmd, int data)
+		int wr_cmd_arg(int dev, int cmd, int data)
+		bytes read_num_bytes(int num)
+		bytes read_msg()
+		int get_msg_size()
+		bytes rutine()
+		int getStatus(int dev, int code=IDLE)
+		}
+#+end_src
+
+**** Port_Driver : 
+#+NAME: Port_Driver
+#+begin_src plantuml :file e:\Temp\tochil-main.jpg
+	class  Port_Driver{
+		A1..A8::[int 14, int 0..8]
+		B1..B8::[int 15, int 0..8]
+		self.statusA::Bitman
+		self.statusB::Bitman
+		self.i2c::I2C_driver
+		__init__(I2C_driver i2c)
+		on(int port)
+		off(int port)
+		toggle(int port)
+		is_status(int port)
+		set(int port, bool value)
+		}
+#+end_src
+**** AbSM : 
+#+NAME: AbSM
+#+begin_src plantuml :file e:\Temp\tochil-main.jpg
+	class  AbSM{
+		self.maxpos::int
+		self.pos::int
+		seld.forward::bool
+		self.sm::Step_Motor
+		self.enbl::int
+		self.dir::int
+		self.port::Port_Driver
+		__init__(int enbl, int dir,
+					Step_Motor sm, int max_pos)
+		move_to_pos(int pos)
+		move(int steps, bool dir)
+		bool is_ready()
+		is_activ_dir_is_forward(bool forward)
+		set_offtime(self, timeout) 
+		set_ontime(self, timeout) 
+		set_forward(self) 
+		set_backward(self) 
+		maintense()
+		}
+
+#+end_src
+**** Analiz mod : 
+#+NAME: Anliz_mod
+#+begin_src plantuml :file e:\Temp\tochil-main.jpg
+	class  Anliz_mod{
+		self.enc::Encoder
+		self.x::AbSM
+		self.y::AbSM
+		self.z::AbSM
+		seld.tab::*main.pos_tab
+		__init__(AbSM x, AbSM y,
+					AbSM z, *main.pos_tab tab)
+		find_knife()
+		new_knife()
+		add_to_point()
+		add_to_handle()
+		balans()
+		}
+
+#+end_src
+
+#+RESULTS: AbSM
+[[file:e:\Temp\tochil-main.jpg]]
+
+**** Toch mod : 
+#+NAME: Toch_mod
+#+begin_src plantuml :file e:\Temp\tochil-main.jpg
+	class  Toch_mod{
+		self.enc::Encoder
+		self.x::AbSM
+		self.y::AbSM
+		self.z::AbSM
+		self.thoch::PortDriver
+		seld.tab::*main.pos_tab
+		__init__(AbSM x, AbSM y,
+					AbSM z, *main.pos_tab tab, PortDriver thoch)
+		toch(int State)
+		to_point()
+		start()
+		}
+
+#+end_src
+
+#+RESULTS: AbSM
+[[file:e:\Temp\tochil-main.jpg]]
+
+**** Magic : 
+#+NAME: Magic
+#+begin_src plantuml :file e:\Temp\tochil-main.jpg
+	class  Magic{
+		self.test_enc::int
+		self.test_x::int
+		self.test_y::int
+		self.test_z::int
+		int x, int y, int z, int r enchant(
+		int x, int y, int z, int enc)
+		}
+
+#+end_src
+
+#+RESULTS: AbSM
+[[file:e:\Temp\tochil-main.jpg]]
+
+**** Encoder : 
+#+begin_src plantuml :file e:\Temp\tochil-main.jpg
+	class  Encoder{
+    self._stm::2c_driver
+		__init__(i2c_driver stm)
+   int get_data() 
+   cmd_data()
+   [msg] msg_data()
+   int status(code)
+   bool is_ready()
+   int msg_convert(h, l)
+		}
+
+#+end_src
+
+#+RESULTS: AbSM
+[[file:e:\Temp\tochil-main.jpg]]
+
+**** pos_tab : 
+#+NAME: pos_tab
+#+begin_src plantuml :file e:\Temp\tochil-main.jpg
+	object pos_tab {
+		---- pos table ----
+		....
+		| x | y | z | encoder |
+		| - | - | - |   -   	|
+		|   |   |   |       	|
+		====
+		--- note ---
+		....
+		include
+		encoder value
+		....
+		----
+		}
+#+end_src
+**** Step_Motor : 
+#+NAME: Step_Motor
+#+begin_src plantuml :file e:\Temp\tochil-main.jpg
+	class  Step_Motor{
+		pin::int
+		stm::I2C_driver_stm
+		__init__(I2C_driver stm, int num)
+		steps(int times=1)
+		normal_steps(self, times = 1):
+		k10step(self, allsteps):
+		set_offtime(self, timeout) 
+		set_ontime(self, timeout) 
+		homerun()
+		int status(int code=IDLE)
+		bool is_ready()
+		}
+#+end_src
+**** Rpi posfix
+#+begin_src plantuml :file e:\Temp\tochil-main.jpg
+	} 
+
+#+end_src
+** step motor 
+#+begin_src plantuml :file e:\Temp\my-diagram.png
+	title step motor
+	Abstract_Motor <|-- StepMotor
+	Abstract_Motor <|-- I2C_Pins
+	Abstract_Motor : move(pos)
+	StepMotor : int stmAdress
+	StepMotor : int num
+	StepMotor : move(step)
+	I2C_Pins : int pin
+	I2C_Pins : int adress
+	I2C_Pins : enable()
+	I2C_Pins : disable()
+	I2C_Pins : toggle()
+#+end_src
+
+** Abstract_Motor : 
+#+begin_src plantuml :file e:\Temp\my-diagram.png
+	title step motor
+	Abstract_Motor <|-- StepMotor
+	Abstract_Motor <|-- I2C_Pins
+	class Abstract_Motor {
+			move(pos)
+			}
+	class StepMotor {
+			stmAdress : int
+			num : int
+			move(step)
+			}
+	class I2C_Pins {
+			int pin
+			int adress
+			enable()
+			disable()
+			toggle()
+			}
+#+end_src
+
+#+RESULTS:
+[[file:e:\Temp\my-diagram.png]]
+
+#+RESULTS:
+[[file:e:\Temp\my-diagram.png]]
+* PLATUML-mode
+** install
+*** manual
+  Install with M-x package-install<RET>
+  Enable mode for current buffer M-x plantuml-mode<RET>
+*** use-package 
+#+begin_src emacs-lisp :tangle yes
+(package-refresh-contents)
+(use-package plantuml-mode
+							:ensure t
+
+    ;; ;; Sample jar configuration
+    ;; (setq plantuml-jar-path "/path/to/your/copy/of/plantuml.jar")
+    ;; (setq plantuml-default-exec-mode 'jar)
+
+    ;; ;; Sample executable configuration
+    ;; (setq plantuml-executable-path "/path/to/your/copy/of/plantuml.bin")
+    ;; (setq plantuml-default-exec-mode 'executable)
+
+		;; plantuml-server-url
+		;; It defaults to "https://www.plantuml.com/plantuml".
+
+;; You can also download the latest version of PlantUML straight into plantuml-jar-path:
+;; M-x plantuml-download-jar<RET>
+
+;; Enable plantuml-mode for PlantUML files
+(add-to-list 'auto-mode-alist '("\\.plantuml\\'" . plantuml-mode))
+
+;; You can tell plantuml-mode to autocomplete the word before the cursor by typing M-x plantuml-complete-symbol. This will open a popup with all the available completions as found in the list of keywords given by running PlantUML with the -language flag.
+
+;; C-c C-c  plantuml-preview: renders a PlantUML diagram from the current buffer in the best supported format
+;; C-u C-c C-c  plantuml-preview in other window
+;; C-u C-u C-c C-c plantuml-preview in other frame
+;; If you want to force a specific output format, you can customize the variable plantuml-output-type to the value you prefer.
+
+;; plantuml-enable-debug
+;; plantuml-disable-debug
+	)
+#+end_src
+#+begin_src emacs-lisp :tangle yes
+(find-file-other-frame "e:/Temp/tmpuml.plantuml")
+#+end_src
+
+#+RESULTS:
+: #<buffer tmpuml.plantuml>
+
+(package-refresh-contents)
+#+begin_src emacs-lisp :tangle yes
+(use-package plantuml-mode
+							:ensure t
+  :config
+	(setq org-plantuml-jar-path 
+		(expand-file-name "~/AddApps/plantuml/plantuml.1.2021.0.jar"))
+	(setq plantuml-jar-path "~/AddApps/plantuml/plantuml.1.2021.0.jar")
+	(setq plantuml-default-exec-mode 'jar)
+	;; (setq plantuml-output-type "txt")
+	(add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
+	(org-babel-do-load-languages 
+		'org-babel-load-languages 
+		'((plantuml . t)))
+	(define-key plantuml-mode-map (kbd "<f5>") '(lambda() (interactive)
+					(save-some-buffers 'no-confirm)
+					(org-save-all-org-buffers)
+					(evil-normal-state)
+					(plantuml-preview 1)))				
+	(add-to-list 'auto-mode-alist '("\\.plantuml\\'" . plantuml-mode))
+	)
+#+end_src
+
+#+RESULTS:
+: t
+
+** doc
+*** github 
+**** PlantUML mode for Emacs
+https://github.com/skuro/plantuml-mode
+A PlantUML major mode for Emacs.
+**** Quick Guide
+    Install with M-x package-install<RET>
+    Enable mode for current buffer M-x plantuml-mode<RET>
+    Write some PlantUML:
+
+@startuml
+Alice -> Bob: Authentication Request
+Bob --> Alice: Authentication Response
+
+Alice -> Bob: Another authentication Request
+Alice <-- Bob: Another authentication Response
+@enduml
+
+    Preview diagrams with C-c C-c (plantuml-preview).
+
+WARNING: This may send information to "https://www.plantuml.com/plantuml"! Check that plantuml-default-exec-mode is configured correctly for your use case before previewing any sensitive material.
+
+    ;; Sample jar configuration
+    (setq plantuml-jar-path "/path/to/your/copy/of/plantuml.jar")
+    (setq plantuml-default-exec-mode 'jar)
+
+    ;; Sample executable configuration
+    (setq plantuml-executable-path "/path/to/your/copy/of/plantuml.bin")
+    (setq plantuml-default-exec-mode 'executable)
+
+See Execution modes for more information.
+**** Installation
+Make sure you have MELPA enabled in your emacs.d. Then, you can just
+
+M-x package-install<RET>
+plantuml-mode<RET>
+
+Also, to enable preview you need to tell plantuml-mode where to locate the PlantUML JAR file. By default it will look for it in ~/plantuml.jar, but you can specify any location with:
+
+M-x customize-variable<RET>
+plantuml-jar-path<RET>
+
+You can also download the latest version of PlantUML straight into plantuml-jar-path:
+M-x plantuml-download-jar<RET>
+**** Features
+  Syntax highlight
+  Autocompletion
+  Preview of buffer or region
+  [EXPERIMENTAL] Use either local JAR or remote server for preview
+**** Enable the major mode
+You can automatically enable plantuml-mode for files with extension .plantuml by adding the following to your .emacsrc:
+
+;; Enable plantuml-mode for PlantUML files
+(add-to-list 'auto-mode-alist '("\\.plantuml\\'" . plantuml-mode))
+
+Of course, you can always enable manually the major mode by typing M-x plantuml-mode once in the desired PlantUML file buffer.
+**** Usage
+You can tell plantuml-mode to autocomplete the word before the cursor by typing M-x plantuml-complete-symbol. This will open a popup with all the available completions as found in the list of keywords given by running PlantUML with the -language flag.
+
+To render the PlantUML diagram within Emacs, you can hit M-x plantuml-preview. This will run PlantUML and display the result in the *PLANTUML-Preview* buffer. The format used to render the diagram is automagically chosen from what's supported by your Emacs. It will be one of the following, in order of preference:
+
+    SVG
+    PNG
+    Unicode ASCII art
+		"svg"
+		"png"
+		"txt"
+
+The diagram will be either created from the selected region if one is available in the current buffer, or using the whole buffer otherwise.
+
+If you want to force a specific output format, you can customize the variable plantuml-output-type to the value you prefer.
+Default key bindings
+
+The following shortcuts are enabled by default:
+
+C-c C-c  plantuml-preview: renders a PlantUML diagram from the current buffer in the best supported format
+
+C-u C-c C-c  plantuml-preview in other window
+
+C-u C-u C-c C-c plantuml-preview in other frame
+**** Integration with org-mode
+You can use plantuml-mode to edit PlantUML source snippets within an org-mode document. To do so, you need to first register it with the plantuml language:
+
+(add-to-list
+  'org-src-lang-modes '("plantuml" . plantuml))
+
+Then you can edit a plantuml code block with plantuml-mode by hitting C-' while inside of the code block itself:
+
+#+BEGIN_SRC plantuml
+  <hit C-c ' here to open a plantuml-mode buffer>
+#+END_SRC
+
+When in the plantuml-mode buffer you can then hit again C-' to return to the original org-mode document.
+**** Execution modes
+EXPERIMENTAL
+As of v1.3.0 support is added for switching execution mode. The following two modes are available:
+    jar (default) to run PlantUML as a local JAR file. This is the traditional system used by plantuml-mode
+    server (experimental) to let an instance of plantuml-server render the preview
+    executable to run PlantUML as a local executable file. This is useful if your package manager provides a executable for PlantUML.
+
+You can customize plantuml-default-exec-mode or run plantuml-set-exec-mode from a plantuml-mode buffer to switch modes.
+Configure server rendering
+
+When selecting server execution modes, you can customize the following variable to set the server to use for rendering:
+
+plantuml-server-url
+
+It defaults to "https://www.plantuml.com/plantuml".
+Migration from puml-mode
+
+If you were previously using puml-mode, you should change any reference to a puml-.. variable or function to its plantuml-.. counterpart. Most notably, puml-plantuml-jar-path is now just plantuml-jar-path.
+Deprecation warning
+
+If puml-mode is still being loaded by your Emacs, a Warning will be shown any time you open a PlantUML file. This is to remind you that you are running deprecated software. If you want to suppress the (intentionally) annoying warning, you can customize the variable plantuml-suppress-deprecation-warning.
+Troubleshooting
+**** Debug messages
+As of v0.6.2 the following commands have been added to help resolving problems:
+
+plantuml-enable-debug
+plantuml-disable-debug
+
+With debug enabled, the actual command used to invoke PlantUML is printed into a buffer called *PLANTUML Messages*. You can inspect that buffer to make sure that PlantUML is properly set up, or use it to supply extra information when opening issues.
+Blank previews
+
+If you are using SVG rendering and plantuml-preview shows you an empty buffer, chances are something is wrong with the PlantUML output. While inside the preview buffer, hit C-c C-c to switch to the textual mode and see if the output is valid SVG.
+* Pathes
+** Uml 
+#+begin_src emacs-lisp :results output silent
+		(find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/DOCs/uml.org")
+#+end_src
+
+** far 
+f D:\Development\version-control\GitHub\Zmei\Sontex\DOCs D:\Development\version-control\GitHub\Zmei\Sontex\Src\Data_files
+#+begin_src elisp :results output silent
+(buyn-cmd-start "f D:\\Development\\version-control\\GitHub\\Zmei\\Sontex\\DOCs D:\\Development\\version-control\\GitHub\\Zmei\\Sontex\\Src\\Data_files")
+#+end_src
+* [2022-10-14 Пт]
+** Uml 
+#+begin_src emacs-lisp :results output silent
+		(find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/DOCs/uml.org")
+#+end_src
+** Sontex.org
+D:\Development\lisp\Dropbox\Office\Progects\Zmei 
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "~/../Dropbox/Office/Progects/Zmei/Sontex/Sontex.org")
+#+end_src
+
