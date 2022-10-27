@@ -1,8 +1,8 @@
-# * import : 
+# * d import : 
 import pandas as pd
 # import math
 
-# * vars : 
+# * d vars : 
 # ** one liner:
 filename = "Data_files/metod01.xlsx"
 # sheet_name = "показники"
@@ -52,7 +52,7 @@ title_list = [
     "МЗК",
     "ВСЬОГО, Гкал",]
 # print("tile 1 =", title_list[1])
-# * read_excel : 
+# * d read_excel : 
 # df = pd.read_excel(filename, sheet_name = "показники", engine='openpyxl')
 # df = pd.read_excel(filename,
 #                    sheet_name = "показники",
@@ -67,7 +67,7 @@ df = pd.read_excel(filename,
                    # index_col=0,
                    header=None,
                    )
-# * print : 
+# * d print : 
 #view the first five rows: 
 # print (df.head())
 # print (df[1])
@@ -106,7 +106,7 @@ print(df.iloc[104, 0])
 # df.to_excel('output.xlsx')
 
 # print (df)
-# * get_next_appindex : 
+# * d get_next_appindex : 
 def get_next_appindex(last):
     for i in range(last + 1, last + 10):
         # print("i = ", i)
@@ -132,7 +132,7 @@ print("naber of counters = ", next_app - last_app)
 if end_app:
     print("end of list")
 #  ----------------------------------------------:
-# * class Appart :
+# * d class Appart :
 class Appart:
 # ** def __init__ : 
 #  ----------------------------------------------:
