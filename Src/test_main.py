@@ -83,6 +83,7 @@ class Test_Init(unittest.TestCase):
 
 # ----------------------------------------------
 # * class setUp_Test : 
+# ** ------------------------------------------:
 class setUp_Test(unittest.TestCase):
 # ** @classmethod #setUpClass#  : 
     @classmethod #setUpClass# {{{
@@ -123,18 +124,19 @@ class setUp_Test(unittest.TestCase):
         self.assertEqual(len(t1), 38)
         self.assertEqual(len(t2), 38)
         self.assertEqual(t1[0]._start_line, 1)
+        self.assertEqual(t1[0].next_app_line, 2)
         self.assertEqual(t2[0], None)
+        self.assertEqual(t1[37]._start_line, 101)
+        self.assertEqual(t1[37].next_app_line, 103)
         self.assertEqual(t2[37], [
                                 25482673,
                                 25482672,])
-        # print(t2[36])
-        # print(t2[37])
-        # print(t2[35])
-        # print(t2[34])
-        # print(t2[33])
+        self.assertEqual(t1[35]._start_line, 96)
+        self.assertEqual(t1[35].next_app_line, 100)
+        self.assertEqual(t2[35], [25482671, 25482670, 25482669, 25482694,])
 
 
-# ** ---------------------------------------------:
+# ** ------------------------------------------:
 # * Test runer : 
 # ** ------------------------------------------:
 # (compile " D:/Development/version-control/GitHub/Vadim/Tochil/main_test.py -k init")
@@ -147,4 +149,4 @@ if __name__ == "__main__":
 
 
 # ----------------------------------------------
-# * ----------------------------------------------:
+# * -------------------------------------------:

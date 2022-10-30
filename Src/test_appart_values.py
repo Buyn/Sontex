@@ -16,18 +16,6 @@ class Test_Init(unittest.TestCase):
         # self.assertIsNone(main(1))
 
 
-# ** def test_get_next_appindex : 
-    def test_get_next_appindex(self):# {{{
-        # last_app = 101
-        # last_app = 100
-        # next_app, end_app = get_next_appindex(last_app)
-        # print("next is = ", next_app)
-        # print("next value", df.iloc[next_app, 0])
-        # print("naber of counters = ", next_app - last_app)
-        # if end_app:
-        #     print("end of list")
-        pass
-
 # * class setUp_Test : 
 # ** ------------------------------------------:
 class setUp_Test(unittest.TestCase):
@@ -99,9 +87,9 @@ class setUp_Test(unittest.TestCase):
 # ** def test_is_starting_line : 
     def test_is_starting_line(self): 
         test = Appart_values(self.df, 2)
-        print(self.df.iloc[2, 0])
+        # print(self.df.iloc[2, 0])
         self.assertTrue(test.is_starting_line(2))
-        print(self.df.iloc[14, 0])
+        # print(self.df.iloc[14, 0])
         self.assertFalse(test.is_starting_line(14))
 
 
@@ -120,14 +108,20 @@ class setUp_Test(unittest.TestCase):
         self.assertEqual(test.get_counters_list(7,10)
                          , [ 25482311,
                              25482312,
-                             25482313 ,
+                             25482313,
                             ])
         with self.assertRaises(NameError):
             test.get_counters_list(20,25)
             # test.get_counters_list(87,88)
 
 
-# ----------------------------------------------
+# ** def test_load_values : 
+    @unittest.skip("waiting refactoring")
+    def test_load_values(self): 
+        test = Appart_values(self.df, 7)
+
+
+# ** ------------------------------------------:
 # * Test runer : 
 # ** ------------------------------------------:
 # (compile " D:/Development/version-control/GitHub/Vadim/Tochil/main_test.py -k init")

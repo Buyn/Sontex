@@ -61,17 +61,11 @@ def populate_apps(df):
     app_line = gl_ferst_app_colmn
     while True:
         app = Appart_values(df, app_line)
-        print("app_line = ", app_line)
         app_line = app.next_app_line
-        # print("app list =", al)
         al.append(app)
         cl.append(app.counters_list)
-        print("app.counters_list = ", app.counters_list)
-        print("app.next_app_line = ", app.next_app_line)     
         if app.is_last:
             break
-    # print("countesr list =", al)
-    # print("end of app add")
     return al, cl
 
 
