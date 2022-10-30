@@ -10,6 +10,9 @@
 filename = "Data_files/metod01.xlsx"
 # sheet_name = "показники"
 sheet_name = "квартири, площі"
+# ** exel coordinats:
+gl_counters_row = 6 # номер колонки (№ розподілювача)
+gl_ferst_app_colmn = 1 # номер ряда первого апартамента
 # ** title_list : 
 title_list = [
     "№ п/п",
