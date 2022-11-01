@@ -34,6 +34,7 @@ class Appart_values:
             value = self.get_counter(i)
             # print("value=", value)
             if not isinstance(value, int):
+            # if not value.is_valid():
                 if not r ==[]:
                     raise NameError('not int in counter cell on line ' + str(i) + ', in app start = ' + str(start))
                 return None
@@ -43,6 +44,7 @@ class Appart_values:
  
 # ** def get_counter : 
     def get_counter(self, line): 
+        # return Counter_values(self._df, line)
         return self._df.iloc[line, gl_counters_row]
 
 

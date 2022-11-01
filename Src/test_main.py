@@ -11,12 +11,6 @@ from main import *
 class Test_Init(unittest.TestCase):
 
 # ----------------------------------------------
-# ** def test_init1 : 
-    def test_init1(self):# {{{
-        print("Init Test")
-        # self.assertIsNone(main(1))
-
-
 # ** def test_main : 
     def test_main(self):# {{{
         # print("Test tuner")
@@ -33,11 +27,11 @@ class Test_Init(unittest.TestCase):
         # sheet_name = "показники"
         sheet_name = "квартири, площі"
         df = load_exel(filename, sheet_name)
-        self.assertEqual( df.iloc[100, 0], 36)
-        self.assertEqual( df.iloc[104, 0], 37)
-        self.assertEqual( df.iloc[105, 0], 38)
-        self.assertEqual( df.iloc[105, 2], 9)
-        self.assertEqual( df.iloc[105, 3], 1)
+        self.assertEqual( df.iloc[100, 0], 37)
+        self.assertEqual( df.iloc[103, 0], "end")
+        self.assertEqual( df.iloc[101, 0], 38)
+        self.assertEqual( df.iloc[101, 2], 9)
+        self.assertEqual( df.iloc[101, 3], 1)
         # print(df.iloc[0:5, 0:2])
         # print(df.iloc[101, 0])
         # print(df.iloc[102, 0])
@@ -88,7 +82,7 @@ class setUp_Test(unittest.TestCase):
 # ** @classmethod #setUpClass#  : 
     @classmethod #setUpClass# {{{
     def setUpClass(self):
-        print("*"*33,"*"*33)
+        # print("*"*33,"*"*33)
         filename = "Data_files/test.xlsx"
         # sheet_name = "показники"
         sheet_name = "квартири, площі"
@@ -109,11 +103,11 @@ class setUp_Test(unittest.TestCase):
 
 # ** def test_init1 : 
     def test_init(self):# {{{
-        self.assertEqual(self.df.iloc[100, 0], 36)
-        self.assertEqual(self.df.iloc[104, 0], 37)
-        self.assertEqual(self.df.iloc[105, 0], 38)
-        self.assertEqual(self.df.iloc[105, 2], 9)
-        self.assertEqual(self.df.iloc[105, 3], 1)
+        self.assertEqual(self.df.iloc[100, 0], 37)
+        self.assertEqual(self.df.iloc[103, 0], "end")
+        self.assertEqual(self.df.iloc[101, 0], 38)
+        self.assertEqual(self.df.iloc[101, 2], 9)
+        self.assertEqual(self.df.iloc[101, 3], 1)
         # self.assertIsNotNone( mw.temp_A)
         # self.assertIsNotNone( mw.temp_B)
 

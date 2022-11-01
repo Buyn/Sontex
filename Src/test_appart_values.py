@@ -6,23 +6,13 @@ from appart_values import *
 
 
 # ----------------------------------------------
-# * class Test_Init : 
-# ** ------------------------------------------:
-class Test_Init(unittest.TestCase):
-# ----------------------------------------------
-# ** def test_init1 : 
-    def test_init1(self):# {{{
-        print("Init Test")
-        # self.assertIsNone(main(1))
-
-
 # * class setUp_Test : 
 # ** ------------------------------------------:
 class setUp_Test(unittest.TestCase):
 # ** @classmethod #setUpClass#  : 
     @classmethod #setUpClass# {{{
     def setUpClass(self):
-        print("*"*33,"*"*33)
+        # print("*"*33,"*"*33)
         filename = "Data_files/test.xlsx"
         # sheet_name = "показники"
         sheet_name = "квартири, площі"

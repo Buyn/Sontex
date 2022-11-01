@@ -35,4 +35,9 @@ class Counter_values:
         return self._df.iloc[self._line, gl_counters_value2_raw]
 
 
+# ** def is_valid : 
+    def is_valid(self): 
+        return  isinstance(self.adress, int)
+
+
 # * -------------------------------------------:

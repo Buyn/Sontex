@@ -12,7 +12,7 @@ class setUp_Test(unittest.TestCase):
 # ** @classmethod #setUpClass#  : 
     @classmethod #setUpClass# {{{
     def setUpClass(self):
-        print("*"*33,"*"*33)
+        # print("*"*33,"*"*33)
         filename = "Data_files/test.xlsx"
         # sheet_name = "показники"
         sheet_name = "квартири, площі"
@@ -89,11 +89,28 @@ class setUp_Test(unittest.TestCase):
         self.assertEqual(test.get_value2(), 18)
 
 
+# ** def test_is_valid : 
+    def test_is_valid(self): 
+        test = Counter_values(self.df, 7)
+        self.assertTrue(test.is_valid())
+        test = Counter_values(self.df, 8)
+        self.assertTrue(test.is_valid())
+        test = Counter_values(self.df, 102)
+        self.assertTrue(test.is_valid())
+        test = Counter_values(self.df, 1)
+        self.assertFalse(test.is_valid())
+        test = Counter_values(self.df, 6)
+        self.assertFalse(test.is_valid())
+        test = Counter_values(self.df, 100)
+        self.assertFalse(test.is_valid())
+
+
 # ** ------------------------------------------:
 # * Test runer : 
 # ** ------------------------------------------:
 # (compile " D:/Development/version-control/GitHub/Vadim/Tochil/main_test.py -k init")
 # (compile " python -m unittest D:/Development/version-control/GitHub/Vadim/Tochil/main_test.py ")
+# (compile "python -m unittest") run all est in dir
 # ** if __main__: 
 if __name__ == "__main__":
     # runner = unittest.TextTestRunner()
