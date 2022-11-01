@@ -84,7 +84,8 @@ def populate_apps(df):
         app = Appart_values(df, app_line)
         app_line = app.next_app_line
         al.append(app)
-        cl.append(app.counters_list)
+        # cl.append(app.counters_list)
+        cl.append(app.gen_counters_adress())
         if app.is_last:
             break
     return al, cl

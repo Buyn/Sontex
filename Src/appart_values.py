@@ -33,8 +33,8 @@ class Appart_values:
         for i in range(start, end):
             value = self.get_counter(i)
             # print("value=", value)
-            if not isinstance(value, int):
-            # if not value.is_valid():
+            # if not isinstance(value, int):
+            if not value.is_valid():
                 if not r ==[]:
                     raise NameError('not int in counter cell on line ' + str(i) + ', in app start = ' + str(start))
                 return None
@@ -44,8 +44,8 @@ class Appart_values:
  
 # ** def get_counter : 
     def get_counter(self, line): 
-        # return Counter_values(self._df, line)
-        return self._df.iloc[line, gl_counters_row]
+        return Counter_values(self._df, line)
+        # return self._df.iloc[line, gl_counters_row]
 
 
 # ** def is_starting_line : 
@@ -75,6 +75,16 @@ class Appart_values:
 #  ----------------------------------------------:
 
 
+
+
+# ** def gen_counters_adres : 
+    def gen_counters_adress(self): 
+        return [x.adress for x in self.counters_list] if self.counters_list else None
+
+
+# ** def load_values : 
+    def load_values(self): 
+        pass
 
 
 # * -------------------------------------------:

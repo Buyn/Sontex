@@ -77,6 +77,8 @@ class setUp_Test(unittest.TestCase):
         self.assertEqual(test.get_value1(), 182)
         test = Counter_values(self.df, 102)
         self.assertEqual(test.get_value1(), 63)
+        test = Counter_values(self.df, 100)
+        self.assertEqual(test.get_value1(), 0)
 
 
 # ** def test_get_value2 : 
@@ -87,6 +89,8 @@ class setUp_Test(unittest.TestCase):
         self.assertEqual(test.get_value2(), 120)
         test = Counter_values(self.df, 102)
         self.assertEqual(test.get_value2(), 18)
+        test = Counter_values(self.df, 100)
+        self.assertEqual(test.get_value2(), 0)
 
 
 # ** def test_is_valid : 

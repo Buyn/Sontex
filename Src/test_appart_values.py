@@ -48,12 +48,12 @@ class setUp_Test(unittest.TestCase):
         test = Appart_values(self.df, 11) 
         self.assertEqual(test._start_line, 11)
         self.assertEqual(test.next_app_line, 15)
-        self.assertEqual(test.counters_list,
+        self.assertEqual([x.adress for x in test.counters_list],
                          [25482324, 25482310, 25482309, 25482325,])
         test = Appart_values(self.df, 7) 
         self.assertEqual(test._start_line, 7)
         self.assertEqual(test.next_app_line, 10)
-        self.assertEqual(test.counters_list,
+        self.assertEqual([x.adress for x in test.counters_list],
                          [25482311, 25482312, 25482313,])
 
 
@@ -86,7 +86,7 @@ class setUp_Test(unittest.TestCase):
 # ** def test_get_counters : 
     def test_get_counters(self): 
         test = Appart_values(self.df, 2)
-        self.assertEqual(test.get_counters_list(96,100)
+        self.assertEqual([x.adress for x in test.get_counters_list(96,100)]
                          , [25482671,
                              25482670,
                              25482669,
@@ -95,7 +95,7 @@ class setUp_Test(unittest.TestCase):
                          , None)
         self.assertEqual(test.get_counters_list(87,88)
                          , None)
-        self.assertEqual(test.get_counters_list(7,10)
+        self.assertEqual([x.adress for x in test.get_counters_list(7,10)]
                          , [ 25482311,
                              25482312,
                              25482313,
@@ -105,10 +105,27 @@ class setUp_Test(unittest.TestCase):
             # test.get_counters_list(87,88)
 
 
+# ** def test_gen_counters_adress : 
+    def test_gen_counters_adress(self): 
+        test = Appart_values(self.df, 96)
+        self.assertEqual(test.gen_counters_adress()
+                         , [25482671,
+                             25482670,
+                             25482669,
+                             25482694,])
+        test = Appart_values(self.df, 7)
+        self.assertEqual(test.gen_counters_adress()
+                         , [ 25482311,
+                             25482312,
+                             25482313,
+                            ])
+
+
 # ** def test_load_values : 
     @unittest.skip("waiting refactoring")
     def test_load_values(self): 
         test = Appart_values(self.df, 7)
+        test.load_values()
 
 
 # ** ------------------------------------------:

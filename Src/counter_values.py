@@ -16,6 +16,7 @@ class Counter_values:
         self._df = df
         self._line = line
         self.adress = self.get_adress()
+        if not self.is_valid(): return 
         self.value1 = self.get_value1()
         self.value2 = self.get_value2()
 
@@ -27,12 +28,14 @@ class Counter_values:
 
 # ** def get_value1 : 
     def get_value1(self): 
-        return self._df.iloc[self._line, gl_counters_value1_raw]
+        r = self._df.iloc[self._line, gl_counters_value1_raw]
+        return r if isinstance(r, int) else 0
 
 
 # ** def get_value2 : 
     def get_value2(self): 
-        return self._df.iloc[self._line, gl_counters_value2_raw]
+        r = self._df.iloc[self._line, gl_counters_value2_raw]
+        return r if isinstance(r, int) else 0
 
 
 # ** def is_valid : 
