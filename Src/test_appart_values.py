@@ -122,10 +122,36 @@ class setUp_Test(unittest.TestCase):
 
 
 # ** def test_load_values : 
-    @unittest.skip("waiting refactoring")
     def test_load_values(self): 
         test = Appart_values(self.df, 7)
         test.load_values()
+        self.assertEqual(test.heating_area, 51.9)
+        self.assertEqual(test.sum_area, 55.7)
+        test = Appart_values(self.df, 6)
+        test.load_values()
+        self.assertEqual(test.heating_area, 52)
+        self.assertEqual(test.sum_area, 56.70)
+        with self.assertRaises(NameError):
+            test = Appart_values(self.df, 131)
+            test.load_values()
+            print(test.heating_area)
+            print(test.sum_area)
+            print("tupe is =", type(test.sum_area))
+            print("tupe is =",type(test.heating_area))
+        with self.assertRaises(NameError):
+            test = Appart_values(self.df, 132)
+            test.load_values()
+            print(test.heating_area)
+            print(test.sum_area)
+            print("tupe is =", type(test.sum_area))
+            print("tupe is =",type(test.heating_area))
+        with self.assertRaises(NameError):
+            test = Appart_values(self.df, 133)
+            test.load_values()
+            print(test.heating_area)
+            print(test.sum_area)
+            print("tupe is =", type(test.sum_area))
+            print("tupe is =",type(test.heating_area))
 
 
 # ** ------------------------------------------:

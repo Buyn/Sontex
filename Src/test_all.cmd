@@ -1,3 +1,4 @@
+@echo off
 :start
 python -m unittest
 pause

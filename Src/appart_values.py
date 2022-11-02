@@ -21,6 +21,7 @@ class Appart_values:
         self.counters_list = self.get_counters_list(
                                     self._start_line,
                                     self.next_app_line)  
+        self.sum_area, self.heating_area = self.load_values()
 
         
 # ** def get_counters_list : 
@@ -84,7 +85,19 @@ class Appart_values:
 
 # ** def load_values : 
     def load_values(self): 
-        pass
+        rows =  [ gl_app_sum_area,
+                  gl_app_heating_area]
+        names = [ "gl_app_sum_area",
+                  "gl_app_heating_area"]
+        sr=[]
+        for i, row in enumerate(rows):
+            r = self._df.iloc[self._start_line, row]
+            if not isinstance(r, float) and not isinstance(r, int):
+                raise NameError('not int or float on line = ' + str(self._start_line) + ', for rows ' + names[i])
+            if pd.isna(r):
+                raise NameError('no value on line = ' + str(self._start_line) + ', for rows ' + names[i])
+            sr.append(r)
+        return tuple(sr)
 
 
 # * -------------------------------------------:
