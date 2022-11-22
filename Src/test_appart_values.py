@@ -13,12 +13,12 @@ class setUp_Test(unittest.TestCase):
     @classmethod #setUpClass# {{{
     def setUpClass(self):
         # print("*"*33,"*"*33)
-        filename = "Data_files/test.xlsx"
+        gv_filename = "Data_files/test.xlsx"
         # sheet_name = "показники"
         sheet_name = "квартири, площі"
-        # self.df = load_exel(filename, sheet_name)
+        # self.df = load_exel(gv_filename, sheet_name)
         import pandas as pd
-        self.df = pd.read_excel(filename,
+        self.df = pd.read_excel(gv_filename,
                           sheet_name = sheet_name,
                           engine='openpyxl',
                           # index_col=0,
@@ -66,10 +66,10 @@ class setUp_Test(unittest.TestCase):
         r1,r2 = test.get_next_appindex(63)
         self.assertEqual(r1, 68)
         self.assertFalse(r2)
-        r1,r2 = test.get_next_appindex(101)
-        self.assertEqual(r1, 103)
+        r1,r2 = test.get_next_appindex(106)
+        self.assertEqual(r1, 107)
         self.assertTrue(r2)
-        r1,r2 = test.get_next_appindex(103)
+        r1,r2 = test.get_next_appindex(111)
         self.assertEqual(r1, -1)
         self.assertIsNone(r2)
 
@@ -86,7 +86,7 @@ class setUp_Test(unittest.TestCase):
 # ** def test_get_counters : 
     def test_get_counters(self): 
         test = Appart_values(self.df, 2)
-        self.assertEqual([x.adress for x in test.get_counters_list(96,100)]
+        self.assertEqual([x.adress for x in test.get_counters_list(100,104)]
                          , [25482671,
                              25482670,
                              25482669,
@@ -107,7 +107,7 @@ class setUp_Test(unittest.TestCase):
 
 # ** def test_gen_counters_adress : 
     def test_gen_counters_adress(self): 
-        test = Appart_values(self.df, 96)
+        test = Appart_values(self.df, 100)
         self.assertEqual(test.gen_counters_adress()
                          , [25482671,
                              25482670,
@@ -152,6 +152,53 @@ class setUp_Test(unittest.TestCase):
             print(test.sum_area)
             print("tupe is =", type(test.sum_area))
             print("tupe is =",type(test.heating_area))
+
+
+# ** test_gen_E_used : 
+    def test_gen_E_used(self):
+        test = Appart_values(self.df, 7)
+        self.assertEqual(test.gen_E_used(), 112)
+
+
+# ** test_gen_E_used_k : 
+    def test_gen_E_used_k(self):
+        test = Appart_values(self.df, 7)
+        self.assertEqual(float("{:.2f}".format(test.gen_E_used_k())), 201.61)
+
+
+# ** test_gen_k_to_s : 
+    def test_gen_k_to_s(self):
+        test = Appart_values(self.df, 7)
+        self.assertEqual(float("{:.3f}".format(test.gen_k_to_s())), 3.885)
+
+
+# ** test_gen_use_for_period : 
+    def test_gen_use_for_period(self):
+        # обсяг споживання за період, Гкал
+        app = Appart_values(self.df, 7)
+        q_pit_roz = 0.0030
+        test = app.gen_use_for_period(q_pit_roz)
+        self.assertEqual(float("{:.3f}".format(test)), 0.605)
+
+
+# ** test_gen_priv2S : 
+    def test_gen_priv2S(self):
+        # приведене до м2 площі, Гкал/м2
+        app = Appart_values(self.df, 7)
+        q_pit_roz = 0.0030
+        test = app.gen_priv2S(q_pit_roz)
+        self.assertEqual(float("{:.5f}".format(test)), 0.01165)
+
+
+# ** test_gen_surcharge : 
+    def test_gen_surcharge(self):
+        # донарахування, Гкал
+        app = Appart_values(self.df, 7)
+        q_pit_roz = 0.0030
+        q_op_min = 0.011696389
+        self.assertIsNone(app.surcharge)
+        test = app.gen_surcharge(q_pit_roz, q_op_min)
+        self.assertEqual(float("{:.3f}".format(test)), 0.002)
 
 
 # ** ------------------------------------------:

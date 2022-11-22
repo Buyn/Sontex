@@ -7,16 +7,36 @@
 # * vars :
 # ----------------------------------------------
 # ** one liner:
-filename = "Data_files/metod01.xlsx"
+# gv_filename = "Data_files/metod01.xlsx"
+gv_filename = "Data_files/metod01.xlsx"
 # sheet_name = "показники"
-sheet_name = "квартири, площі"
+gv_sheet_name = "квартири, площі"
+# ** Kooficeints:
+# обсяг тепла на функц. системи = 5% якщо є погодне регулювання в ІТП або 15% якщо не має від
+gk_Qfun_sys = 0.05
+# обсяг тепла на опалення МЗК = 10% від
+gk_Qmzk = 0.1
+# Мінімальна частка середнього питомого споживання
+gk_Qop_min = 0.5
+# количество знаков после запятой для этой переменой
+# при повышение точности в этой переменой разница силльно растёт
+# False для максимальной точности
+# True для
+# 3 значения соответствуюшее екселю
+gk_Qop_min_after_point = False
 # ** exel coordinats:
-gl_counters_row = 6 # номер колонки (№ розподілювача)
-gl_counters_value1_raw = 17 # номер колонки (показники на 01.12)
-gl_counters_value2_raw = 18 # номер колонки (показники на 01.11)
-gl_app_sum_area = 4 # номер колонки (Площа загальна по даним КТЕ)
-gl_app_heating_area = 5 # номер колонки (Площа опалювальна по КТЕ)
-gl_ferst_app_colmn = 1 # номер ряда первого апартамента
+gl_counters_column = 6 # номер колонки (№ розподілювача)
+gl_counters_k_priv_column = 15 # номер колонки (К приведене)
+gl_counters_value1_column = 17 # номер колонки (показники на 01.12)
+gl_counters_value2_column = 18 # номер колонки (показники на 01.11)
+gl_app_sum_area_column = 4 # номер колонки (Площа загальна по даним КТЕ)
+gl_app_heating_area_column = 5 # номер колонки (Площа опалювальна по КТЕ)
+gl_ferst_app_row = 1 # номер ряда первого апартамента
+gl_exl_shift_rows = 1 # количество рядов сдвига адреса в экселе от дата фрема в выдачи ошибки
+gl_shift_home_counter_value1 = 2
+gl_column_home_counter_value1 = 17
+gl_shift_home_counter_value2 = 2
+gl_column_home_counter_value2 = 18
 # ** title_list : 
 title_list = [
     "№ п/п",

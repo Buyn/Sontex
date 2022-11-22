@@ -199,7 +199,6 @@ def gen_Qpit_roz(app_list, q_roz, index_most_heated_app):
 # ** def calc_on_globals_for_couters : 
 def calc_on_globals_for_couters(app_list, q_pit_roz, q_op_min): 
     for i, app in enumerate(app_list):
-        # if app.counters_list:
         # print("in ", app_list[i]._start_line )
         # print("index ", i)
         app_list[i].gen_surcharge(q_pit_roz, q_op_min)

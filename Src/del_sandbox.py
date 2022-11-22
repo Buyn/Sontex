@@ -4,7 +4,7 @@ import pandas as pd
 
 # * d vars : 
 # ** one liner:
-filename = "Data_files/metod01.xlsx"
+gv_filename = "Data_files/metod01.xlsx"
 # sheet_name = "показники"
 sheet_name = "квартири, площі"
 # ** title_list : 
@@ -53,16 +53,16 @@ title_list = [
     "ВСЬОГО, Гкал",]
 # print("tile 1 =", title_list[1])
 # * d read_excel : 
-# df = pd.read_excel(filename, sheet_name = "показники", engine='openpyxl')
-# df = pd.read_excel(filename,
+# df = pd.read_excel(gv_filename, sheet_name = "показники", engine='openpyxl')
+# df = pd.read_excel(gv_filename,
 #                    sheet_name = "показники",
 #                    engine='openpyxl')
-# df = pd.read_excel(filename,
+# df = pd.read_excel(gv_filename,
 #                    sheet_name = "показники",
 #                    engine='openpyxl',
 #                    index_col=0)
-df = pd.read_excel(filename,
-                   sheet_name = sheet_name,
+df = pd.read_excel(gv_filename,
+                   gv_sheet_name = gv_sheet_name,
                    engine='openpyxl',
                    # index_col=0,
                    header=None,

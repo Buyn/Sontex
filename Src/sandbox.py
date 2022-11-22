@@ -14,17 +14,9 @@ import sys
 # ----------------------------------------------
 # * main :
 # ----------------------------------------------
-
-names = [ "gl_app_sum_area",
-          "gl_gl_app_heating_area"]
-sr = []
-for i, name in enumerate(names):
-    print("i =", i)
-    print("name = ", name)
-    sr.append(i)
-    sr.append(name)
-print("sr zip = ", tuple(sr))
-
+s = "--gv_filename=d:\sdf\fg.exel"
+r = s.split("=")
+print(r)
     
 # ----------------------------------------------
 # * -------------------------------------------:

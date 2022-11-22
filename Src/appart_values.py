@@ -22,6 +22,7 @@ class Appart_values:
                                     self._start_line,
                                     self.next_app_line)  
         self.sum_area, self.heating_area = self.load_values()
+        self.surcharge = None
 
         
 # ** def get_counters_list : 
@@ -46,7 +47,7 @@ class Appart_values:
 # ** def get_counter : 
     def get_counter(self, line): 
         return Counter_values(self._df, line)
-        # return self._df.iloc[line, gl_counters_row]
+        # return self._df.iloc[line, gl_counters_column]
 
 
 # ** def is_starting_line : 
@@ -78,17 +79,17 @@ class Appart_values:
 
 
 
-# ** def gen_counters_adres : 
+# ** def gen_counters_adress : 
     def gen_counters_adress(self): 
         return [x.adress for x in self.counters_list] if self.counters_list else None
 
 
 # ** def load_values : 
     def load_values(self): 
-        rows =  [ gl_app_sum_area,
-                  gl_app_heating_area]
-        names = [ "gl_app_sum_area",
-                  "gl_app_heating_area"]
+        rows =  [ gl_app_sum_area_column,
+                  gl_app_heating_area_column]
+        names = [ "gl_app_sum_area_column",
+                  "gl_app_heating_area_column"]
         sr=[]
         for i, row in enumerate(rows):
             r = self._df.iloc[self._start_line, row]
@@ -98,6 +99,50 @@ class Appart_values:
                 raise NameError('no value on line = ' + str(self._start_line) + ', for rows ' + names[i])
             sr.append(r)
         return tuple(sr)
+
+
+# ** def gen_E_used : 
+    def gen_E_used(self): 
+        # сумарне споживання по квартирі, од.
+        if not self.counters_list: return 0
+        return sum([x.gen_delta() for x in self.counters_list])
+
+
+# ** def gen_E_used_k :
+    def gen_E_used_k(self): 
+        # сумарне приведене споживання по квартирі, од.
+        if not self.counters_list: return 0
+        return sum([x.gen_delta_k() for x in self.counters_list])
+
+
+# ** def gen_k_to_s :
+    def gen_k_to_s(self): 
+        # приведене до м2 площі, од/м2
+        if not self.counters_list: return 0
+        return self.gen_E_used_k() / self.heating_area
+
+
+# ** def gen_use_for_period : 
+    def gen_use_for_period(self, q_pit_roz): 
+        # обсяг споживання за період, Гкал
+        return q_pit_roz * self.gen_E_used_k()
+
+
+# ** def gen_priv2S : 
+    def gen_priv2S(self, q_pit_roz): 
+        # приведене до м2 площі, Гкал/м2
+        return self.gen_use_for_period(q_pit_roz) / self.heating_area
+
+
+# ** def gen_surcharge : 
+    def gen_surcharge(self, q_pit_roz, q_op_min): 
+        # донарахування, Гкал
+        self.surcharge = 0
+        if not self.counters_list: return self.surcharge
+        priv2S = self.gen_priv2S(q_pit_roz)
+        if priv2S < q_op_min:
+            self.surcharge = (q_op_min - priv2S) * self.heating_area
+        return self.surcharge
 
 
 # * -------------------------------------------:
