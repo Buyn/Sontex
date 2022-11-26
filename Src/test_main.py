@@ -289,8 +289,8 @@ class setUp_Test(unittest.TestCase):
         self.assertEqual(test, 0.011696389)
 
 
-# ** def test_calc_on_globals_for_couters : 
-    def test_calc_on_globals_for_couters(self): 
+# ** def test_calc_surcharge : 
+    def test_calc_surcharge(self): 
         app_list, t2 = populate_apps(self.df)
         last_app_line = get_last_app_line(app_list)
         delta_value_home_counter = gen_delta_value_home_counter(self.df, last_app_line)
@@ -301,7 +301,61 @@ class setUp_Test(unittest.TestCase):
         q_op_min = gen_Qop_min(q_roz)
         test = app_list[6].surcharge
         self.assertIsNone(test)
-        app_list_t = calc_on_globals_for_couters(app_list, q_pit_roz, q_op_min)
+        test1 = calc_surcharge(app_list, q_pit_roz, q_op_min)
+        # row 7
+        test = app_list[6].surcharge
+        self.assertIsNotNone(test)
+        self.assertEqual(float("{:.3f}".format(test)), 0.002)
+        # row 84
+        test = app_list[31].surcharge
+        self.assertIsNotNone(test)
+        self.assertEqual(float("{:.3f}".format(test)), 0.471)
+        # row 69
+        test = app_list[26].surcharge
+        self.assertIsNotNone(test)
+        self.assertEqual(float("{:.3f}".format(test)), 0.495)
+        # row 105
+        test = app_list[37].surcharge
+        self.assertIsNotNone(test)
+        self.assertEqual(float("{:.3f}".format(test)), 0.199)
+        # row 92
+        test = app_list[34].surcharge
+        self.assertIsNotNone(test)
+        self.assertEqual(float("{:.3f}".format(test)), 0.470)
+        # row 0
+        test = app_list[0].surcharge
+        self.assertIsNotNone(test)
+        self.assertEqual(float("{:.3f}".format(test)), 0)
+        test = app_list[36].surcharge
+        self.assertIsNotNone(test)
+        self.assertEqual(float("{:.3f}".format(test)), 0)
+        # площа квартир якім буде повернуто об'єм донарахувань
+        test = sum([app.get_S_if_surcharge() for app in app_list])
+        self.assertEqual(float("{:.8f}".format(test)), 1390.40)
+        # обсяг енергій якій буде перерозподілено
+        test = sum([app.surcharge for app in app_list])
+        self.assertEqual(float("{:.8f}".format(test1)), 5.621184541)
+        # питомий обсяг енергій якій буде перерозподілено
+        self.assertEqual(float("{:.8f}".format(test1)), 0.004042854)
+
+
+# ** def test_recalc_surcharge : 
+    def test_recalc_surcharge(self): 
+        app_list, t2 = populate_apps(self.df)
+        last_app_line = get_last_app_line(app_list)
+        delta_value_home_counter = gen_delta_value_home_counter(self.df, last_app_line)
+        sum_heated_area = gen_sum_heated_area(app_list)
+        q_roz = gen_Qroz(delta_value_home_counter, sum_heated_area)
+        index_most_heated_app = find_most_heated_app(app_list)
+        q_pit_roz = gen_Qpit_roz(app_list, q_roz, index_most_heated_app)
+        q_op_min = gen_Qop_min(q_roz)
+        test = app_list[6].surcharge
+        self.assertIsNone(test)
+        e_for_redistibut = calc_surcharge(app_list, q_pit_roz, q_op_min)
+        recalc_surcharge(app_list,
+                        q_pit_roz,
+                        q_op_min,
+                        e_for_redistibut)
         # app_list[7].gen_surcharge(q_pit_roz, q_op_min)
         # self.assertIsNotNone(test)
         # row 7

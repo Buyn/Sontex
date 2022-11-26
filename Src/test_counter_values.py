@@ -77,6 +77,12 @@ class setUp_Test(unittest.TestCase):
         self.assertEqual(test.get_value1(), 552)
         test = Counter_values(self.df, 106)
         self.assertEqual(test.get_value1(), 878)
+        test = Counter_values(self.df, 69)
+        self.assertEqual(test.get_value1(), 310)
+        test = Counter_values(self.df, 70)
+        self.assertEqual(test.get_value1(), 734)
+        test = Counter_values(self.df, 71)
+        self.assertEqual(test.get_value1(), 527)
         with self.assertRaises(NameError):
             # test = Counter_values(self.df, 100)
             # self.assertEqual(test.get_value2(), 0)
@@ -94,6 +100,12 @@ class setUp_Test(unittest.TestCase):
         self.assertEqual(test.get_value2(), 552)
         test = Counter_values(self.df, 106)
         self.assertEqual(test.get_value2(), 831)
+        test = Counter_values(self.df, 69)
+        self.assertEqual(test.get_value2(), 310)
+        test = Counter_values(self.df, 70)
+        self.assertEqual(test.get_value2(), 717)
+        test = Counter_values(self.df, 71)
+        self.assertEqual(test.get_value2(), 505)
         with self.assertRaises(NameError):
             # test = Counter_values(self.df, 100)
             # self.assertEqual(test.get_value2(), 0)
@@ -109,6 +121,12 @@ class setUp_Test(unittest.TestCase):
     def test_gen_delta(self): 
         test = Counter_values(self.df, 7)
         self.assertEqual(test.gen_delta(), 50)
+        test = Counter_values(self.df, 84)
+        self.assertEqual(test.gen_delta(), 24)
+        test = Counter_values(self.df, 85)
+        self.assertEqual(test.gen_delta(), 4)
+        test = Counter_values(self.df, 86)
+        self.assertEqual(test.gen_delta(), 16)
         with self.assertRaises(AttributeError):
             # test = Counter_values(self.df, 100)
             # self.assertEqual(test.get_value2(), 0)
@@ -124,6 +142,12 @@ class setUp_Test(unittest.TestCase):
     def test_gen_delta_k(self): 
         test = Counter_values(self.df, 7)
         self.assertEqual(float("{:.2f}".format(test.gen_delta_k())), 95.90)
+        test = Counter_values(self.df, 84)
+        self.assertEqual(float("{:.2f}".format(test.gen_delta_k())), 44.86)
+        test = Counter_values(self.df, 85)
+        self.assertEqual(float("{:.2f}".format(test.gen_delta_k())), 8.22)
+        test = Counter_values(self.df, 86)
+        self.assertEqual(float("{:.2f}".format(test.gen_delta_k())), 13.64)
         with self.assertRaises(AttributeError):
             test = Counter_values(self.df, 104)
             test.gen_delta()

@@ -32,7 +32,17 @@ def main(argv):
     # питомий обсяг енергії спожитий одним розподілювачем
     q_pit_roz = gen_Qpit_roz(app_list, q_roz, index_most_heated_app)
     q_op_min = gen_Qop_min(q_roz)
-    calc_on_globals_for_couters(app_list, q_pit_roz, q_op_min)
+    # донарахування, Гкал
+    # in each counter
+    # return 
+    # питомий обсяг енергій якій буде перерозподілено
+    e_for_redistibut = calc_surcharge(app_list,
+                                      q_pit_roz,
+                                      q_op_min)
+    recalc_surcharge(app_list,
+                     q_pit_roz,
+                     q_op_min,
+                     e_for_redistibut)
     end_app(0)
 
 
@@ -196,15 +206,39 @@ def gen_Qpit_roz(app_list, q_roz, index_most_heated_app):
     return gen_Qmax_roz(app_list, q_roz, index_most_heated_app) / app_list[index_most_heated_app].gen_E_used_k()
 
       
-# ** def calc_on_globals_for_couters : 
-def calc_on_globals_for_couters(app_list, q_pit_roz, q_op_min): 
+# ** def calc_surcharge : 
+def calc_surcharge(app_list, q_pit_roz, q_op_min): 
     for i, app in enumerate(app_list):
-        # if app.counters_list:
+        print("in ", app_list[i]._start_line )
+        print("index ", i)
+        app_list[i].gen_surcharge(q_pit_roz, q_op_min)
+        print("value of ", app_list[i].surcharge)
+    # обсяг енергій якій буде перерозподілено
+    sum_E = sum([app.surcharge for app in app_list])
+    # площа квартир якім буде повернуто об'єм донарахувань
+    sum_S = sum([app.get_S_if_surcharge() for app in app_list])
+    # питомий обсяг енергій якій буде перерозподілено
+    # print("sum_E", sum_E)
+    # print("sum_S", sum_S)
+    return sum_E/sum_S
+
+
+# ** def recalc_surcharge : 
+def recalc_surcharge(app_list,
+                     q_pit_roz,
+                     q_op_min,
+                     e_for_redistibut) : 
+    for i, app in enumerate(app_list):
         # print("in ", app_list[i]._start_line )
         # print("index ", i)
         app_list[i].gen_surcharge(q_pit_roz, q_op_min)
         # print("value of 0 ", app_list[0].surcharge)
-    return app_list
+    # обсяг енергій якій буде перерозподілено
+    sum_E = sum([app.surcharge for app in app_list])
+    # площа квартир якім буде повернуто об'єм донарахувань
+    sum_S = sum([app.surcharge for app in app_list])
+    # питомий обсяг енергій якій буде перерозподілено
+    return sum_E/sum_S
 
 
 # ** ------------------------------------------:

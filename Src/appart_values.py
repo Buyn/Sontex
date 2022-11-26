@@ -131,7 +131,8 @@ class Appart_values:
 # ** def gen_priv2S : 
     def gen_priv2S(self, q_pit_roz): 
         # приведене до м2 площі, Гкал/м2
-        return self.gen_use_for_period(q_pit_roz) / self.heating_area
+        # return self.gen_use_for_period(q_pit_roz) / self.heating_area
+        return self.gen_E_used_k() / self.heating_area
 
 
 # ** def gen_surcharge : 
@@ -143,6 +144,19 @@ class Appart_values:
         if priv2S < q_op_min:
             self.surcharge = (q_op_min - priv2S) * self.heating_area
         return self.surcharge
+
+
+# ** def get_S_if_surcharge : 
+    def get_S_if_surcharge(self): 
+        # логіка, не міняти! (площа повернення)
+        return self.heating_area if self.surcharge == 0 else 0
+
+
+# ** def gen_specified_used_E : 
+    def gen_specified_used_E(self, e_for_redistibut): 
+        # Ітого по распр., Гкал
+        self.specified_used_E = self.get_S_if_surcharge() * e_for_redistibut + self.surcharge + self.heating_area
+        return self.specified_used_E
 
 
 # * -------------------------------------------:
