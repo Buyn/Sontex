@@ -39,10 +39,32 @@ def main(argv):
     e_for_redistibut = calc_surcharge(app_list,
                                       q_pit_roz,
                                       q_op_min)
-    recalc_surcharge(app_list,
-                     q_pit_roz,
-                     q_op_min,
-                     e_for_redistibut)
+    e_for_redistibut = recalc_surcharge(app_list,
+                                        q_op_min,
+                                        e_for_redistibut)
+    # Ітого по распр., Гкал
+    total_counter_e = gen_total_counter_e(app_list)
+    # обсяг тепла на опалення МЗК = 10% від
+    q_Mkz = gen_Q_Mkz(delta_value_home_counter)
+    # Обсяг споживання тепла приміщенням без розподілювачамиів
+    q_no_surge = gen_Q_no_surge(total_counter_e,
+                                q_Mkz,
+                                delta_value_home_counter,
+                                gen_no_counter_sum_area(app_list))
+    # calculate column in app_list
+    # Ітого по м2, Гкал
+    calc_no_counter_e( app_list,
+                       q_no_surge)
+    # calculate columns in app_list
+    # функціонування системи
+    # МЗК
+    # ВСЬОГО, Гкал
+    calc_final_totals( app_list,
+                       gen_Qfun_sys(delta_value_home_counter),
+                       q_Mkz,
+                       sum_heated_area)
+    calc_all_values_in_apps(df,
+                            app_list)
     end_app(0)
 
 
@@ -120,6 +142,13 @@ def gen_sum_heated_area(apps):
 def gen_sum_area(apps): 
     # загальна площа будинку
     return sum([app.sum_area for app in apps])
+
+
+# ** def gen_no_counter_sum_area :
+def gen_no_counter_sum_area(apps): 
+    # площа без розп
+    # по Площа опалювальна по КТЕ
+    return sum([app.heating_area for app in apps if not app.counters_list])
 
 
 # ** def get_last_app_line : 
@@ -209,36 +238,116 @@ def gen_Qpit_roz(app_list, q_roz, index_most_heated_app):
 # ** def calc_surcharge : 
 def calc_surcharge(app_list, q_pit_roz, q_op_min): 
     for i, app in enumerate(app_list):
-        print("in ", app_list[i]._start_line )
-        print("index ", i)
         app_list[i].gen_surcharge(q_pit_roz, q_op_min)
-        print("value of ", app_list[i].surcharge)
+        # print("in ", app_list[i]._start_line )
+        # print("index ", i)
+        # print("value of ", app_list[i].surcharge)
+    return gen_e_for_redistribute(app_list)
+
+
+# ** def recalc_surcharge : 
+def recalc_surcharge(app_list,
+                     q_op_min,
+                     e_for_redistibut,
+                     times =gs_recalc_surcharge_times) : 
+    start_times = times
+    # print(start_times - times +1, ":e_for_redistibut = ", e_for_redistibut)
+    # print(start_times - times +1, ":suM surcharge = ", sum([app.surcharge for app in app_list]))
+    # while times>=0 and e_for_redistibut >= 0:
+    # while times>0 and float("{:.4f}".format(sum([app.surcharge for app in app_list]))) != 0:
+    while times>0 and sum([app.surcharge for app in app_list]) != 0:
+        for i, app in enumerate(app_list):
+            # print("in ", app_list[i]._start_line )
+            # print("index ", i)
+            app_list[i].gen_specified_used_E (e_for_redistibut)
+            app_list[i].gen_specified_surcharge(q_op_min)
+            # print("value of 0 ", app_list[0].surcharge)
+        # питомий обсяг енергій якій буде перерозподілено
+        e_for_redistibut = gen_e_for_redistribute(app_list)
+        times -=1
+        # print(start_times - times +1, ":e_for_redistibut = ", e_for_redistibut)
+        # print(start_times - times +1, ":suM surcharge = ", sum([app.surcharge for app in app_list]))
+    if gs_recalc_surcharge_print:
+        print("Zero recalculate surcharge found on step =", start_times - times +1)
+    return e_for_redistibut
+
+
+# ** def gen_e_for_redistribute : 
+def gen_e_for_redistribute(app_list): 
     # обсяг енергій якій буде перерозподілено
     sum_E = sum([app.surcharge for app in app_list])
     # площа квартир якім буде повернуто об'єм донарахувань
     sum_S = sum([app.get_S_if_surcharge() for app in app_list])
     # питомий обсяг енергій якій буде перерозподілено
-    # print("sum_E", sum_E)
-    # print("sum_S", sum_S)
     return sum_E/sum_S
 
 
-# ** def recalc_surcharge : 
-def recalc_surcharge(app_list,
-                     q_pit_roz,
-                     q_op_min,
-                     e_for_redistibut) : 
+
+# ** def gen_total_counter_e : 
+def gen_total_counter_e(apps): 
+    # Ітого по распр., Гкал
+    return sum([app.specified_used_E for app in apps if app.counters_list])
+
+
+# ** def gen_Q_Mkz : 
+def gen_Q_Mkz(delta_e): 
+    # обсяг тепла на опалення МЗК = 10% від
+    return delta_e * gk_Qmzk
+
+
+# ** def gen_Q_no_surge : 
+def gen_Q_no_surge( total_surge,
+                    q_Mkz,
+                    delta_value_home_counter,
+                    no_counter_sum_area): 
+    return ( delta_value_home_counter
+             - total_surge
+             - q_Mkz
+             - gen_Qfun_sys(delta_value_home_counter)
+            )/no_counter_sum_area
+
+
+# ** def calc_no_counter_e : 
+def calc_no_counter_e( app_list,
+                       q_no_surge): 
     for i, app in enumerate(app_list):
         # print("in ", app_list[i]._start_line )
         # print("index ", i)
-        app_list[i].gen_surcharge(q_pit_roz, q_op_min)
-        # print("value of 0 ", app_list[0].surcharge)
-    # обсяг енергій якій буде перерозподілено
-    sum_E = sum([app.surcharge for app in app_list])
-    # площа квартир якім буде повернуто об'єм донарахувань
-    sum_S = sum([app.surcharge for app in app_list])
-    # питомий обсяг енергій якій буде перерозподілено
-    return sum_E/sum_S
+        if not app.counters_list:
+          app_list[i].gen_no_counter_e (q_no_surge)
+    return app_list
+
+
+
+
+# ** def calc_final_totals : 
+def calc_final_totals(app_list,
+                      qfun_sys,
+                      q_Mkz,
+                      sum_heated_area): 
+    s_qfun_sys = qfun_sys / sum_heated_area
+    # print(s_qfun_sys)
+    s_q_Mkz = q_Mkz / sum_heated_area
+    # print(s_q_Mkz)
+    for i, app in enumerate(app_list):
+        # print("in ", app_list[i]._start_line )
+        # print("index ", i)
+        # функціонування системи
+        app_list[i].gen_total_fun_sys (s_qfun_sys)
+        # МЗК
+        app_list[i].gen_total_Mkz (s_q_Mkz)
+        # ВСЬОГО, Гкал
+        app_list[i].gen_total_e()
+    return app_list
+
+
+
+
+# ** def calc_all_values_in_apps : 
+def calc_all_values_in_apps(df,
+                            app_list): 
+
+
 
 
 # ** ------------------------------------------:

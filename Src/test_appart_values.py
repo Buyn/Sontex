@@ -1,7 +1,6 @@
 # ----------------------------------------------
 # * import block :
 import unittest
-
 from appart_values import *
 
 
@@ -183,37 +182,56 @@ class setUp_Test(unittest.TestCase):
 # ** test_gen_k_to_s : 
     def test_gen_k_to_s(self):
         # приведене до м2 площі, од/м2
-        test = Appart_values(self.df, 7)
-        self.assertEqual(float("{:.3f}".format(test.gen_k_to_s())), 3.885)
+        app = Appart_values(self.df, 7)
+        test = app.gen_k_to_s()
+        # self.assertEqual(float("{:.3f}".format(test.gen_k_to_s())), 3.885)
+        self.assertEqual(float("{:.3f}".format(test)), 3.885)
+        app = Appart_values(self.df, 69)
+        # print("gen_use_for_period(q_pit_roz)", app.gen_E_used_k())
+        # print("heating_area ", app.heating_area)
+        test = app.gen_k_to_s()
+        self.assertEqual(float("{:.3f}".format(test)), 0.728)
+        app = Appart_values(self.df, 84)
+        test = app.gen_k_to_s()
+        self.assertEqual(float("{:.3f}".format(test)), 1.281)
 
 
 # ** test_gen_use_for_period : 
     def test_gen_use_for_period(self):
         # обсяг споживання за період, Гкал
         app = Appart_values(self.df, 7)
-        q_pit_roz = 0.0030
+        q_pit_roz = 0.00299979010123
         test = app.gen_use_for_period(q_pit_roz)
-        self.assertEqual(float("{:.3f}".format(test)), 0.605)
+        # self.assertEqual(float("{:.3f}".format(test)), 0.605)
+        self.assertEqual(float("{:.9f}".format(test)), 0.6047922420)
         app = Appart_values(self.df, 69)
         test = app.gen_use_for_period(q_pit_roz)
-        self.assertEqual(float("{:.3f}".format(test)), 0.113)
+        # self.assertEqual(float("{:.3f}".format(test)), 0.113)
+        self.assertEqual(float("{:.10f}".format(test)), 0.1132716543)
+        app = Appart_values(self.df, 84)
+        test = app.gen_use_for_period(q_pit_roz)
+        self.assertEqual(float("{:.9f}".format(test)), 0.200169394)
 
 
 # ** test_gen_priv2S : 
     def test_gen_priv2S(self):
         # приведене до м2 площі, Гкал/м2
         app = Appart_values(self.df, 7)
-        q_pit_roz = 0.0030
+        # q_pit_roz = 0.0030
+        q_pit_roz = 0.00299979010123
         test = app.gen_priv2S(q_pit_roz)
-        # self.assertEqual(float("{:.5f}".format(test)), 0.01165)
+        self.assertEqual(float("{:.9f}".format(test)), 0.01165303)
         app = Appart_values(self.df, 69)
-        print("gen_use_for_period(q_pit_roz)", app.gen_E_used_k())
-        print("heating_area ", app.heating_area)
+        # print("gen_use_for_period(q_pit_roz)", app.gen_E_used_k())
+        # print("heating_area ", app.heating_area)
         test = app.gen_priv2S(q_pit_roz)
-        self.assertEqual(float("{:.5f}".format(test)), 0.728)
+        # self.assertEqual(float("{:.9f}".format(test)), 0.002165806)
+        self.assertEqual(float("{:.9f}".format(test)), 0.002182498)
         app = Appart_values(self.df, 84)
         test = app.gen_priv2S(q_pit_roz)
-        self.assertEqual(float("{:.5f}".format(test)), 0.200)
+        # print("gen_E_used_k()", app.gen_E_used_k())
+        # print("gen_use_for_period(q_pit_roz)", app.gen_use_for_period(q_pit_roz))
+        self.assertEqual(float("{:.9f}".format(test)), 0.003842023)
 
 
 # ** test_gen_surcharge : 
@@ -225,10 +243,14 @@ class setUp_Test(unittest.TestCase):
         self.assertIsNone(app.surcharge)
         test = app.gen_surcharge(q_pit_roz, q_op_min)
         self.assertEqual(float("{:.3f}".format(test)), 0.002)
+        app = Appart_values(self.df, 69)
+        self.assertIsNone(app.surcharge)
+        test = app.gen_surcharge(q_pit_roz, q_op_min)
+        self.assertEqual(float("{:.3f}".format(test)), 0.494)
         app = Appart_values(self.df, 84)
         self.assertIsNone(app.surcharge)
         test = app.gen_surcharge(q_pit_roz, q_op_min)
-        self.assertEqual(float("{:.3f}".format(test)), 0.471)
+        self.assertEqual(float("{:.3f}".format(test)), 0.409)
 
 
 # ** test_get_S_if_surcharge : 
@@ -251,18 +273,165 @@ class setUp_Test(unittest.TestCase):
 # ** test_gen_specified_used_E : 
     def test_gen_specified_used_E(self):
         # донарахування, Гкал
+        # app 7
         app = Appart_values(self.df, 7)
         q_pit_roz = 0.0030
         q_op_min = 0.011696389
-        # e_for_redistibut = 
-        app.gen_surcharge(q_pit_roz, q_op_min)
-        test = gen_specified_used_E(self, e_for_redistibut)
-        self.assertEqual(float("{:.3f}".format(test)), 0)
+        e_for_redistibut = 0.003998048
+        test = app.gen_surcharge(q_pit_roz, q_op_min)
+        self.assertEqual(float("{:.3f}".format(test)), 0.002)
+        test = app.gen_specified_used_E(e_for_redistibut)
+        # print(app.gen_specified_priv2S())
+        # print(app.get_S_if_surcharge())
+        self.assertEqual(float("{:.3f}".format(test)), 0.607)
+        # print(app.specified_used_E)
+        # print(app.heating_area)
+        test = app.gen_specified_priv2S()
+        self.assertEqual(float("{:.9f}".format(test)), 0.011696389)
+        test = app.gen_specified_surcharge(q_op_min)
+        # print(e_for_redistibut)
+        # print(app.specified_used_E)
+        self.assertEqual(float("{:.9f}".format(test)), 0)
+        # second Total for app in row 7
+        e_for_redistibut = 4.337E-04
+        # print(app.surcharge) 
+        test = app.gen_specified_used_E(e_for_redistibut)
+        # print(app.surcharge) 
+        self.assertEqual(float("{:.3f}".format(test)), 0.585)
+        # print(e_for_redistibut)
+        test = app.gen_specified_priv2S()
+        self.assertEqual(float("{:.7f}".format(test)), 0.0112627)
+        test = app.gen_specified_surcharge(q_op_min)
+        # print(app.gen_specified_priv2S())
+        # print(q_op_min)
+        self.assertEqual(float("{:.3f}".format(test)), 0.023)
+        # app 11
+        e_for_redistibut = 0.003998048
         app = Appart_values(self.df, 11)
         test = app.gen_surcharge(q_pit_roz, q_op_min)
-        e_for_redistibut = app.get_S_if_surcharge()
-        test = gen_specified_used_E(self, e_for_redistibut)
-        self.assertEqual(float("{:.3f}".format(test)), 68.03)
+        test = app.gen_specified_used_E(e_for_redistibut)
+        # self.assertEqual(float("{:.3f}".format(test)), 0.602)
+        self.assertEqual(float("{:.4f}".format(test)), 0.6017)
+        # print(app.heating_area)
+        test = app.gen_specified_priv2S()
+        self.assertEqual(float("{:.5f}".format(test)), 0.00884)
+        test = app.gen_specified_surcharge(q_op_min)
+        self.assertEqual(float("{:.3f}".format(test)), 0.194)
+        test = app.get_S_if_surcharge()
+        self.assertEqual(float("{:.3f}".format(test)), 0)
+        # test = app.gen_specified_used_E(e_for_redistibut, q_pit_roz)
+        # second Total for app in row 11
+        e_for_redistibut = 4.337E-04
+        # print(app.surcharge) 
+        test = app.gen_specified_used_E(e_for_redistibut)
+        # print(app.surcharge) 
+        self.assertEqual(float("{:.3f}".format(test)), 0.796)
+        # print(e_for_redistibut)
+        test = app.gen_specified_surcharge(q_op_min)
+        self.assertEqual(float("{:.3f}".format(test)), 0)
+
+
+
+# ** test_gen_no_counter_e : 
+    def test_gen_no_counter_e(self):
+        q_no_surge = 0.044960013
+        # донарахування, Гкал
+        # app 1
+        app = Appart_values(self.df, 1)
+        test = app.gen_no_counter_e(q_no_surge)
+        self.assertEqual(float("{:.3f}".format(test)), 2.666)
+        # app 37
+        app = Appart_values(self.df, 104)
+        test = app.gen_no_counter_e(q_no_surge)
+        self.assertEqual(float("{:.3f}".format(test)), 0)
+        # app 87
+        app = Appart_values(self.df, 87)
+        test = app.gen_no_counter_e(q_no_surge)
+        self.assertEqual(float("{:.3f}".format(test)), 2.536)
+
+
+
+# ** test_gen_total_fun_sys : 
+    def test_gen_total_fun_sys(self):
+        arg = 0.001376046
+        # функціонування системи
+        # row 2
+        app = Appart_values(self.df, 1)
+        test = app.gen_total_fun_sys(arg)
+        self.assertEqual(float("{:.3f}".format(test)), 0.082)
+        # row 8
+        app = Appart_values(self.df, 7)
+        test = app.gen_total_fun_sys(arg)
+        self.assertEqual(float("{:.3f}".format(test)), 0.071)
+
+
+# ** test_gen_total_Mkz : 
+    def test_gen_total_Mkz(self):
+        arg = 0.002752091
+        # МЗК
+        # row 2
+        app = Appart_values(self.df, 1)
+        test = app.gen_total_Mkz(arg)
+        self.assertEqual(float("{:.3f}".format(test)), 0.163)
+        # row 8
+        app = Appart_values(self.df, 7)
+        test = app.gen_total_Mkz(arg)
+        self.assertEqual(float("{:.3f}".format(test)), 0.143)
+
+
+# ** test_gen_total_e : 
+    def test_gen_total_e(self):
+        # ВСЬОГО, Гкал
+        # row 2
+        app = Appart_values(self.df, 1)
+        arg = 0.002752091
+        test = app.gen_total_Mkz(arg)
+        arg = 0.001376046
+        test = app.gen_total_fun_sys(arg)
+        q_no_surge = 0.044960013
+        test = app.gen_no_counter_e(q_no_surge)
+        test = app.gen_total_e()
+        self.assertEqual(float("{:.3f}".format(test)), 2.911)
+        # row 8
+        app = Appart_values(self.df, 7)
+        arg = 0.002752091
+        app.gen_total_Mkz(arg)
+        arg = 0.001376046
+        app.gen_total_fun_sys(arg)
+        q_pit_roz = 0.0030
+        q_op_min = 0.011696389
+        e_for_redistibut = 0.003998048
+        app.gen_surcharge(q_pit_roz, q_op_min)
+        app.gen_specified_used_E(e_for_redistibut)
+        app.gen_specified_priv2S()
+        app.gen_specified_surcharge(q_op_min)
+        app.get_S_if_surcharge()
+        # print(app.total_fun_sys)
+        # print(app.total_s_q_Mkz)
+        # print(app.specified_used_E)
+        app.specified_used_E = 0.585
+        test = app.gen_total_e()
+        self.assertEqual(float("{:.3f}".format(test)), 0.799)
+        # row 26
+        app = Appart_values(self.df, 25)
+        arg = 0.002752091
+        app.gen_total_Mkz(arg)
+        arg = 0.001376046
+        app.gen_total_fun_sys(arg)
+        q_pit_roz = 0.0030
+        q_op_min = 0.011696389
+        e_for_redistibut = 0.003998048
+        app.gen_surcharge(q_pit_roz, q_op_min)
+        app.gen_specified_used_E(e_for_redistibut)
+        app.gen_specified_priv2S()
+        app.gen_specified_surcharge(q_op_min)
+        app.get_S_if_surcharge()
+        # print(app.total_fun_sys)
+        # print(app.total_s_q_Mkz)
+        # print(app.specified_used_E)
+        app.specified_used_E = 0.573
+        test = app.gen_total_e()
+        self.assertEqual(float("{:.3f}".format(test)), 0.783)
 
 
 # ** ------------------------------------------:
