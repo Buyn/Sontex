@@ -208,4 +208,10 @@ class Appart_values:
         return self.total_e
 
 
+# ** def set_to_report : 
+    def set_to_report(self, df, column, value): 
+        df.iloc[self._start_line, column] = value
+
+
+
 # * -------------------------------------------:

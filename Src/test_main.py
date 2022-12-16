@@ -437,7 +437,7 @@ class setUp_Test(unittest.TestCase):
                                             e_for_redistibut,
                                             # times = 1
                                             )
-        self.assertEqual(e_for_redistibut, 0)
+        self.assertEqual(float("{:.5f}".format(e_for_redistibut)) , 0)
         # row 7
         test = app_list[6].surcharge
         self.assertIsNotNone(test)

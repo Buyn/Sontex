@@ -10,17 +10,23 @@ from appart_values import *
 # ----------------------------------------------
 # * vars :
 # ----------------------------------------------
-
+g_filename = gv_filename
+g_output = gv_output
+g_sheet_name = gv_sheet_name
 # ----------------------------------------------
 # * def main(argv):
 # ----------------------------------------------
 def main(argv):
-    filename = gv_filename
-    sheet_name = gv_sheet_name 
+    filename = g_filename
+    sheet_name = g_sheet_name 
     filename, sheet_name = cmd_line_arg(argv, filename, sheet_name)
+    output = g_output
     df = load_exel(filename, sheet_name)
     app_list, couters_list = populate_apps(df) 
     app_list = calc_all_values_in_apps( df, app_list)
+    df_report = load_exel(filename, gv_sheet_report)
+    df_report = set_to_report(df_report, app_list)
+    save_data_frame(output, df, df_report)
     end_app(0)
 
 
@@ -141,6 +147,8 @@ def gen_delta_value_home_counter(df, g_line):
 def find_most_heated_app(apps): 
     # найбільш показник розподілювачів серед приміщень приведена до 1 м2 площі
     r = [app.gen_k_to_s() for app in apps]
+    # print(r) 
+    # print(r.index(max(r)))
     return r.index(max(r))
 
 
@@ -207,11 +215,13 @@ def recalc_surcharge(app_list,
                      e_for_redistibut,
                      times =gs_recalc_surcharge_times) : 
     start_times = times
-    # print(start_times - times +1, ":e_for_redistibut = ", e_for_redistibut)
-    # print(start_times - times +1, ":suM surcharge = ", sum([app.surcharge for app in app_list]))
+    if gs_recalc_surcharge_print:
+        print(start_times - times +1, ":e_for_redistibut = ", e_for_redistibut)
+        print(start_times - times +1, ":suM surcharge = ", sum([app.surcharge for app in app_list]))
     # while times>=0 and e_for_redistibut >= 0:
-    # while times>0 and float("{:.4f}".format(sum([app.surcharge for app in app_list]))) != 0:
-    while times>0 and sum([app.surcharge for app in app_list]) != 0:
+    while times>0 and float("{:.5f}".format(sum([app.surcharge for app in app_list]))) != 0:
+    # TODO chenge to compare with 0.000001 it help add this to setings
+    # while times>0 and sum([app.surcharge for app in app_list]) != 0:
         for i, app in enumerate(app_list):
             # print("in ", app_list[i]._start_line )
             # print("index ", i)
@@ -221,9 +231,10 @@ def recalc_surcharge(app_list,
         # питомий обсяг енергій якій буде перерозподілено
         e_for_redistibut = gen_e_for_redistribute(app_list)
         times -=1
-        # print(start_times - times +1, ":e_for_redistibut = ", e_for_redistibut)
-        # print(start_times - times +1, ":suM surcharge = ", sum([app.surcharge for app in app_list]))
-    if gs_recalc_surcharge_print:
+        if gs_recalc_surcharge_print:
+            print(start_times - times +1, ":e_for_redistibut = ", e_for_redistibut)
+            print(start_times - times +1, ":suM surcharge = ", sum([app.surcharge for app in app_list]))  # 
+    if gs_recalc_surcharge_print_result:
         print("Zero recalculate surcharge found on step =", start_times - times +1)
     return e_for_redistibut
 
@@ -345,6 +356,62 @@ def calc_all_values_in_apps(df, app_list):
                        q_Mkz,
                        sum_heated_area)
     return app_list
+
+
+
+
+# ** def set_to_report : 
+def set_to_report(df, app_list): 
+    # 0 № п/п	
+    # 1 № квартири	
+    for app in app_list:
+        if app.counters_list:
+            # 2 Ітого по распр., Гкал
+            app.set_to_report(df, gl_total_couter_e_column, app.specified_used_E)
+        else:    
+            # 3 Ітого по м2, Гкал
+            app.set_to_report(df, gl_total_no_couter_e_column, app.specified_used_E)
+        # 4 функціонування системи
+        app.set_to_report(df, gl_func_sys_column, app.total_fun_sys)
+        # 5 МЗК
+        app.set_to_report(df, gl_mzk_column, app.total_Mkz)
+        # 6 ВСЬОГО, Гкал
+        app.set_to_report(df, gl_total_e_column, app.total_e)
+    return df
+
+
+# ** def save_data_frame : 
+def save_data_frame(output, df, df_report): 
+  # writer = pd.ExcelWriter('output.xlsx', engine='openpyxl')
+  # df = pd.DataFrame([["ABC", "XYZ"]], columns=["Foo", "Bar"])  
+  # with pd.ExcelWriter("path_to_file.xlsx") as writer:
+  #     df.to_excel(writer) 
+  # df_report['new_column'] = [1, 2, 3, 4, 5]
+  # Save the updated dataframe to the Excel file
+  with pd.ExcelWriter(output,
+                    # sheet_name='report',
+                    engine='openpyxl',
+                    # index_col=0,
+                    # header=None,
+                    # mode="a",
+                    # if_sheet_exists="overlay"
+                    # if_sheet_exists="replace"
+                    # if_sheet_exists='append'
+                      ) as writer:
+    # df_report.to_excel(writer, sheet_name='report')
+      # for report in reports:
+      #   report.to_excel(writer, index=False)
+    # df_report.to_excel(writer, index=False, startrow=writer.sheets['Sheet1'].max_row)
+    df.to_excel(writer, index=False, sheet_name=gv_sheet_name)
+    df_report.to_excel(writer, index=False, sheet_name=gv_sheet_report)
+  # df.to_excel(writer, index=False, startrow=writer.sheets['Sheet1'].max_row)
+  # df_report.to_excel("foo.xlsx", sheet_name='report')
+  # df.to_excel(writer, sheet_name="Sheet1")
+  # report = writer.bookworksheet = writer.sheets['report']
+  # writer.save()
+  # writer.close()
+
+
 
 
 
