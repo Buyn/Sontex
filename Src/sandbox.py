@@ -1,8 +1,11 @@
 # ----------------------------------------------
 # * import : 
 # ----------------------------------------------
-import pandas as pd
-
+import eel  
+from random import randint  
+# from main import *
+from tkinter import filedialog
+from tkinter import *
 
 # ----------------------------------------------
 # * vars : 
@@ -12,24 +15,35 @@ import pandas as pd
 # ----------------------------------------------
 # * main :
 # ----------------------------------------------
-import pandas as pd
+# gg_eel_mode = 'electron'
+gg_eel_mode = 'chrome'
+# gg_eel_mode = None
+# gg_eel_mode = 'edge'
+     
+@eel.expose
+def btn_ResimyoluClick():
+	root = Tk()
+	root.withdraw()
+	root.wm_attributes('-topmost', 1)
+	# folder = filedialog.askdirectory()
+	folder = filedialog.askopenfilename(initialdir = "/",title = "Select file exel",filetypes = (("jpeg files","*.jpg"),("all files","*.*")))
+	return folder
+# print (root.filename)
+# print("result path", btn_ResimyoluClick())
 
-# Read data from the Excel file
-df = pd.read_excel("test.xlsx")
 
-# Loop through the rows and columns of the DataFrame
-for row_index, row in df.iterrows():
-    for col_index, value in row.iteritems():
-        # Get the cell style from the cell
-        cell_style = df.style.apply(lambda x: x[col_index], axis=1)[row_index]
+eel.init("web")    
 
-        # Get the cell color and font size from the cell style
-        cell_color = cell_style.background_color.to_string(index=False)
-        font_size = cell_style.font.size
+# Exposing the random_python function to javascript  
+@eel.expose      
+def random_python():  
+    print("Random function running")  
+    return randint(1,100)  
 
-        # Print the cell color and font size
-        print("Cell color:", cell_color)
-        print("Font size:", font_size)
+# Start the index.html file  
+eel.start("index.html"
+          , mode=gg_eel_mode
+          )  
 
 
 # ----------------------------------------------

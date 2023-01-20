@@ -6,6 +6,10 @@ from main import *
 
 # filename = gv_filename
 # sheet_name = gv_sheet_name 
+# g_filename = gv_filename
+# g_output = gv_output
+# g_sheet_name = gv_sheet_name
+# g_csv = gv_csv
 
 
 # ----------------------------------------------
@@ -17,18 +21,6 @@ class Test_Init(unittest.TestCase):
 # ** def test_main : 
     def test_main(self):# {{{
         # print("Test tuner")
-        # self.assertIsNone(main(1))
-        # global gv_filename, sheet_name
-        # gv_filename = "Data_files/test.xlsx"
-        # # sheet_name = "показники"
-        # sheet_name = "квартири, площі"
-        # df = load_exel(gv_filename, sheet_name)
-        # app_list, couters_list = populate_apps(df) 
-        # # загальна площа будинку
-        # sum_heated_area = gen_sum_heated_area(app_list)
-        # last_app_line = get_last_app_line(app_list)
-        # # по будинку за т/ліч
-        # delta_value_home_counter = get_delta_value_home_counter(df, last_app_line)
         with self.assertRaises(SystemExit) as cm:
             main(["main path", 
                 "--filename=Data_files/test.xlsx",
@@ -92,15 +84,22 @@ class Test_Init(unittest.TestCase):
 
 # ** def test_cmd_line_arg : 
     def test_cmd_line_arg(self): 
-        filename = gv_filename
-        sheet_name = gv_sheet_name 
+        global g_filename, g_csv, g_output
         # self.assertEqual(filename, "Data_files/metod01.xlsx")
+        self.assertEqual(g_filename, "Data_files/metod01.xlsx")
         argv = ["main path", 
-                "--filename=Data_files/test.xlsx",
-                "--sheet_name=квартири, площі"]
-        filename, sheet_name = cmd_line_arg(argv, filename, sheet_name)
-        self.assertEqual(filename, "Data_files/test.xlsx")
-        self.assertEqual(sheet_name, "квартири, площі")
+                "--filename=Data_files/1.xlsx",
+                "--csv=Data_files/2.xlsx",
+                "--output=Data_files/3.xlsx",
+                # "--filename=квартири, площі"
+                ]
+        filename, csv, output = cmd_line_arg(argv)
+        self.assertEqual(filename, "Data_files/1.xlsx")
+        self.assertEqual(csv, "Data_files/2.xlsx")
+        self.assertEqual(output, "Data_files/3.xlsx")
+        # self.assertEqual(g_filename, "Data_files/1.xlsx")
+        # self.assertEqual(g_csv, "Data_files/2.xlsx")
+        # self.assertEqual(g_output, "Data_files/3.xlsx")
 
 # ----------------------------------------------
 # * class setUp_Test : 

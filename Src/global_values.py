@@ -6,10 +6,17 @@
 # ----------------------------------------------
 # * vars :
 # ----------------------------------------------
+# ** GUI:
+# *** main window:
+# gg_eel_mode = 'electron'
+# gg_eel_mode = 'chrome'
+# gg_eel_mode = None
+gg_eel_mode = 'edge'
 # ** one liner:
 # gv_filename = "Data_files/metod01.xlsx"
 gv_filename = "Data_files/metod01.xlsx"
 gv_output = "Data_files/output.xlsx"
+gv_csv = "Data_files/test.csv"
 # sheet_name = "показники"
 gv_sheet_name = "квартири, площі"
 gv_sheet_report = "report"
@@ -66,7 +73,8 @@ gl_mzk_column = 5
 # 6 ВСЬОГО, Гкал
 gl_total_e_column = 6
 # ** title_list : 
-title_list = [
+# *** for data fream : 
+gs_title_list_df = [
     "№ п/п",
     "№ квартири",
     "поверх",
@@ -113,4 +121,5 @@ title_list = [
 
 
 # ----------------------------------------------
+# *** for report : 
 # * -------------------------------------------:

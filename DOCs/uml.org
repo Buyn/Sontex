@@ -1,5 +1,431 @@
 * UML
 far E:\Temp    
+** Sontex MVP 
+*** png
+#+begin_src elisp :results output silent
+(buyn-cmd-start "E:\\Temp\\my-diagram.png")
+#+end_src
+*** Src
+#+begin_src plantuml :file e:\Temp\my-diagram.png :results output silent
+title Sontex MVP
+
+object Sontex.py{
+	import global_values_list gl_*
+	--
+	gui()
+	main(args)
+	--
+	callc...()
+	get...()
+	load...()
+	save...()
+	--
+	if __main__
+	}
+
+object main{
+	cmd_line_arg(test)
+	--
+	df = Load_exel()
+	all_app_list = populate_apps()
+	all_couter_list = apps_get_counters()
+	load_csv()
+	calc_all_values_in_apps( df, app_list)
+	form_reports()
+	--
+	save()
+	}
+
+object gui{
+	show_gui("index.html")
+	--
+	main(args)
+	--
+	exit()
+	}
+
+object index.html{
+	style.css	
+	script.js
+	}
+
+index.html --|> gui
+index.html <|-- style.css
+index.html <|-- script.js
+main +--+ raport_exl
+main <|-- data_frame
+main <|-- data_frame_report
+main <|-- Appart_values
+main <|-- data_cvs
+main <-- gui
+Sontex.py --> gui
+Sontex.py <|-- gui
+Sontex.py <|-- main
+Sontex.py <|-- global_values_list_py
+Appart_values +-- data_frame
+Appart_values --+ data_frame_report
+Couter_values +--+ data_frame
+Couter_values --+ data_frame_report
+Couter_values --|> Appart_values
+Couter_values +-- data_cvs
+
+
+object global_values_list_py {
+	====
+	| name | calue |
+	| k    | 234   |  
+	| ...  | ...   |
+	----
+	comentari of rus names 
+	end of value # rus name
+	}
+
+object data_cvs{
+	values of individual counters  
+	}
+
+object raport_exl{
+	values of apartaments  
+	valuest of countesr for 
+		each apartaments
+	--
+	resulting report
+	}
+
+
+class Appart_values {
+	_df:DataFream
+	int::int
+	start_raw::int
+	counters_list::[Couter_values]
+	next_app_line::int
+	__init__(df, raw)
+	load()
+	save()
+	find_next_app()
+	load_data_from_cvs(path)
+	set_counter(num value)
+	calculate()
+	}
+
+
+class Couter_values {
+	_df:DataFream
+	adress::int
+	start_raw::int
+	value1::int
+	value2::int
+	__init__(_df, line)
+	load()
+	save()
+	load_data_from_cvs(path)
+	set_counter(num value)
+	calculate()
+	}
+#+end_src
+*** arhiv
+**** note : 
+note left of main
+  load values
+	loand house_counter
+  process apartments
+	with app_list + global + house
+	insert calc values global
+end note
+
+note right of main
+  pop_all_values()
+	start from top ofset
+	  find value
+	    count nubrer of empti space
+		make new value in list
+			set for it mnamber of counter
+			end starting row
+			get values of counter nambers
+end note
+note left of Sontex.py
+  This method with Duration
+end note
+
+note right of Sontex.py
+  load exel file if have path
+end note
+
+note top of Sontex.py
+  This method with Duration
+end note
+**** Src00
+#+begin_src plantuml :file e:\Temp\my-diagram.png :results output silent
+title Sontex test
+
+object Sontex.py{
+	import global_values_list
+	--
+	df = load_exel metod01.exl
+	all_values::All_values(global_values_list)
+	load()
+
+	save()
+	}
+
+Sontex.py <-- metod.exl
+Sontex.py <-- data.cvs
+Sontex.py --> raport.exl
+Sontex.py --> global_values_list
+
+object data.cvs{
+	values of individual counters  
+	}
+
+object raport.exl{
+	values of apartaments  
+	valuest of countesr for 
+		each apartaments
+	}
+
+object metod.exl{
+	initial 
+	values of global  
+	}
+
+class Global_values{
+	int::int
+	delta_raw::int
+	delta_colum::int
+	__init__(value::int = none raw colum)
+	load()
+	save()
+	}
+class Appart_value {
+	int::int
+	start_raw::int
+	countes::int
+	counters_list::arrey
+	__init__(value::int = none raw)
+	load()
+	save()
+	}
+class All_values{
+	app_list::Arrey(app_value)
+	global::Arrey(global_values)
+	__init__(global_list = None)
+	add_app(appart_value value)
+	popul_global(global_list)
+	load_apps()
+	save_apps()
+	load_global()
+	save_glabal()
+	}
+
+Sontex.py <|-- All_values
+All_values <|-- Appart_value
+All_values <|-- Global_values
+All_values <|-- global_values_list
+global_values_names --> global_values_list
+
+object global_values_list {
+dictionari
+	====
+	| name | x | y | 
+	| k    | +1| +3 | 
+	|      |   |   | 
+	----
+	}
+
+object global_values_names {
+dictionari
+	====
+	| text          |  name| 
+	| "теплоёмкость"|  tp  |  
+	|   "k"         |   k  | 
+	----
+	}
+#+end_src
+
+
+**** Src01
+#+begin_src plantuml :file e:\Temp\my-diagram.png :results output silent
+title Sontex test
+
+object Sontex.py{
+	import global_values_list
+	--
+	df = load_exel metod01.exl
+	all_values::All_values(global_values_list)
+	load()
+		Proces()
+	add_csv()
+	save()
+	}
+
+note left of Sontex.py
+  load values
+	loand house_counter
+  process apartments
+	with app_list + global + house
+	insert calc values global
+end note
+
+note right of Sontex.py
+  pop_all_values()
+	start from top ofset
+	  find value
+	    count nubrer of empti space
+		make new value in list
+			set for it mnamber of counter
+			end starting row
+			get values of counter nambers
+end note
+
+Sontex.py <-- data_cvs
+Sontex.py <--> raport_exl
+All_values <|-- global_values_list_py
+Sontex.py <|-- All_values
+All_values <|-- Appart_value
+Appart_value <-- data_cvs
+Appart_value <--> raport_exl
+All_values --> raport_exl
+
+
+object global_values_list_py {
+dictionari
+	====
+	| name | x | y | 
+	| k    | +1| +3 | 
+	|      |   |   | 
+	----
+	comentari of rus names
+	}
+
+object data_cvs{
+	values of individual counters  
+	}
+
+object raport_exl{
+	values of apartaments  
+	valuest of countesr for 
+		each apartaments
+	resulting raport
+	}
+
+class All_values{
+	app_list::List(app_value)
+	global::List(global_values)
+	__init__(global_list = None)
+	add_app(appart_value value)
+	popul_global(global_list)
+	load_apps()
+	save_apps()
+	load_global()
+	save_glabal()
+	find_csv_in_list()
+	calculate()
+	}
+
+class Appart_value {
+	int::int
+	start_raw::int
+	countes::int
+	counters_list::list
+	counters_value::list
+	__init__(value::int = none raw)
+	load()
+	save()
+	set_counter(num value)
+	calsulate()
+	}
+
+
+#+end_src
+
+**** Src02
+#+begin_src plantuml :file e:\Temp\my-diagram.png :results output silent
+title Sontex test
+
+object Sontex.py{
+	import global_values_list gl_*
+	main()
+	--
+	cmd_line_arg()
+	df = Load_exel()
+	all_app_list = populate_apps()
+	all_couter_list = apps_get_counters()
+	appart_value_load()
+	load_csv()
+	calc_global_values()
+	calc_appart_value()
+	form_report()
+	save()
+	exit()
+	--
+	if __main__
+	}
+
+note left of Sontex.py
+  load values
+	loand house_counter
+  process apartments
+	with app_list + global + house
+	insert calc values global
+end note
+
+note right of Sontex.py
+  pop_all_values()
+	start from top ofset
+	  find value
+	    count nubrer of empti space
+		make new value in list
+			set for it mnamber of counter
+			end starting row
+			get values of counter nambers
+end note
+
+Sontex.py <-- data_cvs
+Sontex.py <|-- global_values_list_py
+Sontex.py <--> raport_exl
+Sontex.py <|-- Appart_values
+Appart_values <-- data_cvs
+Appart_values <--> raport_exl
+
+
+object global_values_list_py {
+	====
+	| name | calue |
+	| k    | 234   |  
+	| ...  | ...   |
+	----
+	comentari of rus names 
+	end of value # rus name
+	}
+
+object data_cvs{
+	values of individual counters  
+	}
+
+object raport_exl{
+	values of apartaments  
+	valuest of countesr for 
+		each apartaments
+	resulting raport
+	}
+
+
+class Appart_values {
+	_df:DataFream
+	int::int
+	start_raw::int
+	counters_list::[Couter_values]
+	next_app_line::int
+	__init__(df, raw)
+	load()
+	save()
+	find_next_app()
+	load_data_from_cvs(path)
+	set_counter(num value)
+	calculate()
+	}
+#+end_src
+
 ** Sontex test 
 *** png
 #+begin_src elisp :results output silent

@@ -13,14 +13,18 @@ from appart_values import *
 g_filename = gv_filename
 g_output = gv_output
 g_sheet_name = gv_sheet_name
+g_csv = gv_csv
+
+
 # ----------------------------------------------
 # * def main(argv):
 # ----------------------------------------------
 def main(argv):
-    filename = g_filename
+    filename, csv, sheet_name = cmd_line_arg(argv)
     sheet_name = g_sheet_name 
-    filename, sheet_name = cmd_line_arg(argv, filename, sheet_name)
+    filename = g_filename
     output = g_output
+    csv = g_csv
     df = load_exel(filename, sheet_name)
     app_list, couters_list = populate_apps(df) 
     app_list = calc_all_values_in_apps( df, app_list)
@@ -34,12 +38,16 @@ def main(argv):
 # * main functions :
 # ----------------------------------------------
 # ** cmd_line_arg :
-def cmd_line_arg(argv, filename, sheet_name):
-    # global filename, sheet_name
+def cmd_line_arg(argv):
+    global g_filename, g_csv, g_output
     # print(argv)
     for arg in argv[1:]:
         if arg.startswith("--filename="):
-            filename = arg.split("=")[1]
+            g_filename = arg.split("=")[1]
+        if arg.startswith("--csv="):
+            g_csv = arg.split("=")[1]
+        if arg.startswith("--output="):
+            g_output = arg.split("=")[1]
         if arg.startswith("--sheet_name="):
             sheet_name = arg.split("=")[1]
         # else:
@@ -51,7 +59,7 @@ def cmd_line_arg(argv, filename, sheet_name):
         #         sys.exit()
         #     # print("file found")
         #     gv_filename = arg
-    return filename, sheet_name
+    return g_filename, g_csv, g_output
 
 
 # ** def load_exel : 
