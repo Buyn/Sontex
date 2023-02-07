@@ -170,6 +170,13 @@ class setUp_Test(unittest.TestCase):
         self.assertEqual(float("{:.3f}".format(test)) , 2412.77)
 
 
+# ** def test_sum_E_used_k : 
+    def test_sum_E_used_k(self): 
+        t1, t2 = populate_apps(self.df)
+        test = sum_E_used_k(t1)
+        self.assertEqual(float("{:.3f}".format(test)) , 4823.121)
+
+
 # ** def test_gen_no_counter_sum_area : 
     def test_gen_no_counter_sum_area(self): 
         t1, t2 = populate_apps(self.df)
@@ -278,7 +285,8 @@ class setUp_Test(unittest.TestCase):
         q_roz = gen_Qroz(delta_value_home_counter, sum_heated_area)
         index_most_heated_app = find_most_heated_app(app_list)
         test = gen_Qpit_roz(app_list, q_roz, index_most_heated_app)
-        self.assertEqual(float("{:.4f}".format(test)), 0.0030)
+        # self.assertEqual(float("{:.4f}".format(test)), 0.0030)
+        self.assertEqual(float("{:.4f}".format(test)), 25.962591298000700)
 
 
 # ** def test_gen_Qop_min : 
@@ -310,9 +318,18 @@ class setUp_Test(unittest.TestCase):
                               q_Mkz,
                               delta_value_home_counter,
                               gen_no_counter_sum_area(app_list))
-        # self.assertEqual(test, 0.012)
         test = float("{:.3f}".format(test))
         self.assertEqual(test, 0.045)
+
+
+# ** def test_gen_k_no_surge : 
+    def test_gen_k_no_surge(self): 
+        # Обсяг споживання тепла приміщенням без розподілювачамиів
+        # k = 2, якщо площа необладнаних приміщень менще 25% та 1,5 якщо більше
+        app_list, t2 = populate_apps(self.df)
+        test = gen_k_no_surge(app_list)
+        test = float("{:.3f}".format(test))
+        self.assertEqual(test, 2)
 
 
 # ** def test_calc_surcharge : 
@@ -331,23 +348,23 @@ class setUp_Test(unittest.TestCase):
         # row 7
         test = app_list[6].surcharge
         self.assertIsNotNone(test)
-        self.assertEqual(float("{:.3f}".format(test)), 0.002)
+        self.assertEqual(float("{:.3f}".format(test)), 0.0)
         # row 84
         test = app_list[31].surcharge
         self.assertIsNotNone(test)
-        self.assertEqual(float("{:.3f}".format(test)), 0.409)
+        self.assertEqual(float("{:.3f}".format(test)), 0.003916362)
         # row 69
         test = app_list[26].surcharge
         self.assertIsNotNone(test)
-        self.assertEqual(float("{:.3f}".format(test)), 0.494)
-        # row 105
+        self.assertEqual(float("{:.3f}".format(test)), 0.00689428)
+        # row 106
         test = app_list[37].surcharge
         self.assertIsNotNone(test)
-        self.assertEqual(float("{:.3f}".format(test)), 0.199)
-        # row 92
+        self.assertEqual(float("{:.3f}".format(test)), 0)
+        # row 93
         test = app_list[34].surcharge
         self.assertIsNotNone(test)
-        self.assertEqual(float("{:.3f}".format(test)), 0.470)
+        self.assertEqual(float("{:.3f}".format(test)), 0)
         # row 0
         test = app_list[0].surcharge
         self.assertIsNotNone(test)

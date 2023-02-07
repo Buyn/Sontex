@@ -123,24 +123,25 @@ class Appart_values:
 
 
 # ** def gen_use_for_period : 
-    def gen_use_for_period(self, q_pit_roz): 
+    def gen_use_for_period(self, q_pit_roz, sum_e_used_k): 
         # обсяг споживання за період, Гкал
-        self.specified_used_E = q_pit_roz * self.gen_E_used_k()
+        # self.specified_used_E = q_pit_roz * self.gen_E_used_k()
+        self.specified_used_E = q_pit_roz * self.gen_E_used_k() / sum_e_used_k
         return self.specified_used_E
 
 
 # ** def gen_priv2S : 
-    def gen_priv2S(self, q_pit_roz): 
+    def gen_priv2S(self, q_pit_roz, sum_e_used_k): 
         # приведене до м2 площі, Гкал/м2
-        return self.gen_use_for_period(q_pit_roz) / self.heating_area
+        return self.gen_use_for_period(q_pit_roz, sum_e_used_k) / self.heating_area
 
 
 # ** def gen_surcharge : 
-    def gen_surcharge(self, q_pit_roz, q_op_min): 
+    def gen_surcharge(self, q_pit_roz, q_op_min, sum_e_used_k): 
         # донарахування, Гкал
         self.surcharge = 0
         if not self.counters_list: return self.surcharge
-        priv2S = self.gen_priv2S(q_pit_roz)
+        priv2S = self.gen_priv2S(q_pit_roz, sum_e_used_k)
         if priv2S < q_op_min:
             self.surcharge = (q_op_min - priv2S) * self.heating_area
         return self.surcharge
@@ -156,7 +157,6 @@ class Appart_values:
     def gen_specified_used_E(self, e_for_redistibut): 
         # Ітого по распр., Гкал
         if not self.counters_list: return 0
-        # self.specified_used_E = self.surcharge + self.gen_use_for_period(q_pit_roz) - self.get_S_if_surcharge() * e_for_redistibut
         self.specified_used_E = self.surcharge + self.specified_used_E - self.get_S_if_surcharge() * e_for_redistibut
         return self.specified_used_E
 

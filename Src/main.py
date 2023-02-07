@@ -95,7 +95,6 @@ def populate_apps(df):
         app = Appart_values(df, app_line)
         app_line = app.next_app_line
         al.append(app)
-        # cl.append(app.counters_list)
         cl.append(app.gen_counters_adress())
         if app.is_last:
             break
@@ -104,7 +103,7 @@ def populate_apps(df):
 
 # ** def gen_sum_heated_area :
 def gen_sum_heated_area(apps): 
-    # загальна площа будинку
+    # Площа опалювальна по КТЕ
     return sum([app.heating_area for app in apps])
 
 
@@ -112,6 +111,12 @@ def gen_sum_heated_area(apps):
 def gen_sum_area(apps): 
     # загальна площа будинку
     return sum([app.sum_area for app in apps])
+
+
+# ** def sum_E_used_k :
+def sum_E_used_k(apps): 
+    #сумма сумарне приведене споживання по квартирі, од.
+    return sum([app.gen_E_used_k() for app in apps])
 
 
 # ** def gen_no_counter_sum_area :
@@ -209,8 +214,9 @@ def gen_Qpit_roz(app_list, q_roz, index_most_heated_app):
       
 # ** def calc_surcharge : 
 def calc_surcharge(app_list, q_pit_roz, q_op_min): 
+    sum_e_k = sum_E_used_k(app_list)
     for i, app in enumerate(app_list):
-        app_list[i].gen_surcharge(q_pit_roz, q_op_min)
+        app_list[i].gen_surcharge(q_pit_roz, q_op_min, sum_e_k)
         # print("in ", app_list[i]._start_line )
         # print("index ", i)
         # print("value of ", app_list[i].surcharge)
@@ -275,6 +281,10 @@ def gen_Q_no_surge( total_surge,
                     q_Mkz,
                     delta_value_home_counter,
                     no_counter_sum_area): 
+    """
+    при цьому питомий обсяг споживання тепла приміщеннями 
+    без розподілювачів 
+    """
     return ( delta_value_home_counter
              - total_surge
              - q_Mkz
@@ -282,6 +292,12 @@ def gen_Q_no_surge( total_surge,
             )/no_counter_sum_area
 
 
+# ** def gen_k_no_surge : 
+def gen_k_no_surge(apps): 
+    delta = gen_no_counter_sum_area(apps) /gen_sum_heated_area(apps) 
+    return qk_k_no_surge_if_more if gen_no_counter_sum_area(apps) / gen_sum_heated_area(apps) < qk_k_no_surge_proc else qk_k_no_surge_if_less 
+
+    
 # ** def calc_no_counter_e : 
 def calc_no_counter_e( app_list,
                        q_no_surge): 
