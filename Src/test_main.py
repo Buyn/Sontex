@@ -312,14 +312,12 @@ class setUp_Test(unittest.TestCase):
         delta_value_home_counter = gen_delta_value_home_counter(self.df, last_app_line)
         sum_heated_area = gen_sum_heated_area(app_list)
         q_roz = gen_Qroz(delta_value_home_counter, sum_heated_area)
-        total_surge = 18.030
-        q_Mkz = gen_Q_Mkz(delta_value_home_counter)
-        test = gen_Q_no_surge(total_surge,
-                              q_Mkz,
-                              delta_value_home_counter,
-                              gen_no_counter_sum_area(app_list))
-        test = float("{:.3f}".format(test))
-        self.assertEqual(test, 0.045)
+        # total_surge = 18.030
+        # q_Mkz = gen_Q_Mkz(delta_value_home_counter)
+        test = gen_Q_no_surge(app_list,
+                              q_roz,)
+        test = float("{:.13f}".format(test))
+        self.assertEqual(test, 0.0350891665551)
 
 
 # ** def test_gen_k_no_surge : 
@@ -329,7 +327,7 @@ class setUp_Test(unittest.TestCase):
         app_list, t2 = populate_apps(self.df)
         test = gen_k_no_surge(app_list)
         test = float("{:.3f}".format(test))
-        self.assertEqual(test, 2)
+        self.assertEqual(test, 1.5)
 
 
 # ** def test_calc_surcharge : 
@@ -507,6 +505,30 @@ class setUp_Test(unittest.TestCase):
         test = gen_total_counter_e(app_list)
         self.assertIsNotNone(test)
         self.assertEqual(float("{:.3f}".format(test)), 17.681)
+
+
+# ** def test_gen_total_no_counter_e : 
+    def test_gen_total_no_counter_e(self): 
+        app_list, t2 = populate_apps(self.df)
+        last_app_line = get_last_app_line(app_list)
+        delta_value_home_counter = gen_delta_value_home_counter(self.df, last_app_line)
+        sum_heated_area = gen_sum_heated_area(app_list)
+        q_roz = gen_Qroz(delta_value_home_counter, sum_heated_area)
+        q_no_surge = gen_Q_no_surge(app_list,
+                                    q_roz,)
+        index_most_heated_app = find_most_heated_app(app_list)
+        q_pit_roz = gen_Qpit_roz(app_list, q_roz, index_most_heated_app)
+        # q_op_min = gen_Qop_min(q_roz)
+        # Ітого по распр., Гкал
+        # test = app_list[1].specified_used_E
+        # self.assertIsNone(test)
+        calc_no_counter_e(app_list,
+                          q_no_surge)
+        test = app_list[1].specified_used_E
+        self.assertIsNotNone(test)
+        test = gen_total_no_counter_e(app_list)
+        self.assertIsNotNone(test)
+        self.assertEqual(float("{:.3f}".format(test)), 28.199)
 
 
 # ** def test_calc_no_counter_e : 

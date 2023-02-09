@@ -209,6 +209,7 @@ def gen_Qop_min(q_roz):
 
 # ** def gen_Qpit_roz : 
 def gen_Qpit_roz(app_list, q_roz, index_most_heated_app): 
+    #del it
     return gen_Qmax_roz(app_list, q_roz, index_most_heated_app) / app_list[index_most_heated_app].gen_E_used_k()
 
       
@@ -266,8 +267,18 @@ def gen_e_for_redistribute(app_list):
 
 # ** def gen_total_counter_e : 
 def gen_total_counter_e(apps): 
-    # Ітого по распр., Гкал
+    """
+    sum Ітого по распр., Гкал
+    """
     return sum([app.specified_used_E for app in apps if app.counters_list])
+
+
+# ** def gen_total_no_counter_e : 
+def gen_total_no_counter_e(apps): 
+    """
+    sum Ітого по м2, Гкал
+    """
+    return sum([app.specified_used_E for app in apps if not app.counters_list])
 
 
 # ** def gen_Q_Mkz : 
@@ -277,35 +288,34 @@ def gen_Q_Mkz(delta_e):
 
 
 # ** def gen_Q_no_surge : 
-def gen_Q_no_surge( total_surge,
-                    q_Mkz,
-                    delta_value_home_counter,
-                    no_counter_sum_area): 
+def gen_Q_no_surge(app_list, q_roz): 
     """
-    при цьому питомий обсяг споживання тепла приміщеннями 
-    без розподілювачів 
+    при цьому питомий обсяг споживання тепла приміщеннями без розподілювачів 
     """
-    return ( delta_value_home_counter
-             - total_surge
-             - q_Mkz
-             - gen_Qfun_sys(delta_value_home_counter)
-            )/no_counter_sum_area
+    return ( gen_k_no_surge(app_list)
+             * q_roz)
 
 
 # ** def gen_k_no_surge : 
 def gen_k_no_surge(apps): 
-    delta = gen_no_counter_sum_area(apps) /gen_sum_heated_area(apps) 
-    return qk_k_no_surge_if_more if gen_no_counter_sum_area(apps) / gen_sum_heated_area(apps) < qk_k_no_surge_proc else qk_k_no_surge_if_less 
+    return  qk_k_no_surge_if_less if gen_no_counter_sum_area(apps) / gen_sum_heated_area(apps) < qk_k_no_surge_proc else qk_k_no_surge_if_more 
 
     
 # ** def calc_no_counter_e : 
 def calc_no_counter_e( app_list,
                        q_no_surge): 
+    """
+    generate in app list
+    by use metod of clas
+    app_list[i].gen_no_counter_e(q_no_surge)
+    Ітого по м2, Гкал
+    """
     for i, app in enumerate(app_list):
         # print("in ", app_list[i]._start_line )
         # print("index ", i)
         if not app.counters_list:
           app_list[i].gen_no_counter_e (q_no_surge)
+          # print(app_list[i].specified_used_E) 
     return app_list
 
 
