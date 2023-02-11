@@ -362,6 +362,8 @@ def calc_all_values_in_apps(df, app_list):
     q_roz = gen_Qroz(delta_value_home_counter, sum_heated_area)
     # обсяг тепла на опалення МЗК = 10% від
     q_Mkz = gen_Q_Mkz(delta_value_home_counter)
+    # обсяг тепла на функц. системи = 5% якщо є погодне регулювання в ІТП або 15% якщо не має від
+    qfun_sys = gen_Qfun_sys(delta_value_home_counter)
     # Обсяг споживання тепла приміщенням без розподілювачамиів
     q_no_surge = gen_Q_no_surge(app_list,
                                 q_roz)
