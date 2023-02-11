@@ -278,15 +278,27 @@ class setUp_Test(unittest.TestCase):
 # ** def test_gen_Qpit_roz : 
     def test_gen_Qpit_roz(self): 
         # питомий обсяг енергії спожитий одним розподілювачем
+        # Обсяг споживання тепла з розподілювачами
         app_list, t2 = populate_apps(self.df)
         last_app_line = get_last_app_line(app_list)
-        delta_value_home_counter = gen_delta_value_home_counter(self.df, last_app_line)
         sum_heated_area = gen_sum_heated_area(app_list)
+        # print("sum_heated_area=", sum_heated_area)
+        delta_value_home_counter = gen_delta_value_home_counter(self.df, last_app_line)
+        # print("delta_value_home_counter=", delta_value_home_counter)
         q_roz = gen_Qroz(delta_value_home_counter, sum_heated_area)
-        index_most_heated_app = find_most_heated_app(app_list)
-        test = gen_Qpit_roz(app_list, q_roz, index_most_heated_app)
+        qfun_sys = gen_Qfun_sys(delta_value_home_counter)
+        # print("q_roz=", q_roz)
+        q_Mkz = gen_Qmzk(delta_value_home_counter)
+        # print("q_Mkz=", q_Mkz)
+        q_no_surge = gen_Q_no_surge(app_list,
+                                    q_roz,)
+        # print("q_no_surge =", q_no_surge)
+        app_list = calc_no_counter_e( app_list,
+                                      q_no_surge)
+        total_no_counter_e = gen_total_no_counter_e(app_list)
+        test = gen_Qpit_roz(delta_value_home_counter, qfun_sys, q_Mkz, total_no_counter_e)
         # self.assertEqual(float("{:.4f}".format(test)), 0.0030)
-        self.assertEqual(float("{:.4f}".format(test)), 25.962591298000700)
+        self.assertEqual(float("{:.13f}".format(test)), 25.962591298000700)
 
 
 # ** def test_gen_Qop_min : 
@@ -337,47 +349,58 @@ class setUp_Test(unittest.TestCase):
         delta_value_home_counter = gen_delta_value_home_counter(self.df, last_app_line)
         sum_heated_area = gen_sum_heated_area(app_list)
         q_roz = gen_Qroz(delta_value_home_counter, sum_heated_area)
-        index_most_heated_app = find_most_heated_app(app_list)
-        q_pit_roz = gen_Qpit_roz(app_list, q_roz, index_most_heated_app)
+        qfun_sys = gen_Qfun_sys(delta_value_home_counter)
+        # print("q_roz=", q_roz)
+        q_Mkz = gen_Qmzk(delta_value_home_counter)
+        # print("q_Mkz=", q_Mkz)
+        q_no_surge = gen_Q_no_surge(app_list,
+                                    q_roz,)
+        # print("q_no_surge =", q_no_surge)
+        app_list = calc_no_counter_e( app_list,
+                                      q_no_surge)
+        total_no_counter_e = gen_total_no_counter_e(app_list)
+
+        q_pit_roz = gen_Qpit_roz(delta_value_home_counter, qfun_sys, q_Mkz, total_no_counter_e)
         q_op_min = gen_Qop_min(q_roz)
         test = app_list[6].surcharge
         self.assertIsNone(test)
         test1 = calc_surcharge(app_list, q_pit_roz, q_op_min)
-        # row 7
-        test = app_list[6].surcharge
-        self.assertIsNotNone(test)
-        self.assertEqual(float("{:.3f}".format(test)), 0.0)
-        # row 84
-        test = app_list[31].surcharge
-        self.assertIsNotNone(test)
-        self.assertEqual(float("{:.3f}".format(test)), 0.003916362)
-        # row 69
-        test = app_list[26].surcharge
-        self.assertIsNotNone(test)
-        self.assertEqual(float("{:.3f}".format(test)), 0.00689428)
-        # row 106
-        test = app_list[37].surcharge
-        self.assertIsNotNone(test)
-        self.assertEqual(float("{:.3f}".format(test)), 0)
-        # row 93
-        test = app_list[34].surcharge
-        self.assertIsNotNone(test)
-        self.assertEqual(float("{:.3f}".format(test)), 0)
         # row 0
         test = app_list[0].surcharge
         self.assertIsNotNone(test)
         self.assertEqual(float("{:.3f}".format(test)), 0)
+        # row 7
+        test = app_list[6].surcharge
+        self.assertIsNotNone(test)
+        self.assertEqual(float("{:.3f}".format(test)), 0.0)
+        # row 69
+        test = app_list[26].surcharge
+        self.assertIsNotNone(test)
+        self.assertEqual(float("{:.3f}".format(test)), 0.404)
+        # row 84
+        test = app_list[31].surcharge
+        self.assertIsNotNone(test)
+        self.assertEqual(float("{:.3f}".format(test)), 0.250)
+        # row 93
+        test = app_list[34].surcharge
+        self.assertIsNotNone(test)
+        self.assertEqual(float("{:.3f}".format(test)), 0)
+        # row 105
         test = app_list[36].surcharge
         self.assertIsNotNone(test)
         self.assertEqual(float("{:.3f}".format(test)), 0)
+        # row 106
+        test = app_list[37].surcharge
+        self.assertIsNotNone(test)
+        self.assertEqual(float("{:.3f}".format(test)), 0)
         # площа квартир якім буде повернуто об'єм донарахувань
-        test = sum([app.get_S_if_surcharge() for app in app_list])
-        self.assertEqual(float("{:.8f}".format(test)), 1390.40)
+        test = sum([app.get_S_if_surcharge() for app in app_list if app.counters_list])
+        self.assertEqual(float("{:.8f}".format(test)), 1052.35)
         # обсяг енергій якій буде перерозподілено
         test = sum([app.surcharge for app in app_list])
-        self.assertEqual(float("{:.9f}".format(test)), 5.558885361)
+        self.assertEqual(float("{:.3f}".format(test)), 3.085)
         # питомий обсяг енергій якій буде перерозподілено
-        self.assertEqual(float("{:.9f}".format(test1)), 0.003998048)
+        self.assertEqual(float("{:.9f}".format(test1)), 0.002931951)
 
 
 # ** def test_recalc_surcharge : 
@@ -387,26 +410,43 @@ class setUp_Test(unittest.TestCase):
         delta_value_home_counter = gen_delta_value_home_counter(self.df, last_app_line)
         sum_heated_area = gen_sum_heated_area(app_list)
         q_roz = gen_Qroz(delta_value_home_counter, sum_heated_area)
-        index_most_heated_app = find_most_heated_app(app_list)
-        q_pit_roz = gen_Qpit_roz(app_list, q_roz, index_most_heated_app)
+        q_no_surge = gen_Q_no_surge(app_list,
+                                    q_roz,)
+        app_list = calc_no_counter_e( app_list,
+                                      q_no_surge)
+        test = app_list[1].specified_used_E
+        self.assertIsNotNone(test)
+        total_no_counter_e = gen_total_no_counter_e(app_list)
+        qfun_sys = gen_Qfun_sys(delta_value_home_counter)
+        q_Mkz = gen_Qmzk(delta_value_home_counter)
+        q_pit_roz = gen_Qpit_roz(delta_value_home_counter, qfun_sys, q_Mkz, total_no_counter_e)
         q_op_min = gen_Qop_min(q_roz)
-        test = app_list[6].surcharge
+        # row 0
+        test = app_list[0].surcharge
         self.assertIsNone(test)
         e_for_redistibut = calc_surcharge(app_list, q_pit_roz, q_op_min)
-        test = app_list[6].surcharge
-        self.assertIsNotNone(test)
-        self.assertEqual(float("{:.3f}".format(test)), 0.002)
-        test = app_list[37].surcharge
-        self.assertIsNotNone(test)
-        self.assertEqual(float("{:.3f}".format(test)), 0.199)
-        # row 92
-        test = app_list[34].surcharge
-        self.assertIsNotNone(test)
-        self.assertEqual(float("{:.3f}".format(test)), 0.470)
-        # row 0
         test = app_list[0].surcharge
         self.assertIsNotNone(test)
         self.assertEqual(float("{:.3f}".format(test)), 0)
+        # row 7
+        test = app_list[6].surcharge
+        self.assertIsNotNone(test)
+        self.assertIsNotNone(test)
+        self.assertEqual(float("{:.3f}".format(test)), 0)
+        # row 11
+        test = app_list[8].surcharge
+        self.assertIsNotNone(test)
+        self.assertIsNotNone(test)
+        self.assertEqual(float("{:.3f}".format(test)), 0)
+        # row 92
+        test = app_list[34].surcharge
+        self.assertIsNotNone(test)
+        self.assertEqual(float("{:.3f}".format(test)), 0)
+        # row 105
+        test = app_list[37].surcharge
+        self.assertIsNotNone(test)
+        self.assertEqual(float("{:.3f}".format(test)), 0)
+        # row 
         test = app_list[36].surcharge
         self.assertIsNotNone(test)
         self.assertEqual(float("{:.3f}".format(test)), 0)
@@ -423,25 +463,25 @@ class setUp_Test(unittest.TestCase):
         self.assertIsNotNone(test)
         self.assertEqual(float("{:.3f}".format(test)), 0.000)
         test = app_list[6].specified_used_E
-        self.assertEqual(float("{:.3f}".format(test)), 0.607)
+        self.assertEqual(float("{:.3f}".format(test)), 0.933)
         # row 11
         test = app_list[8].surcharge
         self.assertIsNotNone(test)
-        self.assertEqual(float("{:.3f}".format(test)), 0.194)
+        self.assertEqual(float("{:.3f}".format(test)), 0)
         test = app_list[8].specified_used_E
-        self.assertEqual(float("{:.9f}".format(test)), 0.601662513)
-        # row 105
-        test = app_list[37].surcharge
-        self.assertIsNotNone(test)
-        self.assertEqual(float("{:.3f}".format(test)), 0.000)
-        test = app_list[37].specified_used_E
-        self.assertEqual(float("{:.3f}".format(test)), 0.460)
+        self.assertEqual(float("{:.3f}".format(test)), 1.368)
         # row 92
         test = app_list[34].surcharge
         self.assertIsNotNone(test)
-        self.assertEqual(float("{:.3f}".format(test)), 0.000)
+        self.assertEqual(float("{:.3f}".format(test)), 0.030)
         test = app_list[34].specified_used_E
-        self.assertEqual(float("{:.3f}".format(test)), 1.496)
+        self.assertEqual(float("{:.3f}".format(test)), 1.466)
+        # row 105
+        test = app_list[37].surcharge
+        self.assertIsNotNone(test)
+        self.assertEqual(float("{:.3f}".format(test)), 0.107)
+        test = app_list[37].specified_used_E
+        self.assertEqual(float("{:.3f}".format(test)), 0.353)
         # row 0
         test = app_list[0].surcharge
         self.assertIsNotNone(test)
@@ -457,25 +497,25 @@ class setUp_Test(unittest.TestCase):
         self.assertIsNotNone(test)
         self.assertEqual(float("{:.3f}".format(test)), 0.000)
         test = app_list[6].specified_used_E
-        self.assertEqual(float("{:.3f}".format(test)), 0.607)
+        self.assertEqual(float("{:.3f}".format(test)), 0.917)
         # row 11
         test = app_list[8].surcharge
         self.assertIsNotNone(test)
         self.assertEqual(float("{:.3f}".format(test)), 0)
         test = app_list[8].specified_used_E
-        self.assertEqual(float("{:.3f}".format(test)), 0.796)
-        # row 105
-        test = app_list[37].surcharge
-        self.assertIsNotNone(test)
-        self.assertEqual(float("{:.3f}".format(test)), 0.000)
-        test = app_list[37].specified_used_E
-        self.assertEqual(float("{:.3f}".format(test)), 0.460)
+        self.assertEqual(float("{:.3f}".format(test)), 1.347)
         # row 92
         test = app_list[34].surcharge
         self.assertIsNotNone(test)
         self.assertEqual(float("{:.3f}".format(test)), 0.000)
         test = app_list[34].specified_used_E
         self.assertEqual(float("{:.3f}".format(test)), 1.496)
+        # row 105
+        test = app_list[37].surcharge
+        self.assertIsNotNone(test)
+        self.assertEqual(float("{:.3f}".format(test)), 0.000)
+        test = app_list[37].specified_used_E
+        self.assertEqual(float("{:.3f}".format(test)), 0.460)
         # row 0
         test = app_list[0].surcharge
         self.assertIsNotNone(test)
@@ -489,8 +529,15 @@ class setUp_Test(unittest.TestCase):
         delta_value_home_counter = gen_delta_value_home_counter(self.df, last_app_line)
         sum_heated_area = gen_sum_heated_area(app_list)
         q_roz = gen_Qroz(delta_value_home_counter, sum_heated_area)
-        index_most_heated_app = find_most_heated_app(app_list)
-        q_pit_roz = gen_Qpit_roz(app_list, q_roz, index_most_heated_app)
+        qfun_sys = gen_Qfun_sys(delta_value_home_counter)
+        q_Mkz = gen_Qmzk(delta_value_home_counter)
+        q_no_surge = gen_Q_no_surge(app_list,
+                                    q_roz,)
+        app_list = calc_no_counter_e( app_list,
+                                      q_no_surge)
+        total_no_counter_e = gen_total_no_counter_e(app_list)
+
+        q_pit_roz = gen_Qpit_roz(delta_value_home_counter, qfun_sys, q_Mkz, total_no_counter_e)
         q_op_min = gen_Qop_min(q_roz)
         test = app_list[6].surcharge
         self.assertIsNone(test)
@@ -504,7 +551,7 @@ class setUp_Test(unittest.TestCase):
         # Ітого по распр., Гкал
         test = gen_total_counter_e(app_list)
         self.assertIsNotNone(test)
-        self.assertEqual(float("{:.3f}".format(test)), 17.681)
+        self.assertEqual(float("{:.3f}".format(test)), 25.963)
 
 
 # ** def test_gen_total_no_counter_e : 
@@ -516,18 +563,14 @@ class setUp_Test(unittest.TestCase):
         q_roz = gen_Qroz(delta_value_home_counter, sum_heated_area)
         q_no_surge = gen_Q_no_surge(app_list,
                                     q_roz,)
-        index_most_heated_app = find_most_heated_app(app_list)
-        q_pit_roz = gen_Qpit_roz(app_list, q_roz, index_most_heated_app)
-        # q_op_min = gen_Qop_min(q_roz)
         # Ітого по распр., Гкал
         # test = app_list[1].specified_used_E
         # self.assertIsNone(test)
-        calc_no_counter_e(app_list,
-                          q_no_surge)
+        app_list = calc_no_counter_e( app_list,
+                                      q_no_surge)
         test = app_list[1].specified_used_E
         self.assertIsNotNone(test)
         test = gen_total_no_counter_e(app_list)
-        self.assertIsNotNone(test)
         self.assertEqual(float("{:.3f}".format(test)), 28.199)
 
 
@@ -538,30 +581,20 @@ class setUp_Test(unittest.TestCase):
         delta_value_home_counter = gen_delta_value_home_counter(self.df, last_app_line)
         sum_heated_area = gen_sum_heated_area(app_list)
         q_roz = gen_Qroz(delta_value_home_counter, sum_heated_area)
-        index_most_heated_app = find_most_heated_app(app_list)
-        q_pit_roz = gen_Qpit_roz(app_list, q_roz, index_most_heated_app)
-        q_op_min = gen_Qop_min(q_roz)
-        test = app_list[6].surcharge
-        self.assertIsNone(test)
-        e_for_redistibut = calc_surcharge(app_list, q_pit_roz, q_op_min)
-        e_for_redistibut = recalc_surcharge(app_list,
-                                            q_op_min,
-                                            e_for_redistibut,
-                                            times = 1
-                                            # times = 200
-                                            )
         # Ітого по м2, Гкал
-        q_no_surge = 0.044960013
-        calc_no_counter_e(app_list,
-                          q_no_surge)
+        # q_no_surge = 0.044960013
+        q_no_surge = gen_Q_no_surge(app_list,
+                                    q_roz,)
+        app_list = calc_no_counter_e( app_list,
+                                      q_no_surge)
         # row 2
         test = app_list[0].specified_used_E
         self.assertIsNotNone(test)
-        self.assertEqual(float("{:.3f}".format(test)), 2.666)
+        self.assertEqual(float("{:.3f}".format(test)), 2.081)
         # test total
         test = app_list[0].specified_used_E
         test = sum([app.specified_used_E for app in app_list if not app.counters_list])
-        self.assertEqual(float("{:.3f}".format(test)), 36.132)
+        self.assertEqual(float("{:.3f}".format(test)), 28.199)
 
 
 # ** def test_calc_final_totals : 
@@ -571,12 +604,21 @@ class setUp_Test(unittest.TestCase):
         delta_value_home_counter = gen_delta_value_home_counter(self.df, last_app_line)
         sum_heated_area = gen_sum_heated_area(app_list)
         q_roz = gen_Qroz(delta_value_home_counter, sum_heated_area)
-        index_most_heated_app = find_most_heated_app(app_list)
-        q_pit_roz = gen_Qpit_roz(app_list, q_roz, index_most_heated_app)
+        qfun_sys = gen_Qfun_sys(delta_value_home_counter)
+        # print("q_roz=", q_roz)
+        q_Mkz = gen_Qmzk(delta_value_home_counter)
+        # print("q_Mkz=", q_Mkz)
+        q_no_surge = gen_Q_no_surge(app_list,
+                                    q_roz,)
+        # print("q_no_surge =", q_no_surge)
+        app_list = calc_no_counter_e( app_list,
+                                      q_no_surge)
+        total_no_counter_e = gen_total_no_counter_e(app_list)
+
+        q_pit_roz = gen_Qpit_roz(delta_value_home_counter, qfun_sys, q_Mkz, total_no_counter_e)
         q_op_min = gen_Qop_min(q_roz)
         test = app_list[6].surcharge
         self.assertIsNone(test)
-        # print(e_for_redistibut)
         e_for_redistibut = calc_surcharge(app_list, q_pit_roz, q_op_min)
         # print(q_op_min)
         # print(e_for_redistibut)
@@ -588,7 +630,7 @@ class setUp_Test(unittest.TestCase):
                                             # times = 200
                                             )
         # print(e_for_redistibut)
-        e_for_redistibut = 4.337E-04
+        # e_for_redistibut = 0.242
         e_for_redistibut = recalc_surcharge(app_list,
                                             q_op_min,
                                             e_for_redistibut,
@@ -598,36 +640,36 @@ class setUp_Test(unittest.TestCase):
         # print(e_for_redistibut)
         test = app_list[6].specified_used_E
         self.assertIsNotNone(test)
-        self.assertEqual(float("{:.3f}".format(test)), 0.585)
+        self.assertEqual(float("{:.3f}".format(test)), 0.923)
         # qfun_sys = 3.186
-        qfun_sys = gen_Qfun_sys(delta_value_home_counter)
+        # qfun_sys = gen_Qfun_sys(delta_value_home_counter)
         # print(qfun_sys)
         # q_Mkz = 6.372
-        q_Mkz = gen_Qmzk(delta_value_home_counter)
+        # q_Mkz = gen_Qmzk(delta_value_home_counter)
         # print(q_Mkz)
-        total_counter_e = 18.030
+        # total_counter_e = 18.030
         # total_counter_e = gen_total_counter_e(app_list)
         # print(total_counter_e)
-        q_no_surge = 0.044960013
+        # q_no_surge = 0.044960013
         # q_no_surge = gen_Q_no_surge(total_counter_e,
         #                             q_Mkz,
         #                             delta_value_home_counter,
         #                             gen_no_counter_sum_area(app_list))
         # print(q_no_surge)
-        calc_no_counter_e(app_list,
-                          q_no_surge)
+        # calc_no_counter_e(app_list,
+        #                   q_no_surge)
         # calculate columns in app_list
         # функціонування системи
         # МЗК
         # ВСЬОГО, Гкал
-        app_list[13].specified_used_E = 0.573
+        # app_list[13].specified_used_E = 0.573
         calc_final_totals( app_list,
                            qfun_sys,
                            q_Mkz,
                            sum_heated_area)
         # row 2
         test = app_list[0].specified_used_E
-        self.assertEqual(float("{:.3f}".format(test)), 2.666)
+        self.assertEqual(float("{:.3f}".format(test)), 2.081)
         # функціонування системи
         test = app_list[0].total_fun_sys
         self.assertEqual(float("{:.3f}".format(test)), 0.082)
@@ -636,10 +678,10 @@ class setUp_Test(unittest.TestCase):
         self.assertEqual(float("{:.3f}".format(test)), 0.163)
         # ВСЬОГО, Гкал
         test = app_list[0].total_e
-        self.assertEqual(float("{:.3f}".format(test)), 2.911)
+        self.assertEqual(float("{:.3f}".format(test)), 2.326)
         # row 26
         test = app_list[13].specified_used_E
-        self.assertEqual(float("{:.3f}".format(test)), 0.573)
+        self.assertEqual(float("{:.3f}".format(test)), 0.595)
         # функціонування системи
         test = app_list[13].total_fun_sys
         self.assertEqual(float("{:.3f}".format(test)), 0.070)
@@ -648,10 +690,10 @@ class setUp_Test(unittest.TestCase):
         self.assertEqual(float("{:.3f}".format(test)), 0.140)
         # ВСЬОГО, Гкал
         test = app_list[13].total_e
-        self.assertEqual(float("{:.3f}".format(test)), 0.783)
+        self.assertEqual(float("{:.3f}".format(test)), 0.805)
         # test total
         test = sum([app.specified_used_E for app in app_list if not app.counters_list])
-        self.assertEqual(float("{:.3f}".format(test)), 36.132)
+        self.assertEqual(float("{:.3f}".format(test)), 28.199)
         # функціонування системи
         test = sum([app.total_fun_sys for app in app_list])
         self.assertEqual(float("{:.3f}".format(test)), 3.186)

@@ -150,7 +150,7 @@ class Appart_values:
 # ** def get_S_if_surcharge : 
     def get_S_if_surcharge(self): 
         # логіка, не міняти! (площа повернення)
-        return self.heating_area if self.surcharge == 0 else 0
+        return self.heating_area if self.surcharge == 0 and self.counters_list else 0
 
 
 # ** def gen_specified_used_E: 

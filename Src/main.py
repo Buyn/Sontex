@@ -159,6 +159,7 @@ def gen_delta_value_home_counter(df, g_line):
 # ** def find_most_heated_app : 
 def find_most_heated_app(apps): 
     # найбільш показник розподілювачів серед приміщень приведена до 1 м2 площі
+    # del_it
     r = [app.gen_k_to_s() for app in apps]
     # print(r) 
     # print(r.index(max(r)))
@@ -190,6 +191,7 @@ def gen_Qroz(delta_value_home_counter, sum_heated_area):
 # ** def gen_Qmax_roz : 
 def gen_Qmax_roz(app_list, q_roz, index_most_heated_app): 
     # Обсяг споживання тепла з найбільшим показником по розподілювачам
+    # del_it
     return q_roz * app_list[index_most_heated_app].heating_area
 
 
@@ -208,9 +210,12 @@ def gen_Qop_min(q_roz):
     return r
 
 # ** def gen_Qpit_roz : 
-def gen_Qpit_roz(app_list, q_roz, index_most_heated_app): 
-    #del it
-    return gen_Qmax_roz(app_list, q_roz, index_most_heated_app) / app_list[index_most_heated_app].gen_E_used_k()
+def gen_Qpit_roz(sum_home_e, qfun_sys, q_Mkz, sum_no_counter_e): 
+    """
+    питомий обсяг енергії спожитий одним розподілювачем
+    Обсяг споживання тепла з розподілювачами
+    """
+    return sum_home_e - qfun_sys - q_Mkz - sum_no_counter_e
 
       
 # ** def calc_surcharge : 
@@ -355,8 +360,19 @@ def calc_all_values_in_apps(df, app_list):
     index_most_heated_app = find_most_heated_app(app_list)
     # Питомий обсяг спожитої енергії на опалення усіх приміщень
     q_roz = gen_Qroz(delta_value_home_counter, sum_heated_area)
+    # обсяг тепла на опалення МЗК = 10% від
+    q_Mkz = gen_Q_Mkz(delta_value_home_counter)
+    # Обсяг споживання тепла приміщенням без розподілювачамиів
+    q_no_surge = gen_Q_no_surge(app_list,
+                                q_roz)
+    # calculate column in app_list
+    # Ітого по м2, Гкал
+    app_list = calc_no_counter_e( app_list,
+                       q_no_surge)
+    # sum Ітого по м2, Гкал
+    total_no_counter_e = gen_total_no_counter_e(app_list)
     # питомий обсяг енергії спожитий одним розподілювачем
-    q_pit_roz = gen_Qpit_roz(app_list, q_roz, index_most_heated_app)
+    q_pit_roz = gen_Qpit_roz(delta_value_home_counter, qfun_sys, q_Mkz, total_no_counter_e)
     q_op_min = gen_Qop_min(q_roz)
     # донарахування, Гкал
     # in each counter
@@ -370,17 +386,6 @@ def calc_all_values_in_apps(df, app_list):
                                         e_for_redistibut)
     # Ітого по распр., Гкал
     total_counter_e = gen_total_counter_e(app_list)
-    # обсяг тепла на опалення МЗК = 10% від
-    q_Mkz = gen_Q_Mkz(delta_value_home_counter)
-    # Обсяг споживання тепла приміщенням без розподілювачамиів
-    q_no_surge = gen_Q_no_surge(total_counter_e,
-                                q_Mkz,
-                                delta_value_home_counter,
-                                gen_no_counter_sum_area(app_list))
-    # calculate column in app_list
-    # Ітого по м2, Гкал
-    calc_no_counter_e( app_list,
-                       q_no_surge)
     # calculate columns in app_list
     # функціонування системи
     # МЗК
