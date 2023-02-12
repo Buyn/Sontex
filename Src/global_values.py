@@ -48,7 +48,9 @@ gk_Qop_min_after_point = False
 gs_recalc_surcharge_times = 200
 # печатать шаг на котором найден ноль
 gs_recalc_surcharge_print_result = False
+# gs_recalc_surcharge_print_result = True
 gs_recalc_surcharge_print = False
+# gs_recalc_surcharge_print = True
 # ** exel coordinats:
 # *** "квартири, площі":
 gl_app_sum_area_column = 4 # номер колонки (Площа загальна по даним КТЕ)

@@ -223,16 +223,6 @@ class setUp_Test(unittest.TestCase):
             test = gen_delta_value_home_counter(self.df , last_app_line + 1)
 
 
-# ** test_get_find_most_heated_app : 
-    def test_get_find_most_heated_app(self):
-        t1, t2 = populate_apps(self.df)
-        last_app_line = get_last_app_line(t1)
-        test = find_most_heated_app(t1)
-        self.assertEqual(test, 24)
-        with self.assertRaises(NameError):
-            test = get_delta_value_home_counter(self.df , last_app_line + 1)
-
-
 # ** def test_gen_Qfun_sys : 
     def test_gen_Qfun_sys(self): 
         t1, t2 = populate_apps(self.df)
@@ -260,19 +250,6 @@ class setUp_Test(unittest.TestCase):
         sum_heated_area = gen_sum_heated_area(t1)
         test = gen_Qroz(delta_value_home_counter, sum_heated_area)
         self.assertEqual(float("{:.4f}".format(test)), 0.0234)
-
-
-# ** def test_gen_Qmax_roz : 
-    def test_gen_Qmax_roz(self): 
-        # Обсяг споживання тепла з найбільшим показником по розподілювачам
-        app_list, t2 = populate_apps(self.df)
-        last_app_line = get_last_app_line(app_list)
-        delta_value_home_counter = gen_delta_value_home_counter(self.df, last_app_line)
-        sum_heated_area = gen_sum_heated_area(app_list)
-        q_roz = gen_Qroz(delta_value_home_counter, sum_heated_area)
-        index_most_heated_app = find_most_heated_app(app_list)
-        test = gen_Qmax_roz(app_list, q_roz, index_most_heated_app)
-        self.assertEqual(float("{:.4f}".format(test)), 1.5914)
 
 
 # ** def test_gen_Qpit_roz : 
@@ -325,7 +302,6 @@ class setUp_Test(unittest.TestCase):
         sum_heated_area = gen_sum_heated_area(app_list)
         q_roz = gen_Qroz(delta_value_home_counter, sum_heated_area)
         # total_surge = 18.030
-        # q_Mkz = gen_Q_Mkz(delta_value_home_counter)
         test = gen_Q_no_surge(app_list,
                               q_roz,)
         test = float("{:.13f}".format(test))
