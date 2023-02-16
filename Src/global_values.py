@@ -11,7 +11,10 @@
 # gg_eel_mode = 'electron'
 # gg_eel_mode = 'chrome'
 # gg_eel_mode = None
-gg_eel_mode = 'edge'
+# gg_eel_mode = 'edge'
+gg_eel_mode = 'chrome'
+gg_GUI = True
+# gg_GUI = False
 # ** one liner:
 # gv_filename = "Data_files/metod01.xlsx"
 gv_filename = "Data_files/metod01.xlsx"

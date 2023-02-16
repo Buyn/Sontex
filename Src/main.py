@@ -5,6 +5,7 @@ import sys
 import pandas as pd
 from global_values import *
 from appart_values import *
+from winmain import *
 
 
 # ----------------------------------------------
@@ -17,9 +18,10 @@ g_csv = gv_csv
 
 
 # ----------------------------------------------
-# * def main(argv):
+# * main:
+# ** def cli : 
 # ----------------------------------------------
-def main(argv):
+def cli(argv): 
     filename, csv, sheet_name = cmd_line_arg(argv)
     sheet_name = g_sheet_name 
     filename = g_filename
@@ -31,16 +33,49 @@ def main(argv):
     df_report = load_exel(filename, gv_sheet_report)
     df_report = set_to_report(df_report, app_list)
     save_data_frame(output, df, df_report)
+
+
+# ----------------------------------------------
+# ** def gui : 
+# ----------------------------------------------
+def gui(argv): 
+    # filename, csv, sheet_name = cmd_line_arg(argv)
+    # sheet_name = g_sheet_name 
+    # filename = g_filename
+    # output = g_output
+    # csv = g_csv
+    # df = load_exel(filename, sheet_name)
+    # app_list, couters_list = populate_apps(df) 
+    # app_list = calc_all_values_in_apps( df, app_list)
+    # df_report = load_exel(filename, gv_sheet_report)
+    # df_report = set_to_report(df_report, app_list)
+    # save_data_frame(output, df, df_report)
+    winmain(argv)
+
+
+# ----------------------------------------------
+# ** def main(argv):
+# ----------------------------------------------
+def main(argv):
+    if gg_GUI and not is_test(argv):
+        gui(argv) 
+    else:
+        cli(argv) 
     end_app(0)
 
 
 # ----------------------------------------------
-# * main functions :
+# ** end_app(arg) : 
+def end_app(arg):
+    sys.exit(arg)
+
+    
+# * line arg functions :
 # ----------------------------------------------
 # ** cmd_line_arg :
+# ----------------------------------------------
 def cmd_line_arg(argv):
     global g_filename, g_csv, g_output
-    # print(argv)
     for arg in argv[1:]:
         if arg.startswith("--filename="):
             g_filename = arg.split("=")[1]
@@ -62,30 +97,20 @@ def cmd_line_arg(argv):
     return g_filename, g_csv, g_output
 
 
-# ** def load_exel : 
-def load_exel(filename, sheet_name): 
-    df = pd.read_excel(filename,
-                      sheet_name = sheet_name,
-                      engine='openpyxl',
-                      # index_col=0,
-                      header=None,
-                      )
-    # df = pd.read_excel(gv_filename, gv_sheet_name = "показники", engine='openpyxl')
-    # df = pd.read_excel(gv_filename,
-    #                    gv_sheet_name = "показники",
-    #                    engine='openpyxl')
-    # df = pd.read_excel(gv_filename,
-    #                    gv_sheet_name = "показники",
-    #                    engine='openpyxl',
-    #                    index_col=0)
-    return df
+# ----------------------------------------------
+# ** def is_test : 
+# ----------------------------------------------
+def is_test(argv): 
+    for arg in argv[1:]:
+        if arg.startswith("--test"):
+            return True
+    return False
 
 
-# ** end_app(arg) : 
-def end_app(arg):
-    sys.exit(arg)
-
-    
+# ----------------------------------------------
+# ** ------------------------------------------:
+# * calc functions :
+# ----------------------------------------------
 # ** def populate_apps : 
 def populate_apps(df): 
     al =[]
@@ -370,6 +395,28 @@ def calc_all_values_in_apps(df, app_list):
                        q_Mzk,
                        sum_heated_area)
     return app_list
+
+
+# ** ------------------------------------------:
+# * file functions :
+# ----------------------------------------------
+# ** def load_exel : 
+def load_exel(filename, sheet_name): 
+    df = pd.read_excel(filename,
+                      sheet_name = sheet_name,
+                      engine='openpyxl',
+                      # index_col=0,
+                      header=None,
+                      )
+    # df = pd.read_excel(gv_filename, gv_sheet_name = "показники", engine='openpyxl')
+    # df = pd.read_excel(gv_filename,
+    #                    gv_sheet_name = "показники",
+    #                    engine='openpyxl')
+    # df = pd.read_excel(gv_filename,
+    #                    gv_sheet_name = "показники",
+    #                    engine='openpyxl',
+    #                    index_col=0)
+    return df
 
 
 # ** def set_to_report : 

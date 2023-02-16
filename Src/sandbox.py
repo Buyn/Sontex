@@ -1,8 +1,8 @@
 # ----------------------------------------------
 # * import : 
 # ----------------------------------------------
-import eel  
 from random import randint  
+import eel  
 # from main import *
 from tkinter import filedialog
 from tkinter import *
@@ -29,7 +29,7 @@ def btn_ResimyoluClick():
 	folder = filedialog.askopenfilename(initialdir = "/",title = "Select file exel",filetypes = (("jpeg files","*.jpg"),("all files","*.*")))
 	return folder
 # print (root.filename)
-# print("result path", btn_ResimyoluClick())
+print("result path", btn_ResimyoluClick())
 
 
 eel.init("web")    

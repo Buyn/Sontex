@@ -23,11 +23,26 @@ class Test_Init(unittest.TestCase):
         # print("Test tuner")
         with self.assertRaises(SystemExit) as cm:
             main(["main path", 
-                "--filename=Data_files/test.xlsx",
-                "--sheet_name=квартири, площі"])
+                  "--filename=Data_files/test.xlsx",
+                  "--sheet_name=квартири, площі",
+                  "--test"])
         self.assertEqual(cm.exception.code, 0)
 
+        
+# ----------------------------------------------
 
+# ** def test_main Gui: 
+    @unittest.skip
+    def test_main_gui(self):# {{{
+        # print("Test tuner")
+        with self.assertRaises(SystemExit) as cm:
+            main(["main path", 
+                  "--filename=Data_files/test.xlsx",
+                  "--sheet_name=квартири, площі",
+                  ])
+        self.assertEqual(cm.exception.code, 0)
+
+        
 # ----------------------------------------------
 # ** def test_load_exel : 
     def test_load_exel(self):

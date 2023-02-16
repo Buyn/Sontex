@@ -6,7 +6,7 @@ const reportBtn = initForm["report-btn"];
 const reportModal = document.getElementById("report-modal");
 
 
-exelBtn.onclick = () => exelFile.click();
+exelBtn.onclick = () => getFolder();
 exelFile.onchange = () => exelInput.value = exelFile.files[0].path;
 // exelFile.onchange = () => exelInput.value = exelFile.value;
 
@@ -26,7 +26,6 @@ document.querySelector("#genbutton").onclick = () => getFolder();
 
 async function getFolder() {
 var dosya_path = await eel.btn_ResimyoluClick()();
-		// var dosya_path = await eel.btn_ResimyoluClick();
 	if (dosya_path) {
 		console.log(dosya_path);
 		exelInput.value = dosya_path;
