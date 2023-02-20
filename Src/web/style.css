@@ -17,6 +17,7 @@ button {
 .row {
 		display: flex;
 		margin-bottom: 10px;
+		margin-right: 50px;
 }
 
 .long {

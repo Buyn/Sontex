@@ -54,6 +54,28 @@ def gui(argv):
 
 
 # ----------------------------------------------
+# ** def gui_calc : 
+# ----------------------------------------------
+def gui_calc(_filename, _csv): 
+    # filename, csv, sheet_name = cmd_line_arg(argv)
+    sheet_name = g_sheet_name 
+    filename = g_sheet_name if not filename or filename == "" else _filename
+    # filename = g_filename
+    output = g_output
+    # output = g_output if not output or output == "" else _output
+    # csv = g_csv
+    csv = g_csv if not csv or csv == "" else _csv
+    df = load_exel(filename, sheet_name)
+    # TODO: app_list = update_counters(app_list, couters_list, csv) 
+    app_list, couters_list = populate_apps(df) 
+    app_list = calc_all_values_in_apps( df, app_list)
+    df_report = load_exel(filename, gv_sheet_report)
+    df_report = set_to_report(df_report, app_list)
+    save_data_frame(output, df, df_report)
+    # winmain(argv)
+
+
+# ----------------------------------------------
 # ** def main(argv):
 # ----------------------------------------------
 def main(argv):

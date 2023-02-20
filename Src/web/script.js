@@ -1,45 +1,52 @@
+// * const : 
 const initForm = document.getElementById("init-form");
+const cookies = document.cookie.split("; ").map(str => str.split("=")).reduce((obj, [key, value]) => ({...obj, [key]:value}), {});
+
 const exelBtn = initForm["exel-btn"];
 const exelFile = initForm["exel-file"];
 const exelInput = initForm["exel-input"];
+exelInput.value = cookies.exel || "";
+
+const csvBtn = initForm["csv-btn"];
+const csvFile =	initForm["csv-file"];
+const csvInput = initForm["csv-input"];
+// console.log(document.cookie);
+csvInput.value = cookies.csv || "";
+
 const reportBtn = initForm["report-btn"];
 const reportModal = document.getElementById("report-modal");
 
-
-exelBtn.onclick = () => getFolder();
-exelFile.onchange = () => exelInput.value = exelFile.files[0].path;
-// exelFile.onchange = () => exelInput.value = exelFile.value;
-
-reportBtn.onclick = () => reportModal.showModal();
+// * onclick : 
+exelBtn.onclick = () => getFolder(exelInput);
+csvBtn.onclick = () => getFolder(csvInput);
+reportBtn.onclick = () => start_calc();
 
 
-// // Onclick of the button  
-// document.querySelector("#genbutton").onclick = function () {    
-// 	// Call python's random_python function  
-// 	eel.random_python()(function(number){                        
-// 		// Update the div with a random number returned by python  
-// 		document.querySelector(".random_number").innerHTML = number;  
-// 	});
-// };  
+// * function getFolder(input) :
+async function getFolder(input) {
+	var dosya_path = await eel.btn_ResimyoluClick(input.value)();
+		if (dosya_path) {
+				console.log(dosya_path);
+				input.value = dosya_path;
+				document.cookie = input.name + "=" + dosya_path;
+				}
+		}
+// async function getFolder() {
+// var dosya_path = await eel.btn_ResimyoluClick()();
+// 	if (dosya_path) {
+// 		console.log(dosya_path);
+// 		exelInput.value = dosya_path;
+// 	}
+// }
 
-document.querySelector("#genbutton").onclick = () => getFolder();
-
-async function getFolder() {
-var dosya_path = await eel.btn_ResimyoluClick()();
-	if (dosya_path) {
-		console.log(dosya_path);
-		exelInput.value = dosya_path;
+// * function start_calc() : 
+async function start_calc() {
+		console.log("statr calc");
+		document.cookie = exelInput.name + "=" + exelInput.value;
+		document.cookie = csvInput.name + "=" + csvInput.value;
+		var r = await eel.start_calc(exelInput.value, csvInput.value)();
+		console.log(exelInput.value);
+		console.log(csvInput.value);
+		console.log("reult of calc =", r);
 	}
-}
 
-
-// const { dialog } = require('electron')
-
-// // Open a file selection dialog
-// dialog.showOpenDialog({ properties: ['openFile'] }, (filePaths) => {
-//   // filePaths is an array that contains the file path(s) of the selected file(s)
-//   if (filePaths) {
-//     // If a file was selected, do something with the file path
-//     console.log(filePaths[0])
-//   }
-// })

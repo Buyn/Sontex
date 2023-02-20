@@ -1,5 +1,5 @@
 <!DOCTYPE html>  
-<html lang="en">  
+<html lang="ru">  
 
 <head>  
 	<meta charset="UTF-8" />  
@@ -13,44 +13,53 @@ initial-scale=1.0" />
 	<script src="./script.js" defer></script>  
 </head>  
 <body>  
-	<h1>Geeks for Geeks</h1>  
-	<div class="random_number"></div>  
+	<h1>Sontex</h1>  
+	<div class="random_number"></div>
 	<form id="init-form" action="javascript:">
-		<div class="row">
-			<label>
-				<input type="checkbox">
-				Обще домовой счёчик задать делту (игнорировать из ексела)
-			</label>
-			<input type="number" class ="short">
+		<!-- <div class="row"> -->
+		<!-- 	<label> -->
+		<!-- 		<input type="checkbox"> -->
+		<!-- 		Обще домовой счёчик задать делту (игнорировать из ексела) -->
+		<!-- 	</label> -->
+		<!-- 	<input type="number" class ="short"> -->
 		</div>
-		<div class="row">
+		<div class="row" title="
+sdfsd ssd fsdf sdf sdf sdf 
+sdfsdfsfd
+sfdsfd
+">
 			<button id="exel-btn">экселе фаил</button>  
-			<input type="file" hidden id="exel-file">
-			<input type="text" class="long" id="exel-input">
+			<input type="file" hidden id="exel-file" >
+			<input type="text" class="long" id="exel-input" name="exel">
 		</div>
 		<div class="row">
-			<button>показание устройств</button>  
-			<input type="file" hidden>
-			<input type="text" class="long">
+			<button id="csv-btn">показание устройств</button>  
+			<input type="file" hidden id="csv-file" >
+			<input type="text" class="long" id="csv-input" name="csv">
 		</div>
 		<div class="row">
-			<button>Где сохранить отчёт</button>  
-			<input type="file" hidden>
-			<input type="text" class="long">
+			<button id="output-btn">результируюший фаил отчёта</button>  
+			<input type="file" hidden id="output-file" >
+			<input type="text" class="long" id="output-input" name="output">
 		</div>
+		<!-- <div class="row"> -->
+		<!-- 	<button>Где сохранить отчёт</button>   -->
+		<!-- 	<input type="file" hidden> -->
+		<!-- 	<input type="text" class="long"> -->
+		<!-- </div> -->
 		<div class="row">
 			<button id="report-btn">сформировать обший отчёт</button>	
-			<label>
-				<input type="checkbox"> ОСББ
-			</label>
+			<!-- <label> -->
+			<!-- 	<input type="checkbox"> ОСББ -->
+			<!-- </label> -->
 		</div>
-<a onclick="getFolder()">GetFolder</a>
-	</form>
-	<dialog id="report-modal">	
-			<input type="text" class="long">
-	</dialog>	
+<!-- <a onclick="getFolder()">GetFolder</a> -->
+<!-- 	</form> -->
+<!-- 	<dialog id="report-modal">	 -->
+<!-- 			<input type="text" class="long"> -->
+<!-- 	</dialog>	 -->
 
-	<button id="genbutton">Get a Random number using Python</button>  
-</body>  
+<!-- 	<button id="genbutton">Get a Random number using Python</button>   -->
+<!-- </body>   -->
 
 </html>  

@@ -32,7 +32,7 @@ class Test_Init(unittest.TestCase):
 # ----------------------------------------------
 
 # ** def test_main Gui: 
-    @unittest.skip
+    # @unittest.skip
     def test_main_gui(self):# {{{
         # print("Test tuner")
         with self.assertRaises(SystemExit) as cm:
