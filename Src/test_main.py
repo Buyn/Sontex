@@ -32,9 +32,9 @@ class Test_Init(unittest.TestCase):
 # ----------------------------------------------
 
 # ** def test_main Gui: 
-    # @unittest.skip
-    def test_main_gui(self):# {{{
-        # print("Test tuner")
+    @unittest.skipIf(len(sys.argv) < 2  or sys.argv[1] != "test_main.Test_Init.test_main_gui", "not sigle test")
+    def test_main_gui(self):
+        # print(__name__)
         with self.assertRaises(SystemExit) as cm:
             main(["main path", 
                   "--filename=Data_files/test.xlsx",
@@ -94,6 +94,49 @@ class Test_Init(unittest.TestCase):
 
         # df.to_excel('output.xlsx')
 
+        # print (df)
+
+
+# ** def test_load_csv : 
+    def test_load_csv(self):
+        gv_filename = gv_csv
+        df = load_csv(gv_filename)
+        i = 1
+        ser_id = 25482311
+        name_text = "Historic date - " + str(i)
+        name_value = "Historic value - " + str(i)
+        self.assertEqual( df.loc[ser_id , name_text], "2021-04-16")
+        self.assertEqual( df.loc[ser_id , name_value], 126)
+        # self.assertEqual( df.iloc[107, 0], "end")
+        # self.assertEqual( df.iloc[105, 0], 38)
+        # self.assertEqual( df.iloc[105, 2], 9)
+        # self.assertEqual( df.iloc[105, 3], 1)
+        # print(df.iloc[0:5, 0:2])
+        # print(df.iloc[101, 0])
+        # print(df.iloc[102, 0])
+        # print(df.iloc[103, 0])
+        # print(df.iloc[104, 0])
+        # print("Test tuner")
+        # self.assertIsNone(main(1))
+        #view the first five rows: 
+        # print (df.head())
+        # print (df[1])
+        # print (df["A"])
+        # print(df.iloc[:, 0])
+        # df.head()
+        # print(df.index)
+        # print(df["Radio address"])
+        # print(df.index)
+        # print(df.columns)
+        # print(df.index[df.iloc[7] == 2].tolist())
+        # print(df.index[df.iloc[:, 0] == 2].tolist())
+        # print(df.index[df.iloc[:, 0] == 1])
+        # print(df.index[df.iloc[:, 0] == 2])
+        # print(df.index[df.iloc[:, 0] == 3])
+        # print(df.index[df.iloc[:, 0] == 10])
+        # print(df.loc["25482311.0", ["Radio address"]])
+        # print(df.A)
+        # print(df.loc[])
         # print (df)
 
 
@@ -171,6 +214,36 @@ class setUp_Test(unittest.TestCase):
         self.assertEqual(t2[35], [25482671, 25482670, 25482669, 25482694,])
 
 
+# ** def test_update_counters : 
+    def test_update_counters(self): 
+        t1, t2 = populate_apps(self.df)
+        self.assertEqual(t2[37],
+                         [25482673,
+                          25482672,])
+        self.assertEqual(t2[35],
+                         [25482671,
+                          25482670,
+                          25482669,
+                          25482694,])
+        app_list, couters_list = t1, t2
+        gv_filename = gv_csv
+        df_csv = load_csv(gv_filename)
+        self.assertEqual(app_list[37].counters_list[0].get_value1(), 875)
+        # print(df_csv)
+        update_counters(app_list, couters_list, df_csv) 
+        self.assertEqual(t2[37],
+                         [25482673,
+                          25482672,])
+        self.assertEqual(app_list[37].counters_list[0].get_value1(), 178)
+        # self.assertEqual(t1[37]., 100)
+        # self.assertEqual(t1[35].next_app_line, 104)
+        # self.assertEqual(t2[35],
+        #                  [25482671,
+        #                   25482670,
+        #                   25482669,
+        #                   25482694,])
+
+
 # ** def test_gen_sum_heated_area : 
     def test_gen_sum_heated_area(self): 
         t1, t2 = populate_apps(self.df)
@@ -236,6 +309,37 @@ class setUp_Test(unittest.TestCase):
         self.assertEqual(float("{:.3f}".format(test)) , 63.72)
         with self.assertRaises(NameError):
             test = gen_delta_value_home_counter(self.df , last_app_line + 1)
+
+
+# ** test_set_home_counter : 
+    def test_set_home_counter(self):
+        t1, t2 = populate_apps(self.df)
+        last_app_line = get_last_app_line(t1)
+        test = gen_delta_value_home_counter(self.df , last_app_line)
+        self.assertEqual(float("{:.3f}".format(test)) , 63.72)
+        test = get_home_value(self.df , last_app_line +
+                                        gl_shift_home_counter_value1,
+                                        gl_column_home_counter_value1)
+        self.assertEqual(test, 1613.72)
+        test = get_home_value(self.df , last_app_line +
+                                        gl_shift_home_counter_value2,
+                                        gl_column_home_counter_value2)
+        self.assertEqual(test, 1550.00)
+        # start set_home_counter : 
+        set_home_counter(self.df , last_app_line, [300.111, 200.222])
+        # end set_home_counter : 
+        test = gen_delta_value_home_counter(self.df , last_app_line)
+        self.assertEqual(float("{:.3f}".format(test)) , 99.889)
+        test = get_home_value(self.df , last_app_line +
+                                        gl_shift_home_counter_value1,
+                                        gl_column_home_counter_value1)
+        self.assertEqual(test, 300.111)
+        test = get_home_value(self.df , last_app_line +
+                                        gl_shift_home_counter_value2,
+                                        gl_column_home_counter_value2)
+        self.assertEqual(test, 200.222)
+        # with self.assertRaises(NameError):
+        #     test = gen_delta_value_home_counter(self.df , last_app_line + 1)
 
 
 # ** def test_gen_Qfun_sys : 
@@ -421,7 +525,7 @@ class setUp_Test(unittest.TestCase):
         self.assertEqual(float("{:.3f}".format(test)), 0)
         # row 7
         test = app_list[6].surcharge
-        self.assertIsNotNone(test)
+        # self.assertIsNotNone(test)
         self.assertIsNotNone(test)
         self.assertEqual(float("{:.3f}".format(test)), 0)
         # row 11

@@ -32,6 +32,11 @@ class Counter_values:
         return self.get_value(gl_counters_value1_column, "gl_counters_value1_column")
 
 
+# ** def set_value1 : 
+    def set_value1(self, value): 
+        return self.set_value(gl_counters_value1_column, "gl_counters_value1_column", value)
+
+
 # ** def get_value2 : 
     def get_value2(self): 
         return self.get_value(gl_counters_value2_column, "gl_counters_value2_column")
@@ -61,6 +66,12 @@ class Counter_values:
             raise NameError('not int or float on line = ' + str(self._line + gl_exl_shift_rows) + ', for column ' + name)
         if pd.isna(r):
             raise NameError('no value on line = ' + str(self._line + gl_exl_shift_rows) + ', for column ' + name)
+        return r
+
+
+# ** def set_value : 
+    def set_value(self, row, name, value): 
+        r = self._df.iloc[self._line, row,] = value
         return r
 
 

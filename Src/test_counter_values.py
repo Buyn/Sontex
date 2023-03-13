@@ -92,6 +92,37 @@ class setUp_Test(unittest.TestCase):
         # self.assertEqual(test.get_value1(), 0)
 
 
+# ** def test_set_value1 : 
+    def test_set_value1(self): 
+        test = Counter_values(self.df, 7)
+        self.assertEqual(test.get_value1(), 653)
+        test.set_value1(100)
+        self.assertEqual(test.get_value1(), 100)
+        test.set_value1(653)
+        test = Counter_values(self.df, 8)
+        self.assertEqual(test.get_value1(), 552)
+        test.set_value1(0)
+        self.assertEqual(test.get_value1(), 0)
+        test.set_value1(552)
+        test = Counter_values(self.df, 106)
+        test.set_value1(0.01)
+        self.assertEqual(test.get_value1(), 0.01)
+        test.set_value1(106)
+        # test = Counter_values(self.df, 69)
+        # self.assertEqual(test.get_value1(), 310)
+        # test = Counter_values(self.df, 70)
+        # self.assertEqual(test.get_value1(), 734)
+        # test = Counter_values(self.df, 71)
+        # self.assertEqual(test.get_value1(), 527)
+        # with self.assertRaises(NameError):
+        #     # test = Counter_values(self.df, 100)
+        #     # self.assertEqual(test.get_value2(), 0)
+        #     test = Counter_values(self.df, 104)
+        #     test.get_value1()
+        # test = Counter_values(self.df, 100)
+        # self.assertEqual(test.get_value1(), 0)
+
+
 # ** def test_get_value2 : 
     def test_get_value2(self): 
         test = Counter_values(self.df, 7)
@@ -196,6 +227,67 @@ class setUp_Test(unittest.TestCase):
             test.get_value(
                 gl_counters_k_priv_column,
                 "gl_counters_k_priv_column"),
+            # print(test.heating_area)
+            # print(test.sum_area)
+            # print("tupe is =", type(test.sum_area))
+            # print("tupe is =",type(test.heating_area))
+        # self.assertEqual(test.get_value(), 120)
+        # test = Counter_values(self.df, 102)
+        # self.assertEqual(test.get_value(), 18)
+        # test = Counter_values(self.df, 100)
+        # self.assertEqual(test.get_value(), 0)
+
+
+# ** def test_set_value : 
+    def test_set_value(self): 
+        test = Counter_values(self.df, 7)
+        self.assertEqual(
+            test.get_value(
+                gl_counters_k_priv_column,
+                "gl_counters_k_priv_column"),
+            1.9180800000000002)
+        self.assertEqual(
+            test.get_value(
+                gl_counters_value1_column,
+                "gl_counters_value1_column"),
+            653)
+        r = test.set_value(
+                gl_counters_k_priv_column,
+                "gl_counters_k_priv_column", 1.9180800000000009)
+        # print(r)
+        self.assertEqual(
+            test.get_value(
+                gl_counters_k_priv_column,
+                "gl_counters_k_priv_column"),
+                    1.9180800000000009)
+        r = test.set_value(
+                gl_counters_k_priv_column,
+                "gl_counters_k_priv_column", 1.9180800000000002)
+        r = test.set_value(
+                gl_counters_value1_column,
+                "gl_counters_value1_column",
+                153)
+        self.assertEqual(
+            test.get_value(
+                gl_counters_value1_column,
+                "gl_counters_value1_column"),
+            153)
+        r = test.set_value(
+                gl_counters_value1_column,
+                "gl_counters_value1_column",
+                653)
+        # print(r)
+        # test = Counter_values(self.df, 8)
+        # self.assertEqual(
+        #     test.get_value(
+        #         gl_counters_k_priv_column,
+        #         "gl_counters_k_priv_column"),
+        #     2.3443200000000006)
+        # with self.assertRaises(NameError):
+        #     test = Counter_values(self.df, 104)
+        #     test.get_value(
+        #         gl_counters_k_priv_column,
+        #         "gl_counters_k_priv_column"),
             # print(test.heating_area)
             # print(test.sum_area)
             # print("tupe is =", type(test.sum_area))

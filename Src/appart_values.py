@@ -47,7 +47,6 @@ class Appart_values:
 # ** def get_counter : 
     def get_counter(self, line): 
         return Counter_values(self._df, line)
-        # return self._df.iloc[line, gl_counters_column]
 
 
 # ** def is_starting_line : 
@@ -99,6 +98,23 @@ class Appart_values:
                 raise NameError('no value on line = ' + str(self._start_line) + ', for rows ' + names[i])
             sr.append(r)
         return tuple(sr)
+
+
+# ** def update_allvalues1_by_id : 
+    def update_allvalues1_by_id(self, df,  name_value, name_date=None):
+        r =[]
+        if self.counters_list:
+            for counter in self.counters_list:
+                try:
+                    ser_id = counter.adress
+                    counter.value1 = int(df.loc[ser_id , name_value])
+                    
+                    counter.set_value1(counter.value1)
+                    if name_date:
+                        r.append(df.loc[ser_id , name_date])
+                except Exception:
+                    print("not in csv id", ser_id, " =",  Exception)
+        return r
 
 
 # ** def gen_E_used : 

@@ -39,40 +39,32 @@ def cli(argv):
 # ** def gui : 
 # ----------------------------------------------
 def gui(argv): 
-    # filename, csv, sheet_name = cmd_line_arg(argv)
-    # sheet_name = g_sheet_name 
-    # filename = g_filename
-    # output = g_output
-    # csv = g_csv
-    # df = load_exel(filename, sheet_name)
-    # app_list, couters_list = populate_apps(df) 
-    # app_list = calc_all_values_in_apps( df, app_list)
-    # df_report = load_exel(filename, gv_sheet_report)
-    # df_report = set_to_report(df_report, app_list)
-    # save_data_frame(output, df, df_report)
     winmain(argv)
 
 
 # ----------------------------------------------
 # ** def gui_calc : 
 # ----------------------------------------------
-def gui_calc(_filename, _csv): 
-    # filename, csv, sheet_name = cmd_line_arg(argv)
+def gui_calc(_filename, _csv, _output, _home_count = None): 
     sheet_name = g_sheet_name 
-    filename = g_sheet_name if not filename or filename == "" else _filename
-    # filename = g_filename
-    output = g_output
-    # output = g_output if not output or output == "" else _output
-    # csv = g_csv
-    csv = g_csv if not csv or csv == "" else _csv
+    filename = g_sheet_name if not _filename or _filename == "" else _filename
+    output =  _output if _output or _output != "" else g_output
     df = load_exel(filename, sheet_name)
-    # TODO: app_list = update_counters(app_list, couters_list, csv) 
+    csv = None if not _csv or _csv == "" else _csv
+    # загрузка дата фрейма из CSV файла
+    df_csv = load_csv(csv) 
+    app_list, couters_list = populate_apps(df) 
+    if _home_count:
+        last_app_line = get_last_app_line(app_list)
+        r = set_home_counter(df, last_app_line, _home_count)
+        print(r)
+    app_list = update_counters(app_list, couters_list, df_csv) 
+    # TODO: remove dable populate_apps
     app_list, couters_list = populate_apps(df) 
     app_list = calc_all_values_in_apps( df, app_list)
     df_report = load_exel(filename, gv_sheet_report)
     df_report = set_to_report(df_report, app_list)
     save_data_frame(output, df, df_report)
-    # winmain(argv)
 
 
 # ----------------------------------------------
@@ -133,21 +125,6 @@ def is_test(argv):
 # ** ------------------------------------------:
 # * calc functions :
 # ----------------------------------------------
-# ** def populate_apps : 
-def populate_apps(df): 
-    al =[]
-    cl =[]
-    app_line = gl_ferst_app_row
-    while True:
-        app = Appart_values(df, app_line)
-        app_line = app.next_app_line
-        al.append(app)
-        cl.append(app.gen_counters_adress())
-        if app.is_last:
-            break
-    return al, cl
-
-
 # ** def gen_sum_heated_area :
 def gen_sum_heated_area(apps): 
     # Площа опалювальна по КТЕ
@@ -192,6 +169,15 @@ def get_home_value(df, line, column):
     if pd.isna(r):
         raise NameError('no value on line = ' + str(line + gl_exl_shift_rows) + ', for column ' + str(column))
     return r
+    
+
+# ** def set_home_counter : 
+def set_home_counter(df, g_line, values): 
+    if not values or values[0] == "" or values[1] == "":
+        return "значения домового счёчика использованы из экселе"
+    df.iloc[g_line + gl_shift_home_counter_value1, gl_column_home_counter_value1] = float(values[0])
+    df.iloc[g_line + gl_shift_home_counter_value2, gl_column_home_counter_value2] = float(values[1])
+    return "значения домового счёчика в экселе обновлены " + str(values[0]) + " ; " + str(values[0])
     
 
 # ** def gen_delta_value_home_counter : 
@@ -423,6 +409,7 @@ def calc_all_values_in_apps(df, app_list):
 # * file functions :
 # ----------------------------------------------
 # ** def load_exel : 
+# ----------------------------------------------
 def load_exel(filename, sheet_name): 
     df = pd.read_excel(filename,
                       sheet_name = sheet_name,
@@ -430,14 +417,19 @@ def load_exel(filename, sheet_name):
                       # index_col=0,
                       header=None,
                       )
-    # df = pd.read_excel(gv_filename, gv_sheet_name = "показники", engine='openpyxl')
-    # df = pd.read_excel(gv_filename,
-    #                    gv_sheet_name = "показники",
-    #                    engine='openpyxl')
-    # df = pd.read_excel(gv_filename,
-    #                    gv_sheet_name = "показники",
-    #                    engine='openpyxl',
-    #                    index_col=0)
+    return df
+
+
+# ** def load_csv : 
+# ----------------------------------------------
+def load_csv(filename): 
+    if not filename:
+        return None
+    df = pd.read_csv(filename ,
+                    encoding = gv_csv_encoding,
+                    header = gv_csv_header,
+                    sep = gv_csv_sep,
+                     index_col = gv_csv_index_col)
     return df
 
 
@@ -495,6 +487,37 @@ def save_data_frame(output, df, df_report):
 
 
 
+
+
+# ** def populate_apps : 
+def populate_apps(df): 
+    al =[]
+    cl =[]
+    app_line = gl_ferst_app_row
+    while True:
+        app = Appart_values(df, app_line)
+        app_line = app.next_app_line
+        al.append(app)
+        cl.append(app.gen_counters_adress())
+        if app.is_last:
+            break
+    return al, cl
+
+
+# ** def update_counters : 
+def update_counters(app_list, counters_list, df_csv, data_i = 1): 
+    if df_csv is None:
+        return None
+    name_date = gv_csv_name_date + str(gv_csv_name_i)
+    name_value = gv_csv_name_value + str(gv_csv_name_i)
+    data_list =set()
+    for i, adress_list in enumerate(counters_list):
+        if counters_list[i]:
+            r = app_list[i].update_allvalues1_by_id(df_csv,  name_value, name_date)
+            data_list.update(r)
+            # TODO: Вывод даты в консоль и возврашать для перетаги ГУЮ
+    print("values from csv add on dates = ", data_list)
+    return data_list
 
 
 # ** ------------------------------------------:

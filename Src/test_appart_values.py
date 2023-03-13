@@ -157,6 +157,24 @@ class setUp_Test(unittest.TestCase):
             print("tupe is =",type(test.heating_area))
 
 
+# ** def test_update_allvalues1_by_id : 
+    def test_update_allvalues1_by_id(self): 
+        gv_filename = gv_csv
+        # df_csv = load_csv(gv_filename)
+        df_csv = pd.read_csv(gv_csv ,
+                              encoding = gv_csv_encoding,
+                              header = gv_csv_header,
+                              sep = gv_csv_sep,
+                              index_col = gv_csv_index_col)
+        name_date = gv_csv_name_date + str(gv_csv_name_i)
+        name_value = gv_csv_name_value + str(gv_csv_name_i)
+        test = Appart_values(self.df, 7)
+        self.assertEqual(test.counters_list[0].value1, 653)
+        test.update_allvalues1_by_id(df_csv,  name_value, name_date)
+        self.assertEqual(test.counters_list[0].value1, 126)
+        self.assertEqual(test.counters_list[0].get_value1(), 126)
+
+
 # ** test_gen_E_used : 
     def test_gen_E_used(self):
         # сумарне споживання по квартирі, од.
