@@ -21,11 +21,6 @@ class Appart_values:
         self.counters_list = self.get_counters_list(
                                     self._start_line,
                                     self.next_app_line)  
-        # row =  [ gl_app_sum_area_column,
-        #           gl_app_heating_area_column]
-        # text = [ "gl_app_sum_area_column",
-        #           "gl_app_heating_area_column"]
-        # self.sum_area, self.heating_area = self.load_values()
         self.heating_area = self.load_value(gl_app_heating_area_column, "gl_app_heating_area_column")
         self.surcharge = None
 
@@ -112,6 +107,14 @@ class Appart_values:
             raise NameError('not int or float on line = ' + str(self._start_line) + ', for rows ' + text)
         if pd.isna(r):
             raise NameError('no value on line = ' + str(self._start_line) + ', for rows ' + text)
+        return r
+
+
+# ** def load_name : 
+    def load_name(self, row, text): 
+        r = self._df.iloc[self._start_line, row]
+        # if pd.isna(r):
+        #     raise NameError('no value on line = ' + str(self._start_line) + ', for rows ' + text)
         return r
 
 

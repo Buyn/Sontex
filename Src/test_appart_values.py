@@ -200,6 +200,28 @@ class setUp_Test(unittest.TestCase):
             print("tupe is =",type(test.heating_area))
 
 
+# ** def test_load_name : 
+    def test_load_name(self): 
+        # print("p = ", self.df.iloc[2, gl_num_column])    
+        test = Appart_values(self.df, 7)
+        t = test.load_name(gl_num_column, "gn_num_column")
+        self.assertEqual(t, 7)
+        t = test.load_name(gl_app_num_column, "gn_app_num_column")
+        self.assertEqual(t, "кв.7")
+        test = Appart_values(self.df, 6)
+        t = test.load_name(gl_num_column, "gn_num_column")
+        self.assertEqual(t, 6)
+        t = test.load_name(gl_app_num_column, "gn_app_num_column")
+        self.assertEqual(t, "кв.6")
+        # self.assertEqual(test.sum_area, 56.70)
+        test = Appart_values(self.df, 84)
+        t = test.load_name(gl_num_column, "gn_num_column")
+        self.assertEqual(t, 32)
+        t = test.load_name(gl_app_num_column, "gn_app_num_column")
+        self.assertEqual(t, "кв.32")
+        # self.assertEqual(test.sum_area, 56.60)
+
+
 # ** def test_update_allvalues1_by_id : 
     def test_update_allvalues1_by_id(self): 
         gv_filename = gv_csv

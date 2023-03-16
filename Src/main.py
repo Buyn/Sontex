@@ -131,12 +131,6 @@ def gen_sum_heated_area(apps):
     return sum([app.heating_area for app in apps])
 
 
-# ** def gen_sum_area :
-# def gen_sum_area(apps): 
-#     # загальна площа будинку
-#     return sum([app.sum_area for app in apps])
-
-
 # ** def sum_E_used_k :
 def sum_E_used_k(apps): 
     #сумма сумарне приведене споживання по квартирі, од.
