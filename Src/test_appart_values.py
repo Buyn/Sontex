@@ -157,6 +157,49 @@ class setUp_Test(unittest.TestCase):
             print("tupe is =",type(test.heating_area))
 
 
+# ** def test_load_value : 
+    def test_load_value(self): 
+        test = Appart_values(self.df, 7)
+        # row =  [ gl_app_sum_area_column,
+        #           gl_app_heating_area_column]
+        # text = [ "gl_app_sum_area_column",
+        #           "gl_app_heating_area_column"]
+        t = test.load_value(gl_app_heating_area_column, "gl_app_heating_area_column")
+        self.assertEqual(t, 51.9)
+        self.assertEqual(test.heating_area, 51.9)
+        test = Appart_values(self.df, 6)
+        t = test.load_value(gl_app_heating_area_column, "gl_app_heating_area_column")
+        self.assertEqual(t, 52)
+        self.assertEqual(test.heating_area, 52)
+        # self.assertEqual(test.sum_area, 56.70)
+        test = Appart_values(self.df, 84)
+        t = test.load_value(gl_app_heating_area_column, "gl_app_heating_area_column")
+        self.assertEqual(t, 52.10)
+        self.assertEqual(test.heating_area, 52.10)
+        # self.assertEqual(test.sum_area, 56.60)
+        with self.assertRaises(NameError):
+            test = Appart_values(self.df, 131)
+            t = test.load_value(gl_app_heating_area_column, "gl_app_heating_area_column")
+            print(test.heating_area)
+            # print(test.sum_area)
+            print("tupe is =", type(test.sum_area))
+            print("tupe is =",type(test.heating_area))
+        with self.assertRaises(NameError):
+            test = Appart_values(self.df, 132)
+            t = test.load_value(gl_app_heating_area_column, "gl_app_heating_area_column")
+            print(test.heating_area)
+            # print(test.sum_area)
+            print("tupe is =", type(test.sum_area))
+            print("tupe is =",type(test.heating_area))
+        with self.assertRaises(NameError):
+            test = Appart_values(self.df, 133)
+            t = test.load_value(gl_app_heating_area_column, "gl_app_heating_area_column")
+            print(test.heating_area)
+            # print(test.sum_area)
+            print("tupe is =", type(test.sum_area))
+            print("tupe is =",type(test.heating_area))
+
+
 # ** def test_update_allvalues1_by_id : 
     def test_update_allvalues1_by_id(self): 
         gv_filename = gv_csv

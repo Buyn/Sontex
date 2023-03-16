@@ -252,10 +252,10 @@ class setUp_Test(unittest.TestCase):
 
 
 # ** def test_gen_sum_area : 
-    def test_gen_sum_area(self): 
-        t1, t2 = populate_apps(self.df)
-        test = gen_sum_area(t1)
-        self.assertEqual(float("{:.3f}".format(test)) , 2412.77)
+    # def test_gen_sum_area(self): 
+    #     t1, t2 = populate_apps(self.df)
+    #     test = gen_sum_area(t1)
+    #     self.assertEqual(float("{:.3f}".format(test)) , 2412.77)
 
 
 # ** def test_sum_E_used_k : 

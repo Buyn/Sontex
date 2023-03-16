@@ -22,6 +22,7 @@ gv_filename = "Data_files/metod01.xlsx"
 # sheet_name = "показники"
 gv_sheet_name = "квартири, площі"
 gv_sheet_report = "report"
+gv_osbb_report = "ОСББ"
 
 # ** .csv : 
 gv_csv = "Data_files/test.csv"
@@ -88,7 +89,9 @@ gl_column_home_counter_value1 = 17
 gl_column_home_counter_value2 = 18
 # *** report sheet:
 # 0 № п/п	
+gl_num_column = 0
 # 1 № квартири	
+gl_app_num_column = 1
 # 2 Ітого по распр., Гкал
 gl_total_couter_e_column = 2
 # 3 Ітого по м2, Гкал
@@ -99,4 +102,19 @@ gl_func_sys_column = 4
 gl_mzk_column = 5
 # 6 ВСЬОГО, Гкал
 gl_total_e_column = 6
+# ** report names:
+# 0 № п/п	
+gn_num_column = "№ п/п"
+# 1 № квартири	
+gn_app_num_column = "№ квартири"
+# 2 Ітого по распр., Гкал
+gn_total_couter_e_column = "Ітого по распр., Гкал"
+# 3 Ітого по м2, Гкал
+gn_total_no_couter_e_column = "Ітого по м2, Гкал"
+# 4 функціонування системи
+gn_func_sys_column = "функціонування системи"
+# 5 МЗК
+gn_mzk_column = "МЗК"
+# 6 ВСЬОГО, Гкал
+gn_total_e_column = "ВСЬОГО, Гкал"
 # * -------------------------------------------:
