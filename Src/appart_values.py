@@ -15,13 +15,15 @@ class Appart_values:
     def __init__(self, df, start_line): 
         self._df = df
         if not self.is_starting_line(start_line):
-          raise NameError('no appart start on line = ' + start)
+          raise NameError('no appart start on line = ' + str(start_line))
         self._start_line = start_line
         self.next_app_line, self.is_last = self.get_next_appindex(self._start_line)
         self.counters_list = self.get_counters_list(
                                     self._start_line,
                                     self.next_app_line)  
         self.heating_area = self.load_value(gl_app_heating_area_column, "gl_app_heating_area_column")
+        self.num_name = self.load_name(gl_num_column, "gl_num_column")
+        self.app_num_name = self.load_name(gl_app_num_column, "gl_app_num_column")
         self.surcharge = None
 
         
@@ -51,7 +53,13 @@ class Appart_values:
 
 # ** def is_starting_line : 
     def is_starting_line(self, line): 
-        return isinstance(self._df.iloc[line, 0], int)
+        value = self._df.iloc[line, 0]
+        if value == "end":
+            return False
+        if value == " ":
+            return False
+        # return isinstance(self._df.iloc[line, 0], int)
+        return not pd.isna(value)
 
 
 # ** get_next_appindex : 
@@ -70,12 +78,6 @@ class Appart_values:
             # print("nan continur ... ")
             continue
         return -1,None
-
-
-#  ----------------------------------------------:
-#  ----------------------------------------------:
-
-
 
 
 # ** def gen_counters_adress : 
@@ -126,12 +128,11 @@ class Appart_values:
                 try:
                     ser_id = counter.adress
                     counter.value1 = int(df.loc[ser_id , name_value])
-                    
                     counter.set_value1(counter.value1)
                     if name_date:
                         r.append(df.loc[ser_id , name_date])
                 except Exception:
-                    print("not in csv id", ser_id, " =",  Exception)
+                    print("not in csv id", ser_id)
         return r
 
 

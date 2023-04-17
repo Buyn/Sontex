@@ -22,13 +22,18 @@ initial-scale=1.0" />
 <!-- ** Form open :  </h1> -->
 	<form id="init-form" action="javascript:">
 <!-- ** Обще домовой счёчик :  </h1> -->
-		<div class="row">
+		<div class="row" title="
+	Если выбрана галочка
+то задаются значения домашнего счёчика 
+вместо значений из екселя.
+	И новые значения перезапишутся в файл отчёта.
+">
 			<label>
 				<input id="use-count" name="use-count" type="checkbox">
 				Показатель Общедомового счётчика <br> (игнорировать из ексела)
 			</label>
-			<input id="curr-count" name="curr-count" type="number" class="short" placeholder="текущий">
-			<input id="prev-count" name="prev-count" type="number" class="short" placeholder="предыдущий">
+			<input id="curr-count" name="curr-count" type="number" step="any" class="short" placeholder="текущий">
+			<input id="prev-count" name="prev-count" type="number" step="any" class="short" placeholder="предыдущий">
 		</div>
 <!-- ** экселе фаил :  </h1> -->
 		<div class="row" title="

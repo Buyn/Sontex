@@ -3,7 +3,7 @@
 import unittest
 import sys
 
-# from winmain import *
+from winmain import *
 from main import *
 
 
@@ -43,6 +43,21 @@ class Test_Init(unittest.TestCase):
         test = btn_asksaveasfile("",
                           _filetypes=("csv files","*.csv"),
                           _title = "Select file to save report")
+            
+
+# ----------------------------------------------
+# ** def test_Pull_log : 
+    def test_test_Pull_log(self):
+        gui_log.clear()
+        self.assertEqual(len(gui_log), 0)          
+        print_to_log("test")
+        self.assertEqual(len(gui_log), 1)          
+        test = pull_log()
+        self.assertEqual(test, ["test"])          
+        self.assertEqual(test[0], "test")          
+        self.assertEqual(len(gui_log), 0)          
+
+
             
 
 # ----------------------------------------------

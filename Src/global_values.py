@@ -22,7 +22,6 @@ gv_filename = "Data_files/metod01.xlsx"
 # sheet_name = "показники"
 gv_sheet_name = "квартири, площі"
 gv_sheet_report = "report"
-gv_osbb_report = "ОСББ"
 
 # ** .csv : 
 gv_csv = "Data_files/test.csv"
@@ -37,15 +36,16 @@ gv_csv_sep      = ";"
 gv_csv_name_i   = 1
 gv_csv_name_date= "Historic date - "
 gv_csv_name_value="Historic value - "
-# name_text = "Historic date - " + str(i)
-# name_value = "Historic value - " + str(i)
+# name_text = "Historic date - " + str(gv_csv_name_i)
+# name_value = "Historic value - " + str(gv_csv_name_i)
 
 # ** Kooficeints:
-# при значение 0 переменая не используется
 # обсяг тепла на функц. системи = 5% якщо є погодне регулювання в ІТП або 15% якщо не має від
+# при значение 0 переменая не используется
 gk_Qfun_sys = 0.05
 # gk_Qfun_sys = 0
 # обсяг тепла на опалення МЗК = 10% від
+# при значение 0 переменая не используется
 gk_Qmzk = 0.1
 # gk_Qmzk = 0
 # Мінімальна частка середнього питомого споживання
@@ -103,6 +103,9 @@ gl_mzk_column = 5
 # 6 ВСЬОГО, Гкал
 gl_total_e_column = 6
 # ** report names:
+gv_osbb_report = "ОСББ"
+# ** osbb report names:
+gv_osbb_report = "ОСББ"
 # 0 № п/п	
 gn_num_column = "№ п/п"
 # 1 № квартири	
@@ -117,4 +120,16 @@ gn_func_sys_column = "функціонування системи"
 gn_mzk_column = "МЗК"
 # 6 ВСЬОГО, Гкал
 gn_total_e_column = "ВСЬОГО, Гкал"
+# ** Теплоенрго report names:
+gv_TE_report = "Теплоенрго"
+# 0 Особовий рахунок	
+gn_TE_num_column = "Особовий рахунок"
+# 1 № Адреса	
+gn_TE_adders_column = "Адреса"
+# 2 № віртуального ліч-ка
+gn_TE_num_virt_column = "№ віртуального ліч-ка"
+# 3 Період
+gn_TE_period = "Період"
+# 4 Обсяг споживання,  Гкал
+gn_TE_total_e_column = "Обсяг споживання,  Гкал"
 # * -------------------------------------------:

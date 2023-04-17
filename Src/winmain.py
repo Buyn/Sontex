@@ -5,13 +5,14 @@ import sys
 import eel  
 from tkinter import filedialog
 from tkinter import *
-from main import *
+from global_values import *
+# from main import gui_calc
 
 
 # ----------------------------------------------
 # * vars :
 # ----------------------------------------------
-
+gui_log =[]
 
 # ----------------------------------------------
 # ** ------------------------------------------:
@@ -42,6 +43,20 @@ def start_calc(exel_path, csv_path, output_path, home_counter):
 
 
 # ----------------------------------------------
+# ** def pull_log() : 
+# ----------------------------------------------
+@eel.expose      
+def pull_log():  
+    """ 
+    Pull values from log variable
+    """  
+    # print("log pull requst")  
+    r = gui_log.copy()
+    gui_log.clear()
+    return r
+
+
+# ----------------------------------------------
 # ** def btn_ResimyoluClick() : 
 # ----------------------------------------------
 @eel.expose
@@ -62,6 +77,11 @@ def btn_ResimyoluClick(path,
                                         title = _title,
                                         filetypes = tuple(_type))
     print("path = ", folder)
+    if folder:
+        print_to_log("путь к фаилу "+
+                     _filetypes[1] +
+                     " задан = "
+                     + folder)
     return folder
 
 
@@ -87,10 +107,22 @@ def btn_asksaveasfile(path,
                                           title = _title,
                                           filetypes = tuple(_type))
     print("path = ", folder)
+    if folder:
+        print_to_log("Резултируюший фаил отчёта утсановлен")
+        print_to_log("путь к фаилу отчёта = " + folder)
     return folder
 
 
 # ----------------------------------------------
+# ** -------------------------------------------
+# * not expose : 
+# ----------------------------------------------
+# ** def print_to_log(string) : 
+# ----------------------------------------------
+def print_to_log(string):
+    gui_log.append(string)
+
+
 # ** -------------------------------------------
 # * if __name__ : 
 # ----------------------------------------------

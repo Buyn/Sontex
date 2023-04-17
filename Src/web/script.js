@@ -33,15 +33,19 @@ outputInput.value = cookies.output || "";
 exelBtn.onclick = () => getFolder(exelInput,
 																	["excel files","*.xlsx"],
 																	"Выбрать фаил входящего отчёта");
+
 csvBtn.onclick = () => getFolder( csvInput,
 																 ["csv files", "*.csv"],
 																	"Выбрать фаил показания устройств");
+
 outputBtn.onclick = () => saveAs( outputInput,
 																	["excel files","*.xlsx"],
 																	"Сохранить отчёт как");
 
 reportBtn.onclick = () => start_calc();
 
+refreshLog();
+setInterval(refreshLog, 5000);
 
 // * function getFolder :
 async function getFolder(input, filetype, title) {
@@ -51,14 +55,8 @@ async function getFolder(input, filetype, title) {
 				input.value = dosya_path;
 				document.cookie = input.name + "=" + dosya_path;
 				}
+		refreshLog();
 		}
-// async function getFolder() {
-// var dosya_path = await eel.btn_ResimyoluClick()();
-// 	if (dosya_path) {
-// 		console.log(dosya_path);
-// 		exelInput.value = dosya_path;
-// 	}
-// }
 
 // * function saveAs :
 async function saveAs(input, filetype, title) {
@@ -68,30 +66,37 @@ async function saveAs(input, filetype, title) {
 				input.value = dosya_path;
 				document.cookie = input.name + "=" + dosya_path;
 				}
+		refreshLog();
 		}
 
 // * function sendToLog :
 function sendToLog(text) {
 		logArea.value = text + "\n" + logArea.value;
 		}
+// * function refreshLog :
+async function refreshLog() {
+		var log_strigs= await eel.pull_log()();
+		log_strigs.forEach(strig => sendToLog(strig));
+		}
+
 
 // * function start_calc() : 
 async function start_calc() {
 		console.log("statr calc");
-		sendToLog("statr calc");
+		sendToLog("Начат расчёт показателей");
 		document.cookie = exelInput.name + "=" + exelInput.value;
 		document.cookie = csvInput.name + "=" + csvInput.value;
 		document.cookie = outputInput.name + "=" + outputInput.value;
 		const counterValues = useCounterBox.checked && [currCounter.value, prevCounter.value] || null;
 		console.log(counterValues);
 		var r = await eel.start_calc(exelInput.value, csvInput.value, outputInput.value, counterValues)();
+		refreshLog();
 		console.log(exelInput.value);
 		console.log(csvInput.value);
 		console.log(outputInput.value);
 		console.log("reult of calc =", r);
-		sendToLog("end calc =");
-		sendToLog("reult of calc =");
-		sendToLog("report saved in = ", outputInput.value);
-		sendToLog(r);
+		sendToLog("Расчёт показателей завершился успешно");
+		sendToLog("Результат расчёта сохранен в файле " + outputInput.value);
+		refreshLog();
 	}
 

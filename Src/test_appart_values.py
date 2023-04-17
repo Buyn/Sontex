@@ -80,6 +80,7 @@ class setUp_Test(unittest.TestCase):
         self.assertTrue(test.is_starting_line(2))
         # print(self.df.iloc[14, 0])
         self.assertFalse(test.is_starting_line(14))
+        self.assertFalse(test.is_starting_line(107))
 
 
 # ** def test_get_counters : 

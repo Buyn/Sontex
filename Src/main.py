@@ -5,7 +5,9 @@ import sys
 import pandas as pd
 from global_values import *
 from appart_values import *
-from winmain import *
+# from winmain import *
+from winmain import print_to_log
+from winmain import winmain
 
 
 # ----------------------------------------------
@@ -39,6 +41,7 @@ def cli(argv):
 # ** def gui : 
 # ----------------------------------------------
 def gui(argv): 
+    print_to_log("start gui")
     winmain(argv)
 
 
@@ -58,13 +61,21 @@ def gui_calc(_filename, _csv, _output, _home_count = None):
         last_app_line = get_last_app_line(app_list)
         r = set_home_counter(df, last_app_line, _home_count)
         print(r)
-    app_list = update_counters(app_list, couters_list, df_csv) 
+        print_to_log("Даные поля домашнего счёчика используются игнорируя даные exel")
+        print_to_log("значения используемое = ", r)
+    udate_data = update_counters(app_list, couters_list, df_csv) 
+    # TODO: Заменить имzя дату столбца
+      # r = self._df.iloc[self._line, row,] = value
     # TODO: remove dable populate_apps
     app_list, couters_list = populate_apps(df) 
     app_list = calc_all_values_in_apps( df, app_list)
-    df_report = load_exel(filename, gv_sheet_report)
-    df_report = set_to_report(df_report, app_list)
-    save_data_frame(output, df, df_report)
+    # df_report = load_exel(filename, gv_sheet_report)
+    # df_report = set_to_report(df_report, app_list)
+    df_report = gen_OSBB_report(app_list)
+    df_TE_report = gen_TE_report(app_list)
+    save_data_frame(output, df,
+                    df_report,
+                    df_TE_report = df_TE_report)
 
 
 # ----------------------------------------------
@@ -229,6 +240,8 @@ def gen_Qpit_roz(sum_home_e, qfun_sys, q_Mkz, sum_no_counter_e):
 # ** def calc_surcharge : 
 def calc_surcharge(app_list, q_pit_roz, q_op_min): 
     sum_e_k = sum_E_used_k(app_list)
+    if sum_e_k == 0:
+      raise ValueError('no Energi use in any appartament (exempl colmn R = colmn S)')
     for i, app in enumerate(app_list):
         app_list[i].gen_surcharge(q_pit_roz, q_op_min, sum_e_k)
         # print("in ", app_list[i]._start_line )
@@ -419,15 +432,17 @@ def load_exel(filename, sheet_name):
 def load_csv(filename): 
     if not filename:
         return None
+    print_to_log("Загружаем Фаил csv")
     df = pd.read_csv(filename ,
                     encoding = gv_csv_encoding,
                     header = gv_csv_header,
                     sep = gv_csv_sep,
                      index_col = gv_csv_index_col)
+    print_to_log("Фаил csv загружен")
     return df
 
 
-# ** def set_to_report : 
+# ** del it def set_to_report : 
 def set_to_report(df, app_list): 
     # 0 № п/п	
     # 1 № квартири	
@@ -447,13 +462,75 @@ def set_to_report(df, app_list):
     return df
 
 
+# ** def gen_OSBB_report : 
+def gen_OSBB_report(app_list): 
+    df = [[gn_num_column,
+           gn_app_num_column,
+           gn_total_couter_e_column, 
+           gn_total_no_couter_e_column,
+           gn_func_sys_column ,
+           gn_mzk_column ,
+           gn_total_e_column ]]
+    for app in app_list:
+        # 0 № п/п	
+        # 1 № квартири	
+        row =[app.num_name, app.app_num_name,]
+        if app.counters_list:
+            # 2 Ітого по распр., Гкал
+            row.append(app.specified_used_E)
+            row.append(0)
+        else:    
+            # 3 Ітого по м2, Гкал
+            row.append(0)
+            row.append(app.specified_used_E)
+        # 4 функціонування системи
+        row.append(app.total_fun_sys)
+        # 5 МЗК
+        row.append(app.total_Mkz)
+        # 6 ВСЬОГО, Гкал
+        row.append(app.total_e)
+        df.append(row)
+    return pd.DataFrame(df)
+
+
+# ** def gen_TE_report : 
+def gen_TE_report(app_list): 
+    df = [[
+        # 0 Особовий рахунок	
+        gn_TE_num_column,
+        # 1 № Адреса	
+        gn_TE_adders_column ,
+        # 2 № віртуального ліч-ка
+        gn_TE_num_virt_column ,
+        # 3 Період
+        gn_TE_period ,
+        # 4 Обсяг споживання,  Гкал
+        gn_TE_total_e_column ]]
+    sum_total = 0
+    for app in app_list:
+        row =[
+            # 0 № п/п	
+            app.num_name,
+            # 1 № квартири	
+            app.app_num_name,
+            # 2 № віртуального ліч-ка
+            app.num_name]
+        # 3 Період
+        row.append("")
+        # 4 Обсяг споживання,  Гкал
+        row.append(app.total_e)
+        df.append(row)
+        sum_total += app.total_e
+    df.append([])
+    df.append([
+        "", "", "","Всього",
+        sum_total
+    ])
+    return pd.DataFrame(df)
+
+
 # ** def save_data_frame : 
-def save_data_frame(output, df, df_report): 
-  # writer = pd.ExcelWriter('output.xlsx', engine='openpyxl')
-  # df = pd.DataFrame([["ABC", "XYZ"]], columns=["Foo", "Bar"])  
-  # with pd.ExcelWriter("path_to_file.xlsx") as writer:
-  #     df.to_excel(writer) 
-  # df_report['new_column'] = [1, 2, 3, 4, 5]
+def save_data_frame(output, df, df_report, df_TE_report=None): 
   # Save the updated dataframe to the Excel file
   with pd.ExcelWriter(output,
                     # sheet_name='report',
@@ -465,22 +542,10 @@ def save_data_frame(output, df, df_report):
                     # if_sheet_exists="replace"
                     # if_sheet_exists='append'
                       ) as writer:
-    # df_report.to_excel(writer, sheet_name='report')
-      # for report in reports:
-      #   report.to_excel(writer, index=False)
-    # df_report.to_excel(writer, index=False, startrow=writer.sheets['Sheet1'].max_row)
-    df.to_excel(writer, index=False, sheet_name=gv_sheet_name)
-    df_report.to_excel(writer, index=False, sheet_name=gv_sheet_report)
-  # df.to_excel(writer, index=False, startrow=writer.sheets['Sheet1'].max_row)
-  # df_report.to_excel("foo.xlsx", sheet_name='report')
-  # df.to_excel(writer, sheet_name="Sheet1")
-  # report = writer.bookworksheet = writer.sheets['report']
-  # writer.save()
-  # writer.close()
-
-
-
-
+    df.to_excel(writer, index=False, header=False, sheet_name=gv_sheet_name)
+    df_report.to_excel(writer, index=False, header=False, sheet_name=gv_sheet_report)
+    if df_TE_report is not None:
+        df_TE_report.to_excel(writer, index=False, header=False, sheet_name=gv_TE_report)
 
 
 # ** def populate_apps : 
@@ -491,6 +556,7 @@ def populate_apps(df):
     while True:
         app = Appart_values(df, app_line)
         app_line = app.next_app_line
+        # print("app_line = ", app_line)
         al.append(app)
         cl.append(app.gen_counters_adress())
         if app.is_last:
@@ -509,8 +575,19 @@ def update_counters(app_list, counters_list, df_csv, data_i = 1):
         if counters_list[i]:
             r = app_list[i].update_allvalues1_by_id(df_csv,  name_value, name_date)
             data_list.update(r)
-            # TODO: Вывод даты в консоль и возврашать для перетаги ГУЮ
+    # TODO: Вывод даты в консоль и возврашать для перетачи ГУЮ
+    # TODO: Проверить что дата одна
+      # except Exception:
+      #     print("not in csv id", ser_id, " =",  Exception)
+    # TODO: Заменить имzя дату столбца
+      # r = self._df.iloc[self._line, row,] = value
+    print("values", len(data_list))
+    if len(data_list)>1:
+        print_to_log("ошибка даных csv. Более одной даты в столбце "+ name_date+ " = "+ data_list)
+        print_to_log("csv uспорцен. Обработка остановлена")
+        raise NameError("csv corupt. more then one date in csv column ", name_date)
     print("values from csv add on dates = ", data_list)
+    print_to_log("Даные csv взяты на число "+ str(data_list))
     return data_list
 
 
