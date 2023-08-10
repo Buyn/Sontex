@@ -1,0 +1,41 @@
+h1 {  
+/* 	color: green;   */
+	text-align: center;  
+}
+
+.random_number {  
+/* 	margin: 50px;   */
+/* 	font-size: 150px;   */
+/* 	text-align: center;   */
+}  
+
+button {
+	/* display: block;   */
+	/* margin: 0 auto; */
+    white-space: nowrap;
+    width: 240px;
+}  
+#report-btn {
+	margin: auto;
+}
+
+.row {
+		display: flex;
+		margin-bottom: 10px;
+		gap: 5px;
+		/* justify-content: space-between; */
+		/* 		margin-right: 50px; */
+}
+
+label {
+		text-align: right;
+}
+
+.long {
+		width	: 75%;
+/* 		margin-left: auto; */
+}
+.short {
+/* 		width	: 10%; */
+/* 		margin-left: 15px; */
+}

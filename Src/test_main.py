@@ -214,6 +214,116 @@ class setUp_Test(unittest.TestCase):
         self.assertEqual(t2[35], [25482671, 25482670, 25482669, 25482694,])
 
 
+# ** def test_gen_OSBB_report : 
+    def test_gen_OSBB_report(self): 
+        app_list, t2 = populate_apps(self.df)
+        last_app_line = get_last_app_line(app_list)
+        delta_value_home_counter = gen_delta_value_home_counter(self.df, last_app_line)
+        sum_heated_area = gen_sum_heated_area(app_list)
+        q_roz = gen_Qroz(delta_value_home_counter, sum_heated_area)
+        qfun_sys = gen_Qfun_sys(delta_value_home_counter)
+        q_Mkz = gen_Qmzk(delta_value_home_counter)
+        q_no_surge = gen_Q_no_surge(app_list,
+                                    q_roz,)
+        app_list = calc_no_counter_e( app_list,
+                                      q_no_surge)
+        total_no_counter_e = gen_total_no_counter_e(app_list)
+        q_pit_roz = gen_Qpit_roz(delta_value_home_counter, qfun_sys, q_Mkz, total_no_counter_e)
+        q_op_min = gen_Qop_min(q_roz)
+        test = app_list[6].surcharge
+        self.assertIsNone(test)
+        e_for_redistibut = calc_surcharge(app_list, q_pit_roz, q_op_min)
+        e_for_redistibut = recalc_surcharge(app_list,
+                                            q_op_min,
+                                            e_for_redistibut,
+                                            times = 1
+                                            # times = 200
+                                            )
+        e_for_redistibut = recalc_surcharge(app_list,
+                                            q_op_min,
+                                            e_for_redistibut,
+                                            times = 1
+                                            # times = 200
+                                            )
+        test = app_list[6].specified_used_E
+        self.assertIsNotNone(test)
+        self.assertEqual(float("{:.3f}".format(test)), 0.923)
+        calc_final_totals( app_list,
+                           qfun_sys,
+                           q_Mkz,
+                           sum_heated_area)
+        t = gen_OSBB_report(app_list)
+        # print(t)
+        # self.assertEqual(len(t1), 38)
+        # self.assertEqual(len(t2), 38)
+        # self.assertEqual(t1[0]._start_line, 1)
+        # self.assertEqual(t1[0].next_app_line, 2)
+        # self.assertEqual(t2[0], None)
+        # self.assertEqual(t1[37]._start_line, 105)
+        # self.assertEqual(t1[37].next_app_line, 107)
+        # self.assertEqual(t2[37], [
+        #                         25482673,
+        #                         25482672,])
+        # self.assertEqual(t1[35]._start_line, 100)
+        # self.assertEqual(t1[35].next_app_line, 104)
+        # self.assertEqual(t2[35], [25482671, 25482670, 25482669, 25482694,])
+
+
+# ** def test_gen_TE_report : 
+    def test_gen_TE_report(self): 
+        app_list, t2 = populate_apps(self.df)
+        last_app_line = get_last_app_line(app_list)
+        delta_value_home_counter = gen_delta_value_home_counter(self.df, last_app_line)
+        sum_heated_area = gen_sum_heated_area(app_list)
+        q_roz = gen_Qroz(delta_value_home_counter, sum_heated_area)
+        qfun_sys = gen_Qfun_sys(delta_value_home_counter)
+        q_Mkz = gen_Qmzk(delta_value_home_counter)
+        q_no_surge = gen_Q_no_surge(app_list,
+                                    q_roz,)
+        app_list = calc_no_counter_e( app_list,
+                                      q_no_surge)
+        total_no_counter_e = gen_total_no_counter_e(app_list)
+        q_pit_roz = gen_Qpit_roz(delta_value_home_counter, qfun_sys, q_Mkz, total_no_counter_e)
+        q_op_min = gen_Qop_min(q_roz)
+        test = app_list[6].surcharge
+        self.assertIsNone(test)
+        e_for_redistibut = calc_surcharge(app_list, q_pit_roz, q_op_min)
+        e_for_redistibut = recalc_surcharge(app_list,
+                                            q_op_min,
+                                            e_for_redistibut,
+                                            times = 1
+                                            # times = 200
+                                            )
+        e_for_redistibut = recalc_surcharge(app_list,
+                                            q_op_min,
+                                            e_for_redistibut,
+                                            times = 1
+                                            # times = 200
+                                            )
+        test = app_list[6].specified_used_E
+        self.assertIsNotNone(test)
+        self.assertEqual(float("{:.3f}".format(test)), 0.923)
+        calc_final_totals( app_list,
+                           qfun_sys,
+                           q_Mkz,
+                           sum_heated_area)
+        t = gen_TE_report(app_list)
+        # print(t)
+        # self.assertEqual(len(t1), 38)
+        # self.assertEqual(len(t2), 38)
+        # self.assertEqual(t1[0]._start_line, 1)
+        # self.assertEqual(t1[0].next_app_line, 2)
+        # self.assertEqual(t2[0], None)
+        # self.assertEqual(t1[37]._start_line, 105)
+        # self.assertEqual(t1[37].next_app_line, 107)
+        # self.assertEqual(t2[37], [
+        #                         25482673,
+        #                         25482672,])
+        # self.assertEqual(t1[35]._start_line, 100)
+        # self.assertEqual(t1[35].next_app_line, 104)
+        # self.assertEqual(t2[35], [25482671, 25482670, 25482669, 25482694,])
+
+
 # ** def test_update_counters : 
     def test_update_counters(self): 
         t1, t2 = populate_apps(self.df)
@@ -249,13 +359,6 @@ class setUp_Test(unittest.TestCase):
         t1, t2 = populate_apps(self.df)
         test = gen_sum_heated_area(t1)
         self.assertEqual(float("{:.3f}".format(test)) , 2315.33)
-
-
-# ** def test_gen_sum_area : 
-    def test_gen_sum_area(self): 
-        t1, t2 = populate_apps(self.df)
-        test = gen_sum_area(t1)
-        self.assertEqual(float("{:.3f}".format(test)) , 2412.77)
 
 
 # ** def test_sum_E_used_k : 

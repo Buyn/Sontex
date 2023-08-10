@@ -80,6 +80,7 @@ class setUp_Test(unittest.TestCase):
         self.assertTrue(test.is_starting_line(2))
         # print(self.df.iloc[14, 0])
         self.assertFalse(test.is_starting_line(14))
+        self.assertFalse(test.is_starting_line(107))
 
 
 # ** def test_get_counters : 
@@ -125,36 +126,101 @@ class setUp_Test(unittest.TestCase):
         test = Appart_values(self.df, 7)
         test.load_values()
         self.assertEqual(test.heating_area, 51.9)
-        self.assertEqual(test.sum_area, 55.7)
+        # self.assertEqual(test.sum_area, 55.7)
         test = Appart_values(self.df, 6)
         test.load_values()
         self.assertEqual(test.heating_area, 52)
-        self.assertEqual(test.sum_area, 56.70)
+        # self.assertEqual(test.sum_area, 56.70)
         test = Appart_values(self.df, 84)
         test.load_values()
         self.assertEqual(test.heating_area, 52.10)
-        self.assertEqual(test.sum_area, 56.60)
+        # self.assertEqual(test.sum_area, 56.60)
         with self.assertRaises(NameError):
             test = Appart_values(self.df, 131)
             test.load_values()
             print(test.heating_area)
-            print(test.sum_area)
+            # print(test.sum_area)
             print("tupe is =", type(test.sum_area))
             print("tupe is =",type(test.heating_area))
         with self.assertRaises(NameError):
             test = Appart_values(self.df, 132)
             test.load_values()
             print(test.heating_area)
-            print(test.sum_area)
+            # print(test.sum_area)
             print("tupe is =", type(test.sum_area))
             print("tupe is =",type(test.heating_area))
         with self.assertRaises(NameError):
             test = Appart_values(self.df, 133)
             test.load_values()
             print(test.heating_area)
-            print(test.sum_area)
+            # print(test.sum_area)
             print("tupe is =", type(test.sum_area))
             print("tupe is =",type(test.heating_area))
+
+
+# ** def test_load_value : 
+    def test_load_value(self): 
+        test = Appart_values(self.df, 7)
+        # row =  [ gl_app_sum_area_column,
+        #           gl_app_heating_area_column]
+        # text = [ "gl_app_sum_area_column",
+        #           "gl_app_heating_area_column"]
+        t = test.load_value(gl_app_heating_area_column, "gl_app_heating_area_column")
+        self.assertEqual(t, 51.9)
+        self.assertEqual(test.heating_area, 51.9)
+        test = Appart_values(self.df, 6)
+        t = test.load_value(gl_app_heating_area_column, "gl_app_heating_area_column")
+        self.assertEqual(t, 52)
+        self.assertEqual(test.heating_area, 52)
+        # self.assertEqual(test.sum_area, 56.70)
+        test = Appart_values(self.df, 84)
+        t = test.load_value(gl_app_heating_area_column, "gl_app_heating_area_column")
+        self.assertEqual(t, 52.10)
+        self.assertEqual(test.heating_area, 52.10)
+        # self.assertEqual(test.sum_area, 56.60)
+        with self.assertRaises(NameError):
+            test = Appart_values(self.df, 131)
+            t = test.load_value(gl_app_heating_area_column, "gl_app_heating_area_column")
+            print(test.heating_area)
+            # print(test.sum_area)
+            print("tupe is =", type(test.sum_area))
+            print("tupe is =",type(test.heating_area))
+        with self.assertRaises(NameError):
+            test = Appart_values(self.df, 132)
+            t = test.load_value(gl_app_heating_area_column, "gl_app_heating_area_column")
+            print(test.heating_area)
+            # print(test.sum_area)
+            print("tupe is =", type(test.sum_area))
+            print("tupe is =",type(test.heating_area))
+        with self.assertRaises(NameError):
+            test = Appart_values(self.df, 133)
+            t = test.load_value(gl_app_heating_area_column, "gl_app_heating_area_column")
+            print(test.heating_area)
+            # print(test.sum_area)
+            print("tupe is =", type(test.sum_area))
+            print("tupe is =",type(test.heating_area))
+
+
+# ** def test_load_name : 
+    def test_load_name(self): 
+        # print("p = ", self.df.iloc[2, gl_num_column])    
+        test = Appart_values(self.df, 7)
+        t = test.load_name(gl_num_column, "gn_num_column")
+        self.assertEqual(t, 7)
+        t = test.load_name(gl_app_num_column, "gn_app_num_column")
+        self.assertEqual(t, "кв.7")
+        test = Appart_values(self.df, 6)
+        t = test.load_name(gl_num_column, "gn_num_column")
+        self.assertEqual(t, 6)
+        t = test.load_name(gl_app_num_column, "gn_app_num_column")
+        self.assertEqual(t, "кв.6")
+        # self.assertEqual(test.sum_area, 56.70)
+        test = Appart_values(self.df, 84)
+        t = test.load_name(gl_num_column, "gn_num_column")
+        self.assertEqual(t, 32)
+        t = test.load_name(gl_app_num_column, "gn_app_num_column")
+        self.assertEqual(t, "кв.32")
+        # self.assertEqual(test.sum_area, 56.60)
 
 
 # ** def test_update_allvalues1_by_id : 
