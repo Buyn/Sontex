@@ -140,6 +140,115 @@ class Test_Init(unittest.TestCase):
         # print (df)
 
 
+# ** def test_load_rlv : 
+    def test_load_rlv(self):
+        gv_filename = gv_rlv
+        df = load_rlv(gv_filename)
+        i = 1
+        ser_id = 25482420
+        name_text = "Historic date - " + str(i)
+        name_value = "Historic value - " + str(i)
+        self.assertEqual( df.loc[ser_id , name_text], "01.04.2023")
+        self.assertEqual( df.loc[ser_id , name_value], 76)
+        gv_filename = "Data_files/test2.rlv"
+        df = load_rlv(gv_filename)
+        i = 1
+        # print(df.index)
+        ser_id = 25482599
+        name_text = "Historic date - " + str(i)
+        name_value = "Historic value - " + str(i)
+        self.assertEqual( df.loc[ser_id , name_text], "01.04.2023")
+        self.assertEqual( df.loc[ser_id , name_value], 0)
+        # print(df.index)
+        ser_id = 25482215
+        name_text = "Historic date - " + str(i)
+        name_value = "Historic value - " + str(i)
+        self.assertEqual( df.loc[ser_id , name_text], "01.04.2023")
+        self.assertEqual( df.loc[ser_id , name_value], 102)
+        # self.assertEqual( df.iloc[107, 0], "end")
+        # self.assertEqual( df.iloc[105, 0], 38)
+        # self.assertEqual( df.iloc[105, 2], 9)
+        # self.assertEqual( df.iloc[105, 3], 1)
+        # print(df.iloc[0:5, 0:2])
+        # print(df.iloc[101, 0])
+        # print(df.iloc[102, 0])
+        # print(df.iloc[103, 0])
+        # print(df.iloc[104, 0])
+        # print("Test tuner")
+        # self.assertIsNone(main(1))
+        #view the first five rows: 
+        # print (df.head())
+        # print (df[1])
+        # print (df["A"])
+        # print(df.iloc[:, 0])
+        # df.head()
+        # print(df.index)
+        # print(df["Radio address"])
+        # print(df.columns)
+        # print(df.index[df.iloc[7] == 2].tolist())
+        # print(df.index[df.iloc[:, 0] == 2].tolist())
+        # print(df.index[df.iloc[:, 0] == 1])
+        # print(df.index[df.iloc[:, 0] == 2])
+        # print(df.index[df.iloc[:, 0] == 3])
+        # print(df.index[df.iloc[:, 0] == 10])
+        # print(df.loc["25482311.0", ["Radio address"]])
+        # print(df.A)
+        # print(df.loc[])
+        # print (df)
+
+
+# ** def test_load_db : 
+    def test_load_db(self):
+        # gv_filename = gv_rlv
+        gv_filename = gv_rlv
+        df = load_db(gv_filename)
+        i = 1
+        ser_id = 25482420
+        name_text = "Historic date - " + str(i)
+        name_value = "Historic value - " + str(i)
+        self.assertEqual( df.loc[ser_id , name_text], "01.04.2023")
+        self.assertEqual( df.loc[ser_id , name_value], 76)
+        # gv_filename = "Data_files/test2.rlv"
+        gv_filename = "Data_files/test2.rlv"
+        df = load_db(gv_filename)
+        i = 1
+        # print(df.index)
+        ser_id = 25482599
+        name_text = "Historic date - " + str(i)
+        name_value = "Historic value - " + str(i)
+        self.assertEqual( df.loc[ser_id , name_text], "01.04.2023")
+        self.assertEqual( df.loc[ser_id , name_value], 0)
+        # print(df.index)
+        ser_id = 25482215
+        name_text = "Historic date - " + str(i)
+        name_value = "Historic value - " + str(i)
+        self.assertEqual( df.loc[ser_id , name_text], "01.04.2023")
+        self.assertEqual( df.loc[ser_id , name_value], 102)
+        # gv_csv
+        gv_filename = gv_csv
+        df = load_db(gv_filename)
+        i = 1
+        ser_id = 25482311
+        name_text = "Historic date - " + str(i)
+        name_value = "Historic value - " + str(i)
+        self.assertEqual( df.loc[ser_id , name_text], "2021-04-16")
+        self.assertEqual( df.loc[ser_id , name_value], 126)
+        # None test
+        wm.gui_log.clear()
+        gv_filename = "Data_files/test2.exel"
+        df = load_db(gv_filename)
+        self.assertIsNone(df)
+        self.assertEqual( len(wm.gui_log), 1)
+        gv_filename = "Data_files"
+        df = load_db(gv_filename)
+        self.assertIsNone(df)
+        self.assertEqual( len(wm.gui_log), 2)
+        gv_filename = None
+        df = load_db(gv_filename)
+        self.assertIsNone(df)
+        self.assertEqual( len(wm.gui_log), 2)
+
+
 # ** def test_cmd_line_arg : 
     def test_cmd_line_arg(self): 
         global g_filename, g_csv, g_output

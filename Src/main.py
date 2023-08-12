@@ -442,6 +442,33 @@ def load_csv(filename):
     return df
 
 
+# ** def load_rlv : 
+def load_rlv(filename): 
+    if not filename:
+        return None
+    wm.print_to_log("Загружаем Фаил rlv")
+    df = pd.read_csv(filename ,
+                    encoding = gv_rlv_encoding,
+                    header = gv_rlv_header,
+                    sep = gv_rlv_sep,
+                     index_col = gv_rlv_index_col)
+    wm.print_to_log("Фаил rlv загружен")
+    return df
+
+
+# ** def load_db : 
+def load_db(filename): 
+    if not filename:
+        return None
+    extesion = (filename.split("."))[-1]
+    if extesion == "rlv":
+      return load_rlv(filename)
+    if extesion == "csv":
+      return load_csv(filename)
+    wm.print_to_log("Недопустимое расширение файла для обновления. Ожидатеся .rlv или .csv. Фаил проигнорирован = "+ filename)
+    return None
+
+
 # ** del it def set_to_report : 
 def set_to_report(df, app_list): 
     # 0 № п/п	

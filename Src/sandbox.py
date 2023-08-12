@@ -1,44 +1,66 @@
 # ----------------------------------------------
 # * import : 
 # ----------------------------------------------
-from random import randint  
 import pandas as pd
 # from global_values import *
 
 # ----------------------------------------------
 # * vars : 
 # ----------------------------------------------
-
+# filename = "Data_files/test.rlv"
+gv_rlv = "Data_files/test.rlv"
+filename = gv_rlv
+# gv_rlv_encoding = "cp1252"
+gv_rlv_encoding = "1252"
+gv_rlv_header   = 1
+gv_rlv_index_col= 5
+gv_rlv_sep      = "\t"
+# gv_rlv_sep      = "	"
+# gv_rlv_sep      = ""
+gv_rlv_name_i   = 1
+gv_rlv_name_date= "Historic date - "
+gv_rlv_name_value="Historic value - "
 
 # ----------------------------------------------
 # * main :
 # ----------------------------------------------
-# Creating the first Dataframe using dictionary
-# df1 = df = pd.DataFrame({"a":[1, 2, 3, 4],
-#                          "b":[5, 6, 7, 8]})
-# df1 = [[1,2,3],
-#        [11,22,33]
-#        ] 
-df1 = []
-df1.append([1,2,3])
-df1.append([11,22,33])
-# Creating the Second Dataframe using dictionary
-# df2 = pd.DataFrame({"a":[1, 2, 3],
-#                     "b":[5, 6, 7]})
-
-# list_row = ["Hyperion", 27000, "60days", 2000]
-# df2.loc[len(df)] = list_row
-  
-# Print df1
-print(df1, "\n")
-df2 = pd.DataFrame(df1)
-
-  
-# Print df2
-# df2
-print(df2, "\n")
-# # df2.concat(pd.DataFrame([11, 12, 13]))
-# df2.loc[len(df2)] = [11, 12, 13]
-# print(df2, "\n")
+# import os
+print("Start loading rlv")
+df = pd.read_csv(filename ,
+                encoding = "utf-16le",
+                # encoding="latin1",
+                # encoding = "RFC-4180",
+                # encoding = "cp1252",
+                # encoding = "utf-8",
+                header = 1,
+                # sep = ";",
+                sep = "\t",
+                # sep = "\x09\x00",
+                # sep = " ",
+                # engine="python",  # 
+                # sep='\t', lineterminator = '\n', engine='c', keep_default_na=False
+                 # engine = 'python-fwf',
+                # lineterminator = os.linesep,
+                # lineterminator='\r\n',
+                # lineterminator='\x0D\x0A',
+                # lineterminator='\x0A',
+                # lineterminator='\n',
+                index_col = 5
+                 )
+print("end rlv load")
+# print("df = ", df)
+# counter.value1 = int(df.loc[ser_id , name_value])
+# name_value = gv_csv_name_value + str(gv_csv_name_i)
+name_value = gv_rlv_name_value + str(gv_rlv_name_i)
+# value1 = df.loc[1 , name_value]
+# print(df.head())
+# print(df.index)
+# print (df[1])
+# print(df.iloc[1, 1])
+# print(df.iloc[:, 0])
+# print(df.columns)
+# print(df["Radio address"])
+# value1 = df.loc[1 , 3]
+# ser_id = counter.adress
 # ----------------------------------------------
 # * -------------------------------------------:
