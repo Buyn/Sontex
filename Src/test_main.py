@@ -150,7 +150,7 @@ class Test_Init(unittest.TestCase):
         name_value = "Historic value - " + str(i)
         self.assertEqual( df.loc[ser_id , name_text], "01.04.2023")
         self.assertEqual( df.loc[ser_id , name_value], 76)
-        gv_filename = "Data_files/test2.rlv"
+        gv_filename = "Data_files/test2.csv.rlv"
         df = load_rlv(gv_filename)
         i = 1
         # print(df.index)
@@ -209,7 +209,7 @@ class Test_Init(unittest.TestCase):
         self.assertEqual( df.loc[ser_id , name_text], "01.04.2023")
         self.assertEqual( df.loc[ser_id , name_value], 76)
         # gv_filename = "Data_files/test2.rlv"
-        gv_filename = "Data_files/test2.rlv"
+        gv_filename = "Data_files/test2.csv.rlv"
         df = load_db(gv_filename)
         i = 1
         # print(df.index)

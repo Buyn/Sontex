@@ -51,8 +51,8 @@ def gui_calc(_filename, _csv, _output, _home_count = None):
     output =  _output if _output or _output != "" else g_output
     df = load_exel(filename, sheet_name)
     csv = None if not _csv or _csv == "" else _csv
-    # загрузка дата фрейма из CSV файла
-    df_csv = load_csv(csv) 
+    # загрузка дата фрейма из CSV или RLV файла
+    df_csv = load_db(csv) 
     app_list, couters_list = populate_apps(df) 
     if _home_count:
         last_app_line = get_last_app_line(app_list)
