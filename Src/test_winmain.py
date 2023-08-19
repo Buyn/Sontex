@@ -25,23 +25,6 @@ class Test_Init(unittest.TestCase):
         
 # ----------------------------------------------
 
-# ** def test_btn_ResimyoluClick : 
-    @unittest.skipIf(len(sys.argv) < 2  or not sys.argv[1] == "test_winmain.Test_Init.test_btn_ResimyoluClick", "not sigle test")
-    def test_btn_ResimyoluClick(self):
-        test = btn_ResimyoluClick("",
-                                  _filetypes=(("csv files","*.csv"), ("rlv files","*.rlv")),
-                                  _title = "Select file csv or rlv")
-        test = btn_ResimyoluClick("",
-                                  _filetypes=[("csv files","*.csv"), ("rlv files","*.rlv")],
-                                  _title = "Select file csv or rlv")
-        test = btn_ResimyoluClick("")
-        test = btn_ResimyoluClick("",
-                                  _filetypes=("csv files","*.csv"),
-                                  _title = "Select file csv")
-            
-
-# ----------------------------------------------
-
 # ** def test_btn_ask_open_exel_file : 
     @unittest.skipIf(len(sys.argv) < 2  or not sys.argv[1] == "test_winmain.Test_Init.test_btn_ask_open_exel_file", "not sigle test")
     def test_btn_ask_open_exel_file(self):

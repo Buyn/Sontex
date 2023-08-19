@@ -47,17 +47,6 @@ reportBtn.onclick = () => start_calc();
 refreshLog();
 setInterval(refreshLog, 3000);
 
-// * function getFolder :
-async function getFolder(input, filetype, title) {
-		var dosya_path = await eel.btn_ResimyoluClick(input.value, filetype, title)();
-		if (dosya_path) {
-				console.log(dosya_path);
-				input.value = dosya_path;
-				document.cookie = input.name + "=" + dosya_path;
-				}
-		refreshLog();
-		}
-
 // * function getExel :
 async function getExel(input, filetype, title) {
 		var dosya_path = await eel.btn_ask_open_exel_file(input.value, filetype, title)();

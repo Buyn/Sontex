@@ -50,9 +50,7 @@ def gui_calc(_filename, _csv, _output, _home_count = None):
     filename = g_sheet_name if not _filename or _filename == "" else _filename
     output =  _output if _output or _output != "" else g_output
     df = load_exel(filename, sheet_name)
-    csv = None if not _csv or _csv == "" else _csv
-    # загрузка дата фрейма из CSV или RLV файла
-    df_csv = load_db(csv) 
+    csv = ";" if not _csv or _csv == "" else _csv
     app_list, couters_list = populate_apps(df) 
     if _home_count:
         last_app_line = get_last_app_line(app_list)
@@ -61,9 +59,15 @@ def gui_calc(_filename, _csv, _output, _home_count = None):
         wm.print_to_log("Даные поля домашнего счёчика используются игнорируя даные exel")
         wm.print_to_log("значения используемое = "+ str(_home_count))
         wm.print_to_log(r)
-    udate_data = update_counters(app_list, couters_list, df_csv) 
+    # загрузка дата фрейма из CSV или RLV файла
+    udate_data = set()
+    for path_csv in csv.split(";"):
+        if path_csv=="":
+            continue
+        df_bd = load_db(path_csv) 
+        udate_data.add(update_counters(app_list, couters_list, df_bd))
     # замена имени столбца
-    df.iloc[gl_ferst_app_row - 1, gl_column_home_counter_value1] = "показники на " + udate_data
+    df.iloc[gl_ferst_app_row - 1, gl_column_home_counter_value1] = "показники на " + ";".join(udate_data)
     # TODO: remove dable populate_apps
     app_list, couters_list = populate_apps(df) 
     app_list = calc_all_values_in_apps( df, app_list)
@@ -463,7 +467,7 @@ def load_db(filename):
     extesion = (filename.split("."))[-1]
     if extesion == "rlv":
       return load_rlv(filename)
-    if extesion == "csv":
+    elif extesion == "csv":
       return load_csv(filename)
     wm.print_to_log("Недопустимое расширение файла для обновления. Ожидатеся .rlv или .csv. Фаил проигнорирован = "+ filename)
     return None
@@ -489,7 +493,7 @@ def set_to_report(df, app_list):
     return df
 
 
-# ** def gen_OSBB_report : 
+# ** def gen_OSBB_
 def gen_OSBB_report(app_list): 
     df = [[gn_num_column,
            gn_app_num_column,
@@ -573,6 +577,7 @@ def save_data_frame(output, df, df_report, df_TE_report=None):
     df_report.to_excel(writer, index=False, header=False, sheet_name=gv_sheet_report)
     if df_TE_report is not None:
         df_TE_report.to_excel(writer, index=False, header=False, sheet_name=gv_TE_report)
+    wm.print_to_log("output report path "+ output)
 
 
 # ** def populate_apps : 
@@ -596,18 +601,29 @@ def update_counters(app_list, counters_list, df_csv, data_i = 1):
     if df_csv is None:
         return None
     name_date = gv_csv_name_date + str(gv_csv_name_i)
+    # print(name_date)
     name_value = gv_csv_name_value + str(gv_csv_name_i)
+    # print(name_value)
     data_list =set()
     for i, adress_list in enumerate(counters_list):
         if counters_list[i]:
             r = app_list[i].update_allvalues1_by_id(df_csv,  name_value, name_date)
+            # print("data_ r = ", r) 
             data_list.update(r)
-    print("values", len(data_list))
-    if len(data_list)!=1:
-        wm.print_to_log("ошибка даных csv. Более одной даты в столбце "+ name_date+ " = "+ data_list)
+            # print("data_list = ", data_list) 
+    # print("values", len(data_list))
+    if len(data_list)==0:
+        wm.print_to_log("ошибка даных csv. фаил не содержит не одного ID из exel ")
+        # print("ошибка даных csv. фаил не содержит не одного ID из exel ")
         wm.print_to_log("csv uспорцен. Обработка остановлена")
-        raise NameError("csv corupt. more then one date in csv column ", name_date)
-    print("values from csv add on dates = ", data_list)
+        raise NameError("csv corupt. no id exels in csv file ", "len(data_list) = ", len(data_list) )
+    if len(data_list)!=1:
+        for data in data_list:
+          wm.print_to_log("ошибка даных csv. Более одной даты в столбце "+ name_date+ " = "+ data)
+          print("ошибка даных csv. Более одной даты в столбце "+ name_date+ " = "+ data)
+        wm.print_to_log("csv uспорцен. Обработка остановлена")
+        raise NameError("csv corupt. more then one date in csv column ", name_date, "len(data_list) = ", len(data_list) )
+    # print("values from csv add on dates = ", data_list)
     wm.print_to_log("Даные csv взяты на число "+ str(data_list))
     return str(data_list)
 

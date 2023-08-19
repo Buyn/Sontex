@@ -239,6 +239,29 @@ class setUp_Test(unittest.TestCase):
         test.update_allvalues1_by_id(df_csv,  name_value, name_date)
         self.assertEqual(test.counters_list[0].value1, 126)
         self.assertEqual(test.counters_list[0].get_value1(), 126)
+        # rlv
+        gv_filename = gv_rlv
+        df_csv = pd.read_csv(gv_filename ,
+                              encoding = gv_rlv_encoding,
+                              header = gv_rlv_header,
+                              sep = gv_rlv_sep,
+                              index_col = gv_rlv_index_col)
+        # df = pd.read_csv(filename ,
+                        # encoding = gv_rlv_encoding,
+                        # header = gv_rlv_header,
+                        # sep = gv_rlv_sep,
+                        # index_col = gv_rlv_index_col)
+        # df_csv = load_rlv(gv_filename)
+        name_date = gv_csv_name_date + str(gv_csv_name_i)
+        name_value = gv_csv_name_value + str(gv_csv_name_i)
+        # name_date = gv_rlv_name_date + str(gv_rlv_name_i)
+        # name_value = gv_rlv_name_value + str(gv_rlv_name_i)
+        test = Appart_values(self.df, 7)
+        # print(test.counters_list[0])
+        self.assertEqual(test.counters_list[0].value1, 126)
+        test.update_allvalues1_by_id(df_csv,  name_value, name_date)
+        self.assertEqual(test.counters_list[0].value1, 126)
+        self.assertEqual(test.counters_list[0].get_value1(), 126)
 
 
 # ** test_gen_E_used : 

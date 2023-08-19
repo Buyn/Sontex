@@ -57,37 +57,6 @@ def pull_log():
 
 
 # ----------------------------------------------
-# ** def btn_ResimyoluClick() : 
-# ----------------------------------------------
-@eel.expose
-def btn_ResimyoluClick(path,
-                       _filetypes=("excel files","*.xlsx"),
-                       _title = "Select file exel"):
-    print("ptah = ", path,)
-    print("_filetypes = ",      _filetypes,)
-    print("_title = ",      _title)
-    initialdir = "/" if not path or path == "" else path
-    root = Tk()
-    root.withdraw()
-    root.wm_attributes('-topmost', 1)
-    _type = [("all files","*.*")]
-    if isinstance( _filetypes[0], tuple) or isinstance( _filetypes[0], list):
-        for text in _filetypes:
-          _type.append(text)
-    else:
-      _type.append(_filetypes)
-    _type.reverse()
-    folder = filedialog.askopenfilenames(initialdir = initialdir,
-                                        title = _title,
-                                        filetypes = tuple(_type))
-    print("path = ", folder)
-    if folder:
-        print_to_log("путь к фаилу " + _filetypes[1]
-                     + " задан = " + folder)
-    return folder
-
-
-# ----------------------------------------------
 # ** def btn_ask_open_exel_file() : 
 # ----------------------------------------------
 @eel.expose
