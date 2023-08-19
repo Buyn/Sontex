@@ -140,6 +140,146 @@ class Test_Init(unittest.TestCase):
         # print (df)
 
 
+# ** def test_load_rlv : 
+    def test_load_rlv(self):
+        gv_filename = gv_rlv
+        df = load_rlv(gv_filename)
+        i = 1
+        ser_id = 25482420
+        name_text = "Historic date - " + str(i)
+        name_value = "Historic value - " + str(i)
+        self.assertEqual( df.loc[ser_id , name_text], "01.04.2023")
+        self.assertEqual( df.loc[ser_id , name_value], 76)
+        gv_filename = "Data_files/test2.csv.rlv"
+        df = load_rlv(gv_filename)
+        i = 1
+        # print(df.index)
+        ser_id = 25482599
+        name_text = "Historic date - " + str(i)
+        name_value = "Historic value - " + str(i)
+        self.assertEqual( df.loc[ser_id , name_text], "01.04.2023")
+        self.assertEqual( df.loc[ser_id , name_value], 0)
+        # print(df.index)
+        ser_id = 25482215
+        name_text = "Historic date - " + str(i)
+        name_value = "Historic value - " + str(i)
+        self.assertEqual( df.loc[ser_id , name_text], "01.04.2023")
+        self.assertEqual( df.loc[ser_id , name_value], 102)
+        # self.assertEqual( df.iloc[107, 0], "end")
+        # self.assertEqual( df.iloc[105, 0], 38)
+        # self.assertEqual( df.iloc[105, 2], 9)
+        # self.assertEqual( df.iloc[105, 3], 1)
+        # print(df.iloc[0:5, 0:2])
+        # print(df.iloc[101, 0])
+        # print(df.iloc[102, 0])
+        # print(df.iloc[103, 0])
+        # print(df.iloc[104, 0])
+        # print("Test tuner")
+        # self.assertIsNone(main(1))
+        #view the first five rows: 
+        # print (df.head())
+        # print (df[1])
+        # print (df["A"])
+        # print(df.iloc[:, 0])
+        # df.head()
+        # print(df.index)
+        # print(df["Radio address"])
+        # print(df.columns)
+        # print(df.index[df.iloc[7] == 2].tolist())
+        # print(df.index[df.iloc[:, 0] == 2].tolist())
+        # print(df.index[df.iloc[:, 0] == 1])
+        # print(df.index[df.iloc[:, 0] == 2])
+        # print(df.index[df.iloc[:, 0] == 3])
+        # print(df.index[df.iloc[:, 0] == 10])
+        # print(df.loc["25482311.0", ["Radio address"]])
+        # print(df.A)
+        # print(df.loc[])
+        # print (df)
+
+
+# ** def test_load_db : 
+    def test_load_db(self):
+        # test =  ['Data_files/test.rlv', 'Data_files/test2.csv.rlv', 'Data_files/test.csv', '']
+        test_path = gv_rlv+";"+"Data_files/test2.csv.rlv"+";"+ gv_csv +";"
+        # print("test_path = ", test_path)
+        # print("test_path = ", test_path.split(";"))
+        path = test_path.split(";")[0]
+        # print("path = ", path)
+        gv_filename = path
+        df = load_db(gv_filename)
+        i = 1
+        ser_id = 25482420
+        name_text = "Historic date - " + str(i)
+        name_value = "Historic value - " + str(i)
+        self.assertEqual( df.loc[ser_id , name_text], "01.04.2023")
+        self.assertEqual( df.loc[ser_id , name_value], 76)
+         # ""
+        path = test_path.split(";")[3]
+        # print("path = ", path)
+        gv_filename = path
+        df = load_db(gv_filename)
+        self.assertIsNone(df)
+        #  for : 
+        test_df = []
+        for path_csv in test_path.split(";"):
+            if path_csv=="":
+                # print("path_csv ='' ",)
+                continue
+            r = load_db(path_csv)
+            test_df.append(r)
+        self.assertIsNotNone(test_df[0])
+        self.assertIsNotNone(test_df[1])
+        self.assertIsNotNone(test_df[2])
+        # gv_filename = gv_rlv
+        gv_filename = gv_rlv
+        df = load_db(gv_filename)
+        i = 1
+        ser_id = 25482420
+        name_text = "Historic date - " + str(i)
+        name_value = "Historic value - " + str(i)
+        self.assertEqual( df.loc[ser_id , name_text], "01.04.2023")
+        self.assertEqual( df.loc[ser_id , name_value], 76)
+        # gv_filename = "Data_files/test2.rlv"
+        gv_filename = "Data_files/test2.csv.rlv"
+        df = load_db(gv_filename)
+        i = 1
+        # print(df.index)
+        ser_id = 25482599
+        name_text = "Historic date - " + str(i)
+        name_value = "Historic value - " + str(i)
+        self.assertEqual( df.loc[ser_id , name_text], "01.04.2023")
+        self.assertEqual( df.loc[ser_id , name_value], 0)
+        # print(df.index)
+        ser_id = 25482215
+        name_text = "Historic date - " + str(i)
+        name_value = "Historic value - " + str(i)
+        self.assertEqual( df.loc[ser_id , name_text], "01.04.2023")
+        self.assertEqual( df.loc[ser_id , name_value], 102)
+        # gv_csv
+        gv_filename = gv_csv
+        df = load_db(gv_filename)
+        i = 1
+        ser_id = 25482311
+        name_text = "Historic date - " + str(i)
+        name_value = "Historic value - " + str(i)
+        self.assertEqual( df.loc[ser_id , name_text], "2021-04-16")
+        self.assertEqual( df.loc[ser_id , name_value], 126)
+        # None test
+        wm.gui_log.clear()
+        gv_filename = "Data_files/test2.exel"
+        df = load_db(gv_filename)
+        self.assertIsNone(df)
+        self.assertEqual( len(wm.gui_log), 1)
+        gv_filename = "Data_files"
+        df = load_db(gv_filename)
+        self.assertIsNone(df)
+        self.assertEqual( len(wm.gui_log), 2)
+        gv_filename = None
+        df = load_db(gv_filename)
+        self.assertIsNone(df)
+        self.assertEqual( len(wm.gui_log), 2)
+
+
 # ** def test_cmd_line_arg : 
     def test_cmd_line_arg(self): 
         global g_filename, g_csv, g_output
@@ -198,6 +338,21 @@ class setUp_Test(unittest.TestCase):
 
 # ** def test_populate_apps : 
     def test_populate_apps(self): 
+        t1, t2 = populate_apps(self.df)
+        self.assertEqual(len(t1), 38)
+        self.assertEqual(len(t2), 38)
+        self.assertEqual(t1[0]._start_line, 1)
+        self.assertEqual(t1[0].next_app_line, 2)
+        self.assertEqual(t2[0], None)
+        self.assertEqual(t1[37]._start_line, 105)
+        self.assertEqual(t1[37].next_app_line, 107)
+        self.assertEqual(t2[37], [
+                                25482673,
+                                25482672,])
+        self.assertEqual(t1[35]._start_line, 100)
+        self.assertEqual(t1[35].next_app_line, 104)
+        self.assertEqual(t2[35], [25482671, 25482670, 25482669, 25482694,])
+        # t1, t2 = populate_apps(self.df)
         t1, t2 = populate_apps(self.df)
         self.assertEqual(len(t1), 38)
         self.assertEqual(len(t2), 38)
@@ -336,6 +491,8 @@ class setUp_Test(unittest.TestCase):
                           25482669,
                           25482694,])
         app_list, couters_list = t1, t2
+        # ------
+        # gv_filename = gv_csv
         gv_filename = gv_csv
         df_csv = load_csv(gv_filename)
         self.assertEqual(app_list[37].counters_list[0].get_value1(), 875)
@@ -352,6 +509,36 @@ class setUp_Test(unittest.TestCase):
         #                   25482670,
         #                   25482669,
         #                   25482694,])
+        # ------
+        # gv_filename = gv_rlv
+        gv_filename = gv_rlv
+        df_csv = load_rlv(gv_filename)
+        # ------
+        # from global_values import *
+        # name_date = gv_csv_name_date + str(gv_csv_name_i)
+        # name_value = gv_csv_name_value + str(gv_csv_name_i)
+        # Historic date - 1
+        # Historic value - 1
+        # r = [] 
+        # r.append(df.loc[ser_id , name_date])
+        # print("r = ", r)
+        # ------
+        self.assertEqual(app_list[37].counters_list[0].get_value1(), 178)
+        # print(df_csv)
+        # with self.assertRaises(Exception):
+        update_counters(app_list, couters_list, df_csv) 
+        self.assertEqual(app_list[37].counters_list[0].get_value1(), 209)
+        self.assertEqual(t2[37],
+                         [25482673,
+                          25482672,])
+        # self.assertEqual(app_list[37].counters_list[0].get_value1(), 178)
+        # ------
+        gv_filename = "Data_files/test2.csv.rlv"
+        df_csv = load_rlv(gv_filename)
+        # print(df_csv)
+        with self.assertRaises(Exception):
+            update_counters(app_list, couters_list, df_csv) 
+        # r = app_list[i].update_allvalues1_by_id(df_csv,  name_value, name_date)
 
 
 # ** def test_gen_sum_heated_area : 

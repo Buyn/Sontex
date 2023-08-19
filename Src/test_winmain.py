@@ -25,13 +25,56 @@ class Test_Init(unittest.TestCase):
         
 # ----------------------------------------------
 
-# ** def test_btn_ResimyoluClick : 
-    @unittest.skipIf(len(sys.argv) < 2  or not sys.argv[1] == "test_winmain.Test_Init.test_btn_ResimyoluClick", "not sigle test")
-    def test_btn_ResimyoluClick(self):
-        test = btn_ResimyoluClick("")
-        test = btn_ResimyoluClick("",
-                                  _filetypes=("csv files","*.csv"),
-                                  _title = "Select file csv")
+# ** def test_btn_ask_open_exel_file : 
+    @unittest.skipIf(len(sys.argv) < 2  or not sys.argv[1] == "test_winmain.Test_Init.test_btn_ask_open_exel_file", "not sigle test")
+    def test_btn_ask_open_exel_file(self):
+        test = btn_ask_open_exel_file("/",
+                                  # _filetypes=(("csv files","*.csv"), ("rlv files","*.rlv")),
+                                  _title = "test path /")
+        test = btn_ask_open_exel_file("D:/Development/version-control/GitHub/Zmei/Sontex/Src/Data_files/test.xlsx",
+                                  # _filetypes=(("csv files","*.csv"), ("rlv files","*.rlv")),
+                                  _title = "D:/Development/version-control/GitHub/Zmei/Sontex/Src/Data_files/test.xlsx")
+        test = btn_ask_open_exel_file("\\",
+                                  # _filetypes=(("csv files","*.csv"), ("rlv files","*.rlv")),
+                                  _title = "test path \\")
+        # test = btn_ask_open_exel_file("",
+        #                           _filetypes=(("csv files","*.csv"), ("rlv files","*.rlv")),
+        #                           _title = "Select file csv or rlv")
+        # test = btn_ask_open_exel_file("",
+        #                           _filetypes=[("csv files","*.csv"), ("rlv files","*.rlv")],
+        #                           _title = "Select file csv or rlv")
+        # test = btn_ask_open_exel_file("")
+        # test = btn_ask_open_exel_file("",
+        #                           _filetypes=("csv files","*.csv"),
+        #                           _title = "Select file csv")
+            
+
+# ----------------------------------------------
+
+# ** def test_btn_ask_open_DBfiles : 
+    @unittest.skipIf(len(sys.argv) < 2  or not sys.argv[1] == "test_winmain.Test_Init.test_btn_ask_open_DBfiles", "not sigle test")
+    def test_btn_ask_open_DBfiles(self):
+        test = btn_ask_open_DBfiles("/",
+                                  # _filetypes=(("csv files","*.csv"), ("rlv files","*.rlv")),
+                                  _title = "test path /")
+        print("test = ", test)
+        test = btn_ask_open_DBfiles("D:/Development/version-control/GitHub/Zmei/Sontex/Src/Data_files/test.xlsx",
+                                  # _filetypes=(("csv files","*.csv"), ("rlv files","*.rlv")),
+                                  _title = "D:/Development/version-control/GitHub/Zmei/Sontex/Src/Data_files/test.xlsx")
+        print("test = ", test)
+        # test = btn_ask_open_DBfiles("\\",
+        #                           # _filetypes=(("csv files","*.csv"), ("rlv files","*.rlv")),
+        #                           _title = "test path \\")
+        # test = btn_ask_open_DBfiles("",
+        #                           _filetypes=(("csv files","*.csv"), ("rlv files","*.rlv")),
+        #                           _title = "Select file csv or rlv")
+        # test = btn_ask_open_DBfiles("",
+        #                           _filetypes=[("csv files","*.csv"), ("rlv files","*.rlv")],
+        #                           _title = "Select file csv or rlv")
+        # test = btn_ask_open_DBfiles("")
+        # test = btn_ask_open_DBfiles("",
+        #                           _filetypes=("csv files","*.csv"),
+        #                           _title = "Select file csv")
             
 
 # ----------------------------------------------
