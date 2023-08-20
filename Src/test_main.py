@@ -464,7 +464,10 @@ class setUp_Test(unittest.TestCase):
                            sum_heated_area)
         t = gen_TE_report(app_list)
         # print(t)
-        # self.assertEqual(len(t1), 38)
+        # 1,4,
+
+        # print(t.iloc[1,4])
+        self.assertEqual(t.iloc[1,4], 2.33)
         # self.assertEqual(len(t2), 38)
         # self.assertEqual(t1[0]._start_line, 1)
         # self.assertEqual(t1[0].next_app_line, 2)

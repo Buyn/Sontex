@@ -125,6 +125,8 @@ gl_total_e_column = 6
 gv_osbb_report = "ОСББ"
 # ** osbb report names:
 gv_osbb_report = "ОСББ"
+gv_enable_full_report = False
+# gv_enable_full_report = True
 # 0 № п/п	
 gn_num_column = "№ п/п"
 # 1 № квартири	

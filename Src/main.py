@@ -64,8 +64,9 @@ def gui_calc(_filename, _csv, _output, _home_count = None):
     for path_csv in csv.split(";"):
         if path_csv=="":
             continue
-        df_bd = load_db(path_csv) 
-        udate_data.add(update_counters(app_list, couters_list, df_bd))
+        udate_data.add(update_counters(app_list,
+                                       couters_list,
+                                       load_db(path_csv)))
     # замена имени столбца
     df.iloc[gl_ferst_app_row - 1, gl_column_home_counter_value1] = "показники на " + ";".join(udate_data)
     # TODO: remove dable populate_apps
@@ -73,7 +74,9 @@ def gui_calc(_filename, _csv, _output, _home_count = None):
     app_list = calc_all_values_in_apps( df, app_list)
     # df_report = load_exel(filename, gv_sheet_report)
     # df_report = set_to_report(df_report, app_list)
-    df_report = gen_OSBB_report(app_list)
+    df_report = None
+    if gv_enable_full_report:
+        df_report = gen_OSBB_report(app_list)
     df_TE_report = gen_TE_report(app_list)
     save_data_frame(output, df,
                     df_report,
@@ -549,7 +552,8 @@ def gen_TE_report(app_list):
         # 3 Період
         row.append("")
         # 4 Обсяг споживання,  Гкал
-        row.append(app.total_e)
+        # row.append(app.total_e)
+        row.append(float("{:.2f}".format(app.total_e)))
         df.append(row)
         sum_total += app.total_e
     df.append([])
@@ -574,7 +578,8 @@ def save_data_frame(output, df, df_report, df_TE_report=None):
                     # if_sheet_exists='append'
                       ) as writer:
     df.to_excel(writer, index=False, header=False, sheet_name=gv_sheet_name)
-    df_report.to_excel(writer, index=False, header=False, sheet_name=gv_sheet_report)
+    if df_report is not None:
+        df_report.to_excel(writer, index=False, header=False, sheet_name=gv_osbb_report)
     if df_TE_report is not None:
         df_TE_report.to_excel(writer, index=False, header=False, sheet_name=gv_TE_report)
     wm.print_to_log("output report path "+ output)
