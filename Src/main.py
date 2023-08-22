@@ -64,6 +64,7 @@ def gui_calc(_filename, _csv, _output, _home_count = None):
     for path_csv in csv.split(";"):
         if path_csv=="":
             continue
+        wm.print_to_log("загужаем занчение из файла: "+path_csv)
         udate_data.add(update_counters(app_list,
                                        couters_list,
                                        load_db(path_csv)))
@@ -165,6 +166,7 @@ def get_last_app_line(apps):
     if apps[-1].is_last :
       return apps[-1].next_app_line
     else:
+      wm.print_to_log('Ошибка во входящем Exel файле get_last_line in not last appart ' + str(len(apps)))
       raise NameError(
           'get_last_line in not last appart ' + str(len(apps)))
 
@@ -175,8 +177,10 @@ def get_home_value(df, line, column):
     r =  df.iloc[line, column]
     # print("value = ", r)
     if not isinstance(r, float) and not isinstance(r, int):
+        wm.print_to_log('Ошибка во входящем Exel файле не число в ячейке in get_home_value not int or float on line = ' + str(line + gl_exl_shift_rows) + ', for column ' + str(column))
         raise NameError('in get_home_value not int or float on line = ' + str(line + gl_exl_shift_rows) + ', for column ' + str(column))
     if pd.isna(r):
+        wm.print_to_log('Ошибка во входящем Exel файле в ячёйке отсутвует знаяение no value on line = ' + str(line + gl_exl_shift_rows) + ', for column ' + str(column))
         raise NameError('no value on line = ' + str(line + gl_exl_shift_rows) + ', for column ' + str(column))
     return r
     
@@ -248,6 +252,7 @@ def gen_Qpit_roz(sum_home_e, qfun_sys, q_Mkz, sum_no_counter_e):
 def calc_surcharge(app_list, q_pit_roz, q_op_min): 
     sum_e_k = sum_E_used_k(app_list)
     if sum_e_k == 0:
+      wm.print_to_log('Ошибка сумарное использование энергии 0 нечего расчитывать no Energi use in any appartament (exempl colmn R = colmn S)')
       raise ValueError('no Energi use in any appartament (exempl colmn R = colmn S)')
     for i, app in enumerate(app_list):
         app_list[i].gen_surcharge(q_pit_roz, q_op_min, sum_e_k)
@@ -610,17 +615,22 @@ def update_counters(app_list, counters_list, df_csv, data_i = 1):
     name_value = gv_csv_name_value + str(gv_csv_name_i)
     # print(name_value)
     data_list =set()
+    id_list =set()
     for i, adress_list in enumerate(counters_list):
         if counters_list[i]:
             r = app_list[i].update_allvalues1_by_id(df_csv,  name_value, name_date)
+            if r:
+                data_list.update(r)
+            else:
+                id_list.update(app_list[i].not_found_ids)
+                app_list[i].not_found_ids.clear()
             # print("data_ r = ", r) 
-            data_list.update(r)
             # print("data_list = ", data_list) 
     # print("values", len(data_list))
     if len(data_list)==0:
         wm.print_to_log("ошибка даных csv. фаил не содержит не одного ID из exel ")
         # print("ошибка даных csv. фаил не содержит не одного ID из exel ")
-        wm.print_to_log("csv uспорцен. Обработка остановлена")
+        wm.print_to_log("csv uспорчен. Обработка остановлена")
         raise NameError("csv corupt. no id exels in csv file ", "len(data_list) = ", len(data_list) )
     if len(data_list)!=1:
         for data in data_list:
@@ -629,6 +639,8 @@ def update_counters(app_list, counters_list, df_csv, data_i = 1):
         wm.print_to_log("csv uспорцен. Обработка остановлена")
         raise NameError("csv corupt. more then one date in csv column ", name_date, "len(data_list) = ", len(data_list) )
     # print("values from csv add on dates = ", data_list)
+    if len(id_list)>0:
+        wm.print_to_log("эти ID указаны в файле, но отсутвуют в exel "+ str(id_list))
     wm.print_to_log("Даные csv взяты на число "+ str(data_list))
     return str(data_list)
 
