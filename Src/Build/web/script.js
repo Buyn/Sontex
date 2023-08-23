@@ -30,13 +30,13 @@ csvInput.value = cookies.csv || "";
 outputInput.value = cookies.output || "";
 
 // * onclick : 
-exelBtn.onclick = () => getFolder(exelInput,
+exelBtn.onclick = () => getExel(	exelInput,
 																	["excel files","*.xlsx"],
 																	"Выбрать фаил входящего отчёта");
 
-csvBtn.onclick = () => getFolder( csvInput,
-																 ["csv files", "*.csv"],
-																	"Выбрать фаил показания устройств");
+csvBtn.onclick = () => getDBfile( csvInput,
+																	[["csv files", "*.csv"], ["rlv files", "*.rlv"]],
+																	"Выбрать фаил показания устройств csv или rlv");
 
 outputBtn.onclick = () => saveAs( outputInput,
 																	["excel files","*.xlsx"],
@@ -45,11 +45,22 @@ outputBtn.onclick = () => saveAs( outputInput,
 reportBtn.onclick = () => start_calc();
 
 refreshLog();
-setInterval(refreshLog, 5000);
+setInterval(refreshLog, 3000);
 
-// * function getFolder :
-async function getFolder(input, filetype, title) {
-		var dosya_path = await eel.btn_ResimyoluClick(input.value, filetype, title)();
+// * function getExel :
+async function getExel(input, filetype, title) {
+		var dosya_path = await eel.btn_ask_open_exel_file(input.value, filetype, title)();
+		if (dosya_path) {
+				console.log(dosya_path);
+				input.value = dosya_path;
+				document.cookie = input.name + "=" + dosya_path;
+				}
+		refreshLog();
+		}
+
+// * function getDBfile :
+async function getDBfile(input, filetype, title) {
+		var dosya_path = await eel.btn_ask_open_DBfiles(input.value, filetype, title)();
 		if (dosya_path) {
 				console.log(dosya_path);
 				input.value = dosya_path;

@@ -39,15 +39,34 @@ gv_csv_name_value="Historic value - "
 # name_text = "Historic date - " + str(gv_csv_name_i)
 # name_value = "Historic value - " + str(gv_csv_name_i)
 
+# ** .rlv : 
+gv_rlv = "Data_files/test.rlv"
+# gv_rlv = "Data_files/test.rlv"
+# кодировка файла
+gv_rlv_encoding = "utf-16le"
+# строки с которых начинается имена колонок
+gv_rlv_header   = 0
+# номер колонки от 0 в котором указаны индефикаторы устройств 
+gv_rlv_index_col= 5
+# символ раздилитель используюшийся в файле
+# gv_rlv_sep      = ";"
+gv_rlv_sep      = "\t"
+# gv_rlv_sep      = "	"
+# gv_rlv_sep      = ""
+gv_rlv_name_i   = 1
+gv_rlv_name_date= "Historic date - "
+gv_rlv_name_value="Historic value - "
+# name_text = "Historic date - " + str(gv_rlv_name_i)
+# name_value = "Historic value - " + str(gv_rlv_name_i)
 # ** Kooficeints:
 # обсяг тепла на функц. системи = 5% якщо є погодне регулювання в ІТП або 15% якщо не має від
 # при значение 0 переменая не используется
-# gk_Qfun_sys = 0.05
-gk_Qfun_sys = 0
+gk_Qfun_sys = 0.05
+# gk_Qfun_sys = 0
 # обсяг тепла на опалення МЗК = 10% від
 # при значение 0 переменая не используется
-# gk_Qmzk = 0.1
-gk_Qmzk = 0
+gk_Qmzk = 0.1
+# gk_Qmzk = 0
 # Мінімальна частка середнього питомого споживання
 gk_Qop_min = 0.5
 # Обсяг споживання тепла приміщенням без розподілювачів
@@ -106,6 +125,8 @@ gl_total_e_column = 6
 gv_osbb_report = "ОСББ"
 # ** osbb report names:
 gv_osbb_report = "ОСББ"
+gv_enable_full_report = False
+# gv_enable_full_report = True
 # 0 № п/п	
 gn_num_column = "№ п/п"
 # 1 № квартири	

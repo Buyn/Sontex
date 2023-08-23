@@ -50,9 +50,7 @@ def gui_calc(_filename, _csv, _output, _home_count = None):
     filename = g_sheet_name if not _filename or _filename == "" else _filename
     output =  _output if _output or _output != "" else g_output
     df = load_exel(filename, sheet_name)
-    csv = None if not _csv or _csv == "" else _csv
-    # загрузка дата фрейма из CSV файла
-    df_csv = load_csv(csv) 
+    csv = ";" if not _csv or _csv == "" else _csv
     app_list, couters_list = populate_apps(df) 
     if _home_count:
         last_app_line = get_last_app_line(app_list)
@@ -61,15 +59,25 @@ def gui_calc(_filename, _csv, _output, _home_count = None):
         wm.print_to_log("Даные поля домашнего счёчика используются игнорируя даные exel")
         wm.print_to_log("значения используемое = "+ str(_home_count))
         wm.print_to_log(r)
-    udate_data = update_counters(app_list, couters_list, df_csv) 
+    # загрузка дата фрейма из CSV или RLV файла
+    udate_data = set()
+    for path_csv in csv.split(";"):
+        if path_csv=="":
+            continue
+        wm.print_to_log("загужаем занчение из файла: "+path_csv)
+        udate_data.add(update_counters(app_list,
+                                       couters_list,
+                                       load_db(path_csv)))
     # замена имени столбца
-    df.iloc[gl_ferst_app_row - 1, gl_column_home_counter_value1] = "показники на " + udate_data
+    df.iloc[gl_ferst_app_row - 1, gl_column_home_counter_value1] = "показники на " + ";".join(udate_data)
     # TODO: remove dable populate_apps
     app_list, couters_list = populate_apps(df) 
     app_list = calc_all_values_in_apps( df, app_list)
     # df_report = load_exel(filename, gv_sheet_report)
     # df_report = set_to_report(df_report, app_list)
-    df_report = gen_OSBB_report(app_list)
+    df_report = None
+    if gv_enable_full_report:
+        df_report = gen_OSBB_report(app_list)
     df_TE_report = gen_TE_report(app_list)
     save_data_frame(output, df,
                     df_report,
@@ -158,6 +166,7 @@ def get_last_app_line(apps):
     if apps[-1].is_last :
       return apps[-1].next_app_line
     else:
+      wm.print_to_log('Ошибка во входящем Exel файле get_last_line in not last appart ' + str(len(apps)))
       raise NameError(
           'get_last_line in not last appart ' + str(len(apps)))
 
@@ -168,8 +177,10 @@ def get_home_value(df, line, column):
     r =  df.iloc[line, column]
     # print("value = ", r)
     if not isinstance(r, float) and not isinstance(r, int):
+        wm.print_to_log('Ошибка во входящем Exel файле не число в ячейке in get_home_value not int or float on line = ' + str(line + gl_exl_shift_rows) + ', for column ' + str(column))
         raise NameError('in get_home_value not int or float on line = ' + str(line + gl_exl_shift_rows) + ', for column ' + str(column))
     if pd.isna(r):
+        wm.print_to_log('Ошибка во входящем Exel файле в ячёйке отсутвует знаяение no value on line = ' + str(line + gl_exl_shift_rows) + ', for column ' + str(column))
         raise NameError('no value on line = ' + str(line + gl_exl_shift_rows) + ', for column ' + str(column))
     return r
     
@@ -241,6 +252,7 @@ def gen_Qpit_roz(sum_home_e, qfun_sys, q_Mkz, sum_no_counter_e):
 def calc_surcharge(app_list, q_pit_roz, q_op_min): 
     sum_e_k = sum_E_used_k(app_list)
     if sum_e_k == 0:
+      wm.print_to_log('Ошибка сумарное использование энергии 0 нечего расчитывать no Energi use in any appartament (exempl colmn R = colmn S)')
       raise ValueError('no Energi use in any appartament (exempl colmn R = colmn S)')
     for i, app in enumerate(app_list):
         app_list[i].gen_surcharge(q_pit_roz, q_op_min, sum_e_k)
@@ -442,6 +454,33 @@ def load_csv(filename):
     return df
 
 
+# ** def load_rlv : 
+def load_rlv(filename): 
+    if not filename:
+        return None
+    wm.print_to_log("Загружаем Фаил rlv")
+    df = pd.read_csv(filename ,
+                    encoding = gv_rlv_encoding,
+                    header = gv_rlv_header,
+                    sep = gv_rlv_sep,
+                     index_col = gv_rlv_index_col)
+    wm.print_to_log("Фаил rlv загружен")
+    return df
+
+
+# ** def load_db : 
+def load_db(filename): 
+    if not filename:
+        return None
+    extesion = (filename.split("."))[-1]
+    if extesion == "rlv":
+      return load_rlv(filename)
+    elif extesion == "csv":
+      return load_csv(filename)
+    wm.print_to_log("Недопустимое расширение файла для обновления. Ожидатеся .rlv или .csv. Фаил проигнорирован = "+ filename)
+    return None
+
+
 # ** del it def set_to_report : 
 def set_to_report(df, app_list): 
     # 0 № п/п	
@@ -462,7 +501,7 @@ def set_to_report(df, app_list):
     return df
 
 
-# ** def gen_OSBB_report : 
+# ** def gen_OSBB_
 def gen_OSBB_report(app_list): 
     df = [[gn_num_column,
            gn_app_num_column,
@@ -518,7 +557,8 @@ def gen_TE_report(app_list):
         # 3 Період
         row.append("")
         # 4 Обсяг споживання,  Гкал
-        row.append(app.total_e)
+        # row.append(app.total_e)
+        row.append(float("{:.2f}".format(app.total_e)))
         df.append(row)
         sum_total += app.total_e
     df.append([])
@@ -543,9 +583,11 @@ def save_data_frame(output, df, df_report, df_TE_report=None):
                     # if_sheet_exists='append'
                       ) as writer:
     df.to_excel(writer, index=False, header=False, sheet_name=gv_sheet_name)
-    df_report.to_excel(writer, index=False, header=False, sheet_name=gv_sheet_report)
+    if df_report is not None:
+        df_report.to_excel(writer, index=False, header=False, sheet_name=gv_osbb_report)
     if df_TE_report is not None:
         df_TE_report.to_excel(writer, index=False, header=False, sheet_name=gv_TE_report)
+    wm.print_to_log("output report path "+ output)
 
 
 # ** def populate_apps : 
@@ -569,18 +611,36 @@ def update_counters(app_list, counters_list, df_csv, data_i = 1):
     if df_csv is None:
         return None
     name_date = gv_csv_name_date + str(gv_csv_name_i)
+    # print(name_date)
     name_value = gv_csv_name_value + str(gv_csv_name_i)
+    # print(name_value)
     data_list =set()
+    id_list =set()
     for i, adress_list in enumerate(counters_list):
         if counters_list[i]:
             r = app_list[i].update_allvalues1_by_id(df_csv,  name_value, name_date)
-            data_list.update(r)
-    print("values", len(data_list))
+            if r:
+                data_list.update(r)
+            else:
+                id_list.update(app_list[i].not_found_ids)
+                app_list[i].not_found_ids.clear()
+            # print("data_ r = ", r) 
+            # print("data_list = ", data_list) 
+    # print("values", len(data_list))
+    if len(data_list)==0:
+        wm.print_to_log("ошибка даных csv. фаил не содержит не одного ID из exel ")
+        # print("ошибка даных csv. фаил не содержит не одного ID из exel ")
+        wm.print_to_log("csv uспорчен. Обработка остановлена")
+        raise NameError("csv corupt. no id exels in csv file ", "len(data_list) = ", len(data_list) )
     if len(data_list)!=1:
-        wm.print_to_log("ошибка даных csv. Более одной даты в столбце "+ name_date+ " = "+ data_list)
+        for data in data_list:
+          wm.print_to_log("ошибка даных csv. Более одной даты в столбце "+ name_date+ " = "+ data)
+          print("ошибка даных csv. Более одной даты в столбце "+ name_date+ " = "+ data)
         wm.print_to_log("csv uспорцен. Обработка остановлена")
-        raise NameError("csv corupt. more then one date in csv column ", name_date)
-    print("values from csv add on dates = ", data_list)
+        raise NameError("csv corupt. more then one date in csv column ", name_date, "len(data_list) = ", len(data_list) )
+    # print("values from csv add on dates = ", data_list)
+    if len(id_list)>0:
+        wm.print_to_log("эти ID указаны в файле, но отсутвуют в exel "+ str(id_list))
     wm.print_to_log("Даные csv взяты на число "+ str(data_list))
     return str(data_list)
 
