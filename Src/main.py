@@ -636,16 +636,26 @@ def update_counters(app_list, counters_list, df_csv, data_i = 1):
         for data in data_list:
           wm.print_to_log("ошибка даных csv. Более одной даты в столбце "+ name_date+ " = "+ data)
           print("ошибка даных csv. Более одной даты в столбце "+ name_date+ " = "+ data)
-        wm.print_to_log("csv uспорцен. Обработка остановлена")
-        raise NameError("csv corupt. more then one date in csv column ", name_date, "len(data_list) = ", len(data_list) )
+        # wm.print_to_log("csv uспорчен. Обработка остановлена")
+        wm.print_to_log("csv uспорчен. Обработка не остановлена")
+        data_list = data_list.pop();
+        wm.print_to_log("имя колонки установленно на = " + str(data_list))
+        # raise NameError("csv corupt. more then one date in csv column ", name_date, "len(data_list) = ", len(data_list) )
     # print("values from csv add on dates = ", data_list)
     if len(id_list)>0:
-        wm.print_to_log("эти ID указаны в файле, но отсутвуют в exel "+ str(id_list))
+        wm.print_to_log("эти ID указаны в файле, но отсутвуют в exel " + str(id_list))
     wm.print_to_log("Даные csv взяты на число "+ str(data_list))
     return str(data_list)
 
 
 # ** ------------------------------------------:
+
+
+
+
+# Feel free to comment on the code and see possible improvements.
+	# Тhink step by step.
+
 # * if __name__ : 
 # ----------------------------------------------
 if __name__ == "__main__": 

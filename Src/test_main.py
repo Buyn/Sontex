@@ -500,7 +500,8 @@ class setUp_Test(unittest.TestCase):
         df_csv = load_csv(gv_filename)
         self.assertEqual(app_list[37].counters_list[0].get_value1(), 875)
         # print(df_csv)
-        update_counters(app_list, couters_list, df_csv) 
+        r = update_counters(app_list, couters_list, df_csv) 
+        # print("update result = ", r)      
         self.assertEqual(t2[37],
                          [25482673,
                           25482672,])
