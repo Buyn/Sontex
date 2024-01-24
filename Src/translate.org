@@ -1,0 +1,224 @@
+* ua
+** log сообщения
+*** main.py
+wm.print_to_log("Ці клітини загальнобудинкового лічильника використовуються, ігноруючи показники з клітини файлу Excel")
+wm.print_to_log("використання значення = "+ str(_home_count))
+        wm.print_to_log("завантажуємо значення з файлу: " + path_csv)
+      wm.print_to_log('Помилка у вхідному файлі Excel get_last_line in not last appart ' + str(len(apps)))
+          'get_last_line in not last appart ' + str(len(apps)))
+        wm.print_to_log('Помилка у вхідному Excel файлі: не числовий формат показника у клітини in get_home_value not int or float on line = ' + str(line + gl_exl_shift_rows) + ', for column ' + str(column))
+        wm.print_to_log('Помилка у вхідному Excel файлі: у клітини відсутнє значення no value on line = ' + str(line + gl_exl_shift_rows) + ', for column ' + str(column))
+
+        return "значення загальнобудинкового лічильника використані з Excel"
+    return "значення загальнобудинкового лічильника в екселі оновлено" + str(values[0]) + " ; " + str(values[0])
+
+      wm.print_to_log('Помилка: сумарне використання енергії 0, нема нічого для обчислення no Energi use in any appartament (exempl colmn R = colmn S)')
+
+    wm.print_to_log("Завантажуємо файл csv")
+    wm.print_to_log("Файл csv завантажений")
+    wm.print_to_log("Завантажуємо файл rlv")
+    wm.print_to_log("файл rlv завантажений")
+
+    wm.print_to_log("Неприпустиме розширення файлу для оновлення. очікується .rlv або .csv. Файл проігноровано = "+ filename)
+
+
+		
+        wm.print_to_log("помилка даних csv. Файл не містить жодного ID з exel")
+        wm.print_to_log("csv зіпсований. Обробку зупинено")
+          wm.print_to_log("помилка даних csv. Більше однієї дати у стовпці "+ name_date+ " = "+ data)
+          print("помилка даних csv. Більше однієї дати у стовпці "+ name_date+ " = "+ data)
+        wm.print_to_log("csv зіпсований. Обробку не зупинено")
+        wm.print_to_log("назва стовбчика змінено на = " + str(data_list))
+        wm.print_to_log("Ці ID вказані у файлі, але відсутні у Excel" + str(id_list))
+    wm.print_to_log("Показники csv зафіксовані на дату"+ str(data_list))
+*** winmain
+        print_to_log("шлях до файлу " + _filetypes[1]
+                     + " задано = " + folder)
+        print_to_log("шлях до файлу база даних задано = " + r)
+
+                       _title = "Зберегти звіт як"):
+
+        print_to_log("Результуючий файл звіту обрано")
+        print_to_log("шлях до файлу звіту = " + folder)
+** interface 
+*** html
+		<div class="row" title="
+		
+	Якщо встановлено позначку, тоді обираються показники загальнобудинкового лічильника, замість значень з Excel.
+	Й нові показники оновляться у файлі звіту.
+
+">
+				Показник загальнобудинкового лічильника <br> (ігнорувати з ексель)
+
+			<input id="curr-count" name="curr-count" type="number" step="any" class="short" placeholder="поточний">
+			<input id="prev-count" name="prev-count" type="number" step="any" class="short" placeholder="попередній">
+
+			
+		<div class="row" title="
+
+	Відформатований файл EXEL з усіма необхідними показаннями для формування звіту.
+	Основний та головний файл необхідний для звітування.
+	Якщо не буде задано вихідний файл, то буде перезаписаний цей файл. Що дозволяє формувати новий звіт за результатами формування попереднього.
+
+">
+
+			<button id="exel-btn">Excel файл</button>  
+
+
+		<div class="row" title="
+
+	Файл або файли (розділені символом ;) із показаннями пристроїв у форматі .csv або .rlv.
+	Замінює показання пристроїв, отримані з файлу Excel. І формує звіт, на основі нових показників пристроїв.
+
+">
+
+
+			<button id="csv-btn">показників пристроїв</button>  
+
+		<div class="row" title="
+
+	Шлях до місця розташування звіту після формування та ім'я сформованого файлу звіту.
+	Клітина може залишитися пустою, де кінцевим файлом буде обрано - вхідний. Результат буде оновлено у цьому файлі.
+
+">
+
+
+			<button id="output-btn">файл звіту</button>  
+			<button id="report-btn">сформувати звіт</button>	
+
+			
+			Початок роботи
+*** js 
+
+																	"Вибрати файл вхідного звіту");
+
+csvBtn.onclick = () => getDBfile( csvInput,
+																	[["csv files", "*.csv"], ["rlv files", "*.rlv"]],
+																	"Обрати файл показників пристроїв .csv або .rlv");
+
+outputBtn.onclick = () => saveAs( outputInput,
+																	["excel files","*.xlsx"],
+																	"Зберегти звіт як");
+
+
+		sendToLog("Почато розрахунок показників");
+
+		sendToLog("Розрахунок показників завершився успішно");
+		sendToLog("Результат розрахунку збережено у файлі" + outputInput.value);
+* ru 
+** log сообщения
+*** main.py
+wm.print_to_log("Даные поля домашнего счёчика используются, игнорируя даные ячейки домашнего счёчика из exel")
+wm.print_to_log("значения используемое = "+ str(_home_count))
+        wm.print_to_log("загужаем занчение из файла: "+path_csv)
+
+      wm.print_to_log('Ошибка во входящем Exel файле get_last_line in not last appart ' + str(len(apps)))
+          'get_last_line in not last appart ' + str(len(apps)))
+        wm.print_to_log('Ошибка во входящем Exel файле не число в ячейке in get_home_value not int or float on line = ' + str(line + gl_exl_shift_rows) + ', for column ' + str(column))
+        wm.print_to_log('Ошибка во входящем Exel файле в ячёйке отсутвует знаяение no value on line = ' + str(line + gl_exl_shift_rows) + ', for column ' + str(column))
+
+        return "значения домового счёчика использованы из экселе"
+    return "значения домового счёчика в экселе обновлены " + str(values[0]) + " ; " + str(values[0])
+
+      wm.print_to_log('Ошибка сумарное использование энергии 0 нечего расчитывать no Energi use in any appartament (exempl colmn R = colmn S)')
+
+    wm.print_to_log("Загружаем Фаил csv")
+    wm.print_to_log("Фаил csv загружен")
+    wm.print_to_log("Загружаем Фаил rlv")
+    wm.print_to_log("Фаил rlv загружен")
+
+    wm.print_to_log("Недопустимое расширение файла для обновления. Ожидатеся .rlv или .csv. Фаил проигнорирован = "+ filename)
+
+		
+        wm.print_to_log("ошибка даных csv. фаил не содержит не одного ID из exel ")
+        wm.print_to_log("csv uспорчен. Обработка остановлена")
+          wm.print_to_log("ошибка даных csv. Более одной даты в столбце "+ name_date+ " = "+ data)
+          print("ошибка даных csv. Более одной даты в столбце "+ name_date+ " = "+ data)
+        wm.print_to_log("csv uспорчен. Обработка не остановлена")
+        wm.print_to_log("имя колонки установленно на = " + str(data_list))
+        wm.print_to_log("эти ID указаны в файле, но отсутвуют в exel " + str(id_list))
+    wm.print_to_log("Даные csv взяты на число "+ str(data_list))
+*** winmain
+        print_to_log("путь к фаилу " + _filetypes[1]
+                     + " задан = " + folder)
+        print_to_log("путь к фаилам база даных задан = " + r)
+
+                       _title = "Сохранить отчёт как"):
+
+        print_to_log("Резултируюший фаил отчёта утсановлен")
+        print_to_log("путь к фаилу отчёта = " + folder)
+** interface 
+*** html
+		<div class="row" title="
+	Если выбрана галочка
+то задаются значения домашнего счёчика 
+вместо значений из екселя.
+	И новые значения перезапишутся в файл отчёта.
+">
+				Показатель Общедомового счётчика <br> (игнорировать из ексела)
+
+			<input id="curr-count" name="curr-count" type="number" step="any" class="short" placeholder="текущий">
+			<input id="prev-count" name="prev-count" type="number" step="any" class="short" placeholder="предыдущий">
+
+			
+		<div class="row" title="
+
+	Форматировный фаил Екселя 
+совсеми нужными показания для формирования отчёта
+	Главный и основной фаил нужный для
+формирования отчёта
+	Если не будет задан фаил исходяший
+то будет презаписан этот фаил
+	Что позволяет формировать новый отчёт на
+результах отработы предыдушего
+">
+
+			<button id="exel-btn">экселе фаил</button>  
+
+		<div class="row" title="
+
+	Фаил или файлы с показания устройств 
+	в формате .csv или .rlv
+	заменит показания устройст полученые из файла Эксель
+	и на основе новых показанийй сформирует отчёт
+
+">
+
+			<button id="csv-btn">показание устройств</button>  
+
+		<div class="row" title="
+
+	Путь к месту куда положить отчёт после формировния
+	Поля можно оставить пустым
+тогда в качестве канечного файла будет
+выбран входяший
+И результат будет перезаписан в него
+">
+
+			<button id="output-btn">фаил отчёта</button>  
+			<button id="report-btn">сформировать отчёт</button>	
+
+			
+			Начало работы
+*** js 
+
+																	"Выбрать фаил входящего отчёта");
+
+csvBtn.onclick = () => getDBfile( csvInput,
+																	[["csv files", "*.csv"], ["rlv files", "*.rlv"]],
+																	"Выбрать фаил показания устройств csv или rlv");
+
+outputBtn.onclick = () => saveAs( outputInput,
+																	["excel files","*.xlsx"],
+																	"Сохранить отчёт как");
+
+
+		sendToLog("Начат расчёт показателей");
+
+		sendToLog("Расчёт показателей завершился успешно");
+		sendToLog("Результат расчёта сохранен в файле " + outputInput.value);
+* 2024-01-06
+** 
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/translate.org")
+#+end_src

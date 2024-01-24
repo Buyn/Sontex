@@ -29,6 +29,12 @@ exelInput.value = cookies.exel || "";
 csvInput.value = cookies.csv || "";
 outputInput.value = cookies.output || "";
 
+// * onchange : 
+useCounterBox.onchange = () => {
+		prevCounter.disabled = !useCounterBox.checked;
+		currCounter.disabled = !useCounterBox.checked;
+}
+
 // * onclick : 
 exelBtn.onclick = () => getExel(	exelInput,
 																	["excel files","*.xlsx"],
