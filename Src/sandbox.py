@@ -1,66 +1,57 @@
-# ----------------------------------------------
-# * import : 
-# ----------------------------------------------
 import pandas as pd
-# from global_values import *
 
-# ----------------------------------------------
-# * vars : 
-# ----------------------------------------------
-# filename = "Data_files/test.rlv"
-gv_rlv = "Data_files/test.rlv"
-filename = gv_rlv
-# gv_rlv_encoding = "cp1252"
-gv_rlv_encoding = "1252"
-gv_rlv_header   = 1
-gv_rlv_index_col= 5
-gv_rlv_sep      = "\t"
-# gv_rlv_sep      = "	"
-# gv_rlv_sep      = ""
-gv_rlv_name_i   = 1
-gv_rlv_name_date= "Historic date - "
-gv_rlv_name_value="Historic value - "
+def load_exel(filename, sheet_name): 
+    df = pd.read_excel(filename,
+                      sheet_name = sheet_name,
+                      engine='openpyxl',
+                      # index_col=0,
+                      header=None,
+                      )
+    return df
 
-# ----------------------------------------------
-# * main :
-# ----------------------------------------------
-# import os
-print("Start loading rlv")
-df = pd.read_csv(filename ,
-                encoding = "utf-16le",
-                # encoding="latin1",
-                # encoding = "RFC-4180",
-                # encoding = "cp1252",
-                # encoding = "utf-8",
-                header = 1,
-                # sep = ";",
-                sep = "\t",
-                # sep = "\x09\x00",
-                # sep = " ",
-                # engine="python",  # 
-                # sep='\t', lineterminator = '\n', engine='c', keep_default_na=False
-                 # engine = 'python-fwf',
-                # lineterminator = os.linesep,
-                # lineterminator='\r\n',
-                # lineterminator='\x0D\x0A',
-                # lineterminator='\x0A',
-                # lineterminator='\n',
-                index_col = 5
-                 )
-print("end rlv load")
-# print("df = ", df)
-# counter.value1 = int(df.loc[ser_id , name_value])
-# name_value = gv_csv_name_value + str(gv_csv_name_i)
-name_value = gv_rlv_name_value + str(gv_rlv_name_i)
-# value1 = df.loc[1 , name_value]
-# print(df.head())
-# print(df.index)
-# print (df[1])
-# print(df.iloc[1, 1])
-# print(df.iloc[:, 0])
-# print(df.columns)
-# print(df["Radio address"])
-# value1 = df.loc[1 , 3]
-# ser_id = counter.adress
-# ----------------------------------------------
-# * -------------------------------------------:
+gv_filename = "Data_files/test.xlsx"
+sheet_name = "rules"
+
+df = load_exel(gv_filename, sheet_name)
+print(df)
+
+def get_all_rules_index(df):
+    r = []
+    for i in range(0, df.shape[0]):
+        # print("i = ", i)
+        value_i = df.iloc[i, 0]
+        if df.iloc[i, 0] == "rule":
+            # print("rule found on index = ", i)
+            # print("value of i = ", df.iloc[i, 0])
+            ruls_name = df.iloc[i, 1]
+            ruls_params = df.iloc[i, 2]
+            ruls_params_list =[df.iloc[i, p] for p in range(3, 3 + ruls_params)]
+            r.append((i, ruls_name, ruls_params_list))
+    return r
+
+
+# print (get_all_rules_index(df))
+
+def postproc_test(arg):
+    print(arg)
+
+# postproc_test ([1, 2 ,3])
+
+rules_dic = {
+    "test" : postproc_test
+}
+
+def use_rule(index, rule_name, rule_params):
+    try:
+        # print(rules_dic[rule_name])
+        rules_dic[rule_name](rule_params)
+    except Exception:
+        print("no such rule in dictionary from row=",index, " ", rule_name)
+
+
+use_rule(1, "test", (1,2,3))
+use_rule(2, "test_no", (1,2,3))
+
+        
+
+

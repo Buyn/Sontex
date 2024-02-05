@@ -1,10 +1,11 @@
 # ----------------------------------------------
-# * imports : 
+# * imports :
 # ----------------------------------------------
 import sys
 import pandas as pd
 from global_values import *
 from appart_values import *
+from rules import *
 import winmain as wm
 
 
@@ -70,7 +71,7 @@ def gui_calc(_filename, _csv, _output, _home_count = None):
                                        load_db(path_csv)))
     # замена имени столбца
     df.iloc[gl_ferst_app_row - 1, gl_column_home_counter_value1] = "показники на " + ";".join(udate_data)
-    # TODO: remove dable populate_apps
+    # TODO: remove duble populate_apps
     app_list, couters_list = populate_apps(df) 
     app_list = calc_all_values_in_apps( df, app_list)
     # df_report = load_exel(filename, gv_sheet_report)
@@ -78,7 +79,14 @@ def gui_calc(_filename, _csv, _output, _home_count = None):
     df_report = None
     if gv_enable_full_report:
         df_report = gen_OSBB_report(app_list)
-    df_TE_report = gen_TE_report(app_list)
+    df_TE_report = gen_TE_report(app_дшые)
+    # load df_rules
+    df_rules = load_exel(filename, sheet_name)
+    # сделать список правил из него
+    # поменять df_TE_report 
+    # прогнатциклом через список применя каждое найденое
+    # на выходе каждый раз ловя новую версию дата фрейма
+    # и передовая следующему
     save_data_frame(output, df,
                     df_report,
                     df_TE_report = df_TE_report)
