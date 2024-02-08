@@ -47,9 +47,11 @@ def gui(argv):
 # ** def gui_calc : 
 # ----------------------------------------------
 def gui_calc(_filename, _csv, _output, _home_count = None): 
+# *** set values and params :
     sheet_name = g_sheet_name 
     filename = g_sheet_name if not _filename or _filename == "" else _filename
     output =  _output if _output or _output != "" else g_output
+# *** loading a dataframe from Excel :
     df = load_exel(filename, sheet_name)
     csv = ";" if not _csv or _csv == "" else _csv
     app_list, couters_list = populate_apps(df) 
@@ -60,7 +62,7 @@ def gui_calc(_filename, _csv, _output, _home_count = None):
         wm.print_to_log("Даные поля домашнего счёчика используются игнорируя даные exel")
         wm.print_to_log("значения используемое = "+ str(_home_count))
         wm.print_to_log(r)
-    # загрузка дата фрейма из CSV или RLV файла
+# *** loading date frame from CSV or RLV file :
     udate_data = set()
     for path_csv in csv.split(";"):
         if path_csv=="":
@@ -69,26 +71,27 @@ def gui_calc(_filename, _csv, _output, _home_count = None):
         udate_data.add(update_counters(app_list,
                                        couters_list,
                                        load_db(path_csv)))
-    # замена имени столбца
+    #  замена имени столбца
     df.iloc[gl_ferst_app_row - 1, gl_column_home_counter_value1] = "показники на " + ";".join(udate_data)
     # TODO: remove duble populate_apps
     app_list, couters_list = populate_apps(df) 
+
+# *** product of calculations :
     app_list = calc_all_values_in_apps( df, app_list)
     # df_report = load_exel(filename, gv_sheet_report)
     # df_report = set_to_report(df_report, app_list)
+# *** generating reports :
     df_report = None
     if gv_enable_full_report:
         df_report = gen_OSBB_report(app_list)
-    df_TE_report = gen_TE_report(app_дшые)
-    # load df_rules
-    df_rules = load_exel(filename, sheet_name)
-    # сделать список правил из него
-    # поменять df_TE_report 
-    # прогнатциклом через список применя каждое найденое
-    # на выходе каждый раз ловя новую версию дата фрейма
-    # и передовая следующему
+    df_TE_report = gen_TE_report(app_list)
+# *** postprocessing block :
+    # load rules from exel
+    df_rules = load_exel(filename, gr_rule_sheet_name)
+    df_TE_report = postprocessing_df_with_rules_df(df_TE_report, df_rules)
+# *** save block : 
     save_data_frame(output, df,
-                    df_report,
+                    df_report = df_report,
                     df_TE_report = df_TE_report)
 
 
@@ -578,7 +581,7 @@ def gen_TE_report(app_list):
 
 
 # ** def save_data_frame : 
-def save_data_frame(output, df, df_report, df_TE_report=None): 
+def save_data_frame(output, df, df_report, df_rules=None, df_TE_report=None): 
   # Save the updated dataframe to the Excel file
   with pd.ExcelWriter(output,
                     # sheet_name='report',
@@ -591,6 +594,8 @@ def save_data_frame(output, df, df_report, df_TE_report=None):
                     # if_sheet_exists='append'
                       ) as writer:
     df.to_excel(writer, index=False, header=False, sheet_name=gv_sheet_name)
+    if df_rules is not None:
+        df_rules.to_excel(writer, index=False, header=False, sheet_name=gr_rule_sheet_name)
     if df_report is not None:
         df_report.to_excel(writer, index=False, header=False, sheet_name=gv_osbb_report)
     if df_TE_report is not None:

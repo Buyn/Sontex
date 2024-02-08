@@ -12,14 +12,41 @@ from global_values import *
 def postproc_test(df, arg):
     if arg[0]!="test":
         print(arg)
-    return arg
+    return df, arg
 
 
 # **  def postproc_divider:
-def postproc_divider(df, arg):
-    if arg[0]!="test":
-        print(arg)
-    return arg
+def postproc_divider(df:pd.DataFrame, arg):
+    # print("arg = ", arg)
+    # print("arg = ", arg[2])
+    strarg = arg[2].split("\"")
+    # print("strarg = ", strarg)
+    newrow = [i for i in strarg if i and i != " "]
+    # print("newrow = ", newrow)
+    # print(df.shape)
+    if df.shape[1] > len(newrow):
+        for col in range(df.shape[1] - len(newrow)):
+            newrow.append("")
+    target_index = int(df[df[0]==arg[0]].index.values)
+    # print("index.values = ", target_index)
+    target_value = df.iloc[target_index, arg[1]-1]
+    # print("target_value = ", target_value)
+    value_k = arg[3]
+    # print("value_k = ", value_k)
+    new_value = float(target_value) * float(value_k)
+    df.iloc[target_index, arg[1]-1] = target_value - new_value
+    newrow[arg[1]-1] = new_value
+    # print(len(newrow))
+    # print(newrow)
+    # print(len(newrow))
+    # print(df)
+    #  Inserting the new row
+    # Inserting a Row at a Specific Index
+    df.loc[arg[0] + 0.5] = newrow
+    #  Reset the index
+    df = df.sort_index().reset_index(drop=True)
+    # print(df)
+    return df, newrow
 
 
 # ** ------------------------------------------:
@@ -34,8 +61,8 @@ rules_dic = {
 # ----------------------------------------------
 # * functions :
 # ----------------------------------------------
-# **  get_all_rules_index:
-def get_all_rules_index(df):
+# **  get_all_rules:
+def get_all_rules(df):
     r = []
     for i in range(0, df.shape[0]):
         # print("i = ", i)
@@ -56,9 +83,18 @@ def use_rule(df, index, rule_name, rule_params, test = False):
         return rules_dic[rule_name](df, rule_params)
     except Exception:
         if not test:
-            print("no such rule in dictionary from row=",index, " ", rule_name)
-        return None
+            print("no such rule in dictionary from row=",index+1, " ", rule_name)
+        return df, None
 
-
+# **  postprocessing_df_with_rules_df:
+def postprocessing_df_with_rules_df(df, df_rules):
+    rules_list = get_all_rules(df_rules)
+    if not rules_list: return df
+    for rule in rules_list: 
+        df, args = use_rule(df = df,
+                            index = rule[0],
+                            rule_name = rule[1],
+                            rule_params = rule[2],)
+    return df
 # ** ------------------------------------------:
 # * -------------------------------------------:
