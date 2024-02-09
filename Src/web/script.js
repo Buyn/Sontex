@@ -101,6 +101,10 @@ async function refreshLog() {
 // * function start_calc() : 
 async function start_calc() {
 		console.log("statr calc");
+		sendToLog(" ");
+		sendToLog(" ");
+		sendToLog("--------------------------------------------------");
+		sendToLog(new Date());
 		sendToLog("Начат расчёт показателей");
 		document.cookie = exelInput.name + "=" + exelInput.value;
 		document.cookie = csvInput.name + "=" + csvInput.value;
@@ -117,5 +121,8 @@ async function start_calc() {
 		sendToLog("Расчёт показателей завершился успешно");
 		sendToLog("Результат расчёта сохранен в файле " + outputInput.value);
 		refreshLog();
+		sendToLog(new Date());
+		sendToLog("==================================================");
+		sendToLog(" ");
 	}
 

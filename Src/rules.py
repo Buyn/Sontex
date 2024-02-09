@@ -84,6 +84,7 @@ def use_rule(df, index, rule_name, rule_params, test = False):
     except Exception:
         if not test:
             print("no such rule in dictionary from row=",index+1, " ", rule_name)
+            # wm.print_to_log("немає такого правила у словнику з row="+ index+1+ " "+ rule_name)
         return df, None
 
 # **  postprocessing_df_with_rules_df:

@@ -7,6 +7,7 @@ from tkinter import filedialog
 from tkinter import *
 from global_values import *
 import main as m
+import datetime
 
 
 # ----------------------------------------------
@@ -155,7 +156,7 @@ def btn_asksaveasfile(path,
 # ** def print_to_log(string) : 
 # ----------------------------------------------
 def print_to_log(string):
-    gui_log.append(string)
+    gui_log.append(datetime.datetime.now().strftime("%H:%M:%S.%f")+": "+ string)
 
 
 # ** -------------------------------------------

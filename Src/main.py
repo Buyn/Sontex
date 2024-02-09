@@ -86,12 +86,18 @@ def gui_calc(_filename, _csv, _output, _home_count = None):
         df_report = gen_OSBB_report(app_list)
     df_TE_report = gen_TE_report(app_list)
 # *** postprocessing block :
-    # load rules from exel
-    df_rules = load_exel(filename, gr_rule_sheet_name)
-    df_TE_report = postprocessing_df_with_rules_df(df_TE_report, df_rules)
+    # df_rules = load_exel(filename, gr_rule_sheet_name)
+    try:
+          df_rules = load_exel(filename, gr_rule_sheet_name)
+          df_TE_report = postprocessing_df_with_rules_df(df_TE_report, df_rules)
+    except Exception:
+          df_rules = None
+          print("Error in load rules sheet = ", gr_rule_sheet_name ," from file =", filename)
+          wm.print_to_log("Помилка під час завантаження аркуша правил = "+ gr_rule_sheet_name + " з файлу =" + filename)
 # *** save block : 
     save_data_frame(output, df,
-                    df_report = df_report,
+                    df_report,
+                    df_rules = df_rules,
                     df_TE_report = df_TE_report)
 
 
