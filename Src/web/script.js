@@ -38,15 +38,15 @@ useCounterBox.onchange = () => {
 // * onclick : 
 exelBtn.onclick = () => getExel(	exelInput,
 																	["excel files","*.xlsx"],
-																	"Выбрать фаил входящего отчёта");
+																	"Вибрати файл вхідного звіту");
 
 csvBtn.onclick = () => getDBfile( csvInput,
 																	[["csv files", "*.csv"], ["rlv files", "*.rlv"]],
-																	"Выбрать фаил показания устройств csv или rlv");
+																	"Обрати файл показників пристроїв .csv або .rlv");
 
 outputBtn.onclick = () => saveAs( outputInput,
 																	["excel files","*.xlsx"],
-																	"Сохранить отчёт как");
+																	"Зберегти звіт як");
 
 reportBtn.onclick = () => start_calc();
 
@@ -105,7 +105,7 @@ async function start_calc() {
 		sendToLog(" ");
 		sendToLog("--------------------------------------------------");
 		sendToLog(new Date());
-		sendToLog("Начат расчёт показателей");
+		sendToLog("Почато розрахунок показників");
 		document.cookie = exelInput.name + "=" + exelInput.value;
 		document.cookie = csvInput.name + "=" + csvInput.value;
 		document.cookie = outputInput.name + "=" + outputInput.value;
@@ -118,8 +118,8 @@ async function start_calc() {
 		console.log(outputInput.value);
 		console.log("result of calc =", r);
 		refreshLog();
-		sendToLog("Расчёт показателей завершился успешно");
-		sendToLog("Результат расчёта сохранен в файле " + outputInput.value);
+		sendToLog("Розрахунок показників завершився успішно");
+		sendToLog("Результат розрахунку збережено у файлі " + outputInput.value);
 		refreshLog();
 		sendToLog(new Date());
 		sendToLog("==================================================");
