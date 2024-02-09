@@ -59,15 +59,15 @@ def gui_calc(_filename, _csv, _output, _home_count = None):
         last_app_line = get_last_app_line(app_list)
         r = set_home_counter(df, last_app_line, _home_count)
         print(r)
-        wm.print_to_log("Даные поля домашнего счёчика используются игнорируя даные exel")
-        wm.print_to_log("значения используемое = "+ str(_home_count))
+        wm.print_to_log("Ці клітини загальнобудинкового лічильника використовуються, ігноруючи показники з клітини файлу Excel")
+        wm.print_to_log("використання значення = "+ str(_home_count))
         wm.print_to_log(r)
 # *** loading date frame from CSV or RLV file :
     udate_data = set()
     for path_csv in csv.split(";"):
         if path_csv=="":
             continue
-        wm.print_to_log("загужаем занчение из файла: "+path_csv)
+        wm.print_to_log("завантажуємо значення з файлу: "+path_csv)
         udate_data.add(update_counters(app_list,
                                        couters_list,
                                        load_db(path_csv)))
@@ -183,7 +183,7 @@ def get_last_app_line(apps):
     if apps[-1].is_last :
       return apps[-1].next_app_line
     else:
-      wm.print_to_log('Ошибка во входящем Exel файле get_last_line in not last appart ' + str(len(apps)))
+      wm.print_to_log('Помилка у вхідному файлі Excel get_last_line не в останній квартирі ' + str(len(apps)))
       raise NameError(
           'get_last_line in not last appart ' + str(len(apps)))
 
@@ -194,10 +194,10 @@ def get_home_value(df, line, column):
     r =  df.iloc[line, column]
     # print("value = ", r)
     if not isinstance(r, float) and not isinstance(r, int):
-        wm.print_to_log('Ошибка во входящем Exel файле не число в ячейке in get_home_value not int or float on line = ' + str(line + gl_exl_shift_rows) + ', for column ' + str(column))
+        wm.print_to_log('Помилка у вхідному Excel файлі: не числовий формат показника у клітини in get_home_value not int or float on line = ' + str(line + gl_exl_shift_rows) + ', for column ' + str(column))
         raise NameError('in get_home_value not int or float on line = ' + str(line + gl_exl_shift_rows) + ', for column ' + str(column))
     if pd.isna(r):
-        wm.print_to_log('Ошибка во входящем Exel файле в ячёйке отсутвует знаяение no value on line = ' + str(line + gl_exl_shift_rows) + ', for column ' + str(column))
+        wm.print_to_log('Помилка у вхідному Excel файлі: у клітини відсутнє значення no value on line = ' + str(line + gl_exl_shift_rows) + ', for column ' + str(column))
         raise NameError('no value on line = ' + str(line + gl_exl_shift_rows) + ', for column ' + str(column))
     return r
     
@@ -205,12 +205,12 @@ def get_home_value(df, line, column):
 # ** def set_home_counter : 
 def set_home_counter(df, g_line, values): 
     if not values or values[0] == "" and values[1] == "":
-        return "значения домового счёчика использованы из экселе"
+        return "значення загальнобудинкового лічильника використані з Excel"
     if values[0] != "":
       df.iloc[g_line + gl_shift_home_counter_value1, gl_column_home_counter_value1] = float(values[0])
     if values[1] != "":
       df.iloc[g_line + gl_shift_home_counter_value2, gl_column_home_counter_value2] = float(values[1])
-    return "значения домового счёчика в экселе обновлены " + str(values[0]) + " ; " + str(values[0])
+    return "значення загальнобудинкового лічильника в екселі оновлено" + str(values[0]) + " ; " + str(values[0])
     
 
 # ** def gen_delta_value_home_counter : 
@@ -269,7 +269,7 @@ def gen_Qpit_roz(sum_home_e, qfun_sys, q_Mkz, sum_no_counter_e):
 def calc_surcharge(app_list, q_pit_roz, q_op_min): 
     sum_e_k = sum_E_used_k(app_list)
     if sum_e_k == 0:
-      wm.print_to_log('Ошибка сумарное использование энергии 0 нечего расчитывать no Energi use in any appartament (exempl colmn R = colmn S)')
+      wm.print_to_log('Помилка: сумарне використання енергії 0, нема нічого для обчислення no Energi use in any appartament (exempl colmn R = colmn S)')
       raise ValueError('no Energi use in any appartament (exempl colmn R = colmn S)')
     for i, app in enumerate(app_list):
         app_list[i].gen_surcharge(q_pit_roz, q_op_min, sum_e_k)
@@ -461,13 +461,13 @@ def load_exel(filename, sheet_name):
 def load_csv(filename): 
     if not filename:
         return None
-    wm.print_to_log("Загружаем Фаил csv")
+    wm.print_to_log("Завантажуємо файл csv")
     df = pd.read_csv(filename ,
                     encoding = gv_csv_encoding,
                     header = gv_csv_header,
                     sep = gv_csv_sep,
                      index_col = gv_csv_index_col)
-    wm.print_to_log("Фаил csv загружен")
+    wm.print_to_log("Файл csv завантажений")
     return df
 
 
@@ -475,13 +475,13 @@ def load_csv(filename):
 def load_rlv(filename): 
     if not filename:
         return None
-    wm.print_to_log("Загружаем Фаил rlv")
+    wm.print_to_log("Завантажуємо файл rlv")
     df = pd.read_csv(filename ,
                     encoding = gv_rlv_encoding,
                     header = gv_rlv_header,
                     sep = gv_rlv_sep,
                      index_col = gv_rlv_index_col)
-    wm.print_to_log("Фаил rlv загружен")
+    wm.print_to_log("файл rlv завантажений")
     return df
 
 
@@ -494,7 +494,7 @@ def load_db(filename):
       return load_rlv(filename)
     elif extesion == "csv":
       return load_csv(filename)
-    wm.print_to_log("Недопустимое расширение файла для обновления. Ожидатеся .rlv или .csv. Фаил проигнорирован = "+ filename)
+    wm.print_to_log("Неприпустиме розширення файлу для оновлення. очікується .rlv або .csv. Файл проігноровано = "+ filename)
     return None
 
 
@@ -647,23 +647,23 @@ def update_counters(app_list, counters_list, df_csv, data_i = 1):
             # print("data_list = ", data_list) 
     # print("values", len(data_list))
     if len(data_list)==0:
-        wm.print_to_log("ошибка даных csv. фаил не содержит не одного ID из exel ")
+        wm.print_to_log("помилка даних csv. Файл не містить жодного ID з exel")
         # print("ошибка даных csv. фаил не содержит не одного ID из exel ")
-        wm.print_to_log("csv uспорчен. Обработка остановлена")
+        wm.print_to_log("csv зіпсований. Обробку зупинено")
         raise NameError("csv corupt. no id exels in csv file ", "len(data_list) = ", len(data_list) )
     if len(data_list)!=1:
         for data in data_list:
-          wm.print_to_log("ошибка даных csv. Более одной даты в столбце "+ name_date+ " = "+ data)
-          print("ошибка даных csv. Более одной даты в столбце "+ name_date+ " = "+ data)
+          wm.print_to_log("помилка даних csv. Більше однієї дати у стовпці "+ name_date+ " = "+ data)
+          print("помилка даних csv. Більше однієї дати у стовпці "+ name_date+ " = "+ data)
         # wm.print_to_log("csv uспорчен. Обработка остановлена")
-        wm.print_to_log("csv uспорчен. Обработка не остановлена")
+        wm.print_to_log("csv зіпсований. Обробку не зупинено")
         data_list = data_list.pop();
-        wm.print_to_log("имя колонки установленно на = " + str(data_list))
+        wm.print_to_log("назва стовбчика змінено на = " + str(data_list))
         # raise NameError("csv corupt. more then one date in csv column ", name_date, "len(data_list) = ", len(data_list) )
     # print("values from csv add on dates = ", data_list)
     if len(id_list)>0:
-        wm.print_to_log("эти ID указаны в файле, но отсутвуют в exel " + str(id_list))
-    wm.print_to_log("Даные csv взяты на число "+ str(data_list))
+        wm.print_to_log("Ці ID вказані у файлі, але відсутні у Excel" + str(id_list))
+    wm.print_to_log("Показники csv зафіксовані на дату"+ str(data_list))
     return str(data_list)
 
 

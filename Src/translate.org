@@ -12,7 +12,10 @@ wm.print_to_log("використання значення = "+ str(_home_count)
         return "значення загальнобудинкового лічильника використані з Excel"
     return "значення загальнобудинкового лічильника в екселі оновлено" + str(values[0]) + " ; " + str(values[0])
 
+			STOP
+
       wm.print_to_log('Помилка: сумарне використання енергії 0, нема нічого для обчислення no Energi use in any appartament (exempl colmn R = colmn S)')
+
 
     wm.print_to_log("Завантажуємо файл csv")
     wm.print_to_log("Файл csv завантажений")
