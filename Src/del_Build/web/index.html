@@ -1,0 +1,105 @@
+<!-- * html </h1> -->  
+<!DOCTYPE html>  
+<html lang="ru">  
+<!-- * header </h1> -->  
+<head>  
+	<meta charset="UTF-8" />  
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />  
+	<meta name="viewport" content="width=device-width,  
+initial-scale=1.0" />  
+	<title>Sontex</title>  
+
+	<link rel="stylesheet" href="dark.css"/>	
+	<link rel="stylesheet" href="style.css"/>	
+	<script type="text/javascript" src="../eel.js"></script>  
+	<script src="./script.js" defer></script>  
+</head>  
+<!-- * body : </h1> -->
+<body>  
+<!-- ** Sontex </h1>  :  -->
+	<h1>Sontex</h1>  
+	<!-- <div class="random_number"></div> -->
+<!-- ** Form open :  </h1> -->
+	<form id="init-form" action="javascript:">
+<!-- ** Обще домовой счёчик :  </h1> -->
+		<div class="row" title="
+	Если выбрана галочка
+то задаются значения домашнего счёчика 
+вместо значений из екселя.
+	И новые значения перезапишутся в файл отчёта.
+">
+			<label>
+				<input id="use-count" name="use-count" type="checkbox">
+				Показатель Общедомового счётчика <br> (игнорировать из ексела)
+			</label>
+			<input id="curr-count" name="curr-count" type="number" step="any" class="short" placeholder="текущий">
+			<input id="prev-count" name="prev-count" type="number" step="any" class="short" placeholder="предыдущий">
+		</div>
+<!-- ** экселе фаил :  </h1> -->
+		<div class="row" title="
+
+	Форматировный фаил Екселя 
+совсеми нужными показания для формирования отчёта
+	Главный и основной фаил нужный для
+формирования отчёта
+	Если не будет задан фаил исходяший
+то будет презаписан этот фаил
+	Что позволяет формировать новый отчёт на
+результах отработы предыдушего
+">
+			<button id="exel-btn">экселе фаил</button>  
+			<!-- <input type="file" hidden id="exel-file" > -->
+			<input type="text" class="long" id="exel-input" name="exel">
+		</div>
+<!-- ** показание устройств :  </h1> -->
+		<div class="row" title="
+
+	Фаил или файлы с показания устройств 
+	в формате .csv или .rlv
+	заменит показания устройст полученые из файла Эксель
+	и на основе новых показанийй сформирует отчёт
+
+">
+			<button id="csv-btn">показание устройств</button>  
+			<!-- <input type="file" hidden id="csv-file" > -->
+			<input id="csv-input" name="csv" type="text" class="long" >
+		</div>
+<!-- ** фаил отчёта :  </h1> -->
+		<div class="row" title="
+
+	Путь к месту куда положить отчёт после формировния
+	Поля можно оставить пустым
+тогда в качестве канечного файла будет
+выбран входяший
+И результат будет перезаписан в него
+">
+			<button id="output-btn">фаил отчёта</button>  
+			<input type="text" class="long" id="output-input" name="output">
+		</div>
+		<div class="row">
+<!-- ** сформировать отчёт </h1>: -->
+			<button id="report-btn">сформировать отчёт</button>	
+			<!-- <label> -->
+			<!-- 	<input type="checkbox"> ОСББ -->
+			<!-- </label> -->
+		</div>
+<!-- ** End Form </h1>: -->
+	</form>
+<!-- ** log </h1> :  -->
+		<textarea name="log" id="log" readonly>
+			
+			Доброго времени суток!
+
+		</textarea>
+<!-- ** report-modal </h1>:  -->
+<!-- <a onclick="getFolder()">GetFolder</a> -->
+<!-- 	</form> -->
+<!-- 	<dialog id="report-modal">	 -->
+<!-- 			<input type="text" class="long"> -->
+<!-- 	</dialog>	 -->
+
+<!-- 	<button id="genbutton">Get a Random number using Python</button>   -->
+<!-- </body>   -->
+
+<!-- * close html </h1> -->  
+</html>  

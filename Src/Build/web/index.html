@@ -23,62 +23,54 @@ initial-scale=1.0" />
 	<form id="init-form" action="javascript:">
 <!-- ** Обще домовой счёчик :  </h1> -->
 		<div class="row" title="
-	Если выбрана галочка
-то задаются значения домашнего счёчика 
-вместо значений из екселя.
-	И новые значения перезапишутся в файл отчёта.
+		
+	Якщо встановлено позначку, тоді обираються показники загальнобудинкового лічильника, замість значень з Excel.
+	Й нові показники оновляться у файлі звіту.
+
 ">
 			<label>
 				<input id="use-count" name="use-count" type="checkbox">
-				Показатель Общедомового счётчика <br> (игнорировать из ексела)
+				Показник загальнобудинкового лічильника <br> (ігнорувати з ексель)
 			</label>
-			<input id="curr-count" name="curr-count" type="number" step="any" class="short" placeholder="текущий">
-			<input id="prev-count" name="prev-count" type="number" step="any" class="short" placeholder="предыдущий">
+			<input id="curr-count" name="curr-count" type="number" step="any" class="short" placeholder="поточний" disabled>
+			<input id="prev-count" name="prev-count" type="number" step="any" class="short" placeholder="попередній" disabled>
 		</div>
 <!-- ** экселе фаил :  </h1> -->
 		<div class="row" title="
 
-	Форматировный фаил Екселя 
-совсеми нужными показания для формирования отчёта
-	Главный и основной фаил нужный для
-формирования отчёта
-	Если не будет задан фаил исходяший
-то будет презаписан этот фаил
-	Что позволяет формировать новый отчёт на
-результах отработы предыдушего
+	Відформатований файл EXEL з усіма необхідними показаннями для формування звіту.
+	Основний та головний файл необхідний для звітування.
+	Якщо не буде задано вихідний файл, то буде перезаписаний цей файл. Що дозволяє формувати новий звіт за результатами формування попереднього.
+
 ">
-			<button id="exel-btn">экселе фаил</button>  
+			<button id="exel-btn">Excel файл</button>  
 			<!-- <input type="file" hidden id="exel-file" > -->
 			<input type="text" class="long" id="exel-input" name="exel">
 		</div>
 <!-- ** показание устройств :  </h1> -->
 		<div class="row" title="
 
-	Фаил или файлы с показания устройств 
-	в формате .csv или .rlv
-	заменит показания устройст полученые из файла Эксель
-	и на основе новых показанийй сформирует отчёт
+	Файл або файли (розділені символом ;) із показаннями пристроїв у форматі .csv або .rlv.
+	Замінює показання пристроїв, отримані з файлу Excel. І формує звіт, на основі нових показників пристроїв.
 
 ">
-			<button id="csv-btn">показание устройств</button>  
+			<button id="csv-btn">показників пристроїв</button>  
 			<!-- <input type="file" hidden id="csv-file" > -->
 			<input id="csv-input" name="csv" type="text" class="long" >
 		</div>
 <!-- ** фаил отчёта :  </h1> -->
 		<div class="row" title="
 
-	Путь к месту куда положить отчёт после формировния
-	Поля можно оставить пустым
-тогда в качестве канечного файла будет
-выбран входяший
-И результат будет перезаписан в него
+	Шлях до місця розташування звіту після формування та ім'я сформованого файлу звіту.
+	Клітина може залишитися пустою, де кінцевим файлом буде обрано - вхідний. Результат буде оновлено у цьому файлі.
+
 ">
-			<button id="output-btn">фаил отчёта</button>  
+			<button id="output-btn">файл звіту</button>  
 			<input type="text" class="long" id="output-input" name="output">
 		</div>
 		<div class="row">
 <!-- ** сформировать отчёт </h1>: -->
-			<button id="report-btn">сформировать отчёт</button>	
+			<button id="report-btn">сформувати звіт</button>	
 			<!-- <label> -->
 			<!-- 	<input type="checkbox"> ОСББ -->
 			<!-- </label> -->
@@ -88,7 +80,7 @@ initial-scale=1.0" />
 <!-- ** log </h1> :  -->
 		<textarea name="log" id="log" readonly>
 			
-			Доброго времени суток!
+			Начало работы
 
 		</textarea>
 <!-- ** report-modal </h1>:  -->
