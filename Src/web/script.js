@@ -92,9 +92,9 @@ function sendToLog(text) {
 		}
 // * function refreshLog :
 async function refreshLog() {
-		var log_strigs= await eel.pull_log()();
-		log_strigs.reverse();
-		log_strigs.forEach(strig => sendToLog(strig));
+		var log_strings= await eel.pull_log()();
+		log_strings.reverse();
+		log_strings.forEach(string => sendToLog(string));
 		}
 
 
@@ -104,7 +104,7 @@ async function start_calc() {
 		sendToLog(" ");
 		sendToLog(" ");
 		sendToLog("--------------------------------------------------");
-		sendToLog(new Date());
+		sendToLog(new Date().toISOString().replace("T", " ").slice(0,16));
 		sendToLog("Почато розрахунок показників");
 		document.cookie = exelInput.name + "=" + exelInput.value;
 		document.cookie = csvInput.name + "=" + csvInput.value;
@@ -118,11 +118,14 @@ async function start_calc() {
 		console.log(outputInput.value);
 		console.log("result of calc =", r);
 		refreshLog();
+		await pause(2000);
 		sendToLog("Розрахунок показників завершився успішно");
 		sendToLog("Результат розрахунку збережено у файлі " + outputInput.value);
 		refreshLog();
-		sendToLog(new Date());
+		sendToLog(new Date().toISOString().replace("T", " ").slice(0,16));
 		sendToLog("==================================================");
 		sendToLog(" ");
 	}
-
+function pause(delay){
+		return new Promise(resolve => setTimeout(resolve, delay));
+}

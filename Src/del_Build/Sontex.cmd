@@ -1,2 +1,0 @@
-cd main
-main.exe
