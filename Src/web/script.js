@@ -29,18 +29,24 @@ exelInput.value = cookies.exel || "";
 csvInput.value = cookies.csv || "";
 outputInput.value = cookies.output || "";
 
+// * onchange : 
+useCounterBox.onchange = () => {
+		prevCounter.disabled = !useCounterBox.checked;
+		currCounter.disabled = !useCounterBox.checked;
+}
+
 // * onclick : 
 exelBtn.onclick = () => getExel(	exelInput,
 																	["excel files","*.xlsx"],
-																	"Выбрать фаил входящего отчёта");
+																	"Вибрати файл вхідного звіту");
 
 csvBtn.onclick = () => getDBfile( csvInput,
 																	[["csv files", "*.csv"], ["rlv files", "*.rlv"]],
-																	"Выбрать фаил показания устройств csv или rlv");
+																	"Обрати файл показників пристроїв .csv або .rlv");
 
 outputBtn.onclick = () => saveAs( outputInput,
 																	["excel files","*.xlsx"],
-																	"Сохранить отчёт как");
+																	"Зберегти звіт як");
 
 reportBtn.onclick = () => start_calc();
 
@@ -86,16 +92,21 @@ function sendToLog(text) {
 		}
 // * function refreshLog :
 async function refreshLog() {
-		var log_strigs= await eel.pull_log()();
-		log_strigs.reverse();
-		log_strigs.forEach(strig => sendToLog(strig));
+		var log_strings= await eel.pull_log()();
+		log_strings.reverse();
+		log_strings.forEach(string => sendToLog(string));
 		}
 
 
 // * function start_calc() : 
 async function start_calc() {
 		console.log("statr calc");
-		sendToLog("Начат расчёт показателей");
+		sendToLog(" ");
+		sendToLog(" ");
+		sendToLog("--------------------------------------------------");
+		// sendToLog(new Date().toISOString().replace("T", " ").slice(0,16));
+		sendToLog(new Date());
+		sendToLog("Почато розрахунок показників");
 		document.cookie = exelInput.name + "=" + exelInput.value;
 		document.cookie = csvInput.name + "=" + csvInput.value;
 		document.cookie = outputInput.name + "=" + outputInput.value;
@@ -108,8 +119,15 @@ async function start_calc() {
 		console.log(outputInput.value);
 		console.log("result of calc =", r);
 		refreshLog();
-		sendToLog("Расчёт показателей завершился успешно");
-		sendToLog("Результат расчёта сохранен в файле " + outputInput.value);
+		await pause(2000);
+		sendToLog("Розрахунок показників завершився успішно");
+		sendToLog("Результат розрахунку збережено у файлі " + outputInput.value);
 		refreshLog();
+		// sendToLog(new Date().toISOString().replace("T", " ").slice(0,16));
+		sendToLog(new Date());
+		sendToLog("==================================================");
+		sendToLog(" ");
 	}
-
+function pause(delay){
+		return new Promise(resolve => setTimeout(resolve, delay));
+}

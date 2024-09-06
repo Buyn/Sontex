@@ -39,3 +39,15 @@ label {
 /* 		width	: 10%; */
 /* 		margin-left: 15px; */
 }
+
+.logos {
+		margin-top: 20px;
+		display: flex;
+		justify-content: space-between;
+}
+
+.logos img {
+		height: 100px;
+		/* width: 240px; */
+}
+

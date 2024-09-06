@@ -17,6 +17,7 @@ class Appart_values:
         if not self.is_starting_line(start_line):
           raise NameError('no appart start on line = ' + str(start_line))
         self._start_line = start_line
+        self.not_found_ids = set()
         self.next_app_line, self.is_last = self.get_next_appindex(self._start_line)
         self.counters_list = self.get_counters_list(
                                     self._start_line,
@@ -123,6 +124,7 @@ class Appart_values:
 # ** def update_allvalues1_by_id : 
     def update_allvalues1_by_id(self, df,  name_value, name_date=None):
         r =[]
+        self.not_found_ids.clear()
         # print("name_date = ", name_date)
         # print("self.counters_list = ", self.counters_list[0])
         if self.counters_list:
@@ -137,7 +139,7 @@ class Appart_values:
                         # print("ser_id = ", ser_id, "r = ", r)
                 except Exception:
                     # print("not in csv id", ser_id)
-                    pass
+                    self.not_found_ids.add(ser_id)
         return r
 
 

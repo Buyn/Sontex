@@ -1,0 +1,185 @@
+:PROPERTIES:
+:header-args: :tangle  "D:/Development/version-control/GitHub/Zmei/Sontex/Src/sandbox.py"
+:END:
+* 2024-02-02 rules
+*** import
+#+begin_src python 
+import pandas as pd
+#+end_src
+*** load_exel
+#+begin_src python 
+def load_exel(filename, sheet_name): 
+    df = pd.read_excel(filename,
+                      sheet_name = sheet_name,
+                      engine='openpyxl',
+                      # index_col=0,
+                      header=None,
+                      )
+    return df
+
+#+end_src
+
+*** переменные
+#+begin_src python 
+gv_filename = "Data_files/test.xlsx"
+sheet_name = "rules"
+#+end_src
+
+*** открыть правила
+#+begin_src python 
+df = load_exel(gv_filename, sheet_name)
+print(df)
+#+end_src
+
+*** find_ferst_rule_row_next10
+#+begin_src python :tangle no
+def find_ferst_rule_row_next10(df, start):
+    end = start + 10 if start + 10 <= df.shape[0] else df.shape[0]
+    for i in range(start, end):
+        print("i = ", i)
+        value_i = df.iloc[i, 0]
+        if value_i == "rule":
+            print("found on index = ", i)
+            print("value of i = ", value_i)
+            return i, True
+        continue
+    return -1, None
+#+end_src
+
+*** найти правило
+#+begin_src python :tangle no
+print(find_ferst_rule_row_next10(df, 0))
+
+# print(df.shape[0])
+print(find_ferst_rule_row_next10(df, 10))
+#+end_src
+
+*** размер дата фрейма можно определить
+print(df.shape)
+возврашается тюпл
+первое ровы
+второе колумы
+*** найти index всех правил
+#+begin_src python :tangle no 
+def get_all_rules_index(df):
+    r = []
+    for i in range(0, df.shape[0]):
+        print("i = ", i)
+        value_i = df.iloc[i, 0]
+        if df.iloc[i, 0] == "rule":
+            print("rule found on index = ", i)
+            print("value of i = ", df.iloc[i, 0])
+            r.append(i)
+    return r
+
+
+print (get_all_rules_index(df))
+#+end_src
+
+*** получить лист всех правил
+#+begin_src python :tangle no 
+def get_all_rules_index(df):
+    r = []
+    for i in range(0, df.shape[0]):
+        # print("i = ", i)
+        value_i = df.iloc[i, 0]
+        if df.iloc[i, 0] == "rule":
+            # print("rule found on index = ", i)
+            # print("value of i = ", df.iloc[i, 0])
+            ruls_name = df.iloc[i, 1]
+            ruls_params = df.iloc[i, 2]
+            ruls_params_list =[]
+            for p in range(3, 3 + ruls_params):
+                # print("p = ", p)
+                ruls_params_list.append(df.iloc[i, p])
+            r.append((i, ruls_name, ruls_params, ruls_params_list))
+    return r
+
+
+print (get_all_rules_index(df))
+#+end_src
+
+*** refactor получить лист всех правил
+:tangle no 
+#+begin_src python 
+def get_all_rules_index(df):
+    r = []
+    for i in range(0, df.shape[0]):
+        # print("i = ", i)
+        value_i = df.iloc[i, 0]
+        if df.iloc[i, 0] == "rule":
+            # print("rule found on index = ", i)
+            # print("value of i = ", df.iloc[i, 0])
+            ruls_name = df.iloc[i, 1]
+            ruls_params = df.iloc[i, 2]
+            ruls_params_list =[df.iloc[i, p] for p in range(3, 3 + ruls_params)]
+            r.append((i, ruls_name, ruls_params_list))
+    return r
+
+
+print (get_all_rules_index(df))
+#+end_src
+
+*** тестовая колбек функция
+:tangle no 
+#+begin_src python 
+def postproc_test(arg):
+    print(arg)
+
+# postproc_test ([1, 2 ,3])
+
+rules_dic = {
+    "test" : postproc_test
+}
+
+def use_rule(index, rule_name, rule_params):
+    try:
+        # print(rules_dic[rule_name])
+        rules_dic[rule_name](rule_params)
+    except Exception:
+        print("no such rule in dictionary from row=",index, " ", rule_name)
+
+
+use_rule(1, "test", (1,2,3))
+use_rule(2, "test_no", (1,2,3))
+#+end_src
+
+
+* 2024-02-01 start
+:PROPERTIES:
+:header-args: :tangle  no
+:END:
+** Start Source
+*** start comment
+#+begin_src python 
+"""
+sandbox
+"""
+
+#+end_src
+* Command 
+** execute-src-block:
+(save-excursion (progn (org-babel-goto-named-src-block "auto-tangle-block") (org-babel-execute-src-block)))
+(save-excursion (let () (org-babel-goto-named-src-block "auto-tangle-block") (org-babel-execute-src-block)))
+and then name the block you want to execute automatically:
+
+** find-file:
+[[elisp:(org-babel-tangle)]]
+(find-file-other-frame "D:/Development/version-control/GitHub/my-python/pytts2d/SRC/MouseHandler.py")
+(org-babel-tangle)
+"D:\Development\version-control\GitHub\My-python\pytts2d\DOCs\Brain\MouseHandler.py control Class org.org" 
+
+
+** auto-tangle-block:
+#+NAME: auto-tangle-block
+#+begin_src emacs-lisp :results output silent :tangle no
+(setq org-src-preserve-indentation t)
+(untabify (point-min) (point-max))
+(save-buffer)
+(org-babel-tangle)
+(find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/sandbox.py")
+(recompile)
+;; (load "~/INI/hydra-cfg.el")
+;; (load "~/ELs/BuYn/reader.el")
+ #+end_src
+
