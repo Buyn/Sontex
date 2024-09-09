@@ -165,7 +165,7 @@ class setUp_Test(unittest.TestCase):
         #     self.assertEqual(test , 103)
 
 
-# ** def test_postprocessing_df_with_rules_df : 
+# ** def test_postprocessing_df_with_rules_df:
     def test_postprocessing_df_with_rules_df(self): 
         # test = use_rule(self.df_report, 0, "test", ("test",2,3), test=True)
         self.assertEqual(self.df_report.iloc[2, 4], 2.04)
@@ -190,7 +190,7 @@ class setUp_Test(unittest.TestCase):
 
 
 # ** ------------------------------------------:
-# * Test runer : 
+# * Test runer: 
 # ** ------------------------------------------:
 # (compile " D:/Development/version-control/GitHub/Vadim/Tochil/main_test.py -k init")
 # (compile " python -m unittest D:/Development/version-control/GitHub/Vadim/Tochil/main_test.py ")

@@ -1,12 +1,12 @@
 # ----------------------------------------------
-# * imports : 
+# * imports:
 # ----------------------------------------------
 import pandas as pd
 from global_values import *
 
 
 # ----------------------------------------------
-# * Postprocessing functions :
+# * Postprocessing functions:
 # ----------------------------------------------
 # **  def postproc_test:
 def postproc_test(df, arg):
@@ -53,7 +53,7 @@ def postproc_divider(df:pd.DataFrame, arg):
 
 
 # ** ------------------------------------------:
-# * vars :
+# * vars:
 # ----------------------------------------------
 rules_dic = {
     "test" : postproc_test,
@@ -62,7 +62,7 @@ rules_dic = {
 
 
 # ----------------------------------------------
-# * functions :
+# * functions:
 # ----------------------------------------------
 # **  get_all_rules:
 def get_all_rules(df):

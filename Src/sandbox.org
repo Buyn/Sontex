@@ -144,7 +144,6 @@ use_rule(1, "test", (1,2,3))
 use_rule(2, "test_no", (1,2,3))
 #+end_src
 
-
 * 2024-02-01 start
 :PROPERTIES:
 :header-args: :tangle  no
@@ -157,7 +156,7 @@ sandbox
 """
 
 #+end_src
-* Command 
+* Command
 ** execute-src-block:
 (save-excursion (progn (org-babel-goto-named-src-block "auto-tangle-block") (org-babel-execute-src-block)))
 (save-excursion (let () (org-babel-goto-named-src-block "auto-tangle-block") (org-babel-execute-src-block)))
@@ -168,7 +167,6 @@ and then name the block you want to execute automatically:
 (find-file-other-frame "D:/Development/version-control/GitHub/my-python/pytts2d/SRC/MouseHandler.py")
 (org-babel-tangle)
 "D:\Development\version-control\GitHub\My-python\pytts2d\DOCs\Brain\MouseHandler.py control Class org.org" 
-
 
 ** auto-tangle-block:
 #+NAME: auto-tangle-block

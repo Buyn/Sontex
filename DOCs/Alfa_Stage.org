@@ -1,0 +1,436 @@
+* sontex Alfa stage backlog
+** TODO собрать реальную программу
+*** заменить значения мзс на актуальные
+*** хелп в экселе с описание работы
+*** запустить програму и сформировать
+учитывая правила
+** в теплоэнерго отчёте сумарный тотол не округляется
+*** описание
+**** в репорете
+нет округления сумы
+*** туду
+**** сделать переменую глобальную точности округления
+отчёта
+**** открыть генератор репорта
+**** сделать это через переменную
+**** проверить если посыпались тесты
+** переписать правило
+*** так чтоб он заполнял любое еоличество ячеек
+тоесть разобрав
+*** правило должно округлять до значения из
+глобола для отчётов
+** прогуглить и заменить адреса на реальные
+** Сделать интеграционый тест
+тоесть запускается приложение с задаными параметрами
+и навыходе получается тест аут пут
+в ктором проверяются заданые поля
+впринипе должно быть не сложно
+тест может
+запускать калькулятор с параметрами как будто они из веба
+после чего проверять создание аутпут файлов
+и изменение их значений
+на ожидаемые
+и заускать заскипленые тесты
+как отдельный кмд на паузе
+** переписать функцияю сохраниея экселя
+*** так чтоб она получала лист датафремов
+и помешала их в екселль в полученном порядке
+*** возможно они отправляются парами
+дата фрем и име листа под которым он будет сохранен
+которе может быть именем из глобальных значений
+** Почистить убрать переменые 
+gv_osbb_report = "ОСББ"
+# ** report names:
+[[file:d:/Development/version-control/GitHub/Zmei/Sontex/Src/global_values.py::gv_sheet_report = "report"]]
+** проверить по пункто - сделать екзешни
+*** разобрать в том что сейчас в папке билд
+*** сдлеть виртуал 
+*** установить всё что нужно 
+*** сделать фаил запуска из виртуала 
+*** попробывать сгенерить экзешник на прямую  
+*** если не получилось начинаем копать
+*** фаил билда должен вручную копировать
+фаил запуска
+папку веба
+и создовать папку с дата файлов
+*** кмд орг
+написать отдельный кмд для делания 
+екзешника
+*** сгенерить кмд 
+*** запустить протестить 
+*** сделать раздел делания екзкшника 
+вроде там всё готово итак
+просто запустить фаил
+автоматизировать процес
+сделать авто копирование исходников
+и папок
+*** сделать фаил апдейта 
+копирует все пйтоны
+веб
+** вынести переменую лога в глобалс
+*** легко испрвить вынеся код в отделный фаил
+**** переменая
+**** лог пул
+**** лог принт
+*** поскольку сейчас мы не можем запускать логи из других модов
+*** посмотреть может можно исправить меинвин мод
+чтоб возомжен был импорт
+** Подготовить следуший спринт
+*** отметить как Некст этот
+*** убрать законченые туду вниз
+*** Создать новый спринт раздел в org
+*** добавить копию канбан вновый орг
+скопиями делами на новй спринт и закончить спринт
+[[*tmp bord][tmp bord]]
+*** открыть в беклоге туду новый спринт
+[[*Новый спринт][Новый спринт]]
+*** добавить в гит завершаюший комит
+*** замержить с мейном 
+**** commands 
+git checkout main
+git merge --no-ff rlv_beta
+st
+gh 
+st
+
+**** orig
+che
+git merge --no-ff f_encoder_to_old
+# git branch -d f_encoder_to_old
+st
+gh 
+st
+*** создать новый бранч 
+git checkout -b exe_beta
+git push -u --set-upstream origin exe_beta
+^сделать возможным пушь
+
+
+*** запонить канбан списком дел из беклога
+*** отметить как Туду этот
+** Переписать в один орг фаил убрав лишнее
+* backlog sprint-A-2024-09-06
+** DONE создание и оформление стадии альфа
+CLOSED: [2024-09-07 Sat 20:46]
+** TODO посмотреть выполняются ли тесты
+*** открыть кмд фаил рантестов
+*** выпонить из него команду
+*** устновить зависимости
+*** добавить зависисмотси в орг сонтекс
+*** сделать его шелл аналог
+*** DONE err
+CLOSED: [2024-09-09 Mon 18:58]
+ImportError: Missing optional dependency 'openpyxl'.  Use pip or conda to install openpyxl.
+*** sh
+**** cmd
+@echo off
+:start
+python -m unittest
+pause
+cls
+goto :start
+**** new sh
+cd /home/buyn/Dev/Python/Sontex/Src/
+source sontex-env/bin/activate
+:results output silent
+#+begin_src elisp  :dir /home/buyn/Dev/Python/Sontex/Src/
+(buyn-shell-start "konsole -e /bin/bash --rcfile <(source sontex-env/bin/activate)")
+(evil-previous-line)
+(org-cycle)
+(delete-other-windows)
+#+end_src
+
+(buyn-shell-start "konsole -e /bin/bash --rcfile <(source sontex-env/bin/activate)")
+
+*** run tests
+python -m unittest
+
+** запустить тестовый вариант
+*** на основе файлов из тестов
+определить на чём он генереит тесты
+*** и выполнить тоже самое из меню
+** записать инструкцию по названиям файлов
+*** записать получившийся результат словами в орг
+** сделать инструкцию
+чтоб было понятно как запускать если потом понадобится
+либо сделать инструкцию для клиента через чат жпт
+** просмотреть файлы Сергея
+*** установить опен офис
+*** открыть файлы
+*** понять как там много работы
+** Запустить с файлом Сергея
+*** отредоктировать файлы для репорта
+*** запустить
+*** профит
+** изменить текст лога
+на что на украинском
+* SRC files
+** main
+*** main.py
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "/home/buyn/Dev/Python/Sontex/Src/main.py")
+#+end_src
+
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/main.py")
+#+end_src
+*** test_main.py
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/test_main.py")
+#+end_src
+** appart_values
+*** appart_values.py
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/appart_values.py")
+#+end_src
+*** test_appart_values.py
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/test_appart_values.py")
+#+end_src
+** counter_values
+*** counter_values.py
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/counter_values.py")
+#+end_src
+*** test_counter_values.py
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/test_counter_values.py")
+#+end_src
+** rules
+*** rules.py
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/rules.py")
+#+end_src
+*** test_rules.py
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/test_rules.py")
+#+end_src
+** global_values.py
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/global_values.py")
+#+end_src
+** winmain
+*** winmain.py
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/winmain.py")
+#+end_src
+*** test_winmain.py
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/test_winmain.py")
+#+end_src
+** .projectile
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/.projectile")
+#+end_src
+** sandbox
+*** sandbox.org
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/sandbox.org")
+#+end_src
+*** sandbox.py
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/sandbox.py")
+#+end_src
+** Eel files
+*** index.html
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/web/index.html")
+#+end_src
+*** script.js
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/web/script.js")
+#+end_src
+*** style.css : 
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/web/style.css")
+#+end_src
+** arhiv
+** org translate 
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/translate.org")
+#+end_src
+* Орг лог
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "~/Dropbox/Office/Progects/Zmei/Sontex/Org-Log/2024-09-06-Sontex-alfa-log.org")
+#+end_src
+* macroses 
+** calc-all : 
+#+begin_src emacs-lisp :results output silent
+(load-file "~/keymac/calc-all.el")
+#+end_src
+#+begin_src emacs-lisp :results output silent
+(fset 'calc-all
+   (kmacro-lambda-form [?\C-u ?\C-c ?*] 0 "%d"))
+#+end_src
+#+begin_src emacs-lisp :results output silent
+(global-set-key (kbd "<f5>") 'calc-all)
+#+end_src
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "~/keymac/calc-all.el")
+#+end_src
+** convert-ru-point : 
+#+begin_src emacs-lisp :results output silent
+(load-file "~/keymac/convert-ru-point.el")
+#+end_src
+#+begin_src emacs-lisp :results output silent
+(fset 'convert-ru-point
+   (kmacro-lambda-form [?ð ?ð ?J ?F ?, ?r ?.] 0 "%d"))
+#+end_src
+#+begin_src emacs-lisp :results output silent
+(global-set-key (kbd "<f6><f6>") 'convert-ru-point)
+#+end_src
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "~/keymac/convert-ru-point.el")
+#+end_src
+** functions +-
+*** new
+#+begin_src emacs-lisp  :results output silent
+(defun buyn-org-table-change ( value)
+	(org-table-get-field nil (number-to-string (+ value (string-to-number (org-table-get-field))))))
+
+(global-set-key (kbd "<f5>") '(lambda () (interactive)
+																(buyn-org-table-change -1)
+																(org-table-recalculate)))
+
+(global-set-key (kbd "<f6>") '(lambda () (interactive)
+																(buyn-org-table-change 1)
+																(org-table-recalculate)))
+
+
+
+#+end_src
+*** orig
+#+begin_src emacs-lisp  :results output silent
+(defun my-org-table-change ( value)
+	(org-table-get-field nil (number-to-string (+ value (string-to-number (org-table-get-field))))))
+
+(defun my-org-table-decrement ()
+  (interactive)
+	(my-org-table-change -1))
+
+(defun my-org-table-increment ()
+  (interactive)
+	(my-org-table-change 1))
+
+(global-set-key (kbd "<f5>") 'my-org-table-decrement)
+(global-set-key (kbd "<f6>") 'my-org-table-increment)
+#+end_src
+*** test 
+|   |   |    |    |   |
+| 6 | 5 |  0 |  1 |   |
+|   |   | 10 |    |   |
+|   |   |  3 | -5 | 0 |
+|---+---+----+----+---|
+|   |   |    |    |   |
+|   |   |    |    |   |
+|   |   |    |    |   |
+|   |   |    |    |   |
+|   |   |    |    |   |
+
+* orgs
+** orgs Sontex
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "~/Dropbox/Office/Progects/Zmei/Sontex/Sontex.org")
+#+end_src
+* project comands
+:PROPERTIES:
+:header-args: :tangle no
+:END:
+** activate
+*** new sh
+:results output silent
+#+begin_src elisp  :dir /home/buyn/Dev/Python/Sontex/Src/
+(buyn-shell-start "konsole -e /bin/bash --rcfile <(source sontex-env/bin/activate)")
+(evil-previous-line)
+(org-cycle)
+(delete-other-windows)
+#+end_src
+*** source
+cd /home/buyn/Dev/Python/Sontex/Src/
+source sontex-env/bin/activate
+*** buyn-shell-start
+(buyn-shell-start "konsole -e /bin/bash --rcfile <(source sontex-env/bin/activate)")
+** run console in sontex activ
+#+begin_src elisp :results output silent :dir /home/buyn/Dev/Python/Sontex/Src/
+(buyn-shell-start "konsole -e /bin/bash --rcfile <(source sontex-env/bin/activate)")
+(evil-previous-line)
+(org-cycle)
+(delete-other-windows)
+#+end_src
+source sontex-env/bin/activate
+cd sontex-env
+** run in eshell
+*** run eshell
+#+begin_src elisp :results output silent :dir /home/buyn/Dev/Python/Sontex/Src/
+(evil-previous-line)
+(org-cycle)
+(delete-other-windows)
+(let (buffer-name-to-close (buffer-name))
+	(evil-window-split)
+				(eshell)
+				(evil-quit)
+				(switch-to-buffer-other-frame buffer-name-to-close))
+#+end_src
+*** comannds
+source sontex-env/bin/activate
+cd sontex-env
+
+** save буфер фреймы проекта
+#+begin_src emacs-lisp  :results output silent
+(use-package burly
+ :ensure t
+ ;; :config
+	)
+(burly-bookmark-frames "sontex buffers")
+(burly-bookmark-frames "buffers LAST SAVE")
+(bookmark-save)
+#+end_src
+** run eshell in org root
+clj -M:dev
+clojure -m cljs.main --compile my-cljs-project.core --repl
+#+begin_src elisp :results output silent
+(evil-previous-line)
+(org-cycle)
+(delete-other-windows)
+(let (buffer-name-to-close (buffer-name))
+				(evil-window-split)
+				(eshell)
+				(evil-quit)
+				(switch-to-buffer-other-frame buffer-name-to-close))
+#+end_src
+
+			;; (execute-kbd-macro "A \C-m")
+** run console in sontex
+#+begin_src elisp :results output silent :dir /home/buyn/Dev/Python/Sontex/Src/
+(buyn-shell-start "konsole")
+(evil-previous-line)
+(org-cycle)
+(delete-other-windows)
+#+end_src
+source sontex-env/bin/activate
+cd sontex-env
+** run console in org root
+#+begin_src elisp :results output silent
+(buyn-shell-start "konsole")
+(evil-previous-line)
+(org-cycle)
+(delete-other-windows)
+#+end_src
+
+** run console with command
+#+begin_src elisp :results output silent
+(buyn-shell-start "konsole -e /bin/bash --rcfile <(clj -M:dev)")
+(evil-previous-line)
+(org-cycle)
+(delete-other-windows)
+#+end_src
+
+* 2024-09-06
+** Necroteuch.org : 
+		#+begin_src emacs-lisp :tangle yes
+(find-file-other-frame "~/../Dropbox/orgs/capture/Necroteuch.org")
+		#+end_src
+
+		#+RESULTS:
+		: #<buffer Necroteuch.org>
+
