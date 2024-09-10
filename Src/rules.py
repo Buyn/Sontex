@@ -29,7 +29,11 @@ def postproc_divider(df:pd.DataFrame, arg):
             newrow.append("")
     # print(arg[0])
     # print(df[df[0]==arg[0]])
-    target_index = int(df[df[0]==arg[0]].index.values)
+    target_index = int((df[df[0]==arg[0]].index.values)[0])
+    # tmp_int = df[df[0]==arg[0]].index.values
+    # print("tmp_int =", tmp_int)
+    # print("(int(tmp_int)) = ", int(tmp_int))
+    # target_index = int(tmp_int)
     # print("index.values = ", target_index)
     target_value = df.iloc[target_index, arg[1]-1]
     # print("target_value = ", target_value)

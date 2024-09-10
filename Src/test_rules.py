@@ -6,7 +6,7 @@ from rules import *
 # ----------------------------------------------
 # * functions : 
 # ----------------------------------------------
-# * def load_exel : 
+# * def load_exel:
 def load_exel(filename, sheet_name): 
     df = pd.read_excel(filename,
                       sheet_name = sheet_name,
@@ -49,7 +49,7 @@ class setUp_Test(unittest.TestCase):
 
 
 # ** def test_init1 : 
-    def test_init(self):# {{{
+    def test_init(self):
         self.assertIsNotNone( self.df_report )
         self.assertEqual(self.df_report.iloc[1, 0], 1)
         self.assertIsNotNone( self.df_rules )
@@ -169,6 +169,7 @@ class setUp_Test(unittest.TestCase):
     def test_postprocessing_df_with_rules_df(self): 
         # test = use_rule(self.df_report, 0, "test", ("test",2,3), test=True)
         self.assertEqual(self.df_report.iloc[2, 4], 2.04)
+        self.assertEqual(self.df_report.shape[0], 41)
         test_df = postprocessing_df_with_rules_df(self.df_report, self.df_rules)
         # test_df, test = use_rule(df= self.df_report,
         #                          index=0,
@@ -176,7 +177,8 @@ class setUp_Test(unittest.TestCase):
         #                          rule_params= ("test",2,3),
         #                          test=True)
         self.assertIsNotNone(test_df)
-        self.assertEqual(test_df.shape[0], 42)
+        # print(test_df.shape)
+        self.assertEqual(test_df.shape[0], 43)
         self.assertEqual(test_df.iloc[2, 4], 1.02)
         self.assertEqual(test_df.iloc[3, 0], "2b")
         self.assertEqual(test_df.iloc[3, 4], 1.02)

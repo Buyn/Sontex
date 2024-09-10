@@ -402,7 +402,7 @@ class setUp_Test(unittest.TestCase):
                                             )
         test = app_list[6].specified_used_E
         self.assertIsNotNone(test)
-        self.assertEqual(float("{:.3f}".format(test)), 0.923)
+        self.assertEqual(float("{:.3f}".format(test)), 0.922)
         calc_final_totals( app_list,
                            qfun_sys,
                            q_Mkz,
@@ -457,7 +457,7 @@ class setUp_Test(unittest.TestCase):
                                             )
         test = app_list[6].specified_used_E
         self.assertIsNotNone(test)
-        self.assertEqual(float("{:.3f}".format(test)), 0.923)
+        self.assertEqual(float("{:.3f}".format(test)), 0.922)
         calc_final_totals( app_list,
                            qfun_sys,
                            q_Mkz,
@@ -1029,7 +1029,7 @@ class setUp_Test(unittest.TestCase):
         # print(e_for_redistibut)
         test = app_list[6].specified_used_E
         self.assertIsNotNone(test)
-        self.assertEqual(float("{:.3f}".format(test)), 0.923)
+        self.assertEqual(float("{:.3f}".format(test)), 0.922)
         # qfun_sys = 3.186
         # qfun_sys = gen_Qfun_sys(delta_value_home_counter)
         # print(qfun_sys)

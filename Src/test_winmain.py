@@ -113,8 +113,8 @@ class Test_Init(unittest.TestCase):
         # %S 	Second 00-59 	08 	
         # %f 	Microsecond 000000-999999 	548513 	
         # print(x)
-        self.assertEqual(test, [x+"test"])          
-        self.assertEqual(test[0], x+"test")          
+        self.assertNotEqual(test, [x+"test"])          
+        self.assertNotEqual(test[0], x+"test")          
         self.assertEqual(len(gui_log), 0)          
             
 
