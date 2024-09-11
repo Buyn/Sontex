@@ -23,7 +23,7 @@ gv_filename = "Data_files/metod01.xlsx"
 gv_sheet_name = "квартири, площі"
 gv_sheet_report = "report"
 
-# ** .csv : 
+# ** .csv:
 gv_csv = "Data_files/test.csv"
 # кодировка файла
 gv_csv_encoding = "cp1252"
@@ -39,7 +39,7 @@ gv_csv_name_value="Historic value - "
 # name_text = "Historic date - " + str(gv_csv_name_i)
 # name_value = "Historic value - " + str(gv_csv_name_i)
 
-# ** .rlv : 
+# ** .rlv:
 gv_rlv = "Data_files/test.rlv"
 # gv_rlv = "Data_files/test.rlv"
 # кодировка файла
@@ -123,7 +123,7 @@ gl_mzk_column = 5
 gl_total_e_column = 6
 # ** report names:
 gv_osbb_report = "ОСББ"
-# ** osbb report names:
+# ** osbb report setings:
 gv_osbb_report = "ОСББ"
 gv_enable_full_report = False
 # gv_enable_full_report = True
@@ -141,7 +141,8 @@ gn_func_sys_column = "функціонування системи"
 gn_mzk_column = "МЗК"
 # 6 ВСЬОГО, Гкал
 gn_total_e_column = "ВСЬОГО, Гкал"
-# ** Теплоенрго report names:
+# ** Теплоенрго report setings:
+gv_TE_report_formar_len = 3
 gv_TE_report = "Теплоенрго"
 # 0 Особовий рахунок	
 gn_TE_num_column = "Особовий рахунок"
@@ -155,6 +156,7 @@ gn_TE_period = "Період"
 gn_TE_total_e_column = "Обсяг споживання,  Гкал"
 # ** Rules list:
 gr_rule_sheet_name = "rules"
+gr_rule_sheet_enable_in_report = False
 gr_rule_tag = "rule"
 gr_rule_name_col = 1
 gr_rule_len_col = 2

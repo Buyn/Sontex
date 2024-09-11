@@ -135,17 +135,33 @@ git push -u --set-upstream origin exe_beta
 ** Перереманая отключения владки рулзов в отчёте
 *** сделать по аналогии с переменоной репорта
 ** Перевеод строки в логе
+** округлять знчения на основе переменной
+сейчас они похоже округляются просто хардкодно до 2х значений после запятой
 ** большие буквы для всех кнопок
-** убедится что правило округляет
+** TODO убедится что правило округляет
 округляет на основе значения глобола
-** TODO Совместить цифры
+*** DONE Проверить наличие переменой глобальной
+CLOSED: [2024-09-11 Wed 12:13]
+*** TODO посмотреть как округляется сумарное
+*** сделать по аналогии правило
+*** найти понять как заполняется расчёт
+*** переделать для расчёта
+
+** DONE Совместить цифры
+CLOSED: [2024-09-11 Wed 11:40]
 *** DONE Проверить цифры в файлах сергия
 CLOSED: [2024-09-10 Tue 23:27]
 проверить что в "импуте" теже цифры что в дебаге
-*** сделать копию папки програмы
+*** DONE сделать копию папки програмы
+CLOSED: [2024-09-11 Wed 00:04]
 для запуска чтоб были правельные цифры
-*** сделать инпут фаил
-*** сгенерить оутпут фаил
+*** DONE сделать инпут фаил
+CLOSED: [2024-09-11 Wed 01:21]
+*** DONE сгенерить оутпут фаил
+CLOSED: [2024-09-11 Wed 09:49]
+*** DONE сравнить результаты
+CLOSED: [2024-09-11 Wed 09:49]
+*** подченить сводимость цифр
 *** сделать инпут фаил с тойже последовательностью
 * DONE backlog sprint-A-2024-09-06
 CLOSED: [2024-09-10 Tue 18:17]
@@ -368,7 +384,9 @@ https://docs.projectile.mx/projectile/projects.html
 #+begin_src emacs-lisp :results output silent
 (find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/translate.org")
 #+end_src
-** data files
+* data files
+(ranger "/home/buyn/Dev/Python/Sontex/raw-files/")
+/home/buyn/Dev/Python/Sontex/raw-files/
 * Орг лог
 #+begin_src emacs-lisp :results output silent
 (find-file-other-frame "~/Dropbox/Office/Progects/Zmei/Sontex/Org-Log/2024-09-06-Sontex-alfa-log.org")
@@ -456,9 +474,8 @@ https://docs.projectile.mx/projectile/projects.html
 :PROPERTIES:
 :header-args: :tangle no
 :END:
-** activate
+** activate src
 *** new sh
-:results output silent
 #+begin_src elisp  :dir /home/buyn/Dev/Python/Sontex/Src/
 (buyn-shell-start "konsole -e /bin/bash --rcfile <(source sontex-env/bin/activate)")
 (evil-previous-line)
@@ -466,8 +483,23 @@ https://docs.projectile.mx/projectile/projects.html
 (delete-other-windows)
 #+end_src
 *** source
-cd /home/buyn/Dev/Python/Sontex/Src/
 source sontex-env/bin/activate
+cd /home/buyn/Dev/Python/Sontex/Src/
+*** buyn-shell-start
+(buyn-shell-start "konsole -e /bin/bash --rcfile <(source sontex-env/bin/activate)")
+*** run all tests
+python -m unittest
+** activate build
+*** new sh
+#+begin_src elisp  :dir /home/buyn/Dev/Python/Sontex/build/
+(buyn-shell-start "konsole -e /bin/bash --rcfile <(source sontex-env/bin/activate)")
+(evil-previous-line)
+(org-cycle)
+(delete-other-windows)
+#+end_src
+*** source
+source sontex-env/bin/activate
+cd /home/buyn/Dev/Python/Sontex/Src/
 *** buyn-shell-start
 (buyn-shell-start "konsole -e /bin/bash --rcfile <(source sontex-env/bin/activate)")
 *** run all tests
@@ -503,7 +535,7 @@ cd sontex-env
  :ensure t
  ;; :config
 	)
-(burly-bookmark-frames "sontex buffers")
+;; (burly-bookmark-frames "sontex buffers")
 (burly-bookmark-frames "buffers LAST SAVE")
 (bookmark-save)
 #+end_src
