@@ -135,6 +135,19 @@ git push -u --set-upstream origin exe_beta
 ** Перереманая отключения владки рулзов в отчёте
 *** сделать по аналогии с переменоной репорта
 ** Перевеод строки в логе
+Сергей Радригес Змей, [10.09.2024 15:24]
+Ласкаво просимо! Почнемо програму.
+
+Сергей Радригес Змей, [10.09.2024 15:25]
+Замінити на горі Sontex на Програма розрахунку
+
+Сергей Радригес Змей, [10.09.2024 15:25]
+Показники пристроїв та файл звіту з великої літери.
+
+Сергей Радригес Змей, [10.09.2024 15:26]
+Всі кнопки з великої літери.
+** Замінити на горі Sontex на Програма розрахунку
+Замінити на горі Sontex на Програма розрахунку
 ** округлять знчения на основе переменной
 сейчас они похоже округляются просто хардкодно до 2х значений после запятой
 ** большие буквы для всех кнопок
@@ -405,6 +418,7 @@ https://docs.projectile.mx/projectile/projects.html
 ** build files 2024-09-11
 /home/buyn/Dev/Python/Sontex/raw-files/input.xlsx
 /home/buyn/Dev/Python/Sontex/raw-files/output.xlsx
+/home/buyn/Dev/Python/Sontex/raw-files/debag_2024.xlsx
 ** test run
 /home/buyn/Dev/Python/Sontex/Src/Data_files/test.xlsx
 /home/buyn/Dev/Python/Sontex/Src/Data_files/output.xlsx
@@ -495,7 +509,40 @@ https://docs.projectile.mx/projectile/projects.html
 :PROPERTIES:
 :header-args: :tangle no
 :END:
-** emacs env actuv
+** emacs src env actuv
+*** eshell
+#+begin_src elisp :dir /home/buyn/Dev/Python/Sontex/Src/ :results output silent
+(evil-previous-line)
+(org-cycle)
+(delete-other-windows)
+(pyvenv-activate "/home/buyn/Dev/Python/Sontex/Src/sontex-env")
+(let (buffer-name-to-close (buffer-name))
+				(evil-window-split)
+				(eshell)
+				(evil-quit)
+				(switch-to-buffer-other-frame buffer-name-to-close))
+#+end_src
+*** comands
+python -m unittest
+python main.py
+python -m main.py
+** emacs build env actuv
+*** eshell
+#+begin_src elisp :dir /home/buyn/Dev/Python/Sontex/Src/ :results output silent
+(evil-previous-line)
+(org-cycle)
+(delete-other-windows)
+(pyvenv-activate "/home/buyn/Dev/Python/Sontex/Src/sontex-env")
+(let (buffer-name-to-close (buffer-name))
+				(evil-window-split)
+				(eshell)
+				(evil-quit)
+				(switch-to-buffer-other-frame buffer-name-to-close))
+#+end_src
+*** comands
+python -m unittest
+python main.py
+python -m main.py
 ** activate src
 *** new sh
 #+begin_src elisp  :dir /home/buyn/Dev/Python/Sontex/Src/
