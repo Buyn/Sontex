@@ -528,11 +528,11 @@ python main.py
 python -m main.py
 ** emacs build env actuv
 *** eshell
-#+begin_src elisp :dir /home/buyn/Dev/Python/Sontex/Src/ :results output silent
+#+begin_src elisp :dir /home/buyn/Dev/Python/Sontex/build/ :results output silent
 (evil-previous-line)
 (org-cycle)
 (delete-other-windows)
-(pyvenv-activate "/home/buyn/Dev/Python/Sontex/Src/sontex-env")
+(pyvenv-activate "/home/buyn/Dev/Python/Sontex/build/sontex-env")
 (let (buffer-name-to-close (buffer-name))
 				(evil-window-split)
 				(eshell)
