@@ -575,13 +575,15 @@ def gen_TE_report(app_list):
         row.append("")
         # 4 Обсяг споживання,  Гкал
         # row.append(app.total_e)
-        row.append(float("{:.2f}".format(app.total_e)))
+        # row.append(float(gv_TE_report_formar_len.format(app.total_e)))
+        row.append(float(gv_TE_report_formar_len(app.total_e)))
         df.append(row)
         sum_total += app.total_e
     df.append([])
     df.append([
-        "", "", "","Всього",
-        sum_total
+        "", "", "","Всього:",
+        (float(gv_TE_report_formar_len(sum_total)))
+        # sum_total
     ])
     return pd.DataFrame(df)
 

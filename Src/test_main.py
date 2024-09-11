@@ -467,7 +467,10 @@ class setUp_Test(unittest.TestCase):
         # 1,4,
 
         # print(t.iloc[1,4])
-        self.assertEqual(t.iloc[1,4], 2.33)
+        self.assertEqual(t.iloc[1,4], 2.326)
+        # print(t.iloc[40,4])
+        # print(str(t.iloc[40,4]))
+        self.assertEqual(t.iloc[40,4], 63.720)
         # self.assertEqual(len(t2), 38)
         # self.assertEqual(t1[0]._start_line, 1)
         # self.assertEqual(t1[0].next_app_line, 2)

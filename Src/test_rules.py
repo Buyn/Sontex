@@ -4,7 +4,7 @@ import unittest
 
 from rules import *
 # ----------------------------------------------
-# * functions : 
+# * functions:
 # ----------------------------------------------
 # * def load_exel:
 def load_exel(filename, sheet_name): 
@@ -18,7 +18,7 @@ def load_exel(filename, sheet_name):
 
 
 # ----------------------------------------------
-# * class setUp_Test : 
+# * class setUp_Test:
 # ** ------------------------------------------:
 class setUp_Test(unittest.TestCase):
 # ** @classmethod setUpClass: 

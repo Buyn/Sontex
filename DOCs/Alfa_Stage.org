@@ -138,15 +138,29 @@ git push -u --set-upstream origin exe_beta
 ** округлять знчения на основе переменной
 сейчас они похоже округляются просто хардкодно до 2х значений после запятой
 ** большие буквы для всех кнопок
-** TODO убедится что правило округляет
+** DONE убедится что правило округляет
+CLOSED: [2024-09-11 Wed 15:17]
 округляет на основе значения глобола
 *** DONE Проверить наличие переменой глобальной
 CLOSED: [2024-09-11 Wed 12:13]
-*** TODO посмотреть как округляется сумарное
-*** сделать по аналогии правило
-*** найти понять как заполняется расчёт
-*** переделать для расчёта
+*** DONE посмотреть как округляется сумарное
+CLOSED: [2024-09-11 Wed 14:39]
+*** DONE сделать по аналогии правило
+CLOSED: [2024-09-11 Wed 14:39]
+*** DONE найти понять как заполняется расчёт
+CLOSED: [2024-09-11 Wed 14:39]
+*** DONE переделать для расчёта
+CLOSED: [2024-09-11 Wed 14:39]
+*** Тест output
 
+** TODO ruls симбол
+*** тажа ошибка в файле Теста
+*** Добавить асерт ввыбраном поле
+*** иправить ошибку
+** виртуальные счёчики
+отсутсвуют в полях созданых по правилам
+*** Добавить асерт ввыбраном поле
+*** иправить ошибку
 ** DONE Совместить цифры
 CLOSED: [2024-09-11 Wed 11:40]
 *** DONE Проверить цифры в файлах сергия
@@ -385,8 +399,15 @@ https://docs.projectile.mx/projectile/projects.html
 (find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/translate.org")
 #+end_src
 * data files
+** build path
 (ranger "/home/buyn/Dev/Python/Sontex/raw-files/")
 /home/buyn/Dev/Python/Sontex/raw-files/
+** build files 2024-09-11
+/home/buyn/Dev/Python/Sontex/raw-files/input.xlsx
+/home/buyn/Dev/Python/Sontex/raw-files/output.xlsx
+** test run
+/home/buyn/Dev/Python/Sontex/Src/Data_files/test.xlsx
+/home/buyn/Dev/Python/Sontex/Src/Data_files/output.xlsx
 * Орг лог
 #+begin_src emacs-lisp :results output silent
 (find-file-other-frame "~/Dropbox/Office/Progects/Zmei/Sontex/Org-Log/2024-09-06-Sontex-alfa-log.org")
@@ -474,6 +495,7 @@ https://docs.projectile.mx/projectile/projects.html
 :PROPERTIES:
 :header-args: :tangle no
 :END:
+** emacs env actuv
 ** activate src
 *** new sh
 #+begin_src elisp  :dir /home/buyn/Dev/Python/Sontex/Src/
@@ -526,6 +548,9 @@ cd sontex-env
 				(switch-to-buffer-other-frame buffer-name-to-close))
 #+end_src
 *** comannds
+python main.py
+python -m unittest
+
 source sontex-env/bin/activate
 cd sontex-env
 

@@ -142,7 +142,7 @@ gn_mzk_column = "МЗК"
 # 6 ВСЬОГО, Гкал
 gn_total_e_column = "ВСЬОГО, Гкал"
 # ** Теплоенрго report setings:
-gv_TE_report_formar_len = 3
+gv_TE_report_formar_len = "{:.3f}".format
 gv_TE_report = "Теплоенрго"
 # 0 Особовий рахунок	
 gn_TE_num_column = "Особовий рахунок"
