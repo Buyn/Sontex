@@ -102,7 +102,7 @@ class setUp_Test(unittest.TestCase):
         # df.loc[27 + 0.5] = [3300145735, "3300145734 вулиця Скрипника, 7 кв.2b", " ", " ", '0.50']
         # df = df.sort_index().reset_index(drop=True)
         # print(df)
-        arg =  [3300145734, 5, '"3300145735" "3300145734 вулиця Скрипника, 7 кв.2b"', '0.50']
+        arg =  [3300145734, 5, '"3300145735" "3300145735 вулиця Скрипника, 7 кв.2b"', '0.50']
         self.assertEqual(self.df_report.iloc[28, 4], 1.8)
         test_df, test = postproc_divider(self.df_report, arg)
         test_df = test_df.sort_index().reset_index(drop=True)
@@ -111,6 +111,8 @@ class setUp_Test(unittest.TestCase):
         self.assertEqual(test_df.iloc[28, 4], 0.9)
         # print(self.df_report.iloc[2, 1])
         # print(self.df_report.iloc[3, 1])
+        # print(test_df.iloc[29, 0])
+        # print(test_df.iloc[29, 1])
         self.assertEqual(test_df.iloc[29, 0], "3300145735")
         self.assertEqual(test_df.iloc[29, 4], 0.9)
 
@@ -134,6 +136,10 @@ class setUp_Test(unittest.TestCase):
         self.assertEqual(test_df.iloc[2, 4], 1.02)
         self.assertEqual(test_df.iloc[3, 0], "2b")
         self.assertEqual(test_df.iloc[3, 4], 1.02)
+        # self.assertEqual(test_df.iloc[29, 0], "3300145735")
+        # self.assertEqual(test_df.iloc[29, 0], 3300145735)
+        # self.assertEqual(test_df.iloc[30, 0], 3300145735)
+        # self.assertEqual(test_df.iloc[29, 4], 0.9)
         # print (test_df)
 
 
@@ -184,6 +190,11 @@ class setUp_Test(unittest.TestCase):
         self.assertEqual(test_df.iloc[3, 4], 1.02)
         # self.assertEqual(test, ("test",2,3))
         # test_df, test = use_rule(self.df_report, 0, "test_no", ("test",2,3), test=True)
+        self.assertEqual(test_df.iloc[29, 0], 3300145734)
+        self.assertEqual(test_df.iloc[29, 4], 0.9)
+        self.assertEqual(test_df.iloc[30, 0], "3300145735")
+        self.assertEqual(test_df.iloc[30, 1], "3300145734 вулиця Скрипника, 7 кв.2b")
+        self.assertEqual(test_df.iloc[30, 2], "3300145735")
         # self.assertIsNotNone(test_df)
         # self.assertIsNone(test)
         # with self.assertRaises(NameError):

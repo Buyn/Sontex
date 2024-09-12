@@ -187,11 +187,11 @@ class setUp_Test(unittest.TestCase):
 # ** def test_get_k_priv : 
     def test_get_k_priv(self): 
         test = Counter_values(self.df, 7)
-        self.assertEqual(test.get_k_priv(), 1.9180800000000002)
+        self.assertEqual(test.get_k_priv(), 1.91808)
         test = Counter_values(self.df, 8)
-        self.assertEqual(test.get_k_priv(), 2.3443200000000006)
+        self.assertEqual(test.get_k_priv(), 2.34432)
         test = Counter_values(self.df, 106)
-        self.assertEqual(test.get_k_priv(), 0.9346500000000002)
+        self.assertEqual(test.get_k_priv(), 0.93465)
         with self.assertRaises(NameError):
             # test = Counter_values(self.df, 100)
             # self.assertEqual(test.get_value2(), 0)
@@ -210,7 +210,7 @@ class setUp_Test(unittest.TestCase):
             test.get_value(
                 gl_counters_k_priv_column,
                 "gl_counters_k_priv_column"),
-            1.9180800000000002)
+            1.91808)
         self.assertEqual(
             test.get_value(
                 gl_counters_value1_column,
@@ -221,7 +221,7 @@ class setUp_Test(unittest.TestCase):
             test.get_value(
                 gl_counters_k_priv_column,
                 "gl_counters_k_priv_column"),
-            2.3443200000000006)
+            2.34432)
         with self.assertRaises(NameError):
             test = Counter_values(self.df, 104)
             test.get_value(
@@ -245,7 +245,7 @@ class setUp_Test(unittest.TestCase):
             test.get_value(
                 gl_counters_k_priv_column,
                 "gl_counters_k_priv_column"),
-            1.9180800000000002)
+            1.91808)
         self.assertEqual(
             test.get_value(
                 gl_counters_value1_column,
