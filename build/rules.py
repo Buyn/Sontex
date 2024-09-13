@@ -41,9 +41,17 @@ def postproc_divider(df:pd.DataFrame, arg):
     # print("value_k = ", value_k)
     new_value = float(target_value) * float(value_k)
     df.iloc[target_index, arg[1]-1] = float( gv_TE_report_formar_len( target_value - new_value))
+    # print(df.iloc[target_index, arg[1]-1])
     newrow[arg[1]-1] = float( gv_TE_report_formar_len( new_value))
+    newrow[2] = newrow[0]
+    # newrow[arg[1]-3] = 
+    # print(arg)
+    # print(arg[3])
+    # print(arg[5])
+    # print(newrow[arg[1]-4])
     # print(len(newrow))
     # print(newrow)
+    # print(newrow[2])
     # print(len(newrow))
     # print(df)
     #  Inserting the new row

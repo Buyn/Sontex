@@ -551,9 +551,9 @@ python -m main.py
 python -m unittest
 python main.py
 python -m main.py
-** activate src
+** activate build
 *** new sh
-#+begin_src elisp  :dir /home/buyn/Dev/Python/Sontex/Src/
+#+begin_src elisp  :dir /home/buyn/Dev/Python/Sontex/build/
 (buyn-shell-start "konsole -e /bin/bash --rcfile <(source sontex-env/bin/activate)")
 (evil-previous-line)
 (org-cycle)
@@ -562,13 +562,15 @@ python -m main.py
 *** source
 source sontex-env/bin/activate
 cd /home/buyn/Dev/Python/Sontex/Src/
-*** buyn-shell-start
-(buyn-shell-start "konsole -e /bin/bash --rcfile <(source sontex-env/bin/activate)")
+*** run main
+python main.py
 *** run all tests
 python -m unittest
-** activate build
+*** buyn-shell-start
+(buyn-shell-start "konsole -e /bin/bash --rcfile <(source sontex-env/bin/activate)")
+** activate src
 *** new sh
-#+begin_src elisp  :dir /home/buyn/Dev/Python/Sontex/build/
+#+begin_src elisp  :dir /home/buyn/Dev/Python/Sontex/Src/
 (buyn-shell-start "konsole -e /bin/bash --rcfile <(source sontex-env/bin/activate)")
 (evil-previous-line)
 (org-cycle)

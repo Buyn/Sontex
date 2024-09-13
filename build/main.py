@@ -94,6 +94,8 @@ def gui_calc(_filename, _csv, _output, _home_count = None):
           df_rules = None
           print("Error in load rules sheet = ", gr_rule_sheet_name ," from file =", filename)
           wm.print_to_log("Помилка під час завантаження аркуша правил = "+ gr_rule_sheet_name + " з файлу =" + filename)
+    if not gr_rule_sheet_enable_in_report:
+        df_rules = None
 # *** save block : 
     save_data_frame(output, df,
                     df_report,
@@ -118,7 +120,7 @@ def end_app(arg):
     sys.exit(arg)
 
     
-# * line arg functions :
+# * line arg functions:
 # ----------------------------------------------
 # ** cmd_line_arg :
 # ----------------------------------------------
