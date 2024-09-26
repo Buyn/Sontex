@@ -155,8 +155,8 @@ gn_TE_period = "Період"
 # 4 Обсяг споживання,  Гкал
 gn_TE_total_e_column = "Обсяг споживання,  Гкал"
 # ** Rules list:
-gr_rule_sheet_name = "rules"
-gr_rule_sheet_enable_in_report = False
+gr_rule_sheet_name = "Налаштування"
+gr_rule_sheet_enable_in_report = True
 gr_rule_tag = "rule"
 gr_rule_name_col = 1
 gr_rule_len_col = 2
