@@ -1,8 +1,123 @@
+:PROPERTIES:
+:header-args: :tangle no :cmdline arg ; source ../sontex-env/bin/activate
+:END:
 * Eel files
 ** index.html
+:PROPERTIES:
+:header-args: :tangle "../Src/web/index.html" 
+:END:
+(find-file-other-frame "../Src/web/index.html")
 #+begin_src emacs-lisp :results output silent
-(find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/web/index.html")
+<!-- * html </h1> -->  
+<!DOCTYPE html>  
+<html lang="ru">  
+<!-- * header </h1> -->  
+<head>  
+  <meta charset="UTF-8" />  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />  
+  <meta name="viewport" content="width=device-width,  
+initial-scale=1.0" />  
+  <title>Sontex</title>  
+
+  <link rel="stylesheet" href="dark.css"/>
+  <!-- <link rel="stylesheet" href="light.css"/>   -->
+  <link rel="stylesheet" href="style.css"/> 
+  <script type="text/javascript" src="../eel.js"></script>  
+  <script src="./script.js" defer></script>  
+</head>  
+<!-- * body : </h1> -->
+<body>  
+<!-- ** Sontex </h1>  :  -->
+  <h1>Програма розрахунку</h1>  
+  <!-- <div class="random_number"></div> -->
+<!-- ** Form open :  </h1> -->
+  <form id="init-form" action="javascript:">
+<!-- ** Обще домовой счёчик :  </h1> -->
+    <div class="row" title="
+    
+  Якщо встановлено позначку, тоді обираються показники загальнобудинкового лічильника, замість значень з Excel.
+  Й нові показники оновляться у файлі звіту.
+
+">
+      <label>
+        <input id="use-count" name="use-count" type="checkbox">
+        Показник загальнобудинкового лічильника <br> (ігнорувати з ексель)
+      </label>
+      <input id="curr-count" name="curr-count" type="number" step="any" class="short" placeholder="поточний" disabled>
+      <input id="prev-count" name="prev-count" type="number" step="any" class="short" placeholder="попередній" disabled>
+    </div>
+<!-- ** экселе фаил :  </h1> -->
+    <div class="row" title="
+
+  Відформатований файл EXEL з усіма необхідними показаннями для формування звіту.
+  Основний та головний файл необхідний для звітування.
+  Якщо не буде задано вихідний файл, то буде перезаписаний цей файл. Що дозволяє формувати новий звіт за результатами формування попереднього.
+
+">
+      <button id="exel-btn">Excel файл</button>  
+      <!-- <input type="file" hidden id="exel-file" > -->
+      <input type="text" class="long" id="exel-input" name="exel">
+    </div>
+<!-- ** показание устройств :  </h1> -->
+    <div class="row" title="
+
+  Файл або файли (розділені символом ;) із показаннями пристроїв у форматі .csv або .rlv.
+  Замінює показання пристроїв, отримані з файлу Excel. І формує звіт, на основі нових показників пристроїв.
+
+">
+      <button id="csv-btn">Показників пристроїв</button>  
+      <!-- <input type="file" hidden id="csv-file" > -->
+      <input id="csv-input" name="csv" type="text" class="long" >
+    </div>
+<!-- ** фаил отчёта :  </h1> -->
+    <div class="row" title="
+
+  Шлях до місця розташування звіту після формування та ім'я сформованого файлу звіту.
+  Клітина може залишитися пустою, де кінцевим файлом буде обрано - вхідний. Результат буде оновлено у цьому файлі.
+
+">
+      <button id="output-btn">Файл звіту</button>  
+      <input type="text" class="long" id="output-input" name="output">
+    </div>
+    <div class="row">
+<!-- ** сформировать отчёт </h1>: -->
+      <button id="report-btn">Сформувати звіт</button>  
+      <!-- <label> -->
+      <!--  <input type="checkbox"> ОСББ -->
+      <!-- </label> -->
+    </div>
+<!-- ** End Form </h1>: -->
+  </form>
+<!-- ** log </h1> :  -->
+    <textarea name="log" id="log" readonly>
+      
+      Ласкаво просимо! Почнемо програму.
+
+    </textarea>
+<!-- ** logo row :  -->
+    <div class="logos">
+      <a href="https://google.com?q=sontex">
+        <img src="sontex.png">
+      </a>
+      <a href="https://google.com?q=antap">
+        <img src="antap.png">
+      </a>
+    </div>
+
+<!-- ** report-modal </h1>:  -->
+<!-- <a onclick="getFolder()">GetFolder</a> -->
+<!--  </form> -->
+<!--  <dialog id="report-modal">   -->
+<!--      <input type="text" class="long"> -->
+<!--  </dialog>  -->
+
+<!--  <button id="genbutton">Get a Random number using Python</button>   -->
+<!-- </body>   -->
+
+<!-- * close html </h1> -->  
+</html>  
 #+end_src
+
 ** script.js
 #+begin_src emacs-lisp :results output silent
 (find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/web/script.js")
