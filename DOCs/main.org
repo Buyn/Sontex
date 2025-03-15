@@ -1,0 +1,19 @@
+* Eel files
+** index.html
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/web/index.html")
+#+end_src
+** script.js
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/web/script.js")
+#+end_src
+** style.css : 
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/web/style.css")
+#+end_src
+* 2024-09-06
+** Sontex.org
+D:\Development\lisp\Dropbox\Office\Progects\Zmei 
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "~/Dropbox/Office/Progects/Zmei/Sontex/Sontex.org")
+#+end_src
