@@ -119,9 +119,14 @@ initial-scale=1.0" />
 #+end_src
 
 ** script.js
+:PROPERTIES:
+:header-args: :tangle "../Src/web/script.js" 
+:END:
+(find-file-other-frame "../Src/web/script.js")
 #+begin_src emacs-lisp :results output silent
-(find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/web/script.js")
+
 #+end_src
+
 ** style.css : 
 #+begin_src emacs-lisp :results output silent
 (find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/web/style.css")
