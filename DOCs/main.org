@@ -6,12 +6,16 @@
 :PROPERTIES:
 :header-args: :tangle "../Src/web/index.html" 
 :END:
+*** file
 (find-file-other-frame "../Src/web/index.html")
-#+begin_src emacs-lisp :results output silent
-<!-- * html </h1> -->  
+*** src
+**** html open
+#+begin_src html
 <!DOCTYPE html>  
 <html lang="ru">  
-<!-- * header </h1> -->  
+#+end_src
+**** header
+#+begin_src html
 <head>  
   <meta charset="UTF-8" />  
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />  
@@ -25,28 +29,24 @@ initial-scale=1.0" />
   <script type="text/javascript" src="../eel.js"></script>  
   <script src="./script.js" defer></script>  
 </head>  
-<!-- * body : </h1> -->
+#+end_src
+**** body
+***** body open
+#+begin_src html
 <body>  
-<!-- ** Sontex </h1>  :  -->
+#+end_src
+***** Sontex title row
+#+begin_src html
   <h1>Програма розрахунку</h1>  
   <!-- <div class="random_number"></div> -->
-<!-- ** Form open :  </h1> -->
+#+end_src
+***** Form
+****** Form open
+#+begin_src html
   <form id="init-form" action="javascript:">
-<!-- ** Обще домовой счёчик :  </h1> -->
-    <div class="row" title="
-    
-  Якщо встановлено позначку, тоді обираються показники загальнобудинкового лічильника, замість значень з Excel.
-  Й нові показники оновляться у файлі звіту.
-
-">
-      <label>
-        <input id="use-count" name="use-count" type="checkbox">
-        Показник загальнобудинкового лічильника <br> (ігнорувати з ексель)
-      </label>
-      <input id="curr-count" name="curr-count" type="number" step="any" class="short" placeholder="поточний" disabled>
-      <input id="prev-count" name="prev-count" type="number" step="any" class="short" placeholder="попередній" disabled>
-    </div>
-<!-- ** экселе фаил :  </h1> -->
+#+end_src
+****** экселе фаил
+#+begin_src html
     <div class="row" title="
 
   Відформатований файл EXEL з усіма необхідними показаннями для формування звіту.
@@ -58,7 +58,9 @@ initial-scale=1.0" />
       <!-- <input type="file" hidden id="exel-file" > -->
       <input type="text" class="long" id="exel-input" name="exel">
     </div>
-<!-- ** показание устройств :  </h1> -->
+#+end_src
+****** показание устройств
+#+begin_src html
     <div class="row" title="
 
   Файл або файли (розділені символом ;) із показаннями пристроїв у форматі .csv або .rlv.
@@ -66,10 +68,13 @@ initial-scale=1.0" />
 
 ">
       <button id="csv-btn">Показників пристроїв</button>  
-      <!-- <input type="file" hidden id="csv-file" > -->
       <input id="csv-input" name="csv" type="text" class="long" >
     </div>
-<!-- ** фаил отчёта :  </h1> -->
+#+end_src
+      <!-- <input type="file" hidden id="csv-file" > -->
+
+****** фаил отчёта
+#+begin_src html
     <div class="row" title="
 
   Шлях до місця розташування звіту після формування та ім'я сформованого файлу звіту.
@@ -80,21 +85,76 @@ initial-scale=1.0" />
       <input type="text" class="long" id="output-input" name="output">
     </div>
     <div class="row">
-<!-- ** сформировать отчёт </h1>: -->
+#+end_src
+
+****** Обще домовой счёчик
+#+begin_src html
+    <div class="row" title="
+    
+  Якщо встановлено позначку, тоді обираються показники загальнобудинкового лічильника, замість значень з Excel.
+  Й нові показники оновляться у файлі звіту.
+
+">
+      <label>
+        Показник загальнобудинкового лічильника
+      </label>
+      <input id="curr-count" name="curr-count" type="number" step="any" class="short" placeholder="поточний">
+			<select id="prev-date" name="prev-date">
+				<option>exel T</option>
+				<option>2025/02/01</option>
+			</select>
+			<select id="curr-date" name="curr-date">
+				<option>exel R</option>
+				<option>2025/02/01</option>
+			</select>
+			<button id="reload"> ⤺ <br> ⤻ </button>
+    </div>
+#+end_src
+
+****** установки кофицентов
+#+begin_src html
+    <div class="row" title="
+  Якщо встановлено позначку, тоді обираються показники загальнобудинкового лічильника, замість значень з Excel.
+  Й нові показники оновляться у файлі звіту.
+">
+      <label>
+        Враховаты втраты тепла МЗС ФСО
+      </label>
+      <input id="mzs-count" name="mzs-count" type="number" step="any" class="short" placeholder="поточний">
+      <label>
+         МЗС,<br> %
+      </label>
+
+      <input id="prev-count" name="prev-count" type="number" step="any" class="short" placeholder="попередній">
+      <label>
+         ФСО,<br>%
+      </label>
+    </div>
+#+end_src
+****** сформировать отчёт
+#+begin_src html
       <button id="report-btn">Сформувати звіт</button>  
+#+end_src
       <!-- <label> -->
       <!--  <input type="checkbox"> ОСББ -->
       <!-- </label> -->
+#+begin_src html
     </div>
-<!-- ** End Form </h1>: -->
+#+end_src
+****** End Form
+#+begin_src html
   </form>
-<!-- ** log </h1> :  -->
+#+end_src
+***** log
+#+begin_src html
     <textarea name="log" id="log" readonly>
       
       Ласкаво просимо! Почнемо програму.
 
     </textarea>
-<!-- ** logo row :  -->
+#+end_src
+***** down row
+#+begin_src html
     <div class="logos">
       <a href="https://google.com?q=sontex">
         <img src="sontex.png">
@@ -103,8 +163,11 @@ initial-scale=1.0" />
         <img src="antap.png">
       </a>
     </div>
-
+#+end_src
+***** CANCELED report-modal
+CLOSED: [2025-03-15 Сб 16:51]
 <!-- ** report-modal </h1>:  -->
+
 <!-- <a onclick="getFolder()">GetFolder</a> -->
 <!--  </form> -->
 <!--  <dialog id="report-modal">   -->
@@ -112,9 +175,13 @@ initial-scale=1.0" />
 <!--  </dialog>  -->
 
 <!--  <button id="genbutton">Get a Random number using Python</button>   -->
-<!-- </body>   -->
 
-<!-- * close html </h1> -->  
+***** body close
+#+begin_src html
+</body>
+#+end_src
+**** html close
+#+begin_src html
 </html>  
 #+end_src
 
@@ -264,7 +331,7 @@ function pause(delay){
 :header-args: :tangle "../Src/web/style.css" 
 :END:
 (find-file-other-frame "../Src/web/style.css")
-#+begin_src emacs-lisp :results output silent
+#+begin_src css :results output silent
 h1 {  
 /*  color: green;   */
   text-align: center;  
@@ -282,6 +349,14 @@ button {
     white-space: nowrap;
     width: 240px;
 }  
+
+#reload {
+	padding: 1px;
+  width: unset;
+  line-height: 0.6;
+  align-self: center;
+}
+
 #report-btn {
   margin: auto;
 }
@@ -303,8 +378,8 @@ label {
 /*    margin-left: auto; */
 }
 .short {
-/*    width : 10%; */
-/*    margin-left: 15px; */
+   width : 10%;
+   margin-left: 15px;
 }
 
 .logos {

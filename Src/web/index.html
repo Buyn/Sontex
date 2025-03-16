@@ -1,7 +1,6 @@
-<!-- * html </h1> -->  
 <!DOCTYPE html>  
-<html lang="ru">  
-<!-- * header </h1> -->  
+<html lang="ru">
+
 <head>  
   <meta charset="UTF-8" />  
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />  
@@ -14,29 +13,15 @@ initial-scale=1.0" />
   <link rel="stylesheet" href="style.css"/> 
   <script type="text/javascript" src="../eel.js"></script>  
   <script src="./script.js" defer></script>  
-</head>  
-<!-- * body : </h1> -->
-<body>  
-<!-- ** Sontex </h1>  :  -->
+</head>
+
+<body>
+
   <h1>Програма розрахунку</h1>  
   <!-- <div class="random_number"></div> -->
-<!-- ** Form open :  </h1> -->
-  <form id="init-form" action="javascript:">
-<!-- ** Обще домовой счёчик :  </h1> -->
-    <div class="row" title="
-    
-  Якщо встановлено позначку, тоді обираються показники загальнобудинкового лічильника, замість значень з Excel.
-  Й нові показники оновляться у файлі звіту.
 
-">
-      <label>
-        <input id="use-count" name="use-count" type="checkbox">
-        Показник загальнобудинкового лічильника <br> (ігнорувати з ексель)
-      </label>
-      <input id="curr-count" name="curr-count" type="number" step="any" class="short" placeholder="поточний" disabled>
-      <input id="prev-count" name="prev-count" type="number" step="any" class="short" placeholder="попередній" disabled>
-    </div>
-<!-- ** экселе фаил :  </h1> -->
+  <form id="init-form" action="javascript:">
+
     <div class="row" title="
 
   Відформатований файл EXEL з усіма необхідними показаннями для формування звіту.
@@ -48,7 +33,7 @@ initial-scale=1.0" />
       <!-- <input type="file" hidden id="exel-file" > -->
       <input type="text" class="long" id="exel-input" name="exel">
     </div>
-<!-- ** показание устройств :  </h1> -->
+
     <div class="row" title="
 
   Файл або файли (розділені символом ;) із показаннями пристроїв у форматі .csv або .rlv.
@@ -56,10 +41,9 @@ initial-scale=1.0" />
 
 ">
       <button id="csv-btn">Показників пристроїв</button>  
-      <!-- <input type="file" hidden id="csv-file" > -->
       <input id="csv-input" name="csv" type="text" class="long" >
     </div>
-<!-- ** фаил отчёта :  </h1> -->
+
     <div class="row" title="
 
   Шлях до місця розташування звіту після формування та ім'я сформованого файлу звіту.
@@ -69,22 +53,63 @@ initial-scale=1.0" />
       <button id="output-btn">Файл звіту</button>  
       <input type="text" class="long" id="output-input" name="output">
     </div>
-    <div class="row">
-<!-- ** сформировать отчёт </h1>: -->
-      <button id="report-btn">Сформувати звіт</button>  
-      <!-- <label> -->
-      <!--  <input type="checkbox"> ОСББ -->
-      <!-- </label> -->
+
+    <div class="row" title="
+    
+  Якщо встановлено позначку, тоді обираються показники загальнобудинкового лічильника, замість значень з Excel.
+  Й нові показники оновляться у файлі звіту.
+
+">
+      <label>
+        Показник загальнобудинкового лічильника <br> (ігнорувати з ексель)
+      </label>
+      <input id="curr-count" name="curr-count" type="number" step="any" class="short" placeholder="поточний">
+			<select id="prev-date" name="prev-date">
+				<option>exel T</option>
+				<option>2025/02/01</option>
+			</select>
+			<select id="curr-date" name="curr-date">
+				<option>exel R</option>
+				<option>2025/02/01</option>
+			</select>
+			<button id="reload"> ⤺ <br> ⤻ </button>
     </div>
-<!-- ** End Form </h1>: -->
+
+
+    <div class="row" title="
+  Якщо встановлено позначку, тоді обираються показники загальнобудинкового лічильника, замість значень з Excel.
+  Й нові показники оновляться у файлі звіту.
+">
+      <label>
+        Враховаты втраты тепла МЗС ФСО
+      </label>
+      <input id="mzs-count" name="mzs-count" type="number" step="any" class="short" placeholder="поточний">
+      <label>
+         МЗС,<br> %
+      </label>
+
+      <input id="prev-count" name="prev-count" type="number" step="any" class="short" placeholder="попередній">
+      <label>
+         ФСО,<br>%
+      </label>
+    </div>
+
+
+    <div class="row">
+
+
+      <button id="report-btn">Сформувати звіт</button>
+
+    </div>
+
   </form>
-<!-- ** log </h1> :  -->
+
     <textarea name="log" id="log" readonly>
       
       Ласкаво просимо! Почнемо програму.
 
     </textarea>
-<!-- ** logo row :  -->
+
     <div class="logos">
       <a href="https://google.com?q=sontex">
         <img src="sontex.png">
@@ -94,15 +119,6 @@ initial-scale=1.0" />
       </a>
     </div>
 
-<!-- ** report-modal </h1>:  -->
-<!-- <a onclick="getFolder()">GetFolder</a> -->
-<!--  </form> -->
-<!--  <dialog id="report-modal">   -->
-<!--      <input type="text" class="long"> -->
-<!--  </dialog>  -->
+</body>
 
-<!--  <button id="genbutton">Get a Random number using Python</button>   -->
-<!-- </body>   -->
-
-<!-- * close html </h1> -->  
 </html>
