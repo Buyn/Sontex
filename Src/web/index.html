@@ -61,7 +61,7 @@ initial-scale=1.0" />
 
 ">
       <label>
-        Показник загальнобудинкового лічильника <br> (ігнорувати з ексель)
+        Показник загальнобудинкового лічильника
       </label>
       <input id="curr-count" name="curr-count" type="number" step="any" class="short" placeholder="поточний">
       <select id="prev-date" name="prev-date">
@@ -75,28 +75,23 @@ initial-scale=1.0" />
       <button id="reload"> ⤺ <br> ⤻ </button>
     </div>
 
-
     <div class="row" title="
-  Якщо встановлено позначку, тоді обираються показники загальнобудинкового лічильника, замість значень з Excel.
-  Й нові показники оновляться у файлі звіту.
+Вкажіть коефіцієнт, Враховувати втрати тепла на МЗК та ФСО
+значення 0 за відсутності коефіцієнта.
 ">
       <label>
-        Враховаты втраты тепла МЗС ФСО
+        Враховувати втрати тепла на МЗК та ФСО
       </label>
-      <input id="mzs-count" name="mzs-count" type="number" step="any" class="short" placeholder="поточний">
+      <input id="mzk-cof" name="mzk-cof" type="number" step="any" class="short" placeholder="0">
       <label>
-         МЗС,<br> %
+         МЗК,<br>%
       </label>
 
-      <input id="prev-count" name="prev-count" type="number" step="any" class="short" placeholder="попередній">
+      <input id="fso-cof" name="fso-cof" type="number" step="any" class="short" placeholder="0">
       <label>
          ФСО,<br>%
       </label>
     </div>
-
-
-    <div class="row">
-
 
       <button id="report-btn">Сформувати звіт</button>
 

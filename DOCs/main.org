@@ -84,7 +84,6 @@ initial-scale=1.0" />
       <button id="output-btn">Файл звіту</button>  
       <input type="text" class="long" id="output-input" name="output">
     </div>
-    <div class="row">
 #+end_src
 
 ****** Обще домовой счёчик
@@ -99,33 +98,33 @@ initial-scale=1.0" />
         Показник загальнобудинкового лічильника
       </label>
       <input id="curr-count" name="curr-count" type="number" step="any" class="short" placeholder="поточний">
-			<select id="prev-date" name="prev-date">
-				<option>exel T</option>
-				<option>2025/02/01</option>
-			</select>
-			<select id="curr-date" name="curr-date">
-				<option>exel R</option>
-				<option>2025/02/01</option>
-			</select>
-			<button id="reload"> ⤺ <br> ⤻ </button>
+      <select id="prev-date" name="prev-date">
+        <option>exel T</option>
+        <option>2025/02/01</option>
+      </select>
+      <select id="curr-date" name="curr-date">
+        <option>exel R</option>
+        <option>2025/02/01</option>
+      </select>
+      <button id="reload"> ⤺ <br> ⤻ </button>
     </div>
 #+end_src
 
 ****** установки кофицентов
 #+begin_src html
     <div class="row" title="
-  Якщо встановлено позначку, тоді обираються показники загальнобудинкового лічильника, замість значень з Excel.
-  Й нові показники оновляться у файлі звіту.
+Вкажіть коефіцієнт, Враховувати втрати тепла на МЗК та ФСО
+значення 0 за відсутності коефіцієнта.
 ">
       <label>
-        Враховаты втраты тепла МЗС ФСО
+        Враховувати втрати тепла на МЗК та ФСО
       </label>
-      <input id="mzs-count" name="mzs-count" type="number" step="any" class="short" placeholder="поточний">
+      <input id="mzk-cof" name="mzk-cof" type="number" step="any" class="short" placeholder="0">
       <label>
-         МЗС,<br> %
+         МЗК,<br>%
       </label>
 
-      <input id="prev-count" name="prev-count" type="number" step="any" class="short" placeholder="попередній">
+      <input id="fso-cof" name="fso-cof" type="number" step="any" class="short" placeholder="0">
       <label>
          ФСО,<br>%
       </label>
@@ -351,13 +350,16 @@ button {
 }  
 
 #reload {
-	padding: 1px;
+  padding: 1px;
   width: unset;
   line-height: 0.6;
   align-self: center;
 }
 
 #report-btn {
+  /* align: center; */
+  display: block;
+  /* width: max-content; */
   margin: auto;
 }
 

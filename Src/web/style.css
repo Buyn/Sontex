@@ -17,13 +17,16 @@ button {
 }  
 
 #reload {
-	padding: 1px;
+  padding: 1px;
   width: unset;
   line-height: 0.6;
   align-self: center;
 }
 
 #report-btn {
+  /* align: center; */
+  display: block;
+  /* width: max-content; */
   margin: auto;
 }
 
