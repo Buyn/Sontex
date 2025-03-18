@@ -89,7 +89,7 @@ def btn_ask_open_exel_file(path,
 
 
 # ----------------------------------------------
-# ** def btn_ask_open_DBfiles() : 
+# ** def btn_ask_open_DBfiles():
 # ----------------------------------------------
 @eel.expose
 def btn_ask_open_DBfiles(path,
@@ -122,7 +122,7 @@ def btn_ask_open_DBfiles(path,
 
 
 # ----------------------------------------------
-# ** def btn_asksaveasfile() : 
+# ** def btn_asksaveasfile():
 # ----------------------------------------------
 @eel.expose
 def btn_asksaveasfile(path,

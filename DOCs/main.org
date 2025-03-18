@@ -90,76 +90,22 @@ initial-scale=1.0" />
 #+begin_src html
     <div class="row" title="
 Показник загальнобудинкового лічильника за звітний/розрахунковий період (Гкал)
-
 ">
       <label>
 Показник загальнобудинкового лічильника за звітний/розрахунковий період (Гкал)
       </label>
       <input id="curr-count" name="curr-count" type="number" step="any" class="short" placeholder="Гкал">
-      <select id="prev-date" name="prev-date">
-        <option> R col exel </option>
-        <option> S col exel </option>
-        <option> 26.11.2024 </option>
-        <option> 01.11.2024 </option>
-        <option> 01.10.2024 </option>
-        <option> 01.09.2024 </option>
-        <option> 01.08.2024 </option>
-        <option> 01.07.2024 </option>
-        <option> 01.06.2024 </option>
-        <option> 01.05.2024 </option>
-        <option> 01.04.2024 </option>
-        <option> 01.03.2024 </option>
-        <option> 01.02.2024 </option>
-        <option> 01.01.2024 </option>
-        <option> 01.12.2023 </option>
-        <option> 01.11.2023 </option>
-        <option> 01.10.2023 </option>
-        <option> 01.09.2023 </option>
-        <option> 01.08.2023 </option>
-        <option> 01.07.2023 </option>
-        <option> 01.06.2023 </option>
-        <option> 01.05.2023 </option>
-        <option> 01.04.2023 </option>
-      </select>
-      <select id="curr-date" name="curr-date">
-        <option> S col exel </option>
-        <option> R col exel </option>
-        <option> 26.11.2024 </option>
-        <option> 01.11.2024 </option>
-        <option> 01.10.2024 </option>
-        <option> 01.09.2024 </option>
-        <option> 01.08.2024 </option>
-        <option> 01.07.2024 </option>
-        <option> 01.06.2024 </option>
-        <option> 01.05.2024 </option>
-        <option> 01.04.2024 </option>
-        <option> 01.03.2024 </option>
-        <option> 01.02.2024 </option>
-        <option> 01.01.2024 </option>
-        <option> 01.12.2023 </option>
-        <option> 01.11.2023 </option>
-        <option> 01.10.2023 </option>
-        <option> 01.09.2023 </option>
-        <option> 01.08.2023 </option>
-        <option> 01.07.2023 </option>
-        <option> 01.06.2023 </option>
-        <option> 01.05.2023 </option>
-        <option> 01.04.2023 </option>
-      </select>
-      <button id="reload"> ⤺ <br> ⤻ </button>
     </div>
 #+end_src
 
 ****** розрахунковий період з - по
 #+begin_src html
     <div class="row" title="
-Показник загальнобудинкового лічильника за звітний/розрахунковий період (Гкал)
-
+Розрахунковий період з - по
 ">
       <label>
-Показник загальнобудинкового лічильника за звітний/розрахунковий період (Гкал)
+розрахунковий період з - по
       </label>
-      <input id="curr-count" name="curr-count" type="number" step="any" class="short" placeholder="Гкал">
       <select id="prev-date" name="prev-date">
         <option> R col exel </option>
         <option> S col exel </option>
@@ -292,7 +238,7 @@ CLOSED: [2025-03-15 Сб 16:51]
 :header-args: :tangle "../Src/web/script.js" 
 :END:
 (find-file-other-frame "../Src/web/script.js")
-#+begin_src emacs-lisp :results output silent
+#+begin_src js :results output silent
 // * const : 
 const initForm = document.getElementById("init-form");
 const cookies = document.cookie.split("; ").map(str => str.split("=")).reduce((obj, [key, value]) => ({...obj, [key]:value}), {});
@@ -457,7 +403,7 @@ button {
   width: unset;
   line-height: 0.6;
   align-self: center;
-}
+
 
 #report-btn {
   /* align: center; */
@@ -470,6 +416,7 @@ button {
     display: flex;
     margin-bottom: 10px;
     gap: 5px;
+		align-items: center;
     /* justify-content: space-between; */
     /*    margin-right: 50px; */
 }
