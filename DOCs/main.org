@@ -98,13 +98,13 @@ initial-scale=1.0" />
     </div>
 #+end_src
 
-****** розрахунковий період з - по
+****** Розрахунковий період з - по
 #+begin_src html
     <div class="row" title="
 Розрахунковий період з - по
 ">
       <label>
-розрахунковий період з - по
+Розрахунковий період з-
       </label>
       <select id="prev-date" name="prev-date">
         <option> R col exel </option>
@@ -131,6 +131,9 @@ initial-scale=1.0" />
         <option> 01.05.2023 </option>
         <option> 01.04.2023 </option>
       </select>
+      <label>
+  по-
+      </label>
       <select id="curr-date" name="curr-date">
         <option> S col exel </option>
         <option> R col exel </option>
@@ -403,6 +406,7 @@ button {
   width: unset;
   line-height: 0.6;
   align-self: center;
+  }
 
 
 #report-btn {
@@ -416,7 +420,7 @@ button {
     display: flex;
     margin-bottom: 10px;
     gap: 5px;
-		align-items: center;
+    align-items: center;
     /* justify-content: space-between; */
     /*    margin-right: 50px; */
 }

@@ -21,7 +21,8 @@ button {
   width: unset;
   line-height: 0.6;
   align-self: center;
-}
+  }
+
 
 #report-btn {
   /* align: center; */
@@ -34,6 +35,7 @@ button {
     display: flex;
     margin-bottom: 10px;
     gap: 5px;
+    align-items: center;
     /* justify-content: space-between; */
     /*    margin-right: 50px; */
 }
