@@ -403,7 +403,8 @@ pip install -r requirements.txt
 
 *** test on windows
 
-** передача параметров
+** DONE передача параметров
+CLOSED: [2025-03-17 Mon 15:03]
 если вкладка отсутвует
 берётся из пайтон импорта
 ** DONE сделать фаили Инпут
@@ -428,16 +429,15 @@ CLOSED: [2024-09-26 Thu 13:49]
 екзешника
 *** сгенерить кмд 
 *** запустить протестить 
-*** сделать раздел делания екзкшника 
+*** сделать раздел делания екзкшника
 вроде там всё готово итак
 просто запустить фаил
 автоматизировать процес
 сделать авто копирование исходников
 и папок
-*** сделать фаил апдейта 
+*** сделать фаил апдейта
 копирует все пйтоны
 веб
-** логотипы должны вести на сайты компаний
 ** валуес
 @@ -61,12 +61,12 @@ gv_rlv_name_value="Historic value - "
  # ** Kooficeints:
@@ -759,8 +759,8 @@ https://docs.projectile.mx/projectile/projects.html
 #+begin_src emacs-lisp :results output silent
 (find-file-other-frame "~/Dropbox/Office/Progects/Zmei/Sontex/Org-Log/2024-09-06-Sontex-alfa-log.org")
 #+end_src
-* macroses 
-** calc-all : 
+* macroses
+** calc-all:
 #+begin_src emacs-lisp :results output silent
 (load-file "~/keymac/calc-all.el")
 #+end_src

@@ -89,15 +89,13 @@ initial-scale=1.0" />
 ****** Обще домовой счёчик
 #+begin_src html
     <div class="row" title="
-    
-  Якщо встановлено позначку, тоді обираються показники загальнобудинкового лічильника, замість значень з Excel.
-  Й нові показники оновляться у файлі звіту.
+Показник загальнобудинкового лічильника за звітний/розрахунковий період (Гкал)
 
 ">
       <label>
-        Показник загальнобудинкового лічильника
+Показник загальнобудинкового лічильника за звітний/розрахунковий період (Гкал)
       </label>
-      <input id="curr-count" name="curr-count" type="number" step="any" class="short" placeholder="поточний">
+      <input id="curr-count" name="curr-count" type="number" step="any" class="short" placeholder="Гкал">
       <select id="prev-date" name="prev-date">
         <option> R col exel </option>
         <option> S col exel </option>
@@ -152,6 +150,69 @@ initial-scale=1.0" />
     </div>
 #+end_src
 
+****** розрахунковий період з - по
+#+begin_src html
+    <div class="row" title="
+Показник загальнобудинкового лічильника за звітний/розрахунковий період (Гкал)
+
+">
+      <label>
+Показник загальнобудинкового лічильника за звітний/розрахунковий період (Гкал)
+      </label>
+      <input id="curr-count" name="curr-count" type="number" step="any" class="short" placeholder="Гкал">
+      <select id="prev-date" name="prev-date">
+        <option> R col exel </option>
+        <option> S col exel </option>
+        <option> 26.11.2024 </option>
+        <option> 01.11.2024 </option>
+        <option> 01.10.2024 </option>
+        <option> 01.09.2024 </option>
+        <option> 01.08.2024 </option>
+        <option> 01.07.2024 </option>
+        <option> 01.06.2024 </option>
+        <option> 01.05.2024 </option>
+        <option> 01.04.2024 </option>
+        <option> 01.03.2024 </option>
+        <option> 01.02.2024 </option>
+        <option> 01.01.2024 </option>
+        <option> 01.12.2023 </option>
+        <option> 01.11.2023 </option>
+        <option> 01.10.2023 </option>
+        <option> 01.09.2023 </option>
+        <option> 01.08.2023 </option>
+        <option> 01.07.2023 </option>
+        <option> 01.06.2023 </option>
+        <option> 01.05.2023 </option>
+        <option> 01.04.2023 </option>
+      </select>
+      <select id="curr-date" name="curr-date">
+        <option> S col exel </option>
+        <option> R col exel </option>
+        <option> 26.11.2024 </option>
+        <option> 01.11.2024 </option>
+        <option> 01.10.2024 </option>
+        <option> 01.09.2024 </option>
+        <option> 01.08.2024 </option>
+        <option> 01.07.2024 </option>
+        <option> 01.06.2024 </option>
+        <option> 01.05.2024 </option>
+        <option> 01.04.2024 </option>
+        <option> 01.03.2024 </option>
+        <option> 01.02.2024 </option>
+        <option> 01.01.2024 </option>
+        <option> 01.12.2023 </option>
+        <option> 01.11.2023 </option>
+        <option> 01.10.2023 </option>
+        <option> 01.09.2023 </option>
+        <option> 01.08.2023 </option>
+        <option> 01.07.2023 </option>
+        <option> 01.06.2023 </option>
+        <option> 01.05.2023 </option>
+        <option> 01.04.2023 </option>
+      </select>
+      <button id="reload"> ⤺ <br> ⤻ </button>
+    </div>
+#+end_src
 ****** установки кофицентов
 #+begin_src html
     <div class="row" title="
@@ -414,7 +475,8 @@ button {
 }
 
 label {
-    text-align: right;
+    /* text-align: right; */
+    text-align: left;
 }
 
 .long {
