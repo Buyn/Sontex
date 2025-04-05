@@ -451,9 +451,85 @@ label {
 }
 
 #+end_src
+* SRC files
+** main
+*** main.py
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "~/Dev/Python/Sontex/Src/main.py")
+#+end_src
+
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/main.py")
+#+end_src
+*** test_main.py
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/test_main.py")
+#+end_src
+** appart_values
+*** appart_values.py
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "~/Dev/Python/Sontex/Src/appart_values.py")
+#+end_src
+*** test_appart_values.py
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/test_appart_values.py")
+#+end_src
+** counter_values
+*** counter_values.py
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "~/Dev/Python/Sontex/Src/counter_values.py")
+#+end_src
+*** test_counter_values.py
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/test_counter_values.py")
+#+end_src
+** rules
+*** rules.py
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "/home/buyn/Dev/Python/Sontex/Src/rules.py")
+#+end_src
+*** test_rules.py
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "/home/buyn/Dev/Python/Sontex/Src/test_rules.py")
+#+end_src
+** global_values.py
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "../Src/global_values.py")
+#+end_src
+(find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/global_values.py")
+** winmain
+*** winmain.py
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "~/Dev/Python/Sontex/Src/winmain.py")
+#+end_src
+*** test_winmain.py
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/test_winmain.py")
+#+end_src
+** .projectile
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/.projectile")
+#+end_src
+** sandbox
+*** sandbox.org
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "../Src/sandbox.org")
+#+end_src
+
+(find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/sandbox.org")
+*** sandbox.py
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "../Src/sandbox.py")
+#+end_src
+** arhiv
 * 2024-09-06
 ** Sontex.org
 D:\Development\lisp\Dropbox\Office\Progects\Zmei 
 #+begin_src emacs-lisp :results output silent
 (find-file-other-frame "~/Dropbox/Office/Progects/Zmei/Sontex/Sontex.org")
+#+end_src
+
+** main.org
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "~/Dev/Python/Sontex/DOCs/main.org")
 #+end_src

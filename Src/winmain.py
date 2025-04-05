@@ -153,7 +153,7 @@ def btn_asksaveasfile(path,
 # ** -------------------------------------------
 # * not expose : 
 # ----------------------------------------------
-# ** def print_to_log(string) : 
+# ** def print_to_log(string):
 # ----------------------------------------------
 def print_to_log(string):
     gui_log.append(datetime.datetime.now().strftime("%H:%M:%S.%f")+": "+ string)

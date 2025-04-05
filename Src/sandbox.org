@@ -1,7 +1,188 @@
 :PROPERTIES:
-:header-args: :tangle  "D:/Development/version-control/GitHub/Zmei/Sontex/Src/sandbox.py"
+:header-args: :tangle sandbox.py
 :END:
-* 2024-02-02 rules
+* 2025-03-19 1 cell on col of rvl
+*** import
+#+begin_src python 
+import pandas as pd
+from global_values import *
+#+end_src
+*** load rvl
+#+begin_src python
+# print("test hi!")
+# filename = "/home/buyn/Dev/Python/Sontex/Src/Data_files/test.rlv"
+filename = "Data_files/test.rlv"
+# colmname1 = "Readout date"
+# gv_rlv_name_date
+# gv_rlv_Readout_date = "Readout date"
+gv_rlv_name_start = 1
+gv_rlv_name_end = 100
+# gv_rlv_name_date_list = [gv_rlv_name_date + str(x)
+#                               for x in range(
+#                                   gv_rlv_name_start,
+#                                   gv_rlv_name_end)]
+# gv_rlv_colmus_list = [gv_rlv_Readout_date].append(gv_rlv_name_date_list)
+gv_rlv_colums_name_dates_list = ["Readout date"] + [gv_rlv_name_date + str(x)
+                              for x in range(gv_rlv_name_start, gv_rlv_name_end)]
+gv_rlv_colums_name_values_list = ["Heating units totalizer"] + [gv_rlv_name_value + str(x)
+                              for x in range(gv_rlv_name_start, gv_rlv_name_end)]
+
+df = pd.read_csv(filename ,
+                encoding = gv_rlv_encoding,
+                header = gv_rlv_header,
+                sep = gv_rlv_sep,
+                index_col = gv_rlv_index_col)
+#+end_src
+
+*** def get_dates_from_colums_list
+#+begin_src python 
+def get_dates_from_colums_list(df, colist):
+  retlist = []
+  for i, name in enumerate(colist):
+      try:
+          colnum = df.columns.get_loc(name)
+      except Exception as e:
+          print ("on name=", name, " is Exception=", str(e))
+          print("Possible reason - file does not contain the expected columns")
+          break
+      value = df.iloc[0, colnum]
+      if pd.isnull(value): break
+      retlist.append(value)
+  return retlist
+
+
+print(get_dates_from_colums_list(df, gv_rlv_colums_name_dates_list))
+
+#+end_src
+
+*** def get_df_from_filename_string
+#+begin_src python
+def get_df_from_filename_string(string):
+  rdf=[]
+  for path_csv in string.split(";"):
+    if path_csv=="": continue
+    # wm.print_to_log("завантажуємо файл: "+path_csv)
+    rdf.append(load_db(path_csv))
+  return rdf
+
+
+#+end_src
+
+*** get_dates_from_filename_string
+#+begin_src python
+df_list = get_df_from_filename_string(filename)
+if not len(df_list)==0:
+  print(get_dates_from_colums_list(df_list[0], gv_rlv_colums_name_dates_list))
+
+    
+
+    
+
+
+#+end_src
+
+*** getlist of values from list of string
+#+begin_src python :tangle no
+# print(gv_rlv_colums_list)
+retlist = []
+for i, name in enumerate(gv_rlv_colums_name_dates_list):
+    # print(i, name, gv_rlv_colums_name_values_list[i]) 
+    # print(df.columns.get_loc(gv_rlv_name_date + name))
+    # name = "test"
+    try:
+        colnum = df.columns.get_loc(name)
+    except Exception as e:
+        print ("on name=", name, " is Exception=", str(e))
+        print("Possible reason - file does not contain the expected columns")
+        break
+    value = df.iloc[0, colnum]
+    if pd.isnull(value): break
+    retlist.append(value)
+
+    # print(df.iloc[0, df.columns.get_loc(name)])
+    # print(df.iloc[1, df.columns.get_loc(name)])
+    # print(df.iloc[2, df.columns.get_loc(name)])
+print(retlist)
+
+
+    
+
+
+#+end_src
+
+*** getvalue
+#+begin_src python :tangle no
+
+r = df.iloc[1, 1]
+
+#+end_src
+
+*** prints
+#+begin_src python
+# print(r)
+# print(df.iloc[1, 0])
+# print(df.iloc[0, 0])
+
+# print(df.iloc[1, 1])
+# print(df.iloc[0, 1])
+# print(df.iloc[0, 2])
+# print(df.iloc[0])
+# print(df)
+#+end_src
+
+#+RESULTS:
+
+*** find the column number knowing its name
+#+begin_src python :tangle no
+# print(r)
+# print(df.iloc[1, 0])
+print(df.iloc[0, 0])
+print(df.columns.get_loc(gv_rlv_name_date + "1"))
+# print(df.columns.get_loc(gv_rlv_name_date + "0"))
+print(df.columns.get_loc(colmname1))
+print(df.columns)
+# print(df.iloc[1, 1])
+# print(df.iloc[0, 1])
+# print(df.iloc[0, 2])
+# print(df.iloc[0])
+print(df)
+#+end_src
+# How to find out the number of the column knowing her name?
+# or vice versa.
+
+To find the column number knowing its name, you can use the =get_loc= method. To find the column name by its number, you can simply index the columns attribute. Here's how you can do both:
+
+# Get column number by column name
+column_name = "Readout date"
+column_number = df.columns.get_loc(column_name)
+
+# Get column name by column number
+column_index = 1  # replace with your column index
+column_name_from_index = df.columns[column_index]
+
+This will give you the column index for a known name and the name for a known index.
+*** gpt
+
+# How to find out the number of the column knowing her name?
+# or vice versa.
+
+
+To find the column number knowing its name, you can use the =get_loc= method. To find the column name by its number, you can simply index the columns attribute. Here's how you can do both:
+
+# Get column number by column name
+column_name = "Readout date"
+column_number = df.columns.get_loc(column_name)
+
+# Get column name by column number
+column_index = 1  # replace with your column index
+column_name_from_index = df.columns[column_index]
+
+This will give you the column index for a known name and the name for a known index.
+* DONE 2024-02-02 rules
+CLOSED: [2025-04-01 Tue 22:27]
+:PROPERTIES:
+:header-args: :tangle no
+:END:
 *** import
 #+begin_src python 
 import pandas as pd
@@ -144,7 +325,8 @@ use_rule(1, "test", (1,2,3))
 use_rule(2, "test_no", (1,2,3))
 #+end_src
 
-* 2024-02-01 start
+* DONE 2024-02-01 start
+CLOSED: [2025-04-01 Tue 22:28]
 :PROPERTIES:
 :header-args: :tangle  no
 :END:
@@ -157,6 +339,9 @@ sandbox
 
 #+end_src
 * Command
+:PROPERTIES:
+:header-args: :tangle  no
+:END:
 ** execute-src-block:
 (save-excursion (progn (org-babel-goto-named-src-block "auto-tangle-block") (org-babel-execute-src-block)))
 (save-excursion (let () (org-babel-goto-named-src-block "auto-tangle-block") (org-babel-execute-src-block)))
@@ -168,16 +353,110 @@ and then name the block you want to execute automatically:
 (org-babel-tangle)
 "D:\Development\version-control\GitHub\My-python\pytts2d\DOCs\Brain\MouseHandler.py control Class org.org" 
 
+** evormnt
+python -m venv prime-env
+
+source prime-env/bin/activate
+source sontex-env/bin/activate
+
+pip install numpy 
+pip install matplotlib
+pip install numpy matplotlib
+** compile
+#+begin_src emacs-lisp :results output silent :tangle no
+(pyvenv-activate "sontex-env")
+(compile "python -m sandbox")
+#+end_src
+(read-string
+                    (concat
+                      "defult(" (buffer-name) "):")
+                    (buffer-file-name)
+                    nil
+                    (buffer-name))
+
+source sontex-env/bin/activate
+
+(compile "source sontex-env/bin/activate ; python -m sandbox")
+#+begin_src emacs-lisp :results output silent :tangle no
+(compile "source sontex-env/bin/activate ; python -m sandbox")
+#+end_src
+
 ** auto-tangle-block:
 #+NAME: auto-tangle-block
 #+begin_src emacs-lisp :results output silent :tangle no
 (setq org-src-preserve-indentation t)
 (untabify (point-min) (point-max))
-(save-buffer)
+;; (save-buffer)
+(save-some-buffers 'no-confirm)
 (org-babel-tangle)
-(find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/sandbox.py")
-(recompile)
+;; (save-buffer)
+;; (save-some-buffers 'no-confirm)
+(org-save-all-org-buffers)
+(evil-normal-state)
+(let ((curent-buffer (buffer-name)))
+  (select-frame-by-name "*compilation*")
+  (recompile)
+  (select-frame-by-name curent-buffer))
+(evil-close-fold)
+
+;; (find-file-other-frame "~/INI/babel-cfg.el")
 ;; (load "~/INI/hydra-cfg.el")
 ;; (load "~/ELs/BuYn/reader.el")
  #+end_src
 
+*** CANCELED arhiv
+CLOSED: [2025-04-02 Wed 18:52]
+#+begin_src emacs-lisp :results output silent :tangle no
+(setq org-src-preserve-indentation t)
+(untabify (point-min) (point-max))
+(save-some-buffers 'no-confirm)
+;; (save-buffer)
+(org-babel-tangle)
+(find-file-other-frame "sandbox.py")
+(recompile)
+;; (load "~/INI/hydra-cfg.el")
+;; (load "~/ELs/BuYn/reader.el")
+#+end_src
+
+** keys
+*** org-mode-map (kbd "<f8>
+#+begin_src elisp tangle no
+;;  --------------------------------------
+(define-key org-mode-map (kbd "<f8>") nil)
+(define-key org-mode-map (kbd "<f8> <f8>") '(lambda() (interactive)
+        (save-excursion
+          (progn
+            (org-babel-goto-named-src-block "auto-tangle-block")
+            (org-babel-execute-src-block)))
+                                ))
+;; --------------------------------------
+#+end_src
+
+#+RESULTS:
+| lambda | nil | (interactive) | (save-excursion (progn (org-babel-goto-named-src-block auto-tangle-block) (org-babel-execute-src-block))) |
+
+* 2025-03-19
+:PROPERTIES:
+:header-args: :tangle  no
+:END:
+** Necroteuch.org : 
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "~/../Dropbox/orgs/capture/Necroteuch.org")
+#+end_src
+
+    #+RESULTS:
+    : #<buffer Necroteuch.org>
+
+** version 1.0
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "~/Dev/Python/Sontex/DOCs/v1_Stage.org")
+#+end_src
+** Sontex.org
+D:\Development\lisp\Dropbox\Office\Progects\Zmei 
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "~/../Dropbox/Office/Progects/Zmei/Sontex/Sontex.org")
+#+end_src
+** sandbox.org
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "~/Dev/Python/Sontex/DOCs/sandbox.org")
+#+end_src

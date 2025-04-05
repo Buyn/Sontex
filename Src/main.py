@@ -115,14 +115,14 @@ def main(argv):
 
 
 # ----------------------------------------------
-# ** end_app(arg) : 
+# ** end_app(arg):
 def end_app(arg):
     sys.exit(arg)
 
     
 # * line arg functions:
 # ----------------------------------------------
-# ** cmd_line_arg :
+# ** cmd_line_arg:
 # ----------------------------------------------
 def cmd_line_arg(argv):
     global g_filename, g_csv, g_output
@@ -148,7 +148,7 @@ def cmd_line_arg(argv):
 
 
 # ----------------------------------------------
-# ** def is_test : 
+# ** def is_test:
 # ----------------------------------------------
 def is_test(argv): 
     for arg in argv[1:]:
@@ -551,7 +551,7 @@ def gen_OSBB_report(app_list):
     return pd.DataFrame(df)
 
 
-# ** def gen_TE_report : 
+# ** def gen_TE_report:
 def gen_TE_report(app_list): 
     df = [[
         # 0 Особовий рахунок	
@@ -590,7 +590,7 @@ def gen_TE_report(app_list):
     return pd.DataFrame(df)
 
 
-# ** def save_data_frame : 
+# ** def save_data_frame:
 def save_data_frame(output, df, df_report, df_rules=None, df_TE_report=None): 
   # Save the updated dataframe to the Excel file
   with pd.ExcelWriter(output,
@@ -613,7 +613,7 @@ def save_data_frame(output, df, df_report, df_rules=None, df_TE_report=None):
     wm.print_to_log("output report path "+ output)
 
 
-# ** def populate_apps : 
+# ** def populate_apps:
 def populate_apps(df): 
     al =[]
     cl =[]
@@ -629,7 +629,7 @@ def populate_apps(df):
     return al, cl
 
 
-# ** def update_counters : 
+# ** def update_counters:
 def update_counters(app_list, counters_list, df_csv, data_i = 1): 
     if df_csv is None:
         return None
@@ -672,12 +672,6 @@ def update_counters(app_list, counters_list, df_csv, data_i = 1):
 
 
 # ** ------------------------------------------:
-
-
-
-
-# Feel free to comment on the code and see possible improvements.
-	# Тhink step by step.
 
 # * if __name__ : 
 # ----------------------------------------------
