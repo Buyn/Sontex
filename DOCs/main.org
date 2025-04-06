@@ -521,7 +521,179 @@ label {
 #+begin_src emacs-lisp :results output silent
 (find-file-other-frame "../Src/sandbox.py")
 #+end_src
+** integation test
+*** ingtest01.py
+:PROPERTIES:
+:header-args: :tangle ../Src/ingtest01.py
+:END:
+**** src ingtest01.py
+***** import block:
+from main import *
+#+begin_src python
+import unittest
+import sys
+from winmain import *
+# (pyvenv-activate "sontex-env")
+
+
+#+end_src
+***** class Test:
+# ** ------------------------------------------:
+#+begin_src python
+class Test(unittest.TestCase):
+
+#+end_src
+***** def test_winmain:
+#+begin_src python
+  @unittest.skipIf(len(sys.argv) < 2  or sys.argv[1] != "ingtest01.Test.test_integ_initest", "not sigle test")
+  def test_integ_initest(self):
+      # sys.argv = ['', 'Test.testName']
+      print(sys.argv)
+      print(sys.argv[0])
+      print(sys.argv[1])
+      if sys.argv[1] == "ingtest01.Test.test_integ_initest": print("test found!")
+    
+
+#+end_src
+***** Test runer:
+# * Test runer : 
+# ** ------------------------------------------:
+# (compile " D:/Development/version-control/GitHub/Vadim/Tochil/main_test.py -k init")
+# (compile " python -m unittest D:/Development/version-control/GitHub/Vadim/Tochil/main_test.py ")
+# ** if __main__: 
+    # runner = unittest.TextTestRunner()
+    # runner.run(suite_Init())
+    # sys.argv = ['', 'Test.testName']
+    import sys
+    print("args = ", sys.argv)
+#+begin_src python
+if __name__ == "__main__":
+    print("args = ", sys.argv)
+    unittest.main()
+#+end_src
+**** file
+(find-file-other-frame "../Src/ingtest01.py")
+**** run
+***** compile
+#+begin_src emacs-lisp :results output silent :tangle no
+(pyvenv-activate "sontex-env")
+(compile "python ../Src/ingtest01.py")
+(find-file-other-frame "../Src/ingtest01.py")
+#+end_src
+
+source sontex-env/bin/activate
+(compile "source sontex-env/bin/activate ; python -m sandbox")
+#+begin_src emacs-lisp :results output silent :tangle no
+(compile "source sontex-env/bin/activate ; python -m sandbox")
+#+end_src
+***** single test run
+#+begin_src emacs-lisp :results output silent :tangle no
+(pyvenv-activate "sontex-env")
+(compile "python3 -m unittest ../Src/ingtest01.Test.test_integ_initest")
+(find-file-other-frame "../Src/ingtest01.py")
+#+end_src
+
 ** arhiv
+* Commands
+:PROPERTIES:
+:header-args: :tangle  no
+:END:
+** execute-src-block:
+(save-excursion (progn (org-babel-goto-named-src-block "auto-tangle-block") (org-babel-execute-src-block)))
+(save-excursion (let () (org-babel-goto-named-src-block "auto-tangle-block") (org-babel-execute-src-block)))
+and then name the block you want to execute automatically:
+
+** find-file:
+[[elisp:(org-babel-tangle)]]
+(find-file-other-frame "D:/Development/version-control/GitHub/my-python/pytts2d/SRC/MouseHandler.py")
+(org-babel-tangle)
+"D:\Development\version-control\GitHub\My-python\pytts2d\DOCs\Brain\MouseHandler.py control Class org.org" 
+
+** evormnt
+python -m venv prime-env
+
+source prime-env/bin/activate
+source sontex-env/bin/activate
+
+pip install eel
+pip install numpy 
+pip install matplotlib
+pip install numpy matplotlib
+** compile
+#+begin_src emacs-lisp :results output silent :tangle no
+(pyvenv-activate "sontex-env")
+(compile "python -m sandbox")
+#+end_src
+(read-string
+                    (concat
+                      "defult(" (buffer-name) "):")
+                    (buffer-file-name)
+                    nil
+                    (buffer-name))
+
+source sontex-env/bin/activate
+
+(compile "source sontex-env/bin/activate ; python -m sandbox")
+#+begin_src emacs-lisp :results output silent :tangle no
+(compile "source sontex-env/bin/activate ; python -m sandbox")
+#+end_src
+
+** auto-tangle-block:
+#+NAME: auto-tangle-block
+#+begin_src emacs-lisp :results output silent :tangle no
+(setq org-src-preserve-indentation t)
+(untabify (point-min) (point-max))
+;; (save-buffer)
+(save-some-buffers 'no-confirm)
+;; (universal-argument)
+;; (universal-argument)
+(org-babel-tangle)
+;; (save-buffer)
+;; (save-some-buffers 'no-confirm)
+(org-save-all-org-buffers)
+(evil-normal-state)
+(let ((curent-buffer (buffer-name)))
+  (select-frame-by-name "*compilation*")
+  (recompile)
+  (select-frame-by-name curent-buffer))
+(evil-close-fold)
+
+;; (find-file-other-frame "~/INI/babel-cfg.el")
+;; (load "~/INI/hydra-cfg.el")
+;; (load "~/ELs/BuYn/reader.el")
+ #+end_src
+
+*** CANCELED arhiv
+CLOSED: [2025-04-02 Wed 18:52]
+#+begin_src emacs-lisp :results output silent :tangle no
+(setq org-src-preserve-indentation t)
+(untabify (point-min) (point-max))
+(save-some-buffers 'no-confirm)
+;; (save-buffer)
+(org-babel-tangle)
+(find-file-other-frame "sandbox.py")
+(recompile)
+;; (load "~/INI/hydra-cfg.el")
+;; (load "~/ELs/BuYn/reader.el")
+#+end_src
+
+** keys
+*** org-mode-map (kbd "<f8>
+#+begin_src elisp tangle no
+;;  --------------------------------------
+(define-key org-mode-map (kbd "<f8>") nil)
+(define-key org-mode-map (kbd "<f8> <f8>") '(lambda() (interactive)
+        (save-excursion
+          (progn
+            (org-babel-goto-named-src-block "auto-tangle-block")
+            (org-babel-execute-src-block)))
+                                ))
+;; --------------------------------------
+#+end_src
+
+#+RESULTS:
+| lambda | nil | (interactive) | (save-excursion (progn (org-babel-goto-named-src-block auto-tangle-block) (org-babel-execute-src-block))) |
+
 * 2024-09-06
 ** Sontex.org
 D:\Development\lisp\Dropbox\Office\Progects\Zmei 
