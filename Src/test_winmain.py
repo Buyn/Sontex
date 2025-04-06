@@ -13,7 +13,7 @@ from main import *
 class Test_Init(unittest.TestCase):
 
 # ----------------------------------------------
-# ** def test_winmain : 
+# ** def test_winmain:
     @unittest.skipIf(len(sys.argv) < 2  or sys.argv[1] != "test_winmain.Test_Init", "not sigle test")
     def test_winmain_test(self):
         # # sys.argv = ['', 'Test.testName']
@@ -25,7 +25,7 @@ class Test_Init(unittest.TestCase):
         
 # ----------------------------------------------
 
-# ** def test_btn_ask_open_exel_file : 
+# ** def test_btn_ask_open_exel_file:
     @unittest.skipIf(len(sys.argv) < 2  or not sys.argv[1] == "test_winmain.Test_Init.test_btn_ask_open_exel_file", "not sigle test")
     def test_btn_ask_open_exel_file(self):
         test = btn_ask_open_exel_file("/",
@@ -51,7 +51,7 @@ class Test_Init(unittest.TestCase):
 
 # ----------------------------------------------
 
-# ** def test_btn_ask_open_DBfiles : 
+# ** def test_btn_ask_open_DBfiles:
     @unittest.skipIf(len(sys.argv) < 2  or not sys.argv[1] == "test_winmain.Test_Init.test_btn_ask_open_DBfiles", "not sigle test")
     def test_btn_ask_open_DBfiles(self):
         test = btn_ask_open_DBfiles("/",
@@ -79,7 +79,7 @@ class Test_Init(unittest.TestCase):
 
 # ----------------------------------------------
 
-# ** def test_btn_asksaveasfile : 
+# ** def test_btn_asksaveasfile:
     @unittest.skipIf(len(sys.argv) < 2  or not sys.argv[1] == "test_winmain.Test_Init.test_btn_asksaveasfile", "not sigle test")
     def test_btn_asksaveasfile(self):
         test = btn_asksaveasfile("")
