@@ -510,17 +510,6 @@ label {
 #+begin_src emacs-lisp :results output silent
 (find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/.projectile")
 #+end_src
-** sandbox
-*** sandbox.org
-#+begin_src emacs-lisp :results output silent
-(find-file-other-frame "../Src/sandbox.org")
-#+end_src
-
-(find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/sandbox.org")
-*** sandbox.py
-#+begin_src emacs-lisp :results output silent
-(find-file-other-frame "../Src/sandbox.py")
-#+end_src
 ** integation test
 *** ingtest01.py
 :PROPERTIES:
@@ -551,7 +540,7 @@ class Test(unittest.TestCase):
       print(sys.argv)
       print(sys.argv[0])
       print(sys.argv[1])
-      if sys.argv[1] == "ingtest01.Test.test_integ_initest": print("test found!")
+      if sys.argv[1] == "ingtest01.Test.test_integ_initest": print("test found!!")
     
 
 #+end_src
@@ -593,7 +582,94 @@ source sontex-env/bin/activate
 (find-file-other-frame "../Src/ingtest01.py")
 #+end_src
 
-** arhiv
+* sandbox
+** sandbox.org
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "../Src/sandbox.org")
+#+end_src
+
+(find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/sandbox.org")
+** sandbox.py
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "../Src/sandbox.py")
+#+end_src
+* scripts
+:PROPERTIES:
+:header-args: :dir ../Src/ :shebang #!/bin/bash  :tangle-mode (identity #o755) :tangle no
+:END:
+** start
+*** search
+#+HEADER: :tangle ../Src/Start.sh
+#+begin_src sh 
+source sontex-env/bin/activate
+python main.py
+#+end_src
+
+** test all
+*** win
+@echo off
+:start
+python -m unittest
+pause
+cls
+goto :start
+*** sh
+# python main.py
+#+HEADER: :tangle ../Src/test_all.sh
+#+begin_src sh 
+source sontex-env/bin/activate
+# @echo off
+while true; do
+  python -m unittest
+  echo "Press any key to run tests again or Ctrl+C to exit..."
+  read -n 1 -s
+  clear
+done
+#+end_src
+*** make it loop
+To create a loop in your shell script, you can use a =while= loop. Here's a modified version of your code that loops continuously:
+
+#+HEADER: :tangle no
+#+begin_src sh
+source sontex-env/bin/activate
+
+while true; do
+  python -m unittest
+  echo "Press any key to run tests again or Ctrl+C to exit..."
+  read -n 1 -s
+done
+#+end_src
+
+This loop will repeatedly run the unit tests until you manually exit the script.
+*** add pause on bash script
+To add a pause in a Bash script, you can use the =read= command. Modify your script like this:
+
+#+begin_src sh 
+source sontex-env/bin/activate
+python -m unittest
+echo "Press any key to continue..."
+read -n 1 -s  # Wait for a single key press
+#+end_src
+
+This will pause the script execution until a key is pressed.
+
+** integr test
+*** sh
+# python main.py
+#+HEADER: :tangle ../Src/test_integr.sh
+#+begin_src sh 
+source sontex-env/bin/activate
+# @echo off
+while true; do
+  # python -m unittest
+  python3 -m unittest ingtest01.Test.test_integ_initest
+  echo "Press any key to run tests again or Ctrl+C to exit..."
+  read -n 1 -s
+  clear
+done
+#+end_src
+** 
+* arhiv
 * Commands
 :PROPERTIES:
 :header-args: :tangle  no

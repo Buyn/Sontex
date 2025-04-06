@@ -11,7 +11,7 @@ class Test(unittest.TestCase):
       print(sys.argv)
       print(sys.argv[0])
       print(sys.argv[1])
-      if sys.argv[1] == "ingtest01.Test.test_integ_initest": print("test found!")
+      if sys.argv[1] == "ingtest01.Test.test_integ_initest": print("test found!!")
 
 if __name__ == "__main__":
     print("args = ", sys.argv)

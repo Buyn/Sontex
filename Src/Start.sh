@@ -1,3 +1,3 @@
-# source sontex-env/Scripts/activate & python main.py
+#!/bin/bash
 source sontex-env/bin/activate
 python main.py
