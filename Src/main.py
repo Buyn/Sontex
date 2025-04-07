@@ -62,7 +62,7 @@ def gui_calc(_filename, _csv, _output, _home_count = None):
         wm.print_to_log("Ці клітини загальнобудинкового лічильника використовуються, ігноруючи показники з клітини файлу Excel")
         wm.print_to_log("використання значення = "+ str(_home_count))
         wm.print_to_log(r)
-# *** loading date frame from CSV or RLV file :
+# *** loading date frame from CSV or RLV file:
     udate_data = set()
     for path_csv in csv.split(";"):
         if path_csv=="":
@@ -76,16 +76,16 @@ def gui_calc(_filename, _csv, _output, _home_count = None):
     # TODO: remove duble populate_apps
     app_list, couters_list = populate_apps(df) 
 
-# *** product of calculations :
+# *** product of calculations:
     app_list = calc_all_values_in_apps( df, app_list)
     # df_report = load_exel(filename, gv_sheet_report)
     # df_report = set_to_report(df_report, app_list)
-# *** generating reports :
+# *** generating reports:
     df_report = None
     if gv_enable_full_report:
         df_report = gen_OSBB_report(app_list)
     df_TE_report = gen_TE_report(app_list)
-# *** postprocessing block :
+# *** postprocessing block:
     # df_rules = load_exel(filename, gr_rule_sheet_name)
     try:
           df_rules = load_exel(filename, gr_rule_sheet_name)
@@ -96,7 +96,7 @@ def gui_calc(_filename, _csv, _output, _home_count = None):
           wm.print_to_log("Помилка під час завантаження аркуша правил = "+ gr_rule_sheet_name + " з файлу =" + filename)
     if not gr_rule_sheet_enable_in_report:
         df_rules = None
-# *** save block : 
+# *** save block:
     save_data_frame(output, df,
                     df_report,
                     df_rules = df_rules,

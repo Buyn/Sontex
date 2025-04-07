@@ -1,4 +1,5 @@
 #!/bin/bash
+clear
 source sontex-env/bin/activate
 # @echo off
 while true; do

@@ -13,12 +13,12 @@ from main import *
 
 
 # ----------------------------------------------
-# * class Test_Init : 
+# * class Test_Init:
 # ** ------------------------------------------:
 class Test_Init(unittest.TestCase):
 
 # ----------------------------------------------
-# ** def test_main : 
+# ** def test_main:
     def test_main(self):# {{{
         # print("Test tuner")
         with self.assertRaises(SystemExit) as cm:
@@ -31,7 +31,7 @@ class Test_Init(unittest.TestCase):
         
 # ----------------------------------------------
 
-# ** def test_main Gui: 
+# ** def test_main Gui:
     @unittest.skipIf(len(sys.argv) < 2  or sys.argv[1] != "test_main.Test_Init.test_main_gui", "not sigle test")
     def test_main_gui(self):
         # print(__name__)
@@ -44,7 +44,7 @@ class Test_Init(unittest.TestCase):
 
         
 # ----------------------------------------------
-# ** def test_load_exel : 
+# ** def test_load_exel:
     def test_load_exel(self):
         gv_filename = "Data_files/test.xlsx"
         # sheet_name = "показники"
@@ -97,7 +97,7 @@ class Test_Init(unittest.TestCase):
         # print (df)
 
 
-# ** def test_load_csv : 
+# ** def test_load_csv:
     def test_load_csv(self):
         gv_filename = gv_csv
         df = load_csv(gv_filename)
@@ -140,7 +140,7 @@ class Test_Init(unittest.TestCase):
         # print (df)
 
 
-# ** def test_load_rlv : 
+# ** def test_load_rlv:
     def test_load_rlv(self):
         gv_filename = gv_rlv
         df = load_rlv(gv_filename)
@@ -197,7 +197,7 @@ class Test_Init(unittest.TestCase):
         # print (df)
 
 
-# ** def test_load_db : 
+# ** def test_load_db:
     def test_load_db(self):
         # test =  ['Data_files/test.rlv', 'Data_files/test2.csv.rlv', 'Data_files/test.csv', '']
         test_path = gv_rlv+";"+"Data_files/test2.csv.rlv"+";"+ gv_csv +";"
@@ -280,7 +280,7 @@ class Test_Init(unittest.TestCase):
         self.assertEqual( len(wm.gui_log), 2)
 
 
-# ** def test_cmd_line_arg : 
+# ** def test_cmd_line_arg:
     def test_cmd_line_arg(self): 
         global g_filename, g_csv, g_output
         # self.assertEqual(filename, "Data_files/metod01.xlsx")
@@ -300,7 +300,7 @@ class Test_Init(unittest.TestCase):
         # self.assertEqual(g_output, "Data_files/3.xlsx")
 
 # ----------------------------------------------
-# * class setUp_Test : 
+# * class setUp_Test:
 # ** ------------------------------------------:
 class setUp_Test(unittest.TestCase):
 # ** @classmethod #setUpClass#  : 
@@ -1099,7 +1099,7 @@ class setUp_Test(unittest.TestCase):
 
 
 # ** ------------------------------------------:
-# * Test runer : 
+# * Test runer:
 # ** ------------------------------------------:
 # (compile " D:/Development/version-control/GitHub/Vadim/Tochil/main_test.py -k init")
 # (compile " python -m unittest D:/Development/version-control/GitHub/Vadim/Tochil/main_test.py ")
