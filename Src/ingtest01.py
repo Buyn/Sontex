@@ -156,13 +156,11 @@ class Test(unittest.TestCase):
     home_counter = None
     if os.path.exists(output_path):
       os.remove(output_path)
-
+    # Assert if the output file exists
     self.assertFalse (os.path.exists(output_path), "Output file does exist")
     start_calc(exel_path, csv_path, output_path, home_counter)
-
-    # Assert if the output file exists
+    # Assert if the output file not exists
     self.assertTrue(os.path.exists(output_path), "Output file does not exist")
-
     # gv_filename = "Data_files/test.xlsx"
     sheet_name = "Теплоенрго"
     df_report = load_exel(output_path, sheet_name)
@@ -172,7 +170,6 @@ class Test(unittest.TestCase):
     self.assertEqual(df_report.iloc[1, 4], 2.326)
     self.assertEqual(df_report.shape[0], 41)
     self.assertEqual(df_report.iloc[40, 4], 63.72)
-
     sheet_name = "квартири, площі"
     df_report = load_exel(output_path, sheet_name)
     # print(df_report)

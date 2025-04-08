@@ -1,11 +1,3 @@
-# ----------------------------------------------
-# * imports : 
-# ----------------------------------------------
-
-
-# ----------------------------------------------
-# * vars :
-# ----------------------------------------------
 # ** GUI:
 # *** main window:
 # gg_eel_mode = 'electron'
@@ -51,7 +43,7 @@ gv_rlv_index_col= 5
 # символ раздилитель используюшийся в файле
 # gv_rlv_sep      = ";"
 gv_rlv_sep      = "\t"
-# gv_rlv_sep      = "	"
+# gv_rlv_sep      = " "
 # gv_rlv_sep      = ""
 gv_rlv_name_i   = 1
 gv_rlv_name_date= "Historic date - "
@@ -107,9 +99,9 @@ gl_shift_home_counter_value2 = 2
 gl_column_home_counter_value1 = 17
 gl_column_home_counter_value2 = 18
 # *** report sheet:
-# 0 № п/п	
+# 0 № п/п 
 gl_num_column = 0
-# 1 № квартири	
+# 1 № квартири  
 gl_app_num_column = 1
 # 2 Ітого по распр., Гкал
 gl_total_couter_e_column = 2
@@ -127,9 +119,9 @@ gv_osbb_report = "ОСББ"
 gv_osbb_report = "ОСББ"
 gv_enable_full_report = False
 # gv_enable_full_report = True
-# 0 № п/п	
+# 0 № п/п 
 gn_num_column = "№ п/п"
-# 1 № квартири	
+# 1 № квартири  
 gn_app_num_column = "№ квартири"
 # 2 Ітого по распр., Гкал
 gn_total_couter_e_column = "Ітого по распр., Гкал"
@@ -144,9 +136,9 @@ gn_total_e_column = "ВСЬОГО, Гкал"
 # ** Теплоенрго report setings:
 gv_TE_report_formar_len = "{:.3f}".format
 gv_TE_report = "Теплоенрго"
-# 0 Особовий рахунок	
+# 0 Особовий рахунок  
 gn_TE_num_column = "Особовий рахунок"
-# 1 № Адреса	
+# 1 № Адреса  
 gn_TE_adders_column = "Адреса"
 # 2 № віртуального ліч-ка
 gn_TE_num_virt_column = "№ віртуального ліч-ка"
@@ -161,4 +153,3 @@ gr_rule_tag = "rule"
 gr_rule_name_col = 1
 gr_rule_len_col = 2
 gr_rule_params_start_col = 3
-# * -------------------------------------------:
