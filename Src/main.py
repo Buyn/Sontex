@@ -1,5 +1,3 @@
-# * imports :
-# ----------------------------------------------
 import sys
 import pandas as pd
 from global_values import *
@@ -7,18 +5,11 @@ from appart_values import *
 from rules import *
 import winmain as wm
 
-
-# ----------------------------------------------
-# * vars :
-# ----------------------------------------------
 g_filename = gv_filename
 g_output = gv_output
 g_sheet_name = gv_sheet_name
 g_csv = gv_csv
 
-
-# ----------------------------------------------
-# * main:
 # ** def cli : 
 # ----------------------------------------------
 def cli(argv): 
@@ -118,9 +109,6 @@ def main(argv):
 def end_app(arg):
     sys.exit(arg)
 
-    
-# * line arg functions:
-# ----------------------------------------------
 # ** cmd_line_arg:
 # ----------------------------------------------
 def cmd_line_arg(argv):
@@ -155,11 +143,6 @@ def is_test(argv):
             return True
     return False
 
-
-# ----------------------------------------------
-# ** ------------------------------------------:
-# * calc functions:
-# ----------------------------------------------
 # ** def gen_sum_heated_area :
 def gen_sum_heated_area(apps): 
     # Площа опалювальна по КТЕ
@@ -441,10 +424,6 @@ def calc_all_values_in_apps(df, app_list):
                        sum_heated_area)
     return app_list
 
-
-# ** ------------------------------------------:
-# * file functions:
-# ----------------------------------------------
 # ** def load_exel : 
 # ----------------------------------------------
 def load_exel(filename, sheet_name): 
@@ -669,15 +648,7 @@ def update_counters(app_list, counters_list, df_csv, data_i = 1):
     wm.print_to_log("Показники csv зафіксовані на дату"+ str(data_list))
     return str(data_list)
 
-
-# ** ------------------------------------------:
-
-# * if __name__ : 
-# ----------------------------------------------
 if __name__ == "__main__": 
     import sys
     # sys.argv = ['', 'Test.testName']
     main(sys.argv)
-
-
-# ----------------------------------------------

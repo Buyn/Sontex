@@ -909,10 +909,9 @@ source sontex-env/bin/activate
 :PROPERTIES:
 :header-args: :tangle ../Src/main.py
 :END:
-***** all
-#+begin_src python
-# * imports :
+***** imports:
 # ----------------------------------------------
+#+begin_src python
 import sys
 import pandas as pd
 from global_values import *
@@ -921,17 +920,21 @@ from rules import *
 import winmain as wm
 
 
+#+end_src
+***** vars:
 # ----------------------------------------------
-# * vars :
 # ----------------------------------------------
+#+begin_src python
 g_filename = gv_filename
 g_output = gv_output
 g_sheet_name = gv_sheet_name
 g_csv = gv_csv
 
 
+#+end_src
+***** main:
 # ----------------------------------------------
-# * main:
+#+begin_src python
 # ** def cli : 
 # ----------------------------------------------
 def cli(argv): 
@@ -1031,9 +1034,11 @@ def main(argv):
 def end_app(arg):
     sys.exit(arg)
 
-    
-# * line arg functions:
+
+    #+end_src
+***** line arg functions:
 # ----------------------------------------------
+    #+begin_src python
 # ** cmd_line_arg:
 # ----------------------------------------------
 def cmd_line_arg(argv):
@@ -1069,10 +1074,12 @@ def is_test(argv):
     return False
 
 
+#+end_src
 # ----------------------------------------------
 # ** ------------------------------------------:
-# * calc functions:
+***** calc functions:
 # ----------------------------------------------
+#+begin_src python
 # ** def gen_sum_heated_area :
 def gen_sum_heated_area(apps): 
     # Площа опалювальна по КТЕ
@@ -1256,7 +1263,7 @@ def gen_Q_no_surge(app_list, q_roz):
     при цьому питомий обсяг споживання тепла приміщеннями без розподілювачів 
     """
     return ( gen_k_no_surge(app_list)
-             * q_roz)
+             ,* q_roz)
 
 
 # ** def gen_k_no_surge : 
@@ -1355,9 +1362,11 @@ def calc_all_values_in_apps(df, app_list):
     return app_list
 
 
+#+end_src
 # ** ------------------------------------------:
-# * file functions:
+***** file functions:
 # ----------------------------------------------
+#+begin_src python
 # ** def load_exel : 
 # ----------------------------------------------
 def load_exel(filename, sheet_name): 
@@ -1583,19 +1592,18 @@ def update_counters(app_list, counters_list, df_csv, data_i = 1):
     return str(data_list)
 
 
+#+end_src
 # ** ------------------------------------------:
-
-# * if __name__ : 
+***** if __name__:
 # ----------------------------------------------
+#+begin_src python
 if __name__ == "__main__": 
     import sys
     # sys.argv = ['', 'Test.testName']
     main(sys.argv)
-
-
+#+end_src
 # ----------------------------------------------
 
-#+end_src
 
 *** test_main.py
 #+begin_src emacs-lisp :results output silent
