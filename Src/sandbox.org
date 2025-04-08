@@ -55,7 +55,8 @@ print(get_dates_from_colums_list(df, gv_rlv_colums_name_dates_list))
 
 #+end_src
 
-*** def get_df_from_filename_string
+*** DONE def get_df_list_from_filename_string
+CLOSED: [2025-04-08 Tue 14:31]
 #+begin_src python
 def get_df_from_filename_string(string):
   rdf=[]

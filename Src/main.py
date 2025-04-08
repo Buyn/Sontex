@@ -424,8 +424,6 @@ def calc_all_values_in_apps(df, app_list):
                        sum_heated_area)
     return app_list
 
-# ** def load_exel : 
-# ----------------------------------------------
 def load_exel(filename, sheet_name): 
     df = pd.read_excel(filename,
                       sheet_name = sheet_name,
@@ -435,9 +433,6 @@ def load_exel(filename, sheet_name):
                       )
     return df
 
-
-# ** def load_csv : 
-# ----------------------------------------------
 def load_csv(filename): 
     if not filename:
         return None
@@ -450,8 +445,6 @@ def load_csv(filename):
     wm.print_to_log("Файл csv завантажений")
     return df
 
-
-# ** def load_rlv : 
 def load_rlv(filename): 
     if not filename:
         return None
@@ -464,8 +457,6 @@ def load_rlv(filename):
     wm.print_to_log("файл rlv завантажений")
     return df
 
-
-# ** def load_db : 
 def load_db(filename): 
     if not filename:
         return None
@@ -477,8 +468,13 @@ def load_db(filename):
     wm.print_to_log("Неприпустиме розширення файлу для оновлення. очікується .rlv або .csv. Файл проігноровано = "+ filename)
     return None
 
+def get_df_list_from_filename_string(string):
+  r=[]
+  for path_csv in string.split(";"):
+    if path_csv=="" or path_csv==" ": continue
+    r.append(load_db(path_csv.strip()))
+  return r
 
-# ** del it def set_to_report : 
 def set_to_report(df, app_list): 
     # 0 № п/п 
     # 1 № квартири  
@@ -497,8 +493,6 @@ def set_to_report(df, app_list):
         app.set_to_report(df, gl_total_e_column, app.total_e)
     return df
 
-
-# ** def gen_OSBB_
 def gen_OSBB_report(app_list): 
     df = [[gn_num_column,
            gn_app_num_column,
@@ -528,8 +522,6 @@ def gen_OSBB_report(app_list):
         df.append(row)
     return pd.DataFrame(df)
 
-
-# ** def gen_TE_report:
 def gen_TE_report(app_list): 
     df = [[
         # 0 Особовий рахунок  
@@ -567,8 +559,6 @@ def gen_TE_report(app_list):
     ])
     return pd.DataFrame(df)
 
-
-# ** def save_data_frame:
 def save_data_frame(output, df, df_report, df_rules=None, df_TE_report=None): 
   # Save the updated dataframe to the Excel file
   with pd.ExcelWriter(output,
@@ -590,8 +580,6 @@ def save_data_frame(output, df, df_report, df_rules=None, df_TE_report=None):
         df_TE_report.to_excel(writer, index=False, header=False, sheet_name=gv_TE_report)
     wm.print_to_log("output report path "+ output)
 
-
-# ** def populate_apps:
 def populate_apps(df): 
     al =[]
     cl =[]
@@ -606,8 +594,6 @@ def populate_apps(df):
             break
     return al, cl
 
-
-# ** def update_counters:
 def update_counters(app_list, counters_list, df_csv, data_i = 1): 
     if df_csv is None:
         return None
