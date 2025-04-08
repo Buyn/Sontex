@@ -7,7 +7,8 @@
 import pandas as pd
 from global_values import *
 #+end_src
-*** load rvl
+*** DONE load rvl
+CLOSED: [2025-04-09 Wed 02:23]
 #+begin_src python
 # print("test hi!")
 # filename = "/home/buyn/Dev/Python/Sontex/Src/Data_files/test.rlv"
@@ -34,7 +35,8 @@ df = pd.read_csv(filename ,
                 index_col = gv_rlv_index_col)
 #+end_src
 
-*** def get_dates_from_colums_list
+*** DONE def get_dates_from_colums_list
+CLOSED: [2025-04-08 Tue 20:30]
 #+begin_src python 
 def get_dates_from_colums_list(df, colist):
   retlist = []
@@ -74,10 +76,6 @@ def get_df_from_filename_string(string):
 df_list = get_df_from_filename_string(filename)
 if not len(df_list)==0:
   print(get_dates_from_colums_list(df_list[0], gv_rlv_colums_name_dates_list))
-
-    
-
-    
 
 
 #+end_src

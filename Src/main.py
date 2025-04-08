@@ -475,6 +475,21 @@ def get_df_list_from_filename_string(string):
     r.append(load_db(path_csv.strip()))
   return r
 
+def get_dates_from_colums_list(df, colist):
+  r = []
+  for i, name in enumerate(colist):
+      try:
+          colnum = df.columns.get_loc(name)
+      except Exception as e:
+          print ("on name=", name, " is Exception=", str(e))
+          print("Possible reason - file does not contain the expected columns")
+          wm.print_to_log("файл не містить очікуваних стовпців "+ str(e))
+          break
+      value = df.iloc[0, colnum]
+      if pd.isnull(value): break
+      r.append(value)
+  return r
+
 def set_to_report(df, app_list): 
     # 0 № п/п 
     # 1 № квартири  

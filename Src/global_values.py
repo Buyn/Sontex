@@ -1,4 +1,3 @@
-# ** GUI:
 # *** main window:
 # gg_eel_mode = 'electron'
 # gg_eel_mode = 'chrome'
@@ -7,7 +6,7 @@
 gg_eel_mode = 'chrome'
 gg_GUI = True
 # gg_GUI = False
-# ** .xlsx:
+
 # gv_filename = "Data_files/metod01.xlsx"
 gv_output = "Data_files/output.xlsx"
 gv_filename = "Data_files/metod01.xlsx"
@@ -15,7 +14,6 @@ gv_filename = "Data_files/metod01.xlsx"
 gv_sheet_name = "квартири, площі"
 gv_sheet_report = "report"
 
-# ** .csv:
 gv_csv = "Data_files/test.csv"
 # кодировка файла
 gv_csv_encoding = "cp1252"
@@ -31,7 +29,6 @@ gv_csv_name_value="Historic value - "
 # name_text = "Historic date - " + str(gv_csv_name_i)
 # name_value = "Historic value - " + str(gv_csv_name_i)
 
-# ** .rlv:
 gv_rlv = "Data_files/test.rlv"
 # gv_rlv = "Data_files/test.rlv"
 # кодировка файла
@@ -50,7 +47,13 @@ gv_rlv_name_date= "Historic date - "
 gv_rlv_name_value="Historic value - "
 # name_text = "Historic date - " + str(gv_rlv_name_i)
 # name_value = "Historic value - " + str(gv_rlv_name_i)
-# ** Kooficeints:
+gv_rlv_name_start = 1
+gv_rlv_name_end = 100
+gv_rlv_colums_name_dates_list = ["Readout date"] + [gv_rlv_name_date + str(x)
+                              for x in range(gv_rlv_name_start, gv_rlv_name_end)]
+gv_rlv_colums_name_values_list = ["Heating units totalizer"] + [gv_rlv_name_value + str(x)
+                              for x in range(gv_rlv_name_start, gv_rlv_name_end)]
+
 # обсяг тепла на функц. системи = 5% якщо є погодне регулювання в ІТП або 15% якщо не має від
 # при значение 0 переменая не используется
 gk_Qfun_sys = 0.05
@@ -66,7 +69,7 @@ gk_Qop_min = 0.5
 qk_k_no_surge_proc    = 0.25
 qk_k_no_surge_if_more = 1.5
 qk_k_no_surge_if_less = 2
-# ** setings:
+
 # количество знаков после запятой для gk_Qop_min переменой
 # при повышение точности в этой переменой разница силльно растёт
 # False для максимальной точности
@@ -82,7 +85,7 @@ gs_recalc_surcharge_print_result = False
 # gs_recalc_surcharge_print_result = True
 gs_recalc_surcharge_print = False
 # gs_recalc_surcharge_print = True
-# ** exel coordinats:
+
 # *** "квартири, площі":
 gl_app_sum_area_column = 4 # номер колонки (Площа загальна по даним КТЕ)
 gl_app_heating_area_column = 5 # номер колонки (Площа опалювальна по КТЕ)
@@ -113,9 +116,9 @@ gl_func_sys_column = 4
 gl_mzk_column = 5
 # 6 ВСЬОГО, Гкал
 gl_total_e_column = 6
-# ** report names:
+
 gv_osbb_report = "ОСББ"
-# ** osbb report setings:
+
 gv_osbb_report = "ОСББ"
 gv_enable_full_report = False
 # gv_enable_full_report = True
@@ -133,7 +136,7 @@ gn_func_sys_column = "функціонування системи"
 gn_mzk_column = "МЗК"
 # 6 ВСЬОГО, Гкал
 gn_total_e_column = "ВСЬОГО, Гкал"
-# ** Теплоенрго report setings:
+
 gv_TE_report_formar_len = "{:.3f}".format
 gv_TE_report = "Теплоенрго"
 # 0 Особовий рахунок  
@@ -146,7 +149,7 @@ gn_TE_num_virt_column = "№ віртуального ліч-ка"
 gn_TE_period = "Період"
 # 4 Обсяг споживання,  Гкал
 gn_TE_total_e_column = "Обсяг споживання,  Гкал"
-# ** Rules list:
+
 gr_rule_sheet_name = "Налаштування"
 gr_rule_sheet_enable_in_report = True
 gr_rule_tag = "rule"

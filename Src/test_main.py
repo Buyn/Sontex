@@ -1,6 +1,6 @@
 import unittest
-
 from main import *
+from global_values import *
 
 # filename = gv_filename
 # sheet_name = gv_sheet_name 
@@ -181,6 +181,30 @@ class Test_Init(unittest.TestCase):
       self.assertIsNotNone(t)
       self.assertEqual(len(t), 2)
       t =None
+
+    def test_get_dates_from_colums_list(self): 
+      string = "Data_files/test.rlv"
+      df = get_df_list_from_filename_string(string)
+      self.assertIsNotNone(df)
+      self.assertEqual(len(df), 1)
+      t = get_dates_from_colums_list(df[0], gv_rlv_colums_name_dates_list)
+      self.assertIsNotNone(t)
+      self.assertEqual(len(t), 19)
+      self.assertEqual(t[0], "02.04.2023")
+      self.assertEqual(t[1], "01.04.2023")
+      t =None
+      df =None
+      string = "Data_files/test.csv"
+      df = get_df_list_from_filename_string(string)
+      self.assertIsNotNone(df)
+      self.assertEqual(len(df), 1)
+      t = get_dates_from_colums_list(df[0], gv_rlv_colums_name_dates_list)
+      self.assertIsNotNone(t)
+      self.assertEqual(len(t), 37)
+      self.assertEqual(t[0], "19.04.2021 13:52:24")
+      self.assertEqual(t[1], "2021-04-16")
+      t =None
+      df =None
 
 class setUp_Test(unittest.TestCase):
 # ** @classmethod #setUpClass#:
