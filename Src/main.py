@@ -1,4 +1,3 @@
-# ----------------------------------------------
 # * imports :
 # ----------------------------------------------
 import sys
@@ -502,8 +501,8 @@ def load_db(filename):
 
 # ** del it def set_to_report : 
 def set_to_report(df, app_list): 
-    # 0 № п/п	
-    # 1 № квартири	
+    # 0 № п/п 
+    # 1 № квартири  
     for app in app_list:
         if app.counters_list:
             # 2 Ітого по распр., Гкал
@@ -530,8 +529,8 @@ def gen_OSBB_report(app_list):
            gn_mzk_column ,
            gn_total_e_column ]]
     for app in app_list:
-        # 0 № п/п	
-        # 1 № квартири	
+        # 0 № п/п 
+        # 1 № квартири  
         row =[app.num_name, app.app_num_name,]
         if app.counters_list:
             # 2 Ітого по распр., Гкал
@@ -554,9 +553,9 @@ def gen_OSBB_report(app_list):
 # ** def gen_TE_report:
 def gen_TE_report(app_list): 
     df = [[
-        # 0 Особовий рахунок	
+        # 0 Особовий рахунок  
         gn_TE_num_column,
-        # 1 № Адреса	
+        # 1 № Адреса  
         gn_TE_adders_column ,
         # 2 № віртуального ліч-ка
         gn_TE_num_virt_column ,
@@ -567,9 +566,9 @@ def gen_TE_report(app_list):
     sum_total = 0
     for app in app_list:
         row =[
-            # 0 № п/п	
+            # 0 № п/п 
             app.num_name,
-            # 1 № квартири	
+            # 1 № квартири  
             app.app_num_name,
             # 2 № віртуального ліч-ка
             app.num_name]
@@ -682,4 +681,3 @@ if __name__ == "__main__":
 
 
 # ----------------------------------------------
-# * -------------------------------------------:
