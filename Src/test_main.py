@@ -207,7 +207,7 @@ class Test_Init(unittest.TestCase):
       df =None
 
 class setUp_Test(unittest.TestCase):
-# ** @classmethod #setUpClass#:
+
     @classmethod #setUpClass# {{{
     def setUpClass(self):
         # print("*"*33,"*"*33)
@@ -215,32 +215,14 @@ class setUp_Test(unittest.TestCase):
         # sheet_name = "показники"
         sheet_name = "квартири, площі"
         self.df = load_exel(gv_filename, sheet_name)
-        # self.mw = Main_Windows()
-        # self.fk = FirstKivy()
-    #     print ("file opened")
-    #     print("*"*33,"*"*33)
-    #     self.gs.sheet_main.update_acell('A1', 'Bingo!')
 
-
-# ** @classmethod #tearDownClass#:
-    # @classmethod #tearDownClass# {{{
-    # def tearDownClass(cls):
-    #     print("*"*33,"*"*33)
-    #     print("tear down module")
-    #     print("*"*33,"*"*33)
-
-# ** def test_init1 : 
     def test_init(self):# {{{
         self.assertEqual(self.df.iloc[104, 0], 37)
         self.assertEqual(self.df.iloc[107, 0], "end")
         self.assertEqual(self.df.iloc[105, 0], 38)
         self.assertEqual(self.df.iloc[105, 2], 9)
         self.assertEqual(self.df.iloc[105, 3], 1)
-        # self.assertIsNotNone( mw.temp_A)
-        # self.assertIsNotNone( mw.temp_B)
 
-
-# ** def test_populate_apps : 
     def test_populate_apps(self): 
         t1, t2 = populate_apps(self.df)
         self.assertEqual(len(t1), 38)
@@ -272,8 +254,6 @@ class setUp_Test(unittest.TestCase):
         self.assertEqual(t1[35].next_app_line, 104)
         self.assertEqual(t2[35], [25482671, 25482670, 25482669, 25482694,])
 
-
-# ** def test_gen_OSBB_report : 
     def test_gen_OSBB_report(self): 
         app_list, t2 = populate_apps(self.df)
         last_app_line = get_last_app_line(app_list)
@@ -312,23 +292,7 @@ class setUp_Test(unittest.TestCase):
                            q_Mkz,
                            sum_heated_area)
         t = gen_OSBB_report(app_list)
-        # print(t)
-        # self.assertEqual(len(t1), 38)
-        # self.assertEqual(len(t2), 38)
-        # self.assertEqual(t1[0]._start_line, 1)
-        # self.assertEqual(t1[0].next_app_line, 2)
-        # self.assertEqual(t2[0], None)
-        # self.assertEqual(t1[37]._start_line, 105)
-        # self.assertEqual(t1[37].next_app_line, 107)
-        # self.assertEqual(t2[37], [
-        #                         25482673,
-        #                         25482672,])
-        # self.assertEqual(t1[35]._start_line, 100)
-        # self.assertEqual(t1[35].next_app_line, 104)
-        # self.assertEqual(t2[35], [25482671, 25482670, 25482669, 25482694,])
 
-
-# ** def test_gen_TE_report : 
     def test_gen_TE_report(self): 
         app_list, t2 = populate_apps(self.df)
         last_app_line = get_last_app_line(app_list)
@@ -367,29 +331,9 @@ class setUp_Test(unittest.TestCase):
                            q_Mkz,
                            sum_heated_area)
         t = gen_TE_report(app_list)
-        # print(t)
-        # 1,4,
-
-        # print(t.iloc[1,4])
         self.assertEqual(t.iloc[1,4], 2.326)
-        # print(t.iloc[40,4])
-        # print(str(t.iloc[40,4]))
         self.assertEqual(t.iloc[40,4], 63.720)
-        # self.assertEqual(len(t2), 38)
-        # self.assertEqual(t1[0]._start_line, 1)
-        # self.assertEqual(t1[0].next_app_line, 2)
-        # self.assertEqual(t2[0], None)
-        # self.assertEqual(t1[37]._start_line, 105)
-        # self.assertEqual(t1[37].next_app_line, 107)
-        # self.assertEqual(t2[37], [
-        #                         25482673,
-        #                         25482672,])
-        # self.assertEqual(t1[35]._start_line, 100)
-        # self.assertEqual(t1[35].next_app_line, 104)
-        # self.assertEqual(t2[35], [25482671, 25482670, 25482669, 25482694,])
 
-
-# ** def test_update_counters : 
     def test_update_counters(self): 
         t1, t2 = populate_apps(self.df)
         self.assertEqual(t2[37],
@@ -401,8 +345,6 @@ class setUp_Test(unittest.TestCase):
                           25482669,
                           25482694,])
         app_list, couters_list = t1, t2
-        # ------
-        # gv_filename = gv_csv
         gv_filename = gv_csv
         df_csv = load_csv(gv_filename)
         self.assertEqual(app_list[37].counters_list[0].get_value1(), 875)
@@ -413,68 +355,35 @@ class setUp_Test(unittest.TestCase):
                          [25482673,
                           25482672,])
         self.assertEqual(app_list[37].counters_list[0].get_value1(), 178)
-        # self.assertEqual(t1[37]., 100)
-        # self.assertEqual(t1[35].next_app_line, 104)
-        # self.assertEqual(t2[35],
-        #                  [25482671,
-        #                   25482670,
-        #                   25482669,
-        #                   25482694,])
-        # ------
-        # gv_filename = gv_rlv
         gv_filename = gv_rlv
         df_csv = load_rlv(gv_filename)
-        # ------
-        # from global_values import *
-        # name_date = gv_csv_name_date + str(gv_csv_name_i)
-        # name_value = gv_csv_name_value + str(gv_csv_name_i)
-        # Historic date - 1
-        # Historic value - 1
-        # r = [] 
-        # r.append(df.loc[ser_id , name_date])
-        # print("r = ", r)
-        # ------
         self.assertEqual(app_list[37].counters_list[0].get_value1(), 178)
-        # print(df_csv)
-        # with self.assertRaises(Exception):
         update_counters(app_list, couters_list, df_csv) 
         self.assertEqual(app_list[37].counters_list[0].get_value1(), 209)
         self.assertEqual(t2[37],
                          [25482673,
                           25482672,])
-        # self.assertEqual(app_list[37].counters_list[0].get_value1(), 178)
-        # ------
         gv_filename = "Data_files/test2.csv.rlv"
         df_csv = load_rlv(gv_filename)
-        # print(df_csv)
         with self.assertRaises(Exception):
-            update_counters(app_list, couters_list, df_csv) 
-        # r = app_list[i].update_allvalues1_by_id(df_csv,  name_value, name_date)
+            update_counters(app_list, couters_list, df_csv)
 
-
-# ** def test_gen_sum_heated_area : 
     def test_gen_sum_heated_area(self): 
         t1, t2 = populate_apps(self.df)
         test = gen_sum_heated_area(t1)
         self.assertEqual(float("{:.3f}".format(test)) , 2315.33)
 
-
-# ** def test_sum_E_used_k : 
     def test_sum_E_used_k(self): 
         t1, t2 = populate_apps(self.df)
         test = sum_E_used_k(t1)
         self.assertEqual(float("{:.3f}".format(test)) , 4823.121)
 
-
-# ** def test_gen_no_counter_sum_area : 
     def test_gen_no_counter_sum_area(self): 
         t1, t2 = populate_apps(self.df)
         test = gen_no_counter_sum_area(t1)
         # for app in [app.sum_area for app in apps if not app.counters_list] :
         self.assertEqual(float("{:.3f}".format(test)) , 803.65)
 
-
-# ** def test_get_last_app_line : 
     def test_get_last_app_line(self): 
         t1, t2 = populate_apps(self.df)
         test = get_last_app_line(t1)
@@ -483,8 +392,6 @@ class setUp_Test(unittest.TestCase):
             test = get_last_app_line(t1[:-1])
             self.assertEqual(test , 103)
 
-
-# ** test_get_home_value : 
     def test_get_home_value(self):
         t1, t2 = populate_apps(self.df)
         last_app_line = get_last_app_line(t1)
@@ -501,8 +408,6 @@ class setUp_Test(unittest.TestCase):
                                   gl_shift_home_counter_value2,
                                   gl_column_home_counter_value2)
 
-
-# ** test_gen_delta_value_home_counter : 
     def test_gen_delta_value_home_counter(self):
         t1, t2 = populate_apps(self.df)
         last_app_line = get_last_app_line(t1)
@@ -511,8 +416,6 @@ class setUp_Test(unittest.TestCase):
         with self.assertRaises(NameError):
             test = gen_delta_value_home_counter(self.df , last_app_line + 1)
 
-
-# ** test_set_home_counter : 
     def test_set_home_counter(self):
         t1, t2 = populate_apps(self.df)
         last_app_line = get_last_app_line(t1)
@@ -539,11 +442,7 @@ class setUp_Test(unittest.TestCase):
                                         gl_shift_home_counter_value2,
                                         gl_column_home_counter_value2)
         self.assertEqual(test, 200.222)
-        # with self.assertRaises(NameError):
-        #     test = gen_delta_value_home_counter(self.df , last_app_line + 1)
 
-
-# ** def test_gen_Qfun_sys : 
     def test_gen_Qfun_sys(self): 
         t1, t2 = populate_apps(self.df)
         last_app_line = get_last_app_line(t1)
@@ -551,8 +450,6 @@ class setUp_Test(unittest.TestCase):
         test = gen_Qfun_sys(delta_value_home_counter)
         self.assertEqual(float("{:.3f}".format(test)), 3.186)
 
-
-# ** def test_gen_Qmzk : 
     def test_gen_Qmzk(self): 
         t1, t2 = populate_apps(self.df)
         last_app_line = get_last_app_line(t1)
@@ -560,8 +457,6 @@ class setUp_Test(unittest.TestCase):
         test = gen_Qmzk(delta_value_home_counter)
         self.assertEqual(float("{:.3f}".format(test)), 6.372)
 
-
-# ** def test_gen_Qroz : 
     def test_gen_Qroz(self): 
         # Питомий обсяг спожитої енергії на опалення усіх приміщень
         t1, t2 = populate_apps(self.df)
@@ -571,8 +466,6 @@ class setUp_Test(unittest.TestCase):
         test = gen_Qroz(delta_value_home_counter, sum_heated_area)
         self.assertEqual(float("{:.4f}".format(test)), 0.0234)
 
-
-# ** def test_gen_Qpit_roz : 
     def test_gen_Qpit_roz(self): 
         # питомий обсяг енергії спожитий одним розподілювачем
         # Обсяг споживання тепла з розподілювачами
@@ -597,8 +490,6 @@ class setUp_Test(unittest.TestCase):
         # self.assertEqual(float("{:.4f}".format(test)), 0.0030)
         self.assertEqual(float("{:.13f}".format(test)), 25.962591298000700)
 
-
-# ** def test_gen_Qop_min : 
     def test_gen_Qop_min(self): 
         # Мінімальна частка середнього питомого споживання
         app_list, t2 = populate_apps(self.df)
@@ -612,8 +503,6 @@ class setUp_Test(unittest.TestCase):
         test = float("{:.9f}".format(test))
         self.assertEqual(test, 0.011696389)
 
-
-# ** def test_gen_Q_no_surge : 
     def test_gen_Q_no_surge(self): 
         # Обсяг споживання тепла приміщенням без розподілювачамиів
         app_list, t2 = populate_apps(self.df)
@@ -627,8 +516,6 @@ class setUp_Test(unittest.TestCase):
         test = float("{:.13f}".format(test))
         self.assertEqual(test, 0.0350891665551)
 
-
-# ** def test_gen_k_no_surge : 
     def test_gen_k_no_surge(self): 
         # Обсяг споживання тепла приміщенням без розподілювачамиів
         # k = 2, якщо площа необладнаних приміщень менще 25% та 1,5 якщо більше
@@ -637,8 +524,6 @@ class setUp_Test(unittest.TestCase):
         test = float("{:.3f}".format(test))
         self.assertEqual(test, 1.5)
 
-
-# ** def test_calc_surcharge : 
     def test_calc_surcharge(self): 
         app_list, t2 = populate_apps(self.df)
         last_app_line = get_last_app_line(app_list)
@@ -698,8 +583,6 @@ class setUp_Test(unittest.TestCase):
         # питомий обсяг енергій якій буде перерозподілено
         self.assertEqual(float("{:.9f}".format(test1)), 0.002931951)
 
-
-# ** def test_recalc_surcharge : 
     def test_recalc_surcharge(self): 
         app_list, t2 = populate_apps(self.df)
         last_app_line = get_last_app_line(app_list)
@@ -817,8 +700,6 @@ class setUp_Test(unittest.TestCase):
         self.assertIsNotNone(test)
         self.assertEqual(float("{:.3f}".format(test)), 0.000)
 
-
-# ** def test_gen_total_counter_e : 
     def test_gen_total_counter_e(self): 
         app_list, t2 = populate_apps(self.df)
         last_app_line = get_last_app_line(app_list)
@@ -849,8 +730,6 @@ class setUp_Test(unittest.TestCase):
         self.assertIsNotNone(test)
         self.assertEqual(float("{:.3f}".format(test)), 25.963)
 
-
-# ** def test_gen_total_no_counter_e : 
     def test_gen_total_no_counter_e(self): 
         app_list, t2 = populate_apps(self.df)
         last_app_line = get_last_app_line(app_list)
@@ -869,8 +748,6 @@ class setUp_Test(unittest.TestCase):
         test = gen_total_no_counter_e(app_list)
         self.assertEqual(float("{:.3f}".format(test)), 28.199)
 
-
-# ** def test_calc_no_counter_e : 
     def test_calc_no_counter_e(self): 
         app_list, t2 = populate_apps(self.df)
         last_app_line = get_last_app_line(app_list)
@@ -892,8 +769,6 @@ class setUp_Test(unittest.TestCase):
         test = sum([app.specified_used_E for app in app_list if not app.counters_list])
         self.assertEqual(float("{:.3f}".format(test)), 28.199)
 
-
-# ** def test_calc_final_totals : 
     def test_calc_final_totals(self): 
         app_list, t2 = populate_apps(self.df)
         last_app_line = get_last_app_line(app_list)
