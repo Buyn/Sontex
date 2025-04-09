@@ -967,9 +967,9 @@ g_csv = gv_csv
 #+end_src
 ***** main:
 # ----------------------------------------------
-#+begin_src python
-# ** def cli : 
+****** def cli : 
 # ----------------------------------------------
+#+begin_src python
 def cli(argv): 
     filename, csv, sheet_name = cmd_line_arg(argv)
     sheet_name = g_sheet_name 
@@ -984,16 +984,20 @@ def cli(argv):
     save_data_frame(output, df, df_report)
 
 
+#+end_src
 # ----------------------------------------------
-# ** def gui : 
+****** def gui : 
 # ----------------------------------------------
+#+begin_src python
 def gui(argv): 
     wm.winmain(argv)
 
 
+#+end_src
 # ----------------------------------------------
-# ** def gui_calc : 
+****** def gui_calc : 
 # ----------------------------------------------
+#+begin_src python
 def gui_calc(_filename, _csv, _output, _home_count = None): 
 # *** set values and params :
     sheet_name = g_sheet_name 
@@ -1051,9 +1055,11 @@ def gui_calc(_filename, _csv, _output, _home_count = None):
                     df_TE_report = df_TE_report)
 
 
+#+end_src
 # ----------------------------------------------
-# ** def main(argv):
+****** def main(argv):
 # ----------------------------------------------
+#+begin_src python
 def main(argv):
     if gg_GUI and not is_test(argv):
         gui(argv) 
@@ -1062,8 +1068,10 @@ def main(argv):
     end_app(0)
 
 
+#+end_src
 # ----------------------------------------------
-# ** end_app(arg):
+****** end_app(arg):
+#+begin_src python
 def end_app(arg):
     sys.exit(arg)
 
@@ -1071,9 +1079,9 @@ def end_app(arg):
     #+end_src
 ***** line arg functions:
 # ----------------------------------------------
-    #+begin_src python
-# ** cmd_line_arg:
+****** cmd_line_arg:
 # ----------------------------------------------
+    #+begin_src python
 def cmd_line_arg(argv):
     global g_filename, g_csv, g_output
     for arg in argv[1:]:
@@ -1097,9 +1105,11 @@ def cmd_line_arg(argv):
     return g_filename, g_csv, g_output
 
 
+#+end_src
 # ----------------------------------------------
-# ** def is_test:
+****** def is_test:
 # ----------------------------------------------
+#+begin_src python
 def is_test(argv): 
     for arg in argv[1:]:
         if arg.startswith("--test"):
@@ -1112,27 +1122,33 @@ def is_test(argv):
 # ** ------------------------------------------:
 ***** calc functions:
 # ----------------------------------------------
+****** def gen_sum_heated_area :
 #+begin_src python
-# ** def gen_sum_heated_area :
 def gen_sum_heated_area(apps): 
     # Площа опалювальна по КТЕ
     return sum([app.heating_area for app in apps])
 
 
-# ** def sum_E_used_k :
+#+end_src
+****** def sum_E_used_k :
+#+begin_src python
 def sum_E_used_k(apps): 
     #сумма сумарне приведене споживання по квартирі, од.
     return sum([app.gen_E_used_k() for app in apps])
 
 
-# ** def gen_no_counter_sum_area :
+#+end_src
+****** def gen_no_counter_sum_area :
+#+begin_src python
 def gen_no_counter_sum_area(apps): 
     # площа без розп
     # по Площа опалювальна по КТЕ
     return sum([app.heating_area for app in apps if not app.counters_list])
 
 
-# ** def get_last_app_line : 
+#+end_src
+****** def get_last_app_line : 
+#+begin_src python
 def get_last_app_line(apps): 
     if apps[-1].is_last :
       return apps[-1].next_app_line
@@ -1142,7 +1158,9 @@ def get_last_app_line(apps):
           'get_last_line in not last appart ' + str(len(apps)))
 
 
-# ** def get_home_value : 
+#+end_src
+****** def get_home_value : 
+#+begin_src python
 def get_home_value(df, line, column):
     # r =  float(df.iloc[line, column])
     r =  df.iloc[line, column]
@@ -1156,7 +1174,9 @@ def get_home_value(df, line, column):
     return r
     
 
-# ** def set_home_counter : 
+#+end_src
+****** def set_home_counter : 
+#+begin_src python
 def set_home_counter(df, g_line, values): 
     if not values or values[0] == "" and values[1] == "":
         return "значення загальнобудинкового лічильника використані з Excel"
@@ -1167,7 +1187,9 @@ def set_home_counter(df, g_line, values):
     return "значення загальнобудинкового лічильника в екселі оновлено" + str(values[0]) + " ; " + str(values[0])
     
 
-# ** def gen_delta_value_home_counter : 
+#+end_src
+****** def gen_delta_value_home_counter : 
+#+begin_src python
 def gen_delta_value_home_counter(df, g_line): 
     return get_home_value(df,
                 g_line + gl_shift_home_counter_value1,
@@ -1176,19 +1198,25 @@ def gen_delta_value_home_counter(df, g_line):
                     gl_column_home_counter_value2)
     
 
-# ** def gen_Qfun_sys : 
+#+end_src
+****** def gen_Qfun_sys : 
+#+begin_src python
 def gen_Qfun_sys(delta_value_home_counter): 
     # обсяг тепла на функц. системи = 5% якщо є погодне регулювання в ІТП або 15% якщо не має від
     return delta_value_home_counter * gk_Qfun_sys
 
 
-# ** def gen_Qmzk : 
+#+end_src
+****** def gen_Qmzk : 
+#+begin_src python
 def gen_Qmzk(delta_value_home_counter): 
     # обсяг тепла на опалення МЗК = 10% від
     return delta_value_home_counter * gk_Qmzk
 
 
-# ** def gen_Qroz : 
+#+end_src
+****** def gen_Qroz : 
+#+begin_src python
 def gen_Qroz(delta_value_home_counter, sum_heated_area): 
     # Питомий обсяг спожитої енергії на опалення усіх приміщень
     return (delta_value_home_counter
@@ -1196,7 +1224,9 @@ def gen_Qroz(delta_value_home_counter, sum_heated_area):
             - gen_Qmzk(delta_value_home_counter)) / sum_heated_area
 
 
-# ** def gen_Qop_min : 
+#+end_src
+****** def gen_Qop_min : 
+#+begin_src python
 def gen_Qop_min(q_roz): 
     # Мінімальна частка середнього питомого споживання
     # gk_Qop_min_after_point
@@ -1210,7 +1240,10 @@ def gen_Qop_min(q_roz):
         r = float("{:.3f}".format(r))
     return r
 
-# ** def gen_Qpit_roz : 
+
+#+end_src
+****** def gen_Qpit_roz : 
+#+begin_src python
 def gen_Qpit_roz(sum_home_e, qfun_sys, q_Mkz, sum_no_counter_e): 
     """
     питомий обсяг енергії спожитий одним розподілювачем
@@ -1219,7 +1252,9 @@ def gen_Qpit_roz(sum_home_e, qfun_sys, q_Mkz, sum_no_counter_e):
     return sum_home_e - qfun_sys - q_Mkz - sum_no_counter_e
 
       
-# ** def calc_surcharge : 
+#+end_src
+****** def calc_surcharge : 
+#+begin_src python
 def calc_surcharge(app_list, q_pit_roz, q_op_min): 
     sum_e_k = sum_E_used_k(app_list)
     if sum_e_k == 0:
@@ -1233,7 +1268,9 @@ def calc_surcharge(app_list, q_pit_roz, q_op_min):
     return gen_e_for_redistribute(app_list)
 
 
-# ** def recalc_surcharge : 
+#+end_src
+****** def recalc_surcharge : 
+#+begin_src python
 def recalc_surcharge(app_list,
                      q_op_min,
                      e_for_redistibut,
@@ -1263,7 +1300,9 @@ def recalc_surcharge(app_list,
     return e_for_redistibut
 
 
-# ** def gen_e_for_redistribute : 
+#+end_src
+****** def gen_e_for_redistribute : 
+#+begin_src python
 def gen_e_for_redistribute(app_list): 
     # обсяг енергій якій буде перерозподілено
     sum_E = sum([app.surcharge for app in app_list])
@@ -1273,8 +1312,9 @@ def gen_e_for_redistribute(app_list):
     return sum_E/sum_S
 
 
-
-# ** def gen_total_counter_e : 
+#+end_src
+****** def gen_total_counter_e : 
+#+begin_src python
 def gen_total_counter_e(apps): 
     """
     sum Ітого по распр., Гкал
@@ -1282,7 +1322,9 @@ def gen_total_counter_e(apps):
     return sum([app.specified_used_E for app in apps if app.counters_list])
 
 
-# ** def gen_total_no_counter_e : 
+#+end_src
+****** def gen_total_no_counter_e : 
+#+begin_src python
 def gen_total_no_counter_e(apps): 
     """
     sum Ітого по м2, Гкал
@@ -1290,7 +1332,9 @@ def gen_total_no_counter_e(apps):
     return sum([app.specified_used_E for app in apps if not app.counters_list])
 
 
-# ** def gen_Q_no_surge : 
+#+end_src
+****** def gen_Q_no_surge : 
+#+begin_src python
 def gen_Q_no_surge(app_list, q_roz): 
     """
     при цьому питомий обсяг споживання тепла приміщеннями без розподілювачів 
@@ -1299,12 +1343,16 @@ def gen_Q_no_surge(app_list, q_roz):
              ,* q_roz)
 
 
-# ** def gen_k_no_surge : 
+#+end_src
+****** def gen_k_no_surge : 
+#+begin_src python
 def gen_k_no_surge(apps): 
     return  qk_k_no_surge_if_less if gen_no_counter_sum_area(apps) / gen_sum_heated_area(apps) < qk_k_no_surge_proc else qk_k_no_surge_if_more 
 
     
-# ** def calc_no_counter_e : 
+#+end_src
+****** def calc_no_counter_e : 
+#+begin_src python
 def calc_no_counter_e( app_list,
                        q_no_surge): 
     """
@@ -1322,9 +1370,9 @@ def calc_no_counter_e( app_list,
     return app_list
 
 
-
-
-# ** def calc_final_totals : 
+#+end_src
+****** def calc_final_totals : 
+#+begin_src python
 def calc_final_totals(app_list,
                       qfun_sys,
                       q_Mkz,
@@ -1346,8 +1394,9 @@ def calc_final_totals(app_list,
 
 
 
-
-# ** def calc_all_values_in_apps : 
+#+end_src
+****** def calc_all_values_in_apps : 
+#+begin_src python
 def calc_all_values_in_apps(df, app_list): 
     # загальна площа будинку
     sum_heated_area = gen_sum_heated_area(app_list)
