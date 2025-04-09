@@ -7,26 +7,14 @@ from global_values import *
 import main as m
 import datetime
 
-# ----------------------------------------------
-# ----------------------------------------------
 gui_log =[]
 
-# ----------------------------------------------
-# ** ------------------------------------------:
-# * def winmain(argv):
-# ----------------------------------------------
 def winmain(argv):
     eel.init("web")    
     # Start the index.html file  
     eel.start("index.html"
-              , mode=gg_eel_mode
-              )  
-    
+              , mode=gg_eel_mode)
 
-# * expose : 
-# ----------------------------------------------
-# ** def start_calc() : 
-# ----------------------------------------------
 @eel.expose      
 def start_calc(exel_path, csv_path, output_path, home_counter):  
     """ 
@@ -36,12 +24,8 @@ def start_calc(exel_path, csv_path, output_path, home_counter):
     print("start calc")  
     print(exel_path, csv_path, output_path, home_counter)
     m.gui_calc(exel_path, csv_path, output_path, home_counter)
-    print("end calc")  
+    print("end calc")
 
-
-# ----------------------------------------------
-# ** def pull_log() : 
-# ----------------------------------------------
 @eel.expose      
 def pull_log():  
     """ 
@@ -52,10 +36,6 @@ def pull_log():
     gui_log.clear()
     return r
 
-
-# ----------------------------------------------
-# ** def btn_ask_open_exel_file() : 
-# ----------------------------------------------
 @eel.expose
 def btn_ask_open_exel_file(path,
                        _filetypes=("excel files","*.xlsx"),
@@ -83,10 +63,6 @@ def btn_ask_open_exel_file(path,
                      + " задано = " + folder)
     return folder
 
-
-# ----------------------------------------------
-# ** def btn_ask_open_DBfiles():
-# ----------------------------------------------
 @eel.expose
 def btn_ask_open_DBfiles(path,
                        _filetypes=(("rlv files","*.rvl"), ("csv files","*.csv")),
@@ -116,10 +92,6 @@ def btn_ask_open_DBfiles(path,
         print_to_log("шлях до файлу база даних задано = " + r)
     return r
 
-
-# ----------------------------------------------
-# ** def btn_asksaveasfile():
-# ----------------------------------------------
 @eel.expose
 def btn_asksaveasfile(path,
                        _filetypes=("excel files","*.xlsx"),
@@ -144,23 +116,8 @@ def btn_asksaveasfile(path,
         print_to_log("шлях до файлу звіту = " + folder)
     return folder
 
-
-# ----------------------------------------------
-# ** -------------------------------------------
-# * not expose : 
-# ----------------------------------------------
-# ** def print_to_log(string):
-# ----------------------------------------------
 def print_to_log(string):
     gui_log.append(datetime.datetime.now().strftime("%H:%M:%S.%f")+": "+ string)
 
-
-# ** -------------------------------------------
-# * if __name__ : 
-# ----------------------------------------------
 if __name__ == "__main__": 
-    # sys.argv = ['', 'Test.testName']
     winmain(sys.argv)
-
-
-# ----------------------------------------------

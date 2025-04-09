@@ -2914,27 +2914,31 @@ import datetime
 
 #+end_src
 ***** vars:
+# ----------------------------------------------
+# ----------------------------------------------
 #+begin_src python
-# ----------------------------------------------
-# ----------------------------------------------
 gui_log =[]
 
+
+#+end_src
 # ----------------------------------------------
 # ** ------------------------------------------:
-# * def winmain(argv):
+***** def winmain(argv):
 # ----------------------------------------------
+#+begin_src python
 def winmain(argv):
     eel.init("web")    
     # Start the index.html file  
     eel.start("index.html"
-              , mode=gg_eel_mode
-              )  
+              , mode=gg_eel_mode)  
     
 
-# * expose : 
+#+end_src
+***** expose:
 # ----------------------------------------------
-# ** def start_calc() : 
+****** def start_calc():
 # ----------------------------------------------
+#+begin_src python
 @eel.expose      
 def start_calc(exel_path, csv_path, output_path, home_counter):  
     """ 
@@ -2947,9 +2951,11 @@ def start_calc(exel_path, csv_path, output_path, home_counter):
     print("end calc")  
 
 
+#+end_src
 # ----------------------------------------------
-# ** def pull_log() : 
+****** def pull_log():
 # ----------------------------------------------
+#+begin_src python
 @eel.expose      
 def pull_log():  
     """ 
@@ -2961,9 +2967,11 @@ def pull_log():
     return r
 
 
+#+end_src
 # ----------------------------------------------
-# ** def btn_ask_open_exel_file() : 
+****** def btn_ask_open_exel_file():
 # ----------------------------------------------
+#+begin_src python
 @eel.expose
 def btn_ask_open_exel_file(path,
                        _filetypes=("excel files","*.xlsx"),
@@ -2992,9 +3000,11 @@ def btn_ask_open_exel_file(path,
     return folder
 
 
+#+end_src
 # ----------------------------------------------
-# ** def btn_ask_open_DBfiles():
+****** def btn_ask_open_DBfiles():
 # ----------------------------------------------
+#+begin_src python
 @eel.expose
 def btn_ask_open_DBfiles(path,
                        _filetypes=(("rlv files","*.rvl"), ("csv files","*.csv")),
@@ -3025,9 +3035,11 @@ def btn_ask_open_DBfiles(path,
     return r
 
 
+#+end_src
 # ----------------------------------------------
-# ** def btn_asksaveasfile():
+****** def btn_asksaveasfile():
 # ----------------------------------------------
+#+begin_src python
 @eel.expose
 def btn_asksaveasfile(path,
                        _filetypes=("excel files","*.xlsx"),
@@ -3053,26 +3065,28 @@ def btn_asksaveasfile(path,
     return folder
 
 
+#+end_src
 # ----------------------------------------------
 # ** -------------------------------------------
-# * not expose : 
+***** not expose:
 # ----------------------------------------------
-# ** def print_to_log(string):
+****** def print_to_log(string):
 # ----------------------------------------------
+#+begin_src python
 def print_to_log(string):
     gui_log.append(datetime.datetime.now().strftime("%H:%M:%S.%f")+": "+ string)
 
 
-# ** -------------------------------------------
-# * if __name__ : 
-# ----------------------------------------------
-if __name__ == "__main__": 
-    # sys.argv = ['', 'Test.testName']
-    winmain(sys.argv)
-
-
-# ----------------------------------------------
 #+end_src
+# ** -------------------------------------------
+***** if __name__:
+# ----------------------------------------------
+    # sys.argv = ['', 'Test.testName']
+#+begin_src python
+if __name__ == "__main__": 
+    winmain(sys.argv)
+#+end_src
+# ----------------------------------------------
 
 
 *** test_winmain.py
@@ -3084,7 +3098,7 @@ if __name__ == "__main__":
 (find-file-other-frame "~/Dev/Python/Sontex/Src/test_winmain.py")
 #+end_src
 **** src test_winmain.py
-***** import block :
+***** import block:
 #+begin_src python
 import unittest
 import sys
@@ -3095,13 +3109,16 @@ from main import *
 #+end_src
 
 # ----------------------------------------------
-***** class Test_Init : 
+***** class Test_Init:
 # ** ------------------------------------------:
+****** class
 #+begin_src python
 class Test_Init(unittest.TestCase):
+#+end_src
 
 # ----------------------------------------------
-# ** def test_winmain:
+****** def test_winmain:
+#+begin_src python
     @unittest.skipIf(len(sys.argv) < 2  or sys.argv[1] != "test_winmain.Test_Init", "not sigle test")
     def test_winmain_test(self):
         # # sys.argv = ['', 'Test.testName']
@@ -3111,9 +3128,10 @@ class Test_Init(unittest.TestCase):
         if sys.argv[1] == "test_winmain.Test_Init": print("test found")
 
         
+#+end_src
 # ----------------------------------------------
-
-# ** def test_btn_ask_open_exel_file:
+****** def test_btn_ask_open_exel_file:
+#+begin_src python
     @unittest.skipIf(len(sys.argv) < 2  or not sys.argv[1] == "test_winmain.Test_Init.test_btn_ask_open_exel_file", "not sigle test")
     def test_btn_ask_open_exel_file(self):
         test = btn_ask_open_exel_file("/",
@@ -3125,6 +3143,9 @@ class Test_Init(unittest.TestCase):
         test = btn_ask_open_exel_file("\\",
                                   # _filetypes=(("csv files","*.csv"), ("rlv files","*.rlv")),
                                   _title = "test path \\")
+
+        
+#+end_src
         # test = btn_ask_open_exel_file("",
         #                           _filetypes=(("csv files","*.csv"), ("rlv files","*.rlv")),
         #                           _title = "Select file csv or rlv")
@@ -3138,8 +3159,8 @@ class Test_Init(unittest.TestCase):
             
 
 # ----------------------------------------------
-
-# ** def test_btn_ask_open_DBfiles:
+****** def test_btn_ask_open_DBfiles:
+#+begin_src python
     @unittest.skipIf(len(sys.argv) < 2  or not sys.argv[1] == "test_winmain.Test_Init.test_btn_ask_open_DBfiles", "not sigle test")
     def test_btn_ask_open_DBfiles(self):
         test = btn_ask_open_DBfiles("/",
@@ -3150,6 +3171,9 @@ class Test_Init(unittest.TestCase):
                                   # _filetypes=(("csv files","*.csv"), ("rlv files","*.rlv")),
                                   _title = "D:/Development/version-control/GitHub/Zmei/Sontex/Src/Data_files/test.xlsx")
         print("test = ", test)
+
+        
+#+end_src
         # test = btn_ask_open_DBfiles("\\",
         #                           # _filetypes=(("csv files","*.csv"), ("rlv files","*.rlv")),
         #                           _title = "test path \\")
@@ -3166,8 +3190,8 @@ class Test_Init(unittest.TestCase):
             
 
 # ----------------------------------------------
-
-# ** def test_btn_asksaveasfile:
+****** def test_btn_asksaveasfile:
+#+begin_src python
     @unittest.skipIf(len(sys.argv) < 2  or not sys.argv[1] == "test_winmain.Test_Init.test_btn_asksaveasfile", "not sigle test")
     def test_btn_asksaveasfile(self):
         test = btn_asksaveasfile("")
@@ -3176,8 +3200,10 @@ class Test_Init(unittest.TestCase):
                           _title = "Select file to save report")
             
 
+#+end_src
 # ----------------------------------------------
-# ** def test_Pull_log : 
+****** def test_Pull_log : 
+#+begin_src python
     def test_Pull_log(self):
         gui_log.clear()
         self.assertEqual(len(gui_log), 0)          
@@ -3186,6 +3212,12 @@ class Test_Init(unittest.TestCase):
         print_to_log("test")
         self.assertEqual(len(gui_log), 1)          
         test = pull_log()
+        self.assertNotEqual(test, [x+"test"])          
+        self.assertNotEqual(test[0], x+"test")          
+        self.assertEqual(len(gui_log), 0)          
+            
+
+#+end_src
         # x = datetime.datetime.now("%H %M %S %f")
         # x = datetime.datetime.now()
         # x = datetime.time().strftime("%H:%M:%S %f")
@@ -3194,22 +3226,16 @@ class Test_Init(unittest.TestCase):
         # x = datetime.datetime.now().strftime("%H:%M:%S %f")
         # .isoformat(timespec='microseconds')
         # t.strftime("%H:%M:%S %f")
-        # %H 	Hour 00-23 	17 	
-        # %I 	Hour 00-12 	05 	
-        # %p 	AM/PM 	PM 	
-        # %M 	Minute 00-59 	41 	
-        # %S 	Second 00-59 	08 	
-        # %f 	Microsecond 000000-999999 	548513 	
+        # %H  Hour 00-23  17  
+        # %I  Hour 00-12  05  
+        # %p  AM/PM   PM  
+        # %M  Minute 00-59  41  
+        # %S  Second 00-59  08  
+        # %f  Microsecond 000000-999999   548513  
         # print(x)
-        self.assertNotEqual(test, [x+"test"])          
-        self.assertNotEqual(test[0], x+"test")          
-        self.assertEqual(len(gui_log), 0)          
-            
-
-#+end_src
 
 # ----------------------------------------------
-***** Test runer : 
+***** Test runer:
 # ** ------------------------------------------:
 # (compile " D:/Development/version-control/GitHub/Vadim/Tochil/main_test.py -k init")
 # (compile " python -m unittest D:/Development/version-control/GitHub/Vadim/Tochil/main_test.py ")
