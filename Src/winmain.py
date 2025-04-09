@@ -36,6 +36,12 @@ def pull_log():
     gui_log.clear()
     return r
 
+@eel.expose      
+def get_dates_from_filename_string(filenames):  
+  df_list = m.get_df_list_from_filename_string(filenames)
+  if df_list and not len(df_list)==0:
+    return m.get_dates_from_colums_list(df_list[0], gv_rlv_colums_name_dates_list)
+
 @eel.expose
 def btn_ask_open_exel_file(path,
                        _filetypes=("excel files","*.xlsx"),

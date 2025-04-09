@@ -71,7 +71,8 @@ def get_df_from_filename_string(string):
 
 #+end_src
 
-*** get_dates_from_filename_string
+*** DONE get_dates_from_filename_string
+CLOSED: [2025-04-09 Wed 20:40]
 #+begin_src python
 df_list = get_df_from_filename_string(filename)
 if not len(df_list)==0:

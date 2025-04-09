@@ -2969,6 +2969,19 @@ def pull_log():
 
 #+end_src
 # ----------------------------------------------
+****** def get_dates_from_filename_string:
+# ----------------------------------------------
+#+begin_src python
+@eel.expose      
+def get_dates_from_filename_string(filenames):  
+  df_list = m.get_df_list_from_filename_string(filenames)
+  if df_list and not len(df_list)==0:
+    return m.get_dates_from_colums_list(df_list[0], gv_rlv_colums_name_dates_list)
+
+
+#+end_src
+    # print(get_dates_from_colums_list(df_list[0], gv_rlv_colums_name_dates_list))
+# ----------------------------------------------
 ****** def btn_ask_open_exel_file():
 # ----------------------------------------------
 #+begin_src python
@@ -3129,6 +3142,41 @@ class Test_Init(unittest.TestCase):
 
         
 #+end_src
+
+#+RESULTS:
+
+# ----------------------------------------------
+****** test get_dates_from_filename_string:
+#+begin_src python
+    def test_get_dates_from_filename_string(self):
+      string = "Data_files/test.rlv"
+      t = get_dates_from_filename_string(string)
+      # print(t)
+      self.assertEqual(len(t), 19)
+      self.assertEqual(t[0], "02.04.2023")
+      self.assertEqual(t[1], "01.04.2023")
+      t =None
+      string = "Data_files/test.rlv;Data_files/test.csv"
+      t = get_dates_from_filename_string(string)
+      self.assertEqual(len(t), 19)
+      self.assertEqual(t[0], "02.04.2023")
+      self.assertEqual(t[1], "01.04.2023")
+      t =None
+      string = " ;   Data_files/test.rlv ;  Data_files/test.csv  ;"
+      t = get_dates_from_filename_string(string)
+      self.assertIsNotNone(t)
+      self.assertEqual(len(t), 19)
+      self.assertEqual(t[0], "02.04.2023")
+      self.assertEqual(t[1], "01.04.2023")
+      t =None
+      string = "Data_files/test.csv;Data_files/test.rlv"
+      t = get_dates_from_filename_string(string)
+      self.assertEqual(len(t), 37)
+      self.assertEqual(t[0], "19.04.2021 13:52:24")
+      self.assertEqual(t[1], "2021-04-16")
+
+        
+#+end_src
 # ----------------------------------------------
 ****** def test_btn_ask_open_exel_file:
 #+begin_src python
@@ -3202,7 +3250,7 @@ class Test_Init(unittest.TestCase):
 
 #+end_src
 # ----------------------------------------------
-****** def test_Pull_log : 
+****** def test_Pull_log:
 #+begin_src python
     def test_Pull_log(self):
         gui_log.clear()

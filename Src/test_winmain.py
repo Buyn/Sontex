@@ -14,6 +14,33 @@ class Test_Init(unittest.TestCase):
         print(sys.argv[1])
         if sys.argv[1] == "test_winmain.Test_Init": print("test found")
 
+    def test_get_dates_from_filename_string(self):
+      string = "Data_files/test.rlv"
+      t = get_dates_from_filename_string(string)
+      # print(t)
+      self.assertEqual(len(t), 19)
+      self.assertEqual(t[0], "02.04.2023")
+      self.assertEqual(t[1], "01.04.2023")
+      t =None
+      string = "Data_files/test.rlv;Data_files/test.csv"
+      t = get_dates_from_filename_string(string)
+      self.assertEqual(len(t), 19)
+      self.assertEqual(t[0], "02.04.2023")
+      self.assertEqual(t[1], "01.04.2023")
+      t =None
+      string = " ;   Data_files/test.rlv ;  Data_files/test.csv  ;"
+      t = get_dates_from_filename_string(string)
+      self.assertIsNotNone(t)
+      self.assertEqual(len(t), 19)
+      self.assertEqual(t[0], "02.04.2023")
+      self.assertEqual(t[1], "01.04.2023")
+      t =None
+      string = "Data_files/test.csv;Data_files/test.rlv"
+      t = get_dates_from_filename_string(string)
+      self.assertEqual(len(t), 37)
+      self.assertEqual(t[0], "19.04.2021 13:52:24")
+      self.assertEqual(t[1], "2021-04-16")
+
     @unittest.skipIf(len(sys.argv) < 2  or not sys.argv[1] == "test_winmain.Test_Init.test_btn_ask_open_exel_file", "not sigle test")
     def test_btn_ask_open_exel_file(self):
         test = btn_ask_open_exel_file("/",
