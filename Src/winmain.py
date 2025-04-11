@@ -5,9 +5,6 @@ from tkinter import filedialog
 from tkinter import *
 from global_values import *
 import main as m
-import datetime
-
-gui_log =[]
 
 def winmain(argv):
     eel.init("web")    
@@ -32,8 +29,8 @@ def pull_log():
     Pull values from log variable
     """  
     # print("log pull requst")  
-    r = gui_log.copy()
-    gui_log.clear()
+    r = m.gui_log.copy()
+    m.gui_log.clear()
     return r
 
 @eel.expose      
@@ -121,9 +118,6 @@ def btn_asksaveasfile(path,
         print_to_log("Результуючий файл звіту обрано")
         print_to_log("шлях до файлу звіту = " + folder)
     return folder
-
-def print_to_log(string):
-    gui_log.append(datetime.datetime.now().strftime("%H:%M:%S.%f")+": "+ string)
 
 if __name__ == "__main__": 
     winmain(sys.argv)

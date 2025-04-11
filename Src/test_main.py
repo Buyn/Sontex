@@ -140,19 +140,19 @@ class Test_Init(unittest.TestCase):
         self.assertEqual( df.loc[ser_id , name_text], "2021-04-16")
         self.assertEqual( df.loc[ser_id , name_value], 126)
         # None test
-        wm.gui_log.clear()
+        gui_log.clear()
         gv_filename = "Data_files/test2.exel"
         df = load_db(gv_filename)
         self.assertIsNone(df)
-        self.assertEqual( len(wm.gui_log), 1)
+        self.assertEqual( len(gui_log), 1)
         gv_filename = "Data_files"
         df = load_db(gv_filename)
         self.assertIsNone(df)
-        self.assertEqual( len(wm.gui_log), 2)
+        self.assertEqual( len(gui_log), 2)
         gv_filename = None
         df = load_db(gv_filename)
         self.assertIsNone(df)
-        self.assertEqual( len(wm.gui_log), 2)
+        self.assertEqual( len(gui_log), 2)
 
     def test_cmd_line_arg(self): 
         global g_filename, g_csv, g_output

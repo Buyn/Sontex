@@ -12,6 +12,7 @@ class Test_Init(unittest.TestCase):
         print(sys.argv)
         print(sys.argv[0])
         print(sys.argv[1])
+        winmain(sys.argv)
         if sys.argv[1] == "test_winmain.Test_Init": print("test found")
 
     def test_get_dates_from_filename_string(self):
