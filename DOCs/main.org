@@ -3,12 +3,12 @@
 :END:
 * Eel files
 ** index.html
+*** file
+(find-file-other-frame "../Src/web/index.html")
+*** src index.html
 :PROPERTIES:
 :header-args: :tangle "../Src/web/index.html" 
 :END:
-*** file
-(find-file-other-frame "../Src/web/index.html")
-*** src
 **** html open
 #+begin_src html
 <!DOCTYPE html>  
@@ -237,12 +237,14 @@ CLOSED: [2025-03-15 Сб 16:51]
 #+end_src
 
 ** script.js
+*** file
+(find-file-other-frame "../Src/web/script.js")
+*** src script.js
 :PROPERTIES:
 :header-args: :tangle "../Src/web/script.js" 
 :END:
-(find-file-other-frame "../Src/web/script.js")
+**** const : 
 #+begin_src js :results output silent
-// * const : 
 const initForm = document.getElementById("init-form");
 const cookies = document.cookie.split("; ").map(str => str.split("=")).reduce((obj, [key, value]) => ({...obj, [key]:value}), {});
 
@@ -268,18 +270,24 @@ const outputInput = initForm["output-input"];
 const reportBtn = initForm["report-btn"];
 // const reportModal = document.getElementById("report-modal");
 
-// * cookies : 
+#+end_src
+**** cookies : 
+#+begin_src js :results output silent
 exelInput.value = cookies.exel || "";
 csvInput.value = cookies.csv || "";
 outputInput.value = cookies.output || "";
 
-// * onchange : 
+#+end_src
+**** onchange : 
+#+begin_src js :results output silent
 useCounterBox.onchange = () => {
     prevCounter.disabled = !useCounterBox.checked;
     currCounter.disabled = !useCounterBox.checked;
 }
 
-// * onclick : 
+#+end_src
+**** onclick : 
+#+begin_src js :results output silent
 exelBtn.onclick = () => getExel(  exelInput,
                                   ["excel files","*.xlsx"],
                                   "Вибрати файл вхідного звіту");
@@ -297,7 +305,10 @@ reportBtn.onclick = () => start_calc();
 refreshLog();
 setInterval(refreshLog, 3000);
 
-// * function getExel :
+#+end_src
+**** functions
+***** function getExel:
+#+begin_src js :results output silent
 async function getExel(input, filetype, title) {
     var dosya_path = await eel.btn_ask_open_exel_file(input.value, filetype, title)();
     if (dosya_path) {
@@ -308,7 +319,9 @@ async function getExel(input, filetype, title) {
     refreshLog();
     }
 
-// * function getDBfile :
+#+end_src
+***** function getDBfile:
+#+begin_src js :results output silent
 async function getDBfile(input, filetype, title) {
     var dosya_path = await eel.btn_ask_open_DBfiles(input.value, filetype, title)();
     if (dosya_path) {
@@ -330,7 +343,9 @@ async function saveAs(input, filetype, title) {
     refreshLog();
     }
 
-// * function sendToLog :
+#+end_src
+***** function sendToLog:
+#+begin_src js :results output silent
 function sendToLog(text) {
     logArea.value = text + "\n" + logArea.value;
     }
@@ -341,8 +356,9 @@ async function refreshLog() {
     log_strings.forEach(string => sendToLog(string));
     }
 
-
-// * function start_calc() : 
+#+end_src
+***** function start_calc():
+#+begin_src js :results output silent
 async function start_calc() {
     console.log("statr calc");
     sendToLog(" ");
@@ -372,6 +388,10 @@ async function start_calc() {
     sendToLog("==================================================");
     sendToLog(" ");
   }
+
+#+end_src
+***** function pause
+#+begin_src js :results output silent
 function pause(delay){
     return new Promise(resolve => setTimeout(resolve, delay));
 }
