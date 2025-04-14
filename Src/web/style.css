@@ -3,18 +3,12 @@ h1 {
   text-align: center;  
 }
 
-.random_number {  
-/*  margin: 50px;   */
-/*  font-size: 150px;   */
-/*  text-align: center;   */
-}  
-
 button {
   /* display: block;   */
   /* margin: 0 auto; */
     white-space: nowrap;
     width: 240px;
-}  
+}
 
 #reread-btn {
   padding: 5px;
@@ -22,7 +16,6 @@ button {
   line-height: 0.6;
   align-self: center;
   }
-
 
 #report-btn {
   /* align: center; */
@@ -49,6 +42,7 @@ label {
     width : 75%;
 /*    margin-left: auto; */
 }
+
 .short {
    width : 10%;
    margin-left: 15px;

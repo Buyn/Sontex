@@ -4,27 +4,21 @@ const cookies = document.cookie.split("; ").map(str => str.split("=")).reduce((o
 const logArea = document.getElementById("log");
 
 const exelBtn = initForm["exel-btn"];
-// const exelFile = initForm["exel-file"];
 const exelInput = initForm["exel-input"];
 
 const currCounter = initForm["curr-count"];
 
 const csvBtn = initForm["csv-btn"];
-// const csvFile =  initForm["csv-file"];
 const csvInput = initForm["csv-input"];
-// console.log(document.cookie);
 
 const outputBtn = initForm["output-btn"];
-// const outputFile = initForm["output-file"];
 const outputInput = initForm["output-input"];
 
 const rereadBtn = initForm["reread-btn"];
 const prevSelect = initForm["prev-date"];
 const currSelect = initForm["curr-date"];
 
-
 const reportBtn = initForm["report-btn"];
-// const reportModal = document.getElementById("report-modal");
 
 exelInput.value = cookies.exel || "";
 csvInput.value = cookies.csv || "";
