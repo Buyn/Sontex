@@ -16,8 +16,8 @@ button {
     width: 240px;
 }  
 
-#reload {
-  padding: 1px;
+#reread-btn {
+  padding: 5px;
   width: unset;
   line-height: 0.6;
   align-self: center;
@@ -28,7 +28,7 @@ button {
   /* align: center; */
   display: block;
   /* width: max-content; */
-  margin: auto;
+  margin: 0 auto 10px;
 }
 
 .row {
@@ -52,6 +52,7 @@ label {
 .short {
    width : 10%;
    margin-left: 15px;
+	 /* flex-grow: 1; */
 }
 
 .logos {

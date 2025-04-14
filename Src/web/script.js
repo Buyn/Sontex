@@ -1,41 +1,35 @@
-// * const : 
 const initForm = document.getElementById("init-form");
 const cookies = document.cookie.split("; ").map(str => str.split("=")).reduce((obj, [key, value]) => ({...obj, [key]:value}), {});
 
 const logArea = document.getElementById("log");
 
-const useCounterBox = initForm["use-count"];
-const prevCounter = initForm["prev-count"];
-const currCounter = initForm["curr-count"];
-
 const exelBtn = initForm["exel-btn"];
 // const exelFile = initForm["exel-file"];
 const exelInput = initForm["exel-input"];
+
+const currCounter = initForm["curr-count"];
 
 const csvBtn = initForm["csv-btn"];
 // const csvFile =  initForm["csv-file"];
 const csvInput = initForm["csv-input"];
 // console.log(document.cookie);
 
-const outputBtn = initForm[  "output-btn"];
+const outputBtn = initForm["output-btn"];
 // const outputFile = initForm["output-file"];
 const outputInput = initForm["output-input"];
+
+const rereadBtn = initForm["reread-btn"];
+const prevSelect = initForm["prev-date"];
+const currSelect = initForm["curr-date"];
+
 
 const reportBtn = initForm["report-btn"];
 // const reportModal = document.getElementById("report-modal");
 
-// * cookies : 
 exelInput.value = cookies.exel || "";
 csvInput.value = cookies.csv || "";
 outputInput.value = cookies.output || "";
 
-// * onchange : 
-useCounterBox.onchange = () => {
-    prevCounter.disabled = !useCounterBox.checked;
-    currCounter.disabled = !useCounterBox.checked;
-}
-
-// * onclick : 
 exelBtn.onclick = () => getExel(  exelInput,
                                   ["excel files","*.xlsx"],
                                   "Вибрати файл вхідного звіту");
@@ -43,6 +37,8 @@ exelBtn.onclick = () => getExel(  exelInput,
 csvBtn.onclick = () => getDBfile( csvInput,
                                   [["csv files", "*.csv"], ["rlv files", "*.rlv"]],
                                   "Обрати файл показників пристроїв .csv або .rlv");
+
+rereadBtn.onclick = () => readDBfile( csvInput);
 
 outputBtn.onclick = () => saveAs( outputInput,
                                   ["excel files","*.xlsx"],
@@ -53,7 +49,6 @@ reportBtn.onclick = () => start_calc();
 refreshLog();
 setInterval(refreshLog, 3000);
 
-// * function getExel :
 async function getExel(input, filetype, title) {
     var dosya_path = await eel.btn_ask_open_exel_file(input.value, filetype, title)();
     if (dosya_path) {
@@ -64,7 +59,6 @@ async function getExel(input, filetype, title) {
     refreshLog();
     }
 
-// * function getDBfile :
 async function getDBfile(input, filetype, title) {
     var dosya_path = await eel.btn_ask_open_DBfiles(input.value, filetype, title)();
     if (dosya_path) {
@@ -72,10 +66,25 @@ async function getDBfile(input, filetype, title) {
         input.value = dosya_path;
         document.cookie = input.name + "=" + dosya_path;
         }
+    readDBfile(csvInput);
     refreshLog();
     }
 
-// * function saveAs :
+function fillSelect(select, strings) {
+		const options = [select.firstElementChild, ...strings.map(str => new Option(str))];
+		select.replaceChildren(...options);
+		}
+
+async function readDBfile(input) {
+    var datesList = await eel.get_dates_from_filename_string(input.value)();
+    if (datesList) {
+        console.log(datesList);
+				fillSelect(currSelect, datesList);
+				fillSelect(prevSelect, datesList);
+        }
+    refreshLog();
+    }
+
 async function saveAs(input, filetype, title) {
     var dosya_path = await eel.btn_asksaveasfile(input.value, filetype, title)();
     if (dosya_path) {
@@ -86,21 +95,26 @@ async function saveAs(input, filetype, title) {
     refreshLog();
     }
 
-// * function sendToLog :
 function sendToLog(text) {
     logArea.value = text + "\n" + logArea.value;
     }
-// * function refreshLog :
+
 async function refreshLog() {
     var log_strings= await eel.pull_log()();
     log_strings.reverse();
     log_strings.forEach(string => sendToLog(string));
     }
 
-
-// * function start_calc() : 
 async function start_calc() {
-    console.log("statr calc");
+		if(!exelInput.value){
+				sendToLog("не заполненно поле входящего файла ексель");
+				return;
+		}
+		if(!outputInput.value){
+				sendToLog("не заполненно поле выходящего файла отчёта ексель");
+				return;
+		}
+    console.log("start calc");
     sendToLog(" ");
     sendToLog(" ");
     sendToLog("--------------------------------------------------");
@@ -110,7 +124,8 @@ async function start_calc() {
     document.cookie = exelInput.name + "=" + exelInput.value;
     document.cookie = csvInput.name + "=" + csvInput.value;
     document.cookie = outputInput.name + "=" + outputInput.value;
-    const counterValues = useCounterBox.checked && [currCounter.value, prevCounter.value] || null;
+    // const counterValues = useCounterBox.checked && [currCounter.value, prevCounter.value] || null;
+    const counterValues = currCounter.value || null;
     console.log(counterValues);
     var r = await eel.start_calc(exelInput.value, csvInput.value, outputInput.value, counterValues)();
     refreshLog();
@@ -128,6 +143,7 @@ async function start_calc() {
     sendToLog("==================================================");
     sendToLog(" ");
   }
+
 function pause(delay){
     return new Promise(resolve => setTimeout(resolve, delay));
 }

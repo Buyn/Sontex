@@ -99,67 +99,36 @@ initial-scale=1.0" />
 #+end_src
 
 ****** Розрахунковий період з - по
+******* open <div
 #+begin_src html
     <div class="row" title="
 Розрахунковий період з - по
 ">
+      #+end_src
+******* з-
+      #+begin_src html
       <label>
 Розрахунковий період з-
       </label>
       <select id="prev-date" name="prev-date">
         <option> R col exel </option>
-        <option> S col exel </option>
-        <option> 26.11.2024 </option>
-        <option> 01.11.2024 </option>
-        <option> 01.10.2024 </option>
-        <option> 01.09.2024 </option>
-        <option> 01.08.2024 </option>
-        <option> 01.07.2024 </option>
-        <option> 01.06.2024 </option>
-        <option> 01.05.2024 </option>
-        <option> 01.04.2024 </option>
-        <option> 01.03.2024 </option>
-        <option> 01.02.2024 </option>
-        <option> 01.01.2024 </option>
-        <option> 01.12.2023 </option>
-        <option> 01.11.2023 </option>
-        <option> 01.10.2023 </option>
-        <option> 01.09.2023 </option>
-        <option> 01.08.2023 </option>
-        <option> 01.07.2023 </option>
-        <option> 01.06.2023 </option>
-        <option> 01.05.2023 </option>
-        <option> 01.04.2023 </option>
       </select>
+#+end_src
+******* по-
+#+begin_src html
       <label>
   по-
       </label>
       <select id="curr-date" name="curr-date">
         <option> S col exel </option>
-        <option> R col exel </option>
-        <option> 26.11.2024 </option>
-        <option> 01.11.2024 </option>
-        <option> 01.10.2024 </option>
-        <option> 01.09.2024 </option>
-        <option> 01.08.2024 </option>
-        <option> 01.07.2024 </option>
-        <option> 01.06.2024 </option>
-        <option> 01.05.2024 </option>
-        <option> 01.04.2024 </option>
-        <option> 01.03.2024 </option>
-        <option> 01.02.2024 </option>
-        <option> 01.01.2024 </option>
-        <option> 01.12.2023 </option>
-        <option> 01.11.2023 </option>
-        <option> 01.10.2023 </option>
-        <option> 01.09.2023 </option>
-        <option> 01.08.2023 </option>
-        <option> 01.07.2023 </option>
-        <option> 01.06.2023 </option>
-        <option> 01.05.2023 </option>
-        <option> 01.04.2023 </option>
       </select>
-      <button id="reload"> ⤺ <br> ⤻ </button>
+#+end_src
+******* button перечита даты из дата файл
+#+begin_src html
+      <button id="reread-btn"> ⤺ <br> ⤻ </button>
+#+end_src
+******* close /div
+#+begin_src html
     </div>
 #+end_src
 ****** установки кофицентов
@@ -206,14 +175,14 @@ initial-scale=1.0" />
 #+end_src
 ***** down row
 #+begin_src html
-    <div class="logos">
-      <a href="https://google.com?q=sontex">
-        <img src="sontex.png">
-      </a>
-      <a href="https://google.com?q=antap">
-        <img src="antap.png">
-      </a>
-    </div>
+<div class="logos">
+	<a href="https://google.com?q=sontex" target="_blank">
+    <img src="sontex.png">
+  </a>
+  <a href="https://google.com?q=antap" target="_blank">
+    <img src="antap.png">
+  </a>
+</div>
 #+end_src
 ***** CANCELED report-modal
 CLOSED: [2025-03-15 Сб 16:51]
@@ -243,50 +212,57 @@ CLOSED: [2025-03-15 Сб 16:51]
 :PROPERTIES:
 :header-args: :tangle "../Src/web/script.js" 
 :END:
-**** const : 
+**** const:
+const useCounterBox = initForm["use-count"];
+const prevCounter = initForm["prev-count"];
+
 #+begin_src js :results output silent
 const initForm = document.getElementById("init-form");
 const cookies = document.cookie.split("; ").map(str => str.split("=")).reduce((obj, [key, value]) => ({...obj, [key]:value}), {});
 
 const logArea = document.getElementById("log");
 
-const useCounterBox = initForm["use-count"];
-const prevCounter = initForm["prev-count"];
-const currCounter = initForm["curr-count"];
-
 const exelBtn = initForm["exel-btn"];
 // const exelFile = initForm["exel-file"];
 const exelInput = initForm["exel-input"];
+
+const currCounter = initForm["curr-count"];
 
 const csvBtn = initForm["csv-btn"];
 // const csvFile =  initForm["csv-file"];
 const csvInput = initForm["csv-input"];
 // console.log(document.cookie);
 
-const outputBtn = initForm[  "output-btn"];
+const outputBtn = initForm["output-btn"];
 // const outputFile = initForm["output-file"];
 const outputInput = initForm["output-input"];
+
+const rereadBtn = initForm["reread-btn"];
+const prevSelect = initForm["prev-date"];
+const currSelect = initForm["curr-date"];
+
 
 const reportBtn = initForm["report-btn"];
 // const reportModal = document.getElementById("report-modal");
 
 #+end_src
-**** cookies : 
+**** cookies:
 #+begin_src js :results output silent
 exelInput.value = cookies.exel || "";
 csvInput.value = cookies.csv || "";
 outputInput.value = cookies.output || "";
 
 #+end_src
-**** onchange : 
-#+begin_src js :results output silent
+**** CANCELED onchange:
+CLOSED: [2025-04-12 Sat 10:49]
+#+begin_src js :results output silent :tangle no
 useCounterBox.onchange = () => {
     prevCounter.disabled = !useCounterBox.checked;
     currCounter.disabled = !useCounterBox.checked;
 }
 
 #+end_src
-**** onclick : 
+**** onclick:
 #+begin_src js :results output silent
 exelBtn.onclick = () => getExel(  exelInput,
                                   ["excel files","*.xlsx"],
@@ -296,12 +272,18 @@ csvBtn.onclick = () => getDBfile( csvInput,
                                   [["csv files", "*.csv"], ["rlv files", "*.rlv"]],
                                   "Обрати файл показників пристроїв .csv або .rlv");
 
+rereadBtn.onclick = () => readDBfile(csvInput);
+
 outputBtn.onclick = () => saveAs( outputInput,
                                   ["excel files","*.xlsx"],
                                   "Зберегти звіт як");
 
 reportBtn.onclick = () => start_calc();
 
+#+end_src
+
+**** refreshLog()
+#+begin_src js :results output silent
 refreshLog();
 setInterval(refreshLog, 3000);
 
@@ -329,10 +311,33 @@ async function getDBfile(input, filetype, title) {
         input.value = dosya_path;
         document.cookie = input.name + "=" + dosya_path;
         }
+    readDBfile(csvInput);
     refreshLog();
     }
 
-// * function saveAs :
+#+end_src
+***** function fillSelect
+#+begin_src js
+function fillSelect(select, strings) {
+		const options = [select.firstElementChild, ...strings.map(str => new Option(str))];
+		select.replaceChildren(...options);
+		}
+#+end_src
+***** function readDBfile:
+#+begin_src js :results output silent
+async function readDBfile(input) {
+    var datesList = await eel.get_dates_from_filename_string(input.value)();
+    if (datesList) {
+        console.log(datesList);
+				fillSelect(currSelect, datesList);
+				fillSelect(prevSelect, datesList);
+        }
+    refreshLog();
+    }
+
+#+end_src
+***** function saveAs:
+#+begin_src js :results output silent
 async function saveAs(input, filetype, title) {
     var dosya_path = await eel.btn_asksaveasfile(input.value, filetype, title)();
     if (dosya_path) {
@@ -349,7 +354,10 @@ async function saveAs(input, filetype, title) {
 function sendToLog(text) {
     logArea.value = text + "\n" + logArea.value;
     }
-// * function refreshLog :
+
+#+end_src
+***** function refreshLog:
+#+begin_src js :results output silent
 async function refreshLog() {
     var log_strings= await eel.pull_log()();
     log_strings.reverse();
@@ -360,6 +368,14 @@ async function refreshLog() {
 ***** function start_calc():
 #+begin_src js :results output silent
 async function start_calc() {
+		if(!exelInput.value){
+				sendToLog("не заповнено поле вхідного файлу ексель");
+				return;
+		}
+		if(!outputInput.value){
+				sendToLog("не заповнено поле вихідного файлу звіту ексель");
+				return;
+		}
     console.log("statr calc");
     sendToLog(" ");
     sendToLog(" ");
@@ -370,7 +386,7 @@ async function start_calc() {
     document.cookie = exelInput.name + "=" + exelInput.value;
     document.cookie = csvInput.name + "=" + csvInput.value;
     document.cookie = outputInput.name + "=" + outputInput.value;
-    const counterValues = useCounterBox.checked && [currCounter.value, prevCounter.value] || null;
+    const counterValues = currCounter.value || null
     console.log(counterValues);
     var r = await eel.start_calc(exelInput.value, csvInput.value, outputInput.value, counterValues)();
     refreshLog();
@@ -378,11 +394,13 @@ async function start_calc() {
     console.log(csvInput.value);
     console.log(outputInput.value);
     console.log("result of calc =", r);
-    refreshLog();
-    await pause(2000);
+    // refreshLog();
+    await pause(1000);
+    // refreshLog();
+    await pause(1000);
+    // refreshLog();
     sendToLog("Розрахунок показників завершився успішно");
     sendToLog("Результат розрахунку збережено у файлі " + outputInput.value);
-    refreshLog();
     // sendToLog(new Date().toISOString().replace("T", " ").slice(0,16));
     sendToLog(new Date());
     sendToLog("==================================================");
@@ -390,10 +408,13 @@ async function start_calc() {
   }
 
 #+end_src
+    // const counterValues = useCounterBox.checked && [currCounter.value, prevCounter.value] || null;
 ***** function pause
 #+begin_src js :results output silent
 function pause(delay){
+    refreshLog();
     return new Promise(resolve => setTimeout(resolve, delay));
+    refreshLog();
 }
 #+end_src
 
@@ -401,7 +422,9 @@ function pause(delay){
 :PROPERTIES:
 :header-args: :tangle "../Src/web/style.css" 
 :END:
+*** file
 (find-file-other-frame "../Src/web/style.css")
+*** src style.css
 #+begin_src css :results output silent
 h1 {  
 /*  color: green;   */
@@ -421,8 +444,8 @@ button {
     width: 240px;
 }  
 
-#reload {
-  padding: 1px;
+#reread-btn {
+  padding: 5px;
   width: unset;
   line-height: 0.6;
   align-self: center;
@@ -433,7 +456,7 @@ button {
   /* align: center; */
   display: block;
   /* width: max-content; */
-  margin: auto;
+  margin: 0 auto 10px;
 }
 
 .row {
@@ -457,6 +480,7 @@ label {
 .short {
    width : 10%;
    margin-left: 15px;
+	 /* flex-grow: 1; */
 }
 
 .logos {
@@ -472,481 +496,401 @@ label {
 
 #+end_src
 * SRC files
-** global_values
-*** global_values.py
+** winmain
+*** winmain.py
 **** file
-#+begin_src emacs-lisp :results output silent
-(find-file-other-frame "../Src/global_values.py")
+#+begin_src emacs-lisp :results output silent :tangle no
+(find-file-other-frame "~/Dev/Python/Sontex/Src/winmain.py")
 #+end_src
-(find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/global_values.py")
-**** src global_values.py
+**** src winmain.py
 :PROPERTIES:
-:header-args: :tangle ../Src/global_values.py
+:header-args: :tangle ../Src/winmain.py
 :END:
-***** coments
-# * imports : 
+***** imports:
+#+begin_src python
 # ----------------------------------------------
-
-
-# ----------------------------------------------
-# * vars :
-# ----------------------------------------------
-***** GUI:
-#+begin_src python
-# *** main window:
-# gg_eel_mode = 'electron'
-# gg_eel_mode = 'chrome'
-# gg_eel_mode = None
-# gg_eel_mode = 'edge'
-gg_eel_mode = 'chrome'
-gg_GUI = True
-# gg_GUI = False
-
-#+end_src
-***** .xlsx:
-#+begin_src python
-# gv_filename = "Data_files/metod01.xlsx"
-gv_output = "Data_files/output.xlsx"
-gv_filename = "Data_files/metod01.xlsx"
-# sheet_name = "показники"
-gv_sheet_name = "квартири, площі"
-gv_sheet_report = "report"
-
-#+end_src
-***** .csv:
-#+begin_src python
-gv_csv = "Data_files/test.csv"
-# кодировка файла
-gv_csv_encoding = "cp1252"
-# строки с которых начинается имена колонок
-gv_csv_header   = 1
-# номер колонки от 0 в котором указаны индефикаторы устройств 
-gv_csv_index_col= 5
-# символ раздилитель используюшийся в файле
-gv_csv_sep      = ";"
-gv_csv_name_i   = 1
-gv_csv_name_date= "Historic date - "
-gv_csv_name_value="Historic value - "
-# name_text = "Historic date - " + str(gv_csv_name_i)
-# name_value = "Historic value - " + str(gv_csv_name_i)
-
-#+end_src
-***** .rlv:
-#+begin_src python
-gv_rlv = "Data_files/test.rlv"
-# gv_rlv = "Data_files/test.rlv"
-# кодировка файла
-gv_rlv_encoding = "utf-16le"
-# строки с которых начинается имена колонок
-gv_rlv_header   = 0
-# номер колонки от 0 в котором указаны индефикаторы устройств 
-gv_rlv_index_col= 5
-# символ раздилитель используюшийся в файле
-# gv_rlv_sep      = ";"
-gv_rlv_sep      = "\t"
-# gv_rlv_sep      = " "
-# gv_rlv_sep      = ""
-gv_rlv_name_i   = 1
-gv_rlv_name_date= "Historic date - "
-gv_rlv_name_value="Historic value - "
-# name_text = "Historic date - " + str(gv_rlv_name_i)
-# name_value = "Historic value - " + str(gv_rlv_name_i)
-gv_rlv_name_start = 1
-gv_rlv_name_end = 100
-gv_rlv_colums_name_dates_list = ["Readout date"] + [gv_rlv_name_date + str(x)
-                              for x in range(gv_rlv_name_start, gv_rlv_name_end)]
-gv_rlv_colums_name_values_list = ["Heating units totalizer"] + [gv_rlv_name_value + str(x)
-                              for x in range(gv_rlv_name_start, gv_rlv_name_end)]
-
-#+end_src
-***** Kooficeints:
-#+begin_src python
-# обсяг тепла на функц. системи = 5% якщо є погодне регулювання в ІТП або 15% якщо не має від
-# при значение 0 переменая не используется
-gk_Qfun_sys = 0.05
-# gk_Qfun_sys = 0
-# обсяг тепла на опалення МЗК = 10% від
-# при значение 0 переменая не используется
-gk_Qmzk = 0.1
-# gk_Qmzk = 0
-# Мінімальна частка середнього питомого споживання
-gk_Qop_min = 0.5
-# Обсяг споживання тепла приміщенням без розподілювачів
-# k = 2, якщо площа необладнаних приміщень менще 25% та 1,5 якщо більше
-qk_k_no_surge_proc    = 0.25
-qk_k_no_surge_if_more = 1.5
-qk_k_no_surge_if_less = 2
-
-#+end_src
-***** setings:
-#+begin_src python
-# количество знаков после запятой для gk_Qop_min переменой
-# при повышение точности в этой переменой разница силльно растёт
-# False для максимальной точности
-# True для
-# 3 значения соответствуюшее екселю
-gk_Qop_min_after_point = False
-# максимальное количество повторений поика нуля
-# (повторения циклов распределения)
-# 2 для значений близких к exel
-gs_recalc_surcharge_times = 200
-# печатать шаг на котором найден ноль
-gs_recalc_surcharge_print_result = False
-# gs_recalc_surcharge_print_result = True
-gs_recalc_surcharge_print = False
-# gs_recalc_surcharge_print = True
-
-#+end_src
-***** exel coordinats:
-#+begin_src python
-# *** "квартири, площі":
-gl_app_sum_area_column = 4 # номер колонки (Площа загальна по даним КТЕ)
-gl_app_heating_area_column = 5 # номер колонки (Площа опалювальна по КТЕ)
-gl_counters_column = 6 # номер колонки (№ розподілювача)
-gl_counters_k_priv_column = 15 # номер колонки (К приведене)
-gl_counters_value1_column = 17 # номер колонки (показники на 01.12)
-gl_counters_value2_column = 18 # номер колонки (показники на 01.11)
-gl_ferst_app_row = 1 # номер ряда первого апартамента
-gl_exl_shift_rows = 1 # количество рядов сдвига адреса в экселе от дата фрема в выдачи ошибки
-# сдвиг строки от значения end для : по будинку за т/ліч
-gl_shift_home_counter_value1 = 2
-gl_shift_home_counter_value2 = 2
-# колонки : по будинку за т/ліч
-gl_column_home_counter_value1 = 17
-gl_column_home_counter_value2 = 18
-# *** report sheet:
-# 0 № п/п 
-gl_num_column = 0
-# 1 № квартири  
-gl_app_num_column = 1
-# 2 Ітого по распр., Гкал
-gl_total_couter_e_column = 2
-# 3 Ітого по м2, Гкал
-gl_total_no_couter_e_column = 3
-# 4 функціонування системи
-gl_func_sys_column = 4
-# 5 МЗК
-gl_mzk_column = 5
-# 6 ВСЬОГО, Гкал
-gl_total_e_column = 6
-
-#+end_src
-***** report names:
-#+begin_src python
-gv_osbb_report = "ОСББ"
-
-#+end_src
-***** osbb report setings:
-#+begin_src python
-gv_osbb_report = "ОСББ"
-gv_enable_full_report = False
-# gv_enable_full_report = True
-# 0 № п/п 
-gn_num_column = "№ п/п"
-# 1 № квартири  
-gn_app_num_column = "№ квартири"
-# 2 Ітого по распр., Гкал
-gn_total_couter_e_column = "Ітого по распр., Гкал"
-# 3 Ітого по м2, Гкал
-gn_total_no_couter_e_column = "Ітого по м2, Гкал"
-# 4 функціонування системи
-gn_func_sys_column = "функціонування системи"
-# 5 МЗК
-gn_mzk_column = "МЗК"
-# 6 ВСЬОГО, Гкал
-gn_total_e_column = "ВСЬОГО, Гкал"
-
-#+end_src
-***** Теплоенрго report setings:
-#+begin_src python
-gv_TE_report_formar_len = "{:.3f}".format
-gv_TE_report = "Теплоенрго"
-# 0 Особовий рахунок  
-gn_TE_num_column = "Особовий рахунок"
-# 1 № Адреса  
-gn_TE_adders_column = "Адреса"
-# 2 № віртуального ліч-ка
-gn_TE_num_virt_column = "№ віртуального ліч-ка"
-# 3 Період
-gn_TE_period = "Період"
-# 4 Обсяг споживання,  Гкал
-gn_TE_total_e_column = "Обсяг споживання,  Гкал"
-
-#+end_src
-***** Rules list:
-#+begin_src python
-gr_rule_sheet_name = "Налаштування"
-gr_rule_sheet_enable_in_report = True
-gr_rule_tag = "rule"
-gr_rule_name_col = 1
-gr_rule_len_col = 2
-gr_rule_params_start_col = 3
-
-#+end_src
-*** test_global_values.py
-/home/buyn/Dev/Python/Sontex/Src/test_global_values.py
-** integation test
-*** ingtest01.py
-:PROPERTIES:
-:header-args: :tangle ../Src/ingtest01.py
-:END:
-**** src ingtest01.py
-***** import block:
-from main import *
-#+begin_src python
-import unittest
 import sys
-import os
-import pandas as pd
-from winmain import *
-# (pyvenv-activate "sontex-env")
+import eel  
+from tkinter import filedialog
+from tkinter import *
+from global_values import *
+import main as m
 
 
 #+end_src
-***** def load_exel:
+***** def winmain(argv):
+# ----------------------------------------------
 #+begin_src python
-def load_exel(filename, sheet_name): 
-    return pd.read_excel( filename,
-                          sheet_name = sheet_name,
-                          engine='openpyxl',
-                          # index_col=0,
-                          header=None,)
-#+end_src
-***** class Test:
-# ** ------------------------------------------:
-#+begin_src python
-class Test(unittest.TestCase):
-
-#+end_src
-***** def test_integ_initest:
-  @unittest.skipIf(len(sys.argv) < 2  or sys.argv[1] != "ingtest01.Test.test_integ_initest", "not sigle test")
-#+begin_src python
-  def test_integ_initest(self):
-      # sys.argv = ['', 'Test.testName']
-      print(sys.argv)
-      print(sys.argv[0])
-      # print(sys.argv[1])
-      # if sys.argv[1] == "ingtest01.Test.test_integ_initest": print("test found!!")
+def winmain(argv):
+    eel.init("web")    
+    # Start the index.html file  
+    eel.start("index.html"
+              , mode=gg_eel_mode)  
     
 
 #+end_src
-***** def test_run_winmai_calc_exel:
+***** expose:
+# ----------------------------------------------
+****** def start_calc():
+# ----------------------------------------------
 #+begin_src python
-  def test_run_winmai_calc_exel(self):
-    exel_path = "Data_files/test.xlsx"
-    # csv_path = "Data_files/test.rlv"
-    csv_path = None
-    output_path = "Data_files/test_output.xlsx"
-    # /home/buyn/Dev/Python/Sontex/Src/Data_files/output.xlsx
-    home_counter = ""
-    if os.path.exists(output_path):
-      os.remove(output_path)
-
-    self.assertFalse (os.path.exists(output_path), "Output file does exist")
-    start_calc(exel_path, csv_path, output_path, home_counter)
-
-    # Assert if the output file exists
-    self.assertTrue(os.path.exists(output_path), "Output file does not exist")
-
-    # gv_filename = "Data_files/test.xlsx"
-    sheet_name = "Теплоенрго"
-    df_report = load_exel(output_path, sheet_name)
-    # print(df_report)
-    self.assertIsNotNone(df_report )
-    self.assertEqual(df_report.iloc[1, 1], "кв.1")
-    self.assertEqual(df_report.iloc[1, 4], 2.326)
-    self.assertEqual(df_report.shape[0], 41)
-    self.assertEqual(df_report.iloc[40, 4], 63.72)
-
-    sheet_name = "квартири, площі"
-    df_report = load_exel(output_path, sheet_name)
-    # print(df_report)
-    self.assertIsNotNone(df_report )
-    self.assertEqual(df_report.iloc[7, 1], "кв.7")
-    # 8
-    self.assertEqual(df_report.iloc[7, 18], 603)
-    self.assertEqual(df_report.iloc[7, 17], 653)
-    # 31
-    self.assertEqual(df_report.iloc[30, 17], 445)
-    self.assertEqual(df_report.iloc[30, 18], 437)
-    self.assertEqual(df_report.shape[0], 141)
-    self.assertEqual(df_report.iloc[109, 17], 1613.72)
-    self.assertEqual(df_report.iloc[109, 18], 1550)
+@eel.expose      
+def start_calc(exel_path, csv_path, output_path, home_counter):  
+    """ 
+    start calculation of all values
+    on geting exel and csv files
+    """  
+    print("start calc")  
+    print(exel_path, csv_path, output_path, home_counter)
+    m.gui_calc(exel_path, csv_path, output_path, home_counter)
+    print("end calc")  
 
 
 #+end_src
-***** def test_run_winmai_calc_home:
+# ----------------------------------------------
+****** def pull_log():
+# ----------------------------------------------
 #+begin_src python
-  def test_run_winmai_calc_home(self):
-    exel_path = "Data_files/test.xlsx"
-    csv_path = ""
-    # csv_path = "Data_files/test.rlv"
-    # csv_path = "Data_files/test.csv"
-    output_path = "Data_files/test_output.xlsx"
-    # /home/buyn/Dev/Python/Sontex/Src/Data_files/output.xlsx
-    home_counter = [100,0]
-    if os.path.exists(output_path):
-      os.remove(output_path)
-
-    self.assertFalse (os.path.exists(output_path), "Output file does exist")
-    start_calc(exel_path, csv_path, output_path, home_counter)
-
-    # Assert if the output file exists
-    self.assertTrue(os.path.exists(output_path), "Output file does not exist")
-
-    # gv_filename = "Data_files/test.xlsx"
-    sheet_name = "Теплоенрго"
-    df_report = load_exel(output_path, sheet_name)
-    # print(df_report)
-    self.assertIsNotNone(df_report )
-    self.assertEqual(df_report.iloc[1, 1], "кв.1")
-    self.assertEqual(df_report.iloc[1, 4], 3.65)
-    self.assertEqual(df_report.shape[0], 41)
-    self.assertEqual(df_report.iloc[40, 4], 100)
-
-    sheet_name = "квартири, площі"
-    df_report = load_exel(output_path, sheet_name)
-    # print(df_report)
-    self.assertIsNotNone(df_report )
-    self.assertEqual(df_report.iloc[7, 1], "кв.7")
-    # 8
-    self.assertEqual(df_report.iloc[7, 18], 603)
-    self.assertEqual(df_report.iloc[7, 17], 653)
-    # 31
-    self.assertEqual(df_report.iloc[30, 17], 445)
-    self.assertEqual(df_report.iloc[30, 18], 437)
-    self.assertEqual(df_report.shape[0], 141)
-    self.assertEqual(df_report.iloc[109, 17], 100)
-    self.assertEqual(df_report.iloc[109, 18], 0)
+@eel.expose      
+def pull_log():  
+    """ 
+    Pull values from log variable
+    """  
+    # print("log pull requst")  
+    r = m.gui_log.copy()
+    m.gui_log.clear()
+    return r
 
 
 #+end_src
-***** def test_run_winmai_calc_rlv:
+
+# ----------------------------------------------
+****** def get_dates_from_filename_string:
+# ----------------------------------------------
 #+begin_src python
-  def test_run_winmai_calc_rlv(self):
-    exel_path = "Data_files/test.xlsx"
-    # csv_path = ""
-    csv_path = "Data_files/test.rlv"
-    # csv_path = "Data_files/test.csv"
-    output_path = "Data_files/test_output.xlsx"
-    # /home/buyn/Dev/Python/Sontex/Src/Data_files/output.xlsx
-    home_counter = None
-    if os.path.exists(output_path):
-      os.remove(output_path)
-
-    self.assertFalse (os.path.exists(output_path), "Output file does exist")
-    start_calc(exel_path, csv_path, output_path, home_counter)
-
-    # Assert if the output file exists
-    self.assertTrue(os.path.exists(output_path), "Output file does not exist")
-
-    # gv_filename = "Data_files/test.xlsx"
-    sheet_name = "Теплоенрго"
-    df_report = load_exel(output_path, sheet_name)
-    # print(df_report)
-    self.assertIsNotNone(df_report )
-    self.assertEqual(df_report.iloc[1, 1], "кв.1")
-    self.assertEqual(df_report.iloc[1, 4], 2.326)
-    self.assertEqual(df_report.shape[0], 41)
-    self.assertEqual(df_report.iloc[40, 4], 63.72)
-
-    sheet_name = "квартири, площі"
-    df_report = load_exel(output_path, sheet_name)
-    # print(df_report)
-    self.assertIsNotNone(df_report )
-    self.assertEqual(df_report.iloc[7, 1], "кв.7")
-    # 8
-    self.assertEqual(df_report.iloc[7, 18], 603)
-    self.assertEqual(df_report.iloc[7, 17], 653)
-    # 31
-    self.assertEqual(df_report.iloc[30, 17], 195)
-    self.assertEqual(df_report.iloc[30, 18], 437)
-    self.assertEqual(df_report.shape[0], 141)
-    self.assertEqual(df_report.iloc[109, 17], 1613.72)
-    self.assertEqual(df_report.iloc[109, 18], 1550)
+@eel.expose      
+def get_dates_from_filename_string(filenames):  
+  df_list = m.get_df_list_from_filename_string(filenames)
+  if df_list and not len(df_list)==0:
+    return m.get_dates_from_colums_list(df_list[0], gv_rlv_colums_name_dates_list)
 
 
 #+end_src
-***** def test_run_winmai_calc_rlv_csv:
+    # print(get_dates_from_colums_list(df_list[0], gv_rlv_colums_name_dates_list))
+# ----------------------------------------------
+****** def btn_ask_open_exel_file():
+# ----------------------------------------------
 #+begin_src python
-  def test_run_winmai_calc_rlv_csv(self):
-    exel_path = "Data_files/test.xlsx"
-    # csv_path = ""
-    csv_path = "Data_files/test.rlv;Data_files/test.csv"
-    # csv_path = "Data_files/test.csv"
-    output_path = "Data_files/test_output.xlsx"
-    # /home/buyn/Dev/Python/Sontex/Src/Data_files/output.xlsx
-    home_counter = None
-    if os.path.exists(output_path):
-      os.remove(output_path)
-    # Assert if the output file exists
-    self.assertFalse (os.path.exists(output_path), "Output file does exist")
-    start_calc(exel_path, csv_path, output_path, home_counter)
-    # Assert if the output file not exists
-    self.assertTrue(os.path.exists(output_path), "Output file does not exist")
-    # gv_filename = "Data_files/test.xlsx"
-    sheet_name = "Теплоенрго"
-    df_report = load_exel(output_path, sheet_name)
-    # print(df_report)
-    self.assertIsNotNone(df_report )
-    self.assertEqual(df_report.iloc[1, 1], "кв.1")
-    self.assertEqual(df_report.iloc[1, 4], 2.326)
-    self.assertEqual(df_report.shape[0], 41)
-    self.assertEqual(df_report.iloc[40, 4], 63.72)
-    sheet_name = "квартири, площі"
-    df_report = load_exel(output_path, sheet_name)
-    # print(df_report)
-    self.assertIsNotNone(df_report )
-    self.assertEqual(df_report.iloc[7, 1], "кв.7")
-    # 8
-    self.assertEqual(df_report.iloc[7, 18], 603)
-    self.assertEqual(df_report.iloc[7, 17], 126)
-    # 31
-    self.assertEqual(df_report.iloc[30, 17], 76)
-    self.assertEqual(df_report.iloc[30, 18], 437)
-    self.assertEqual(df_report.shape[0], 141)
-    self.assertEqual(df_report.iloc[109, 17], 1613.72)
-    self.assertEqual(df_report.iloc[109, 18], 1550)
+@eel.expose
+def btn_ask_open_exel_file(path,
+                       _filetypes=("excel files","*.xlsx"),
+                       _title = "Select file exel"):
+    print("ptah = ", path,)
+    print("_filetypes = ",      _filetypes,)
+    print("_title = ",      _title)
+    initialdir = "/" if not path or path == "" else path
+    root = Tk()
+    root.withdraw()
+    root.wm_attributes('-topmost', 1)
+    _type = [("all files","*.*")]
+    if isinstance( _filetypes[0], tuple) or isinstance( _filetypes[0], list):
+        for text in _filetypes:
+          _type.append(text)
+    else:
+      _type.append(_filetypes)
+    _type.reverse()
+    folder = filedialog.askopenfilename(initialdir = initialdir,
+                                        title = _title,
+                                        filetypes = tuple(_type))
+    print("path = ", folder)
+    if folder:
+        m.print_to_log("шлях до файлу " + _filetypes[1]
+                     + " задано = " + folder)
+    return folder
 
 
 #+end_src
+# ----------------------------------------------
+****** def btn_ask_open_DBfiles():
+# ----------------------------------------------
+#+begin_src python
+@eel.expose
+def btn_ask_open_DBfiles(path,
+                       _filetypes=(("rlv files","*.rvl"), ("csv files","*.csv")),
+                       _title = "Select datebase files .csv or .rlv "):
+    print("ptah = ", path,)
+    print("_filetypes = ",      _filetypes,)
+    print("_title = ",      _title)
+    initialdir = "/" if not path or path == "" else path
+    root = Tk()
+    root.withdraw()
+    root.wm_attributes('-topmost', 1)
+    _type = [("all files","*.*")]
+    if isinstance( _filetypes[0], tuple) or isinstance( _filetypes[0], list):
+        for text in _filetypes:
+          _type.append(text)
+    else:
+      _type.append(_filetypes)
+    _type.reverse()
+    filepaths = filedialog.askopenfilenames( initialdir = initialdir,
+                                          title = _title,
+                                          filetypes = tuple(_type))
+    print("path = ", filepaths)
+    r = ""
+    for path in filepaths:
+      r = r + path +";"
+    if r:
+        m.print_to_log("шлях до файлу база даних задано = " + r)
+    return r
+
+
+#+end_src
+# ----------------------------------------------
+****** def btn_asksaveasfile():
+# ----------------------------------------------
+#+begin_src python
+@eel.expose
+def btn_asksaveasfile(path,
+                       _filetypes=("excel files","*.xlsx"),
+                       _title = "Сохранить отчёт как"):
+    print("ptah = ", path,)
+    print("_filetypes = ",      _filetypes,)
+    print("_title = ",      _title)
+    initialdir = "/" if not path or path == "" else path
+    root = Tk()
+    root.withdraw()
+    root.wm_attributes('-topmost', 1)
+    _type = [("all files","*.*")]
+    _type.append(_filetypes)
+    _type.reverse()
+    folder = filedialog.asksaveasfilename(initialdir = initialdir,
+                                          defaultextension="*.xlsx",
+                                          title = _title,
+                                          filetypes = tuple(_type))
+    print("path = ", folder)
+    if folder:
+        m.print_to_log("Результуючий файл звіту обрано")
+        m.print_to_log("шлях до файлу звіту = " + folder)
+    return folder
+
+
+#+end_src
+# ----------------------------------------------
+# ** -------------------------------------------
+***** if __name__:
+# ----------------------------------------------
+    # sys.argv = ['', 'Test.testName']
+#+begin_src python
+if __name__ == "__main__": 
+    winmain(sys.argv)
+#+end_src
+# ----------------------------------------------
+
+*** test_winmain.py
+:PROPERTIES:
+:header-args: :tangle ../Src/test_winmain.py
+:END:
+**** file
+#+begin_src emacs-lisp :results output silent :tangle no
+(find-file-other-frame "~/Dev/Python/Sontex/Src/test_winmain.py")
+#+end_src
+**** src test_winmain.py
+***** import block:
+#+begin_src python
+import unittest
+import sys
+
+from winmain import *
+from main import *
+
+#+end_src
+
+# ----------------------------------------------
+***** class Test_Init:
+# ** ------------------------------------------:
+****** class
+#+begin_src python
+class Test_Init(unittest.TestCase):
+#+end_src
+
+# ----------------------------------------------
+****** def test_winmain:
+#+begin_src python
+    @unittest.skipIf(len(sys.argv) < 2  or sys.argv[1] != "test_winmain.Test_Init.test_winmain_test", "not sigle test")
+    def test_winmain_test(self):
+        with self.assertRaises(SystemExit) as cm:
+            # # sys.argv = ['', 'Test.testName']
+            print(sys.argv)
+            print(sys.argv[0])
+            print(sys.argv[1])
+            if sys.argv[1] == "test_winmain.Test_Init.test_winmain_test": print("test found")
+            winmain(sys.argv)
+        # self.assertEqual(cm.exception.code, 0)
+        self.assertIsNone(cm.exception.code)
+
+        
+#+end_src
+
+#+RESULTS:
+
+# ----------------------------------------------
+****** test get_dates_from_filename_string:
+#+begin_src python
+    def test_get_dates_from_filename_string(self):
+      string = "Data_files/test.rlv"
+      t = get_dates_from_filename_string(string)
+      # print(t)
+      self.assertEqual(len(t), 19)
+      self.assertEqual(t[0], "02.04.2023")
+      self.assertEqual(t[1], "01.04.2023")
+      t =None
+      string = "Data_files/test.rlv;Data_files/test.csv"
+      t = get_dates_from_filename_string(string)
+      self.assertEqual(len(t), 19)
+      self.assertEqual(t[0], "02.04.2023")
+      self.assertEqual(t[1], "01.04.2023")
+      t =None
+      string = " ;   Data_files/test.rlv ;  Data_files/test.csv  ;"
+      t = get_dates_from_filename_string(string)
+      self.assertIsNotNone(t)
+      self.assertEqual(len(t), 19)
+      self.assertEqual(t[0], "02.04.2023")
+      self.assertEqual(t[1], "01.04.2023")
+      t =None
+      string = "Data_files/test.csv;Data_files/test.rlv"
+      t = get_dates_from_filename_string(string)
+      self.assertEqual(len(t), 37)
+      self.assertEqual(t[0], "19.04.2021 13:52:24")
+      self.assertEqual(t[1], "2021-04-16")
+
+        
+#+end_src
+# ----------------------------------------------
+****** def test_btn_ask_open_exel_file:
+#+begin_src python
+    @unittest.skipIf(len(sys.argv) < 2  or not sys.argv[1] == "test_winmain.Test_Init.test_btn_ask_open_exel_file", "not sigle test")
+    def test_btn_ask_open_exel_file(self):
+        test = btn_ask_open_exel_file("/",
+                                  # _filetypes=(("csv files","*.csv"), ("rlv files","*.rlv")),
+                                  _title = "test path /")
+        test = btn_ask_open_exel_file("D:/Development/version-control/GitHub/Zmei/Sontex/Src/Data_files/test.xlsx",
+                                  # _filetypes=(("csv files","*.csv"), ("rlv files","*.rlv")),
+                                  _title = "D:/Development/version-control/GitHub/Zmei/Sontex/Src/Data_files/test.xlsx")
+        test = btn_ask_open_exel_file("\\",
+                                  # _filetypes=(("csv files","*.csv"), ("rlv files","*.rlv")),
+                                  _title = "test path \\")
+
+        
+#+end_src
+        # test = btn_ask_open_exel_file("",
+        #                           _filetypes=(("csv files","*.csv"), ("rlv files","*.rlv")),
+        #                           _title = "Select file csv or rlv")
+        # test = btn_ask_open_exel_file("",
+        #                           _filetypes=[("csv files","*.csv"), ("rlv files","*.rlv")],
+        #                           _title = "Select file csv or rlv")
+        # test = btn_ask_open_exel_file("")
+        # test = btn_ask_open_exel_file("",
+        #                           _filetypes=("csv files","*.csv"),
+        #                           _title = "Select file csv")
+            
+
+# ----------------------------------------------
+****** def test_btn_ask_open_DBfiles:
+#+begin_src python
+    @unittest.skipIf(len(sys.argv) < 2  or not sys.argv[1] == "test_winmain.Test_Init.test_btn_ask_open_DBfiles", "not sigle test")
+    def test_btn_ask_open_DBfiles(self):
+        test = btn_ask_open_DBfiles("/",
+                                  # _filetypes=(("csv files","*.csv"), ("rlv files","*.rlv")),
+                                  _title = "test path /")
+        print("test = ", test)
+        test = btn_ask_open_DBfiles("D:/Development/version-control/GitHub/Zmei/Sontex/Src/Data_files/test.xlsx",
+                                  # _filetypes=(("csv files","*.csv"), ("rlv files","*.rlv")),
+                                  _title = "D:/Development/version-control/GitHub/Zmei/Sontex/Src/Data_files/test.xlsx")
+        print("test = ", test)
+        test = btn_ask_open_DBfiles("/home/buyn/Dev/Python/Sontex/Src/Data_files/test.csv",
+                                  # _filetypes=(("csv files","*.csv"), ("rlv files","*.rlv")),
+                                  _title = "/home/buyn/Dev/Python/Sontex/Src/Data_files/test.csv")
+        print("test = ", test)
+
+        
+#+end_src
+        # test = btn_ask_open_DBfiles("\\",
+        #                           # _filetypes=(("csv files","*.csv"), ("rlv files","*.rlv")),
+        #                           _title = "test path \\")
+        # test = btn_ask_open_DBfiles("",
+        #                           _filetypes=(("csv files","*.csv"), ("rlv files","*.rlv")),
+        #                           _title = "Select file csv or rlv")
+        # test = btn_ask_open_DBfiles("",
+        #                           _filetypes=[("csv files","*.csv"), ("rlv files","*.rlv")],
+        #                           _title = "Select file csv or rlv")
+        # test = btn_ask_open_DBfiles("")
+        # test = btn_ask_open_DBfiles("",
+        #                           _filetypes=("csv files","*.csv"),
+        #                           _title = "Select file csv")
+            
+
+# ----------------------------------------------
+****** def test_btn_asksaveasfile:
+#+begin_src python
+    @unittest.skipIf(len(sys.argv) < 2  or not sys.argv[1] == "test_winmain.Test_Init.test_btn_asksaveasfile", "not sigle test")
+    def test_btn_asksaveasfile(self):
+        test = btn_asksaveasfile("")
+        test = btn_asksaveasfile("",
+                          _filetypes=("csv files","*.csv"),
+                          _title = "Select file to save report")
+            
+
+#+end_src
+# ----------------------------------------------
+****** def test_Pull_log:
+#+begin_src python
+    def test_Pull_log(self):
+        gui_log.clear()
+        self.assertEqual(len(gui_log), 0)          
+        import datetime
+        x = datetime.datetime.now().strftime("%H:%M:%S.%f")+": "
+        print_to_log("test")
+        self.assertEqual(len(gui_log), 1)          
+        test = pull_log()
+        self.assertNotEqual(test, [x+"test"])          
+        self.assertNotEqual(test[0], x+"test")          
+        self.assertEqual(len(gui_log), 0)          
+            
+
+#+end_src
+        # x = datetime.datetime.now("%H %M %S %f")
+        # x = datetime.datetime.now()
+        # x = datetime.time().strftime("%H:%M:%S %f")
+        # x = datetime.time()
+        # x = datetime.datetime.now().isoformat(timespec='microseconds')
+        # x = datetime.datetime.now().strftime("%H:%M:%S %f")
+        # .isoformat(timespec='microseconds')
+        # t.strftime("%H:%M:%S %f")
+        # %H  Hour 00-23  17  
+        # %I  Hour 00-12  05  
+        # %p  AM/PM   PM  
+        # %M  Minute 00-59  41  
+        # %S  Second 00-59  08  
+        # %f  Microsecond 000000-999999   548513  
+        # print(x)
+
+# ----------------------------------------------
 ***** Test runer:
-# * Test runer : 
 # ** ------------------------------------------:
 # (compile " D:/Development/version-control/GitHub/Vadim/Tochil/main_test.py -k init")
 # (compile " python -m unittest D:/Development/version-control/GitHub/Vadim/Tochil/main_test.py ")
-# ** if __main__: 
-    # runner = unittest.TextTestRunner()
-    # runner.run(suite_Init())
-    # sys.argv = ['', 'Test.testName']
-    import sys
-    print("args = ", sys.argv)
 #+begin_src python
+# ** if __main__: 
 if __name__ == "__main__":
+    import sys
     print("args = ", sys.argv)
     unittest.main()
 #+end_src
-**** file
-(find-file-other-frame "../Src/ingtest01.py")
-**** run
-***** compile
-#+begin_src emacs-lisp :results output silent :tangle no
-(pyvenv-activate "sontex-env")
-(compile "python ../Src/ingtest01.py")
-(find-file-other-frame "../Src/ingtest01.py")
-#+end_src
+    # sys.argv = ['', 'Test.testName']
 
-source sontex-env/bin/activate
-(compile "source sontex-env/bin/activate ; python -m sandbox")
-#+begin_src emacs-lisp :results output silent :tangle no
-(compile "source sontex-env/bin/activate ; python -m sandbox")
-#+end_src
-***** single test run
-#+begin_src emacs-lisp :results output silent :tangle no
-(pyvenv-activate "sontex-env")
-(compile "python3 -m unittest ../Src/ingtest01.Test.test_integ_initest")
-(find-file-other-frame "../Src/ingtest01.py")
-#+end_src
+    # runner = unittest.TextTestRunner()
+    # runner.run(suite_Init())
+# ----------------------------------------------
 
 ** main
 *** main.py
@@ -3027,395 +2971,481 @@ if __name__ == "__main__":
     # runner = unittest.TextTestRunner()
     # runner.run(suite_Init())
 
-** winmain
-*** winmain.py
-:PROPERTIES:
-:header-args: :tangle ../Src/winmain.py
-:END:
+** global_values
+*** global_values.py
 **** file
-#+begin_src emacs-lisp :results output silent :tangle no
-(find-file-other-frame "~/Dev/Python/Sontex/Src/winmain.py")
+#+begin_src emacs-lisp :results output silent
+(find-file-other-frame "../Src/global_values.py")
 #+end_src
-**** src winmain.py
-***** imports:
-#+begin_src python
-# ----------------------------------------------
-import sys
-import eel  
-from tkinter import filedialog
-from tkinter import *
-from global_values import *
-import main as m
-
-
-#+end_src
-***** def winmain(argv):
-# ----------------------------------------------
-#+begin_src python
-def winmain(argv):
-    eel.init("web")    
-    # Start the index.html file  
-    eel.start("index.html"
-              , mode=gg_eel_mode)  
-    
-
-#+end_src
-***** expose:
-# ----------------------------------------------
-****** def start_calc():
-# ----------------------------------------------
-#+begin_src python
-@eel.expose      
-def start_calc(exel_path, csv_path, output_path, home_counter):  
-    """ 
-    start calculation of all values
-    on geting exel and csv files
-    """  
-    print("start calc")  
-    print(exel_path, csv_path, output_path, home_counter)
-    m.gui_calc(exel_path, csv_path, output_path, home_counter)
-    print("end calc")  
-
-
-#+end_src
-# ----------------------------------------------
-****** def pull_log():
-# ----------------------------------------------
-#+begin_src python
-@eel.expose      
-def pull_log():  
-    """ 
-    Pull values from log variable
-    """  
-    # print("log pull requst")  
-    r = m.gui_log.copy()
-    m.gui_log.clear()
-    return r
-
-
-#+end_src
-
-# ----------------------------------------------
-****** def get_dates_from_filename_string:
-# ----------------------------------------------
-#+begin_src python
-@eel.expose      
-def get_dates_from_filename_string(filenames):  
-  df_list = m.get_df_list_from_filename_string(filenames)
-  if df_list and not len(df_list)==0:
-    return m.get_dates_from_colums_list(df_list[0], gv_rlv_colums_name_dates_list)
-
-
-#+end_src
-    # print(get_dates_from_colums_list(df_list[0], gv_rlv_colums_name_dates_list))
-# ----------------------------------------------
-****** def btn_ask_open_exel_file():
-# ----------------------------------------------
-#+begin_src python
-@eel.expose
-def btn_ask_open_exel_file(path,
-                       _filetypes=("excel files","*.xlsx"),
-                       _title = "Select file exel"):
-    print("ptah = ", path,)
-    print("_filetypes = ",      _filetypes,)
-    print("_title = ",      _title)
-    initialdir = "/" if not path or path == "" else path
-    root = Tk()
-    root.withdraw()
-    root.wm_attributes('-topmost', 1)
-    _type = [("all files","*.*")]
-    if isinstance( _filetypes[0], tuple) or isinstance( _filetypes[0], list):
-        for text in _filetypes:
-          _type.append(text)
-    else:
-      _type.append(_filetypes)
-    _type.reverse()
-    folder = filedialog.askopenfilename(initialdir = initialdir,
-                                        title = _title,
-                                        filetypes = tuple(_type))
-    print("path = ", folder)
-    if folder:
-        print_to_log("шлях до файлу " + _filetypes[1]
-                     + " задано = " + folder)
-    return folder
-
-
-#+end_src
-# ----------------------------------------------
-****** def btn_ask_open_DBfiles():
-# ----------------------------------------------
-#+begin_src python
-@eel.expose
-def btn_ask_open_DBfiles(path,
-                       _filetypes=(("rlv files","*.rvl"), ("csv files","*.csv")),
-                       _title = "Select datebase files .csv or .rlv "):
-    print("ptah = ", path,)
-    print("_filetypes = ",      _filetypes,)
-    print("_title = ",      _title)
-    initialdir = "/" if not path or path == "" else path
-    root = Tk()
-    root.withdraw()
-    root.wm_attributes('-topmost', 1)
-    _type = [("all files","*.*")]
-    if isinstance( _filetypes[0], tuple) or isinstance( _filetypes[0], list):
-        for text in _filetypes:
-          _type.append(text)
-    else:
-      _type.append(_filetypes)
-    _type.reverse()
-    filepaths = filedialog.askopenfilenames( initialdir = initialdir,
-                                          title = _title,
-                                          filetypes = tuple(_type))
-    print("path = ", filepaths)
-    r = ""
-    for path in filepaths:
-      r = r + path +";"
-    if r:
-        print_to_log("шлях до файлу база даних задано = " + r)
-    return r
-
-
-#+end_src
-# ----------------------------------------------
-****** def btn_asksaveasfile():
-# ----------------------------------------------
-#+begin_src python
-@eel.expose
-def btn_asksaveasfile(path,
-                       _filetypes=("excel files","*.xlsx"),
-                       _title = "Сохранить отчёт как"):
-    print("ptah = ", path,)
-    print("_filetypes = ",      _filetypes,)
-    print("_title = ",      _title)
-    initialdir = "/" if not path or path == "" else path
-    root = Tk()
-    root.withdraw()
-    root.wm_attributes('-topmost', 1)
-    _type = [("all files","*.*")]
-    _type.append(_filetypes)
-    _type.reverse()
-    folder = filedialog.asksaveasfilename(initialdir = initialdir,
-                                          defaultextension="*.xlsx",
-                                          title = _title,
-                                          filetypes = tuple(_type))
-    print("path = ", folder)
-    if folder:
-        print_to_log("Результуючий файл звіту обрано")
-        print_to_log("шлях до файлу звіту = " + folder)
-    return folder
-
-
-#+end_src
-# ----------------------------------------------
-# ** -------------------------------------------
-***** if __name__:
-# ----------------------------------------------
-    # sys.argv = ['', 'Test.testName']
-#+begin_src python
-if __name__ == "__main__": 
-    winmain(sys.argv)
-#+end_src
-# ----------------------------------------------
-
-
-*** test_winmain.py
+(find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/global_values.py")
+**** src global_values.py
 :PROPERTIES:
-:header-args: :tangle ../Src/test_winmain.py
+:header-args: :tangle ../Src/global_values.py
 :END:
-**** file
-#+begin_src emacs-lisp :results output silent :tangle no
-(find-file-other-frame "~/Dev/Python/Sontex/Src/test_winmain.py")
+***** coments
+# * imports : 
+# ----------------------------------------------
+
+
+# ----------------------------------------------
+# * vars :
+# ----------------------------------------------
+***** GUI:
+#+begin_src python
+# *** main window:
+# gg_eel_mode = 'electron'
+# gg_eel_mode = 'chrome'
+# gg_eel_mode = None
+# gg_eel_mode = 'edge'
+gg_eel_mode = 'chrome'
+gg_GUI = True
+# gg_GUI = False
+
 #+end_src
-**** src test_winmain.py
+***** .xlsx:
+#+begin_src python
+# gv_filename = "Data_files/metod01.xlsx"
+gv_output = "Data_files/output.xlsx"
+gv_filename = "Data_files/metod01.xlsx"
+# sheet_name = "показники"
+gv_sheet_name = "квартири, площі"
+gv_sheet_report = "report"
+
+#+end_src
+***** .csv:
+#+begin_src python
+gv_csv = "Data_files/test.csv"
+# кодировка файла
+gv_csv_encoding = "cp1252"
+# строки с которых начинается имена колонок
+gv_csv_header   = 1
+# номер колонки от 0 в котором указаны индефикаторы устройств 
+gv_csv_index_col= 5
+# символ раздилитель используюшийся в файле
+gv_csv_sep      = ";"
+gv_csv_name_i   = 1
+gv_csv_name_date= "Historic date - "
+gv_csv_name_value="Historic value - "
+# name_text = "Historic date - " + str(gv_csv_name_i)
+# name_value = "Historic value - " + str(gv_csv_name_i)
+
+#+end_src
+***** .rlv:
+#+begin_src python
+gv_rlv = "Data_files/test.rlv"
+# gv_rlv = "Data_files/test.rlv"
+# кодировка файла
+gv_rlv_encoding = "utf-16le"
+# строки с которых начинается имена колонок
+gv_rlv_header   = 0
+# номер колонки от 0 в котором указаны индефикаторы устройств 
+gv_rlv_index_col= 5
+# символ раздилитель используюшийся в файле
+# gv_rlv_sep      = ";"
+gv_rlv_sep      = "\t"
+# gv_rlv_sep      = " "
+# gv_rlv_sep      = ""
+gv_rlv_name_i   = 1
+gv_rlv_name_date= "Historic date - "
+gv_rlv_name_value="Historic value - "
+# name_text = "Historic date - " + str(gv_rlv_name_i)
+# name_value = "Historic value - " + str(gv_rlv_name_i)
+gv_rlv_name_start = 1
+gv_rlv_name_end = 100
+gv_rlv_colums_name_dates_list = ["Readout date"] + [gv_rlv_name_date + str(x)
+                              for x in range(gv_rlv_name_start, gv_rlv_name_end)]
+gv_rlv_colums_name_values_list = ["Heating units totalizer"] + [gv_rlv_name_value + str(x)
+                              for x in range(gv_rlv_name_start, gv_rlv_name_end)]
+
+#+end_src
+***** Kooficeints:
+#+begin_src python
+# обсяг тепла на функц. системи = 5% якщо є погодне регулювання в ІТП або 15% якщо не має від
+# при значение 0 переменая не используется
+gk_Qfun_sys = 0.05
+# gk_Qfun_sys = 0
+# обсяг тепла на опалення МЗК = 10% від
+# при значение 0 переменая не используется
+gk_Qmzk = 0.1
+# gk_Qmzk = 0
+# Мінімальна частка середнього питомого споживання
+gk_Qop_min = 0.5
+# Обсяг споживання тепла приміщенням без розподілювачів
+# k = 2, якщо площа необладнаних приміщень менще 25% та 1,5 якщо більше
+qk_k_no_surge_proc    = 0.25
+qk_k_no_surge_if_more = 1.5
+qk_k_no_surge_if_less = 2
+
+#+end_src
+***** setings:
+#+begin_src python
+# количество знаков после запятой для gk_Qop_min переменой
+# при повышение точности в этой переменой разница силльно растёт
+# False для максимальной точности
+# True для
+# 3 значения соответствуюшее екселю
+gk_Qop_min_after_point = False
+# максимальное количество повторений поика нуля
+# (повторения циклов распределения)
+# 2 для значений близких к exel
+gs_recalc_surcharge_times = 200
+# печатать шаг на котором найден ноль
+gs_recalc_surcharge_print_result = False
+# gs_recalc_surcharge_print_result = True
+gs_recalc_surcharge_print = False
+# gs_recalc_surcharge_print = True
+
+#+end_src
+***** exel coordinats:
+#+begin_src python
+# *** "квартири, площі":
+gl_app_sum_area_column = 4 # номер колонки (Площа загальна по даним КТЕ)
+gl_app_heating_area_column = 5 # номер колонки (Площа опалювальна по КТЕ)
+gl_counters_column = 6 # номер колонки (№ розподілювача)
+gl_counters_k_priv_column = 15 # номер колонки (К приведене)
+gl_counters_value1_column = 17 # номер колонки (показники на 01.12)
+gl_counters_value2_column = 18 # номер колонки (показники на 01.11)
+gl_ferst_app_row = 1 # номер ряда первого апартамента
+gl_exl_shift_rows = 1 # количество рядов сдвига адреса в экселе от дата фрема в выдачи ошибки
+# сдвиг строки от значения end для : по будинку за т/ліч
+gl_shift_home_counter_value1 = 2
+gl_shift_home_counter_value2 = 2
+# колонки : по будинку за т/ліч
+gl_column_home_counter_value1 = 17
+gl_column_home_counter_value2 = 18
+# *** report sheet:
+# 0 № п/п 
+gl_num_column = 0
+# 1 № квартири  
+gl_app_num_column = 1
+# 2 Ітого по распр., Гкал
+gl_total_couter_e_column = 2
+# 3 Ітого по м2, Гкал
+gl_total_no_couter_e_column = 3
+# 4 функціонування системи
+gl_func_sys_column = 4
+# 5 МЗК
+gl_mzk_column = 5
+# 6 ВСЬОГО, Гкал
+gl_total_e_column = 6
+
+#+end_src
+***** report names:
+#+begin_src python
+gv_osbb_report = "ОСББ"
+
+#+end_src
+***** osbb report setings:
+#+begin_src python
+gv_osbb_report = "ОСББ"
+gv_enable_full_report = False
+# gv_enable_full_report = True
+# 0 № п/п 
+gn_num_column = "№ п/п"
+# 1 № квартири  
+gn_app_num_column = "№ квартири"
+# 2 Ітого по распр., Гкал
+gn_total_couter_e_column = "Ітого по распр., Гкал"
+# 3 Ітого по м2, Гкал
+gn_total_no_couter_e_column = "Ітого по м2, Гкал"
+# 4 функціонування системи
+gn_func_sys_column = "функціонування системи"
+# 5 МЗК
+gn_mzk_column = "МЗК"
+# 6 ВСЬОГО, Гкал
+gn_total_e_column = "ВСЬОГО, Гкал"
+
+#+end_src
+***** Теплоенрго report setings:
+#+begin_src python
+gv_TE_report_formar_len = "{:.3f}".format
+gv_TE_report = "Теплоенрго"
+# 0 Особовий рахунок  
+gn_TE_num_column = "Особовий рахунок"
+# 1 № Адреса  
+gn_TE_adders_column = "Адреса"
+# 2 № віртуального ліч-ка
+gn_TE_num_virt_column = "№ віртуального ліч-ка"
+# 3 Період
+gn_TE_period = "Період"
+# 4 Обсяг споживання,  Гкал
+gn_TE_total_e_column = "Обсяг споживання,  Гкал"
+
+#+end_src
+***** Rules list:
+#+begin_src python
+gr_rule_sheet_name = "Налаштування"
+gr_rule_sheet_enable_in_report = True
+gr_rule_tag = "rule"
+gr_rule_name_col = 1
+gr_rule_len_col = 2
+gr_rule_params_start_col = 3
+
+#+end_src
+*** test_global_values.py
+/home/buyn/Dev/Python/Sontex/Src/test_global_values.py
+** integration test
+*** ingtest01.py
+:PROPERTIES:
+:header-args: :tangle ../Src/ingtest01.py
+:END:
+**** src ingtest01.py
 ***** import block:
+from main import *
 #+begin_src python
 import unittest
 import sys
-
+import os
+import pandas as pd
 from winmain import *
-from main import *
+# (pyvenv-activate "sontex-env")
+
 
 #+end_src
-
-# ----------------------------------------------
-***** class Test_Init:
+***** def load_exel:
+#+begin_src python
+def load_exel(filename, sheet_name): 
+    return pd.read_excel( filename,
+                          sheet_name = sheet_name,
+                          engine='openpyxl',
+                          # index_col=0,
+                          header=None,)
+#+end_src
+***** class Test:
 # ** ------------------------------------------:
-****** class
 #+begin_src python
-class Test_Init(unittest.TestCase):
-#+end_src
-
-# ----------------------------------------------
-****** def test_winmain:
-#+begin_src python
-    @unittest.skipIf(len(sys.argv) < 2  or sys.argv[1] != "test_winmain.Test_Init", "not sigle test")
-    def test_winmain_test(self):
-        # # sys.argv = ['', 'Test.testName']
-        print(sys.argv)
-        print(sys.argv[0])
-        print(sys.argv[1])
-        winmain(sys.argv)
-        if sys.argv[1] == "test_winmain.Test_Init": print("test found")
-
-        
-#+end_src
-
-#+RESULTS:
-
-# ----------------------------------------------
-****** test get_dates_from_filename_string:
-#+begin_src python
-    def test_get_dates_from_filename_string(self):
-      string = "Data_files/test.rlv"
-      t = get_dates_from_filename_string(string)
-      # print(t)
-      self.assertEqual(len(t), 19)
-      self.assertEqual(t[0], "02.04.2023")
-      self.assertEqual(t[1], "01.04.2023")
-      t =None
-      string = "Data_files/test.rlv;Data_files/test.csv"
-      t = get_dates_from_filename_string(string)
-      self.assertEqual(len(t), 19)
-      self.assertEqual(t[0], "02.04.2023")
-      self.assertEqual(t[1], "01.04.2023")
-      t =None
-      string = " ;   Data_files/test.rlv ;  Data_files/test.csv  ;"
-      t = get_dates_from_filename_string(string)
-      self.assertIsNotNone(t)
-      self.assertEqual(len(t), 19)
-      self.assertEqual(t[0], "02.04.2023")
-      self.assertEqual(t[1], "01.04.2023")
-      t =None
-      string = "Data_files/test.csv;Data_files/test.rlv"
-      t = get_dates_from_filename_string(string)
-      self.assertEqual(len(t), 37)
-      self.assertEqual(t[0], "19.04.2021 13:52:24")
-      self.assertEqual(t[1], "2021-04-16")
-
-        
-#+end_src
-# ----------------------------------------------
-****** def test_btn_ask_open_exel_file:
-#+begin_src python
-    @unittest.skipIf(len(sys.argv) < 2  or not sys.argv[1] == "test_winmain.Test_Init.test_btn_ask_open_exel_file", "not sigle test")
-    def test_btn_ask_open_exel_file(self):
-        test = btn_ask_open_exel_file("/",
-                                  # _filetypes=(("csv files","*.csv"), ("rlv files","*.rlv")),
-                                  _title = "test path /")
-        test = btn_ask_open_exel_file("D:/Development/version-control/GitHub/Zmei/Sontex/Src/Data_files/test.xlsx",
-                                  # _filetypes=(("csv files","*.csv"), ("rlv files","*.rlv")),
-                                  _title = "D:/Development/version-control/GitHub/Zmei/Sontex/Src/Data_files/test.xlsx")
-        test = btn_ask_open_exel_file("\\",
-                                  # _filetypes=(("csv files","*.csv"), ("rlv files","*.rlv")),
-                                  _title = "test path \\")
-
-        
-#+end_src
-        # test = btn_ask_open_exel_file("",
-        #                           _filetypes=(("csv files","*.csv"), ("rlv files","*.rlv")),
-        #                           _title = "Select file csv or rlv")
-        # test = btn_ask_open_exel_file("",
-        #                           _filetypes=[("csv files","*.csv"), ("rlv files","*.rlv")],
-        #                           _title = "Select file csv or rlv")
-        # test = btn_ask_open_exel_file("")
-        # test = btn_ask_open_exel_file("",
-        #                           _filetypes=("csv files","*.csv"),
-        #                           _title = "Select file csv")
-            
-
-# ----------------------------------------------
-****** def test_btn_ask_open_DBfiles:
-#+begin_src python
-    @unittest.skipIf(len(sys.argv) < 2  or not sys.argv[1] == "test_winmain.Test_Init.test_btn_ask_open_DBfiles", "not sigle test")
-    def test_btn_ask_open_DBfiles(self):
-        test = btn_ask_open_DBfiles("/",
-                                  # _filetypes=(("csv files","*.csv"), ("rlv files","*.rlv")),
-                                  _title = "test path /")
-        print("test = ", test)
-        test = btn_ask_open_DBfiles("D:/Development/version-control/GitHub/Zmei/Sontex/Src/Data_files/test.xlsx",
-                                  # _filetypes=(("csv files","*.csv"), ("rlv files","*.rlv")),
-                                  _title = "D:/Development/version-control/GitHub/Zmei/Sontex/Src/Data_files/test.xlsx")
-        print("test = ", test)
-
-        
-#+end_src
-        # test = btn_ask_open_DBfiles("\\",
-        #                           # _filetypes=(("csv files","*.csv"), ("rlv files","*.rlv")),
-        #                           _title = "test path \\")
-        # test = btn_ask_open_DBfiles("",
-        #                           _filetypes=(("csv files","*.csv"), ("rlv files","*.rlv")),
-        #                           _title = "Select file csv or rlv")
-        # test = btn_ask_open_DBfiles("",
-        #                           _filetypes=[("csv files","*.csv"), ("rlv files","*.rlv")],
-        #                           _title = "Select file csv or rlv")
-        # test = btn_ask_open_DBfiles("")
-        # test = btn_ask_open_DBfiles("",
-        #                           _filetypes=("csv files","*.csv"),
-        #                           _title = "Select file csv")
-            
-
-# ----------------------------------------------
-****** def test_btn_asksaveasfile:
-#+begin_src python
-    @unittest.skipIf(len(sys.argv) < 2  or not sys.argv[1] == "test_winmain.Test_Init.test_btn_asksaveasfile", "not sigle test")
-    def test_btn_asksaveasfile(self):
-        test = btn_asksaveasfile("")
-        test = btn_asksaveasfile("",
-                          _filetypes=("csv files","*.csv"),
-                          _title = "Select file to save report")
-            
+class Test(unittest.TestCase):
 
 #+end_src
-# ----------------------------------------------
-****** def test_Pull_log:
+***** def test_integ_initest:
+  @unittest.skipIf(len(sys.argv) < 2  or sys.argv[1] != "ingtest01.Test.test_integ_initest", "not sigle test")
 #+begin_src python
-    def test_Pull_log(self):
-        gui_log.clear()
-        self.assertEqual(len(gui_log), 0)          
-        import datetime
-        x = datetime.datetime.now().strftime("%H:%M:%S.%f")+": "
-        print_to_log("test")
-        self.assertEqual(len(gui_log), 1)          
-        test = pull_log()
-        self.assertNotEqual(test, [x+"test"])          
-        self.assertNotEqual(test[0], x+"test")          
-        self.assertEqual(len(gui_log), 0)          
-            
+  def test_integ_initest(self):
+      # sys.argv = ['', 'Test.testName']
+      print(sys.argv)
+      print(sys.argv[0])
+      # print(sys.argv[1])
+      # if sys.argv[1] == "ingtest01.Test.test_integ_initest": print("test found!!")
+    
 
 #+end_src
-        # x = datetime.datetime.now("%H %M %S %f")
-        # x = datetime.datetime.now()
-        # x = datetime.time().strftime("%H:%M:%S %f")
-        # x = datetime.time()
-        # x = datetime.datetime.now().isoformat(timespec='microseconds')
-        # x = datetime.datetime.now().strftime("%H:%M:%S %f")
-        # .isoformat(timespec='microseconds')
-        # t.strftime("%H:%M:%S %f")
-        # %H  Hour 00-23  17  
-        # %I  Hour 00-12  05  
-        # %p  AM/PM   PM  
-        # %M  Minute 00-59  41  
-        # %S  Second 00-59  08  
-        # %f  Microsecond 000000-999999   548513  
-        # print(x)
+***** def test_run_winmai_calc_exel:
+#+begin_src python
+  def test_run_winmai_calc_exel(self):
+    exel_path = "Data_files/test.xlsx"
+    # csv_path = "Data_files/test.rlv"
+    csv_path = None
+    output_path = "Data_files/test_output.xlsx"
+    # /home/buyn/Dev/Python/Sontex/Src/Data_files/output.xlsx
+    home_counter = ""
+    if os.path.exists(output_path):
+      os.remove(output_path)
 
-# ----------------------------------------------
+    self.assertFalse (os.path.exists(output_path), "Output file does exist")
+    start_calc(exel_path, csv_path, output_path, home_counter)
+
+    # Assert if the output file exists
+    self.assertTrue(os.path.exists(output_path), "Output file does not exist")
+
+    # gv_filename = "Data_files/test.xlsx"
+    sheet_name = "Теплоенрго"
+    df_report = load_exel(output_path, sheet_name)
+    # print(df_report)
+    self.assertIsNotNone(df_report )
+    self.assertEqual(df_report.iloc[1, 1], "кв.1")
+    self.assertEqual(df_report.iloc[1, 4], 2.326)
+    self.assertEqual(df_report.shape[0], 41)
+    self.assertEqual(df_report.iloc[40, 4], 63.72)
+
+    sheet_name = "квартири, площі"
+    df_report = load_exel(output_path, sheet_name)
+    # print(df_report)
+    self.assertIsNotNone(df_report )
+    self.assertEqual(df_report.iloc[7, 1], "кв.7")
+    # 8
+    self.assertEqual(df_report.iloc[7, 18], 603)
+    self.assertEqual(df_report.iloc[7, 17], 653)
+    # 31
+    self.assertEqual(df_report.iloc[30, 17], 445)
+    self.assertEqual(df_report.iloc[30, 18], 437)
+    self.assertEqual(df_report.shape[0], 141)
+    self.assertEqual(df_report.iloc[109, 17], 1613.72)
+    self.assertEqual(df_report.iloc[109, 18], 1550)
+
+
+#+end_src
+***** def test_run_winmai_calc_home:
+#+begin_src python
+  def test_run_winmai_calc_home(self):
+    exel_path = "Data_files/test.xlsx"
+    csv_path = ""
+    # csv_path = "Data_files/test.rlv"
+    # csv_path = "Data_files/test.csv"
+    output_path = "Data_files/test_output.xlsx"
+    # /home/buyn/Dev/Python/Sontex/Src/Data_files/output.xlsx
+    home_counter = [100,0]
+    if os.path.exists(output_path):
+      os.remove(output_path)
+
+    self.assertFalse (os.path.exists(output_path), "Output file does exist")
+    start_calc(exel_path, csv_path, output_path, home_counter)
+
+    # Assert if the output file exists
+    self.assertTrue(os.path.exists(output_path), "Output file does not exist")
+
+    # gv_filename = "Data_files/test.xlsx"
+    sheet_name = "Теплоенрго"
+    df_report = load_exel(output_path, sheet_name)
+    # print(df_report)
+    self.assertIsNotNone(df_report )
+    self.assertEqual(df_report.iloc[1, 1], "кв.1")
+    self.assertEqual(df_report.iloc[1, 4], 3.65)
+    self.assertEqual(df_report.shape[0], 41)
+    self.assertEqual(df_report.iloc[40, 4], 100)
+
+    sheet_name = "квартири, площі"
+    df_report = load_exel(output_path, sheet_name)
+    # print(df_report)
+    self.assertIsNotNone(df_report )
+    self.assertEqual(df_report.iloc[7, 1], "кв.7")
+    # 8
+    self.assertEqual(df_report.iloc[7, 18], 603)
+    self.assertEqual(df_report.iloc[7, 17], 653)
+    # 31
+    self.assertEqual(df_report.iloc[30, 17], 445)
+    self.assertEqual(df_report.iloc[30, 18], 437)
+    self.assertEqual(df_report.shape[0], 141)
+    self.assertEqual(df_report.iloc[109, 17], 100)
+    self.assertEqual(df_report.iloc[109, 18], 0)
+
+
+#+end_src
+***** def test_run_winmai_calc_rlv:
+#+begin_src python
+  def test_run_winmai_calc_rlv(self):
+    exel_path = "Data_files/test.xlsx"
+    # csv_path = ""
+    csv_path = "Data_files/test.rlv"
+    # csv_path = "Data_files/test.csv"
+    output_path = "Data_files/test_output.xlsx"
+    # /home/buyn/Dev/Python/Sontex/Src/Data_files/output.xlsx
+    home_counter = None
+    if os.path.exists(output_path):
+      os.remove(output_path)
+
+    self.assertFalse (os.path.exists(output_path), "Output file does exist")
+    start_calc(exel_path, csv_path, output_path, home_counter)
+
+    # Assert if the output file exists
+    self.assertTrue(os.path.exists(output_path), "Output file does not exist")
+
+    # gv_filename = "Data_files/test.xlsx"
+    sheet_name = "Теплоенрго"
+    df_report = load_exel(output_path, sheet_name)
+    # print(df_report)
+    self.assertIsNotNone(df_report )
+    self.assertEqual(df_report.iloc[1, 1], "кв.1")
+    self.assertEqual(df_report.iloc[1, 4], 2.326)
+    self.assertEqual(df_report.shape[0], 41)
+    self.assertEqual(df_report.iloc[40, 4], 63.72)
+
+    sheet_name = "квартири, площі"
+    df_report = load_exel(output_path, sheet_name)
+    # print(df_report)
+    self.assertIsNotNone(df_report )
+    self.assertEqual(df_report.iloc[7, 1], "кв.7")
+    # 8
+    self.assertEqual(df_report.iloc[7, 18], 603)
+    self.assertEqual(df_report.iloc[7, 17], 653)
+    # 31
+    self.assertEqual(df_report.iloc[30, 17], 195)
+    self.assertEqual(df_report.iloc[30, 18], 437)
+    self.assertEqual(df_report.shape[0], 141)
+    self.assertEqual(df_report.iloc[109, 17], 1613.72)
+    self.assertEqual(df_report.iloc[109, 18], 1550)
+
+
+#+end_src
+***** def test_run_winmai_calc_rlv_csv:
+#+begin_src python
+  def test_run_winmai_calc_rlv_csv(self):
+    exel_path = "Data_files/test.xlsx"
+    # csv_path = ""
+    csv_path = "Data_files/test.rlv;Data_files/test.csv"
+    # csv_path = "Data_files/test.csv"
+    output_path = "Data_files/test_output.xlsx"
+    # /home/buyn/Dev/Python/Sontex/Src/Data_files/output.xlsx
+    home_counter = None
+    if os.path.exists(output_path):
+      os.remove(output_path)
+    # Assert if the output file exists
+    self.assertFalse (os.path.exists(output_path), "Output file does exist")
+    start_calc(exel_path, csv_path, output_path, home_counter)
+    # Assert if the output file not exists
+    self.assertTrue(os.path.exists(output_path), "Output file does not exist")
+    # gv_filename = "Data_files/test.xlsx"
+    sheet_name = "Теплоенрго"
+    df_report = load_exel(output_path, sheet_name)
+    # print(df_report)
+    self.assertIsNotNone(df_report )
+    self.assertEqual(df_report.iloc[1, 1], "кв.1")
+    self.assertEqual(df_report.iloc[1, 4], 2.326)
+    self.assertEqual(df_report.shape[0], 41)
+    self.assertEqual(df_report.iloc[40, 4], 63.72)
+    sheet_name = "квартири, площі"
+    df_report = load_exel(output_path, sheet_name)
+    # print(df_report)
+    self.assertIsNotNone(df_report )
+    self.assertEqual(df_report.iloc[7, 1], "кв.7")
+    # 8
+    self.assertEqual(df_report.iloc[7, 18], 603)
+    self.assertEqual(df_report.iloc[7, 17], 126)
+    # 31
+    self.assertEqual(df_report.iloc[30, 17], 76)
+    self.assertEqual(df_report.iloc[30, 18], 437)
+    self.assertEqual(df_report.shape[0], 141)
+    self.assertEqual(df_report.iloc[109, 17], 1613.72)
+    self.assertEqual(df_report.iloc[109, 18], 1550)
+
+
+#+end_src
 ***** Test runer:
+# * Test runer : 
 # ** ------------------------------------------:
 # (compile " D:/Development/version-control/GitHub/Vadim/Tochil/main_test.py -k init")
 # (compile " python -m unittest D:/Development/version-control/GitHub/Vadim/Tochil/main_test.py ")
-#+begin_src python
 # ** if __main__: 
-if __name__ == "__main__":
+    # runner = unittest.TextTestRunner()
+    # runner.run(suite_Init())
+    # sys.argv = ['', 'Test.testName']
     import sys
+    print("args = ", sys.argv)
+#+begin_src python
+if __name__ == "__main__":
     print("args = ", sys.argv)
     unittest.main()
 #+end_src
-    # sys.argv = ['', 'Test.testName']
+**** file
+(find-file-other-frame "../Src/ingtest01.py")
+**** run
+***** compile
+#+begin_src emacs-lisp :results output silent :tangle no
+(pyvenv-activate "sontex-env")
+(compile "python ../Src/ingtest01.py")
+(find-file-other-frame "../Src/ingtest01.py")
+#+end_src
 
-    # runner = unittest.TextTestRunner()
-    # runner.run(suite_Init())
-# ----------------------------------------------
+source sontex-env/bin/activate
+(compile "source sontex-env/bin/activate ; python -m sandbox")
+#+begin_src emacs-lisp :results output silent :tangle no
+(compile "source sontex-env/bin/activate ; python -m sandbox")
+#+end_src
+***** single test run
+#+begin_src emacs-lisp :results output silent :tangle no
+(pyvenv-activate "sontex-env")
+(compile "python3 -m unittest ../Src/ingtest01.Test.test_integ_initest")
+(find-file-other-frame "../Src/ingtest01.py")
+#+end_src
 
 ** appart_values
 *** appart_values.py
@@ -3448,6 +3478,9 @@ if __name__ == "__main__":
 #+begin_src emacs-lisp :results output silent
 (find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/.projectile")
 #+end_src
+* data files
+** from SRC
+/home/buyn/Dev/Python/Sontex/Src/Data_files/test.csv
 * sandbox
 ** sandbox.org
 #+begin_src emacs-lisp :results output silent
@@ -3516,7 +3549,7 @@ done
 * arhiv
 * Commands
 :PROPERTIES:
-:header-args: :tangle  no
+:header-args: :tangle  no :dir ../Src 
 :END:
 ** execute-src-block:
 (save-excursion (progn (org-babel-goto-named-src-block "auto-tangle-block") (org-babel-execute-src-block)))
@@ -3540,7 +3573,24 @@ pip install openpyxl
 pip install numpy 
 pip install matplotlib
 pip install numpy matplotlib
+
+(pyvenv-activate "sontex-env")
 ** compile
+*** test_winmain_test
+#+begin_src emacs-lisp :results output silent :tangle no
+(pyvenv-activate "sontex-env")
+;; (compile "python -m sandbox")
+(compile "python3 -m unittest test_winmain.Test_Init.test_winmain_test")
+#+end_src
+
+#+begin_src emacs-lisp :results output silent :tangle no
+(pyvenv-activate "sontex-env")
+;; (compile "python -m sandbox")
+(compile "python3 -m unittest test_winmain.Test_Init")
+#+end_src
+test_winmain.Test_Init.test_winmain_test
+(pyvenv-activate "sontex-env")
+*** sandbox
 #+begin_src emacs-lisp :results output silent :tangle no
 (pyvenv-activate "sontex-env")
 (compile "python -m sandbox")

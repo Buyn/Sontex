@@ -62,7 +62,7 @@ def btn_ask_open_exel_file(path,
                                         filetypes = tuple(_type))
     print("path = ", folder)
     if folder:
-        print_to_log("шлях до файлу " + _filetypes[1]
+        m.print_to_log("шлях до файлу " + _filetypes[1]
                      + " задано = " + folder)
     return folder
 
@@ -92,7 +92,7 @@ def btn_ask_open_DBfiles(path,
     for path in filepaths:
       r = r + path +";"
     if r:
-        print_to_log("шлях до файлу база даних задано = " + r)
+        m.print_to_log("шлях до файлу база даних задано = " + r)
     return r
 
 @eel.expose
@@ -115,8 +115,8 @@ def btn_asksaveasfile(path,
                                           filetypes = tuple(_type))
     print("path = ", folder)
     if folder:
-        print_to_log("Результуючий файл звіту обрано")
-        print_to_log("шлях до файлу звіту = " + folder)
+        m.print_to_log("Результуючий файл звіту обрано")
+        m.print_to_log("шлях до файлу звіту = " + folder)
     return folder
 
 if __name__ == "__main__": 

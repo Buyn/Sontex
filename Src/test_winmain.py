@@ -6,14 +6,17 @@ from main import *
 
 class Test_Init(unittest.TestCase):
 
-    @unittest.skipIf(len(sys.argv) < 2  or sys.argv[1] != "test_winmain.Test_Init", "not sigle test")
+    @unittest.skipIf(len(sys.argv) < 2  or sys.argv[1] != "test_winmain.Test_Init.test_winmain_test", "not sigle test")
     def test_winmain_test(self):
-        # # sys.argv = ['', 'Test.testName']
-        print(sys.argv)
-        print(sys.argv[0])
-        print(sys.argv[1])
-        winmain(sys.argv)
-        if sys.argv[1] == "test_winmain.Test_Init": print("test found")
+        with self.assertRaises(SystemExit) as cm:
+            # # sys.argv = ['', 'Test.testName']
+            print(sys.argv)
+            print(sys.argv[0])
+            print(sys.argv[1])
+            if sys.argv[1] == "test_winmain.Test_Init.test_winmain_test": print("test found")
+            winmain(sys.argv)
+        # self.assertEqual(cm.exception.code, 0)
+        self.assertIsNone(cm.exception.code)
 
     def test_get_dates_from_filename_string(self):
       string = "Data_files/test.rlv"
@@ -63,6 +66,10 @@ class Test_Init(unittest.TestCase):
         test = btn_ask_open_DBfiles("D:/Development/version-control/GitHub/Zmei/Sontex/Src/Data_files/test.xlsx",
                                   # _filetypes=(("csv files","*.csv"), ("rlv files","*.rlv")),
                                   _title = "D:/Development/version-control/GitHub/Zmei/Sontex/Src/Data_files/test.xlsx")
+        print("test = ", test)
+        test = btn_ask_open_DBfiles("/home/buyn/Dev/Python/Sontex/Src/Data_files/test.csv",
+                                  # _filetypes=(("csv files","*.csv"), ("rlv files","*.rlv")),
+                                  _title = "/home/buyn/Dev/Python/Sontex/Src/Data_files/test.csv")
         print("test = ", test)
 
     @unittest.skipIf(len(sys.argv) < 2  or not sys.argv[1] == "test_winmain.Test_Init.test_btn_asksaveasfile", "not sigle test")
