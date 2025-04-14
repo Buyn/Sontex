@@ -3537,7 +3537,7 @@ source sontex-env/bin/activate
 while true; do
   # python -m unittest
   python3 -m unittest ingtest01
-  python3 -m unittest test_winmain.Test_Init 
+  python3 -m unittest test_winmain.Test_Init.test_winmain_test
   python3 -m unittest test_winmain.Test_Init.test_btn_ask_open_exel_file 
   python3 -m unittest test_winmain.Test_Init.test_btn_ask_open_DBfiles 
   python3 -m unittest test_winmain.Test_Init.test_btn_asksaveasfile
@@ -3608,7 +3608,25 @@ source sontex-env/bin/activate
 #+begin_src emacs-lisp :results output silent :tangle no
 (compile "source sontex-env/bin/activate ; python -m sandbox")
 #+end_src
+** console
+*** integer test
+#+begin_src elisp :results output silent
+(buyn-shell-start "konsole -e '~/Dev/Python/Sontex/Src/test_integr.sh'")
+#+end_src
 
+#+begin_src elisp :results output silent
+(buyn-shell-start "~/Dev/Python/Sontex/Src/test_integr.sh")
+#+end_src
+~/Dev/Python/Sontex/Src/test_integr.sh
+~/Dev/Python/Sontex/Src/test_integr.sh
+*** integer tesdt
+#+begin_src elisp :results output silent
+(buyn-shell-start "konsole -e '~/Dev/Python/Sontex/Src/test_all.sh'")
+#+end_src
+
+#+begin_src elisp :results output silent
+(buyn-shell-start "~/Dev/Python/Sontex/Src/test_all.sh")
+#+end_src
 ** auto-tangle-block:
 #+NAME: auto-tangle-block
 #+begin_src emacs-lisp :results output silent :tangle no
