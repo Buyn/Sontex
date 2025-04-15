@@ -118,7 +118,7 @@ async function start_calc() {
     document.cookie = exelInput.name + "=" + exelInput.value;
     document.cookie = csvInput.name + "=" + csvInput.value;
     document.cookie = outputInput.name + "=" + outputInput.value;
-    const counterValues = currCounter.value || null;
+    const counterValues = currCounter.value && [currCounter.value, 0] || null; 
     console.log(counterValues);
     var r = await eel.start_calc(exelInput.value, csvInput.value, outputInput.value, counterValues)();
     refreshLog();

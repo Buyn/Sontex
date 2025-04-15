@@ -1,7 +1,70 @@
 :PROPERTIES:
 :header-args: :tangle sandbox.py
 :END:
-* 2025-03-19 1 cell on col of rvl
+* DONE 2025-04-15 global values change
+CLOSED: [2025-04-15 Tue 03:25]
+*** import
+import pandas as pd
+#+begin_src python 
+from global_values import *
+#+end_src
+*** get value
+#+begin_src python
+# gk_Qfun_sys = 0.05
+# gk_Qmzk = 0.1
+print("befor gk_Qfun_sys=", gk_Qfun_sys)
+print("befor gk_Qmzk=", gk_Qmzk)
+
+
+#+end_src
+
+*** func 01
+#+begin_src python
+def fun01():
+  global gk_Qfun_sys, gk_Qmzk
+  print("in fun 01 befor gk_Qfun_sys=", gk_Qfun_sys)
+  print("in fun 01 befor gk_Qmzk=", gk_Qmzk)
+  gk_Qfun_sys = 1
+  gk_Qmzk = 1
+  print("in fun 01 befor gk_Qfun_sys=", gk_Qfun_sys)
+  print("in fun 01 befor gk_Qmzk=", gk_Qmzk)
+
+fun01()
+
+#+end_src
+
+*** get value after fun 01
+#+begin_src python
+# gk_Qfun_sys = 0.05
+# gk_Qmzk = 0.1
+print("befor gk_Qfun_sys=", gk_Qfun_sys)
+print("befor gk_Qmzk=", gk_Qmzk)
+
+
+#+end_src
+
+*** func 02
+#+begin_src python
+def fun02():
+  global gk_Qfun_sys, gk_Qmzk
+  print("in fun 02 befor gk_Qfun_sys=", gk_Qfun_sys)
+  print("in fun 02 befor gk_Qmzk=", gk_Qmzk)
+  gk_Qfun_sys = 0.11
+  gk_Qmzk = 0.11
+  print("in fun 02 befor gk_Qfun_sys=", gk_Qfun_sys)
+  print("in fun 02 befor gk_Qmzk=", gk_Qmzk)
+
+fun02()
+fun01()
+fun02()
+
+#+end_src
+
+* DONE 2025-03-19 1 cell on col of rvl
+CLOSED: [2025-04-15 Tue 03:02]
+:PROPERTIES:
+:header-args: :tangle no
+:END:
 *** import
 #+begin_src python 
 import pandas as pd
