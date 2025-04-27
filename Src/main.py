@@ -122,6 +122,12 @@ def is_test(argv):
             return True
     return False
 
+def get_value_from_param_by_key(params, key): 
+    for arg in argv[1:]:
+        if arg.startswith("--test"):
+            return True
+    return False
+
 def gen_sum_heated_area(apps): 
     # Площа опалювальна по КТЕ
     return sum([app.heating_area for app in apps])
@@ -420,6 +426,22 @@ def get_dates_from_colums_list(df, colist):
       value = df.iloc[0, colnum]
       if pd.isnull(value): break
       r.append(value)
+  return r
+
+def get_colms_names_from_dates(dates, dateslist):
+  r = []
+  for date in dates:
+    try:
+      r.append(gv_rlv_colums_name_values_list[dateslist.index(date)])
+    except Exception:
+      r.append(None)
+  text= [ "використання колонки S вхідного файлу звіту ексель",
+          "використання колонки R вхідного файлу звіту ексель"]
+  for i in [0,1]:
+    if r[i]:
+      print_to_log("використання колонки DB файлу - " + r[i])
+    else:
+      print_to_log(text[i])
   return r
 
 def set_to_report(df, app_list): 

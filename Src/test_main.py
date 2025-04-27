@@ -254,6 +254,54 @@ class setUp_Test(unittest.TestCase):
         self.assertEqual(t1[35].next_app_line, 104)
         self.assertEqual(t2[35], [25482671, 25482670, 25482669, 25482694,])
 
+    def test_get_colms_names_from_dates(self):
+      params = {"dates":["", ""],
+                "filenamestring":"Data_files/test.rlv;Data_files/test.csv",
+                "homecounter":"Data_files/test.rlv;Data_files/test.csv",
+                "coefficients":[20,30],
+                "inputexel":"Data_files/test.exel",
+                "outputexel":"Data_files/test_output.exel",
+                "dateslist":['19.04.2021 13:52:24', '2021-04-16', '2021-04-01', '2021-03-16', '2021-03-01', '2021-02-16', '2021-02-01', '2021-01-16', '2021-01-01', '2020-12-16', '2020-12-01', '2020-11-16', '2020-11-01', '2020-10-16', '2020-10-01', '2020-09-16', '2020-09-01', '2020-08-16', '2020-08-01', '2020-07-16', '2020-07-01', '2020-06-16', '2020-06-01', '2020-05-16', '2020-05-01', '2020-04-16', '2020-04-01', '2020-03-16', '2020-03-01', '2020-02-16', '2020-02-01', '2020-01-16', '2020-01-01', '2019-12-16', '2019-12-01', '2019-11-16', '2019-11-01']
+                        }
+      dates = params["dates"]
+      dateslist = params["dateslist"]
+      self.assertEqual(dates, ["",""])
+      test = get_colms_names_from_dates(dates, dateslist)
+      self.assertEqual(test, [None, None])
+      dates = [None, "2021-02-01"]
+      test = get_colms_names_from_dates(dates, dateslist)
+      self.assertEqual(test, [None, "Historic value - 6"])
+      dates = ["R col exel", "S col exel"]
+      test = get_colms_names_from_dates(dates, dateslist)
+      self.assertEqual(test, [None, None])
+      dates = ["19.04.2021 13:52:24", "2021-04-01"]
+      test = get_colms_names_from_dates(dates, dateslist)
+      self.assertEqual(test, ["Heating units totalizer", "Historic value - 2"])
+
+      dates = ["02.04.2023","01.04.2023"]
+      dateslist = ['02.04.2023', '01.04.2023', '01.03.2023', '01.02.2023', '01.01.2023', '01.12.2022', '01.11.2022', '01.10.2022', '01.09.2022', '01.08.2022', '01.07.2022', '01.06.2022', '01.05.2022', '01.04.2022', '01.03.2022', '01.02.2022', '01.01.2022', '01.12.2021', '01.11.2021']
+      gui_log.clear()
+      self.assertEqual(len(gui_log), 0)
+      test = get_colms_names_from_dates(dates, dateslist)
+      self.assertEqual(test, ['Heating units totalizer', 'Historic value - 1'])
+      # print_to_log("використання колонки DB файлу - " + " test")
+      self.assertEqual(len(gui_log), 2)
+      # self.assertEqual(gui_log[1], 2)
+      dates = ["01.03.2023","01.02.2023"]
+      test = get_colms_names_from_dates(dates, dateslist)
+      self.assertEqual(test, ['Historic value - 2', 'Historic value - 3'])
+      self.assertEqual(len(gui_log), 4)
+      dates = ["01.03.2022","01.02.2022"]
+      test = get_colms_names_from_dates(dates, dateslist)
+      self.assertEqual(test, ['Historic value - 14', 'Historic value - 15'])
+      self.assertEqual(len(gui_log), 6)
+      gui_log.clear()
+      self.assertEqual(len(gui_log), 0)
+      test = get_colms_names_from_dates(["",""], dateslist)
+      self.assertEqual(len(gui_log), 2)
+      # self.assertEqual(gui_log[1], 2)
+      # self.assertEqual(gui_log[0], 2)
+
     def test_gen_OSBB_report(self): 
         app_list, t2 = populate_apps(self.df)
         last_app_line = get_last_app_line(app_list)

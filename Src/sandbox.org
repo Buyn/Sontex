@@ -1,6 +1,7 @@
 :PROPERTIES:
 :header-args: :tangle sandbox.py
 :END:
+* 2025-04-16 populate and calc
 * DONE 2025-04-15 global values change
 CLOSED: [2025-04-15 Tue 03:25]
 *** import

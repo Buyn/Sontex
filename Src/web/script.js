@@ -120,6 +120,14 @@ async function start_calc() {
     document.cookie = outputInput.name + "=" + outputInput.value;
     const counterValues = currCounter.value && [currCounter.value, 0] || null; 
     console.log(counterValues);
+    // var r = await eel.start_calc(exelInput.value, csvInput.value, outputInput.value, counterValues)();
+		var dict = {
+				"exel":exelInput.value,
+				"csvstring":csvInput.value,
+				"output":outputInput.value, 
+				"homecounter":counterValues
+		};
+
     var r = await eel.start_calc(exelInput.value, csvInput.value, outputInput.value, counterValues)();
     refreshLog();
     console.log(exelInput.value);
