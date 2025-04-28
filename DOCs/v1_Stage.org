@@ -73,7 +73,8 @@ CLOSED: [2025-04-27 Sun 21:13]
 CLOSED: [2025-04-27 Sun 21:14]
 ***** DONE соунтеры
 CLOSED: [2025-04-27 Sun 21:14]
-**** NEXT комит
+**** DONE комит
+CLOSED: [2025-04-28 Mon 10:50]
 **** таглед
 **** комит
 **** make update_allvalues2_by_id

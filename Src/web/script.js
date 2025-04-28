@@ -20,6 +20,8 @@ const currSelect = initForm["curr-date"];
 
 const reportBtn = initForm["report-btn"];
 
+var gdataslist = []
+
 exelInput.value = cookies.exel || "";
 csvInput.value = cookies.csv || "";
 outputInput.value = cookies.output || "";
@@ -70,11 +72,11 @@ function fillSelect(select, strings) {
     }
 
 async function readDBfile(input) {
-    var datesList = await eel.get_dates_from_filename_string(input.value)();
-    if (datesList) {
-        console.log(datesList);
-        fillSelect(currSelect, datesList);
-        fillSelect(prevSelect, datesList);
+    gdataslist = await eel.get_dates_from_filename_string(input.value)();
+    if (gdataslist) {
+        console.log(gdataslist);
+        fillSelect(currSelect, gdataslist);
+        fillSelect(prevSelect, gdataslist);
         }
     refreshLog();
     }
@@ -120,14 +122,6 @@ async function start_calc() {
     document.cookie = outputInput.name + "=" + outputInput.value;
     const counterValues = currCounter.value && [currCounter.value, 0] || null; 
     console.log(counterValues);
-    // var r = await eel.start_calc(exelInput.value, csvInput.value, outputInput.value, counterValues)();
-		var dict = {
-				"exel":exelInput.value,
-				"csvstring":csvInput.value,
-				"output":outputInput.value, 
-				"homecounter":counterValues
-		};
-
     var r = await eel.start_calc(exelInput.value, csvInput.value, outputInput.value, counterValues)();
     refreshLog();
     console.log(exelInput.value);

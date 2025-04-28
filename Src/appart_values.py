@@ -1,17 +1,9 @@
-# ----------------------------------------------
-# * imports : 
-# ----------------------------------------------
 import pandas as pd
 from global_values import *
 from counter_values import *
 
-
-# ----------------------------------------------
-# * class Appart_values :
-# ** ------------------------------------------:
 class Appart_values:
-# ** def __init__ : 
-#  --------------------------------------------:
+
     def __init__(self, df, start_line): 
         self._df = df
         if not self.is_starting_line(start_line):
@@ -27,8 +19,6 @@ class Appart_values:
         self.app_num_name = self.load_name(gl_app_num_column, "gl_app_num_column")
         self.surcharge = None
 
-        
-# ** def get_counters_list : 
     def get_counters_list(self, start, end): 
         r = []
         # Count to end-1,
@@ -45,14 +35,10 @@ class Appart_values:
                 return None
             r.append(value) 
         return r
-            
- 
-# ** def get_counter : 
+
     def get_counter(self, line): 
         return Counter_values(self._df, line)
 
-
-# ** def is_starting_line : 
     def is_starting_line(self, line): 
         value = self._df.iloc[line, 0]
         if value == "end":
@@ -62,8 +48,6 @@ class Appart_values:
         # return isinstance(self._df.iloc[line, 0], int)
         return not pd.isna(value)
 
-
-# ** get_next_appindex : 
     def get_next_appindex(self, last):
         for i in range(last + 1, last + 10):
             # print("i = ", i)
@@ -80,13 +64,9 @@ class Appart_values:
             continue
         return -1,None
 
-
-# ** def gen_counters_adress : 
     def gen_counters_adress(self): 
         return [x.adress for x in self.counters_list] if self.counters_list else None
 
-
-# ** def load_values : 
     def load_values(self): 
         rows =  [ gl_app_sum_area_column,
                   gl_app_heating_area_column]
@@ -102,8 +82,6 @@ class Appart_values:
             sr.append(r)
         return tuple(sr)
 
-
-# ** def load_value : 
     def load_value(self, row, text): 
         r = self._df.iloc[self._start_line, row]
         if not isinstance(r, float) and not isinstance(r, int):
@@ -112,16 +90,12 @@ class Appart_values:
             raise NameError('no value on line = ' + str(self._start_line) + ', for rows ' + text)
         return r
 
-
-# ** def load_name : 
     def load_name(self, row, text): 
         r = self._df.iloc[self._start_line, row]
         # if pd.isna(r):
         #     raise NameError('no value on line = ' + str(self._start_line) + ', for rows ' + text)
         return r
 
-
-# ** def update_allvalues1_by_id : 
     def update_allvalues1_by_id(self, df,  name_value, name_date=None):
         r =[]
         self.not_found_ids.clear()
@@ -142,43 +116,31 @@ class Appart_values:
                     self.not_found_ids.add(ser_id)
         return r
 
-
-# ** def gen_E_used : 
     def gen_E_used(self): 
         # сумарне споживання по квартирі, од.
         if not self.counters_list: return 0
         return  sum([x.gen_delta() for x in self.counters_list])
 
-
-# ** def gen_E_used_k :
     def gen_E_used_k(self): 
         # сумарне приведене споживання по квартирі, од.
         if not self.counters_list: return 0
         return sum([x.gen_delta_k() for x in self.counters_list])
 
-
-# ** def gen_k_to_s :
     def gen_k_to_s(self): 
         # приведене до м2 площі, од/м2
         if not self.counters_list: return 0
         return self.gen_E_used_k() / self.heating_area
 
-
-# ** def gen_use_for_period : 
     def gen_use_for_period(self, q_pit_roz, sum_e_used_k): 
         # обсяг споживання за період, Гкал
         # self.specified_used_E = q_pit_roz * self.gen_E_used_k()
         self.specified_used_E = q_pit_roz * self.gen_E_used_k() / sum_e_used_k
         return self.specified_used_E
 
-
-# ** def gen_priv2S : 
     def gen_priv2S(self, q_pit_roz, sum_e_used_k): 
         # приведене до м2 площі, Гкал/м2
         return self.gen_use_for_period(q_pit_roz, sum_e_used_k) / self.heating_area
 
-
-# ** def gen_surcharge : 
     def gen_surcharge(self, q_pit_roz, q_op_min, sum_e_used_k): 
         # донарахування, Гкал
         self.surcharge = 0
@@ -188,29 +150,21 @@ class Appart_values:
             self.surcharge = (q_op_min - priv2S) * self.heating_area
         return self.surcharge
 
-
-# ** def get_S_if_surcharge : 
     def get_S_if_surcharge(self): 
         # логіка, не міняти! (площа повернення)
         return self.heating_area if self.surcharge == 0 and self.counters_list else 0
 
-
-# ** def gen_specified_used_E: 
     def gen_specified_used_E(self, e_for_redistibut): 
         # Ітого по распр., Гкал
         if not self.counters_list: return 0
         self.specified_used_E = self.surcharge + self.specified_used_E - self.get_S_if_surcharge() * e_for_redistibut
         return self.specified_used_E
 
-
-# ** def gen_specified_priv2S : 
     def gen_specified_priv2S(self): 
         # уточнене приведене до м2 площі, Гкал/м2
         if not self.counters_list: return 0
         return self.specified_used_E / self.heating_area
 
-
-# ** def gen_specified_surcharge : 
     def gen_specified_surcharge(self, q_op_min): 
         # уточнене донарахування, Гкал
         self.surcharge = 0
@@ -222,38 +176,24 @@ class Appart_values:
             self.surcharge = (q_op_min - priv2S) * self.heating_area
         return self.surcharge
 
-
-# ** def gen_no_counter_e : 
     def gen_no_counter_e(self, q_no_surge): 
         self.specified_used_E = q_no_surge * self.heating_area
         return self.specified_used_E
 
-
-# ** def gen_total_qfun_sys : 
     def gen_total_fun_sys(self, s_qfun_sys): 
         # функціонування системи
         self.total_fun_sys = s_qfun_sys * self.heating_area
         return self.total_fun_sys
 
-
-# ** def gen_total_Mkz : 
     def gen_total_Mkz(self, s_q_Mkz): 
         # МЗК
         self.total_Mkz = s_q_Mkz * self.heating_area
         return self.total_Mkz
 
-
-# ** def gen_total_e : 
     def gen_total_e(self): 
         # ВСЬОГО, Гкал
         self.total_e = self.specified_used_E + self.total_fun_sys + self.total_Mkz
         return self.total_e
 
-
-# ** def set_to_report : 
     def set_to_report(self, df, column, value): 
         df.iloc[self._start_line, column] = value
-
-
-
-# * -------------------------------------------:
