@@ -4615,21 +4615,25 @@ if __name__ == "__main__":
 :PROPERTIES:
 :header-args: :tangle ../Src/counter_values.py
 :END:
+***** imports : 
+# ----------------------------------------------
+# ----------------------------------------------
 #+begin_src python
-# ----------------------------------------------
-# * imports : 
-# ----------------------------------------------
 import pandas as pd
 from global_values import *
 
 
+#+end_src
+***** class Counter_values :
 # ----------------------------------------------
-# * class Counter_values :
 # ** ------------------------------------------:
+#+begin_src python
 class Counter_values:
 
 
-# ** def __init__ : 
+#+end_src
+***** def __init__ : 
+#+begin_src python
     def __init__(self, df, line): 
         self._df = df
         self._line = line
@@ -4639,45 +4643,68 @@ class Counter_values:
         self.value2 = self.get_value2()
         self.k_priv = self.get_k_priv()
 
-        
-# ** def get_adress : 
+
+        #+end_src
+***** def get_adress : 
+        #+begin_src python
     def get_adress(self): 
         return self._df.iloc[self._line, gl_counters_column]
 
 
-# ** def get_value1 : 
+#+end_src
+***** def get_value1 : 
+#+begin_src python
     def get_value1(self): 
         return self.get_value(gl_counters_value1_column, "gl_counters_value1_column")
 
 
-# ** def set_value1 : 
+#+end_src
+***** def set_value1 : 
+#+begin_src python
     def set_value1(self, value): 
         return self.set_value(gl_counters_value1_column, "gl_counters_value1_column", value)
 
 
-# ** def get_value2 : 
+#+end_src
+***** def set_value2 : 
+#+begin_src python
+    def set_value2(self, value): 
+        return self.set_value(gl_counters_value2_column, "gl_counters_value2_column", value)
+
+
+#+end_src
+***** def get_value2 : 
+#+begin_src python
     def get_value2(self): 
         return self.get_value(gl_counters_value2_column, "gl_counters_value2_column")
 
 
-# ** def get_k_priv : 
+#+end_src
+***** def get_k_priv : 
+#+begin_src python
     def get_k_priv(self): 
         return self.get_value(gl_counters_k_priv_column, "gl_counters_k_priv_column")
 
 
-# ** def gen_delta : 
+#+end_src
+***** def gen_delta : 
+#+begin_src python
     def gen_delta(self): 
         # споживання за період
         return  self.value1 - self.value2
 
 
-# ** def gen_delta_k : 
+#+end_src
+***** def gen_delta_k : 
+#+begin_src python
     def gen_delta_k(self): 
         # споживання за період приведене
         return  self.gen_delta() * self.k_priv
 
 
-# ** def get_value : 
+#+end_src
+***** def get_value : 
+#+begin_src python
     def get_value(self, row, name): 
         r = self._df.iloc[self._line, row]
         if not isinstance(r, float) and not isinstance(r, int):
@@ -4687,19 +4714,23 @@ class Counter_values:
         return r
 
 
-# ** def set_value : 
+#+end_src
+***** def set_value : 
+#+begin_src python
     def set_value(self, row, name, value): 
         r = self._df.iloc[self._line, row,] = value
         return r
 
 
-# ** def is_valid : 
+#+end_src
+***** def is_valid : 
+#+begin_src python
     def is_valid(self): 
         return  isinstance(self.adress, int)
 
 
-# * -------------------------------------------:
 #+end_src
+# * -------------------------------------------:
 *** test_counter_values.py
 **** file
 #+begin_src emacs-lisp :results output silent
@@ -4709,19 +4740,22 @@ class Counter_values:
 :PROPERTIES:
 :header-args: :tangle ../Src/test_counter_values.py
 :END:
-#+begin_src python
+***** import block :
 # ----------------------------------------------
-# * import block :
+#+begin_src python
 import unittest
 
 from counter_values import *
 
-
+#+end_src
+***** class setUp_Test : 
 # ----------------------------------------------
-# * class setUp_Test : 
 # ** ------------------------------------------:
+#+begin_src python
 class setUp_Test(unittest.TestCase):
-# ** @classmethod #setUpClass#  : 
+#+end_src
+***** @classmethod #setUpClass#:
+#+begin_src python
     @classmethod #setUpClass# {{{
     def setUpClass(self):
         # print("*"*33,"*"*33)
@@ -4736,22 +4770,24 @@ class setUp_Test(unittest.TestCase):
                           # index_col=0,
                           header=None,
                           )
+
+        
+#+end_src
         # self.mw = Main_Windows()
         # self.fk = FirstKivy()
     #     print ("file opened")
     #     print("*"*33,"*"*33)
     #     self.gs.sheet_main.update_acell('A1', 'Bingo!')
-
-
-# ** @classmethod #tearDownClass# : 
+***** @classmethod #tearDownClass# : 
     # @classmethod #tearDownClass# {{{
     # def tearDownClass(cls):
     #     print("*"*33,"*"*33)
     #     print("tear down module")
     #     print("*"*33,"*"*33)
 
-# ** def test_init1 : 
-    def test_init1(self):# {{{
+***** def test_init1 : 
+#+begin_src python
+    def test_init1(self):
         # self.assertIsNone( test._df)
         test = Counter_values(self.df, 7) 
         self.assertEqual(test._line, 7)
@@ -4771,7 +4807,10 @@ class setUp_Test(unittest.TestCase):
         self.assertEqual(test.get_adress(), 25482672)
 
 
-# ** def test_get_adress : 
+#+end_src
+
+***** def test_get_adress : 
+#+begin_src python
     def test_get_adress(self): 
         test = Counter_values(self.df, 7)
         self.assertEqual(test.get_adress(), 25482311)
@@ -4781,7 +4820,10 @@ class setUp_Test(unittest.TestCase):
         self.assertEqual(test.get_adress(), 25482672)
 
 
-# ** def test_get_value1 : 
+#+end_src
+
+***** def test_get_value1 : 
+#+begin_src python
     def test_get_value1(self): 
         test = Counter_values(self.df, 7)
         self.assertEqual(test.get_value1(), 653)
@@ -4800,11 +4842,16 @@ class setUp_Test(unittest.TestCase):
             # self.assertEqual(test.get_value2(), 0)
             test = Counter_values(self.df, 104)
             test.get_value1()
+
+            
+#+end_src
         # test = Counter_values(self.df, 100)
         # self.assertEqual(test.get_value1(), 0)
 
 
-# ** def test_set_value1 : 
+
+***** def test_set_value1 : 
+#+begin_src python
     def test_set_value1(self): 
         test = Counter_values(self.df, 7)
         self.assertEqual(test.get_value1(), 653)
@@ -4820,6 +4867,9 @@ class setUp_Test(unittest.TestCase):
         test.set_value1(0.01)
         self.assertEqual(test.get_value1(), 0.01)
         test.set_value1(106)
+
+
+#+end_src
         # test = Counter_values(self.df, 69)
         # self.assertEqual(test.get_value1(), 310)
         # test = Counter_values(self.df, 70)
@@ -4834,8 +4884,42 @@ class setUp_Test(unittest.TestCase):
         # test = Counter_values(self.df, 100)
         # self.assertEqual(test.get_value1(), 0)
 
+***** def test_set_value2 : 
+#+begin_src python
+    def test_set_value2(self): 
+        test = Counter_values(self.df, 7)
+        self.assertEqual(test.get_value2(), 603)
+        test.set_value2(100)
+        self.assertEqual(test.get_value2(), 100)
+        test.set_value2(653)
+        test = Counter_values(self.df, 8)
+        self.assertEqual(test.get_value2(), 552)
+        test.set_value2(0)
+        self.assertEqual(test.get_value2(), 0)
+        test.set_value2(552)
+        test = Counter_values(self.df, 106)
+        test.set_value2(0.01)
+        self.assertEqual(test.get_value2(), 0.01)
+        test.set_value2(106)
 
-# ** def test_get_value2 : 
+
+#+end_src
+        # test = Counter_values(self.df, 69)
+        # self.assertEqual(test.get_value1(), 310)
+        # test = Counter_values(self.df, 70)
+        # self.assertEqual(test.get_value1(), 734)
+        # test = Counter_values(self.df, 71)
+        # self.assertEqual(test.get_value1(), 527)
+        # with self.assertRaises(NameError):
+        #     # test = Counter_values(self.df, 100)
+        #     # self.assertEqual(test.get_value2(), 0)
+        #     test = Counter_values(self.df, 104)
+        #     test.get_value1()
+        # test = Counter_values(self.df, 100)
+        # self.assertEqual(test.get_value1(), 0)
+
+***** def test_get_value2 : 
+#+begin_src python
     def test_get_value2(self): 
         test = Counter_values(self.df, 7)
         self.assertEqual(test.get_value2(), 603)
@@ -4850,17 +4934,20 @@ class setUp_Test(unittest.TestCase):
         test = Counter_values(self.df, 71)
         self.assertEqual(test.get_value2(), 505)
         with self.assertRaises(NameError):
-            # test = Counter_values(self.df, 100)
-            # self.assertEqual(test.get_value2(), 0)
             test = Counter_values(self.df, 104)
             test.get_value2()
+
+
+#+end_src
+            # test = Counter_values(self.df, 100)
+            # self.assertEqual(test.get_value2(), 0)
             # print(test.heating_area)
             # print(test.sum_area)
             # print("tupe is =", type(test.sum_area))
             # print("tupe is =",type(test.heating_area))
 
-
-# ** def test_gen_delta : 
+***** def test_gen_delta : 
+#+begin_src python
     def test_gen_delta(self): 
         test = Counter_values(self.df, 7)
         self.assertEqual(test.gen_delta(), 50)
@@ -4871,17 +4958,20 @@ class setUp_Test(unittest.TestCase):
         test = Counter_values(self.df, 86)
         self.assertEqual(test.gen_delta(), 16)
         with self.assertRaises(AttributeError):
-            # test = Counter_values(self.df, 100)
-            # self.assertEqual(test.get_value2(), 0)
             test = Counter_values(self.df, 104)
             test.gen_delta()
+
+
+#+end_src
+            # test = Counter_values(self.df, 100)
+            # self.assertEqual(test.get_value2(), 0)
             # print(test.heating_area)
             # print(test.sum_area)
             # print("tupe is =", type(test.sum_area))
             # print("tupe is =",type(test.heating_area))
 
-
-# ** def test_gen_delta_k : 
+***** def test_gen_delta_k : 
+#+begin_src python
     def test_gen_delta_k(self): 
         test = Counter_values(self.df, 7)
         self.assertEqual(float("{:.2f}".format(test.gen_delta_k())), 95.90)
@@ -4896,7 +4986,10 @@ class setUp_Test(unittest.TestCase):
             test.gen_delta()
 
 
-# ** def test_get_k_priv : 
+#+end_src
+
+***** def test_get_k_priv : 
+#+begin_src python
     def test_get_k_priv(self): 
         test = Counter_values(self.df, 7)
         self.assertEqual(test.get_k_priv(), 1.91808)
@@ -4905,17 +4998,20 @@ class setUp_Test(unittest.TestCase):
         test = Counter_values(self.df, 106)
         self.assertEqual(test.get_k_priv(), 0.93465)
         with self.assertRaises(NameError):
-            # test = Counter_values(self.df, 100)
-            # self.assertEqual(test.get_value2(), 0)
             test = Counter_values(self.df, 104)
             test.get_k_priv()
+
+
+#+end_src
+            # test = Counter_values(self.df, 100)
+            # self.assertEqual(test.get_value2(), 0)
             # print(test.heating_area)
             # print(test.sum_area)
             # print("tupe is =", type(test.sum_area))
             # print("tupe is =",type(test.heating_area))
 
-
-# ** def test_get_value : 
+***** def test_get_value : 
+#+begin_src python
     def test_get_value(self): 
         test = Counter_values(self.df, 7)
         self.assertEqual(
@@ -4939,6 +5035,9 @@ class setUp_Test(unittest.TestCase):
             test.get_value(
                 gl_counters_k_priv_column,
                 "gl_counters_k_priv_column"),
+
+
+#+end_src
             # print(test.heating_area)
             # print(test.sum_area)
             # print("tupe is =", type(test.sum_area))
@@ -4949,8 +5048,8 @@ class setUp_Test(unittest.TestCase):
         # test = Counter_values(self.df, 100)
         # self.assertEqual(test.get_value(), 0)
 
-
-# ** def test_set_value : 
+***** def test_set_value : 
+#+begin_src python
     def test_set_value(self): 
         test = Counter_values(self.df, 7)
         self.assertEqual(
@@ -4988,6 +5087,9 @@ class setUp_Test(unittest.TestCase):
                 gl_counters_value1_column,
                 "gl_counters_value1_column",
                 653)
+
+
+#+end_src
         # print(r)
         # test = Counter_values(self.df, 8)
         # self.assertEqual(
@@ -5010,8 +5112,8 @@ class setUp_Test(unittest.TestCase):
         # test = Counter_values(self.df, 100)
         # self.assertEqual(test.get_value(), 0)
 
-
-# ** def test_is_valid : 
+***** def test_is_valid : 
+#+begin_src python
     def test_is_valid(self): 
         test = Counter_values(self.df, 7)
         self.assertTrue(test.is_valid())
@@ -5027,22 +5129,26 @@ class setUp_Test(unittest.TestCase):
         self.assertFalse(test.is_valid())
 
 
+#+end_src
+
+***** Test runer : 
+****** if __main__: 
 # ** ------------------------------------------:
-# * Test runer : 
 # ** ------------------------------------------:
 # (compile " D:/Development/version-control/GitHub/Vadim/Tochil/main_test.py -k init")
 # (compile " python -m unittest D:/Development/version-control/GitHub/Vadim/Tochil/main_test.py ")
 # (compile "python -m unittest") run all est in dir
-# ** if __main__: 
+
+#+begin_src python
 if __name__ == "__main__":
-    # runner = unittest.TextTestRunner()
-    # runner.run(suite_Init())
     unittest.main()
 
 
+#+end_src
 # ----------------------------------------------
 # * -------------------------------------------:
-#+end_src
+    # runner = unittest.TextTestRunner()
+    # runner.run(suite_Init())
 ** rules
 *** rules.py
 #+begin_src emacs-lisp :results output silent
