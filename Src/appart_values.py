@@ -116,6 +116,26 @@ class Appart_values:
                     self.not_found_ids.add(ser_id)
         return r
 
+    def update_allvalues2_by_id(self, df,  name_value, name_date=None):
+        r =[]
+        self.not_found_ids.clear()
+        # print("name_date = ", name_date)
+        # print("self.counters_list = ", self.counters_list[0])
+        if self.counters_list:
+            for counter in self.counters_list:
+                try:
+                    # print("counter = ", counter)
+                    ser_id = counter.adress
+                    counter.value2 = int(df.loc[ser_id , name_value])
+                    counter.set_value2(counter.value2)
+                    if name_date:
+                        r.append(df.loc[ser_id , name_date])
+                        # print("ser_id = ", ser_id, "r = ", r)
+                except Exception:
+                    # print("not in csv id", ser_id)
+                    self.not_found_ids.add(ser_id)
+        return r
+
     def gen_E_used(self): 
         # сумарне споживання по квартирі, од.
         if not self.counters_list: return 0
