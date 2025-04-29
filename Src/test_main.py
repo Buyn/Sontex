@@ -180,6 +180,11 @@ class Test_Init(unittest.TestCase):
       t = get_df_list_from_filename_string(string)
       self.assertIsNotNone(t)
       self.assertEqual(len(t), 2)
+      string = "Data_files/None.rlv"
+      t = get_df_list_from_filename_string(string)
+      self.assertIsNotNone(t)
+      self.assertEqual(len(t), 1)
+      self.assertIsNone(t[0])
       t =None
 
     def test_get_dates_from_colums_list(self): 
@@ -299,8 +304,59 @@ class setUp_Test(unittest.TestCase):
       self.assertEqual(len(gui_log), 0)
       test = get_colms_names_from_dates(["",""], dateslist)
       self.assertEqual(len(gui_log), 2)
-      # self.assertEqual(gui_log[1], 2)
-      # self.assertEqual(gui_log[0], 2)
+
+    def test_update_counters_by_colms(self): 
+        gv_filename = "Data_files/test.xlsx"
+        # sheet_name = "показники"
+        sheet_name = "квартири, площі"
+        self.df = load_exel(gv_filename, sheet_name)
+        t1, t2 = populate_apps(self.df)
+        self.assertEqual(t2[37],
+                         [25482673,
+                          25482672,])
+        self.assertEqual(t2[35],
+                         [25482671,
+                          25482670,
+                          25482669,
+                          25482694,])
+        app_list, counters_list = t1, t2
+
+        params = {"dates":["2021-04-16", "2021-04-01"],
+                "filenamestring":"Data_files/test.rlv;Data_files/test.csv",
+                "homecounter":[0,30],
+                "koefficients":[20,30],
+                "inputexel":"Data_files/test.exel",
+                "outputexel":"Data_files/test_output.exel",
+                "dateslist":['19.04.2021 13:52:24', '2021-04-16', '2021-04-01', '2021-03-16', '2021-03-01', '2021-02-16', '2021-02-01', '2021-01-16', '2021-01-01', '2020-12-16', '2020-12-01', '2020-11-16', '2020-11-01', '2020-10-16', '2020-10-01', '2020-09-16', '2020-09-01', '2020-08-16', '2020-08-01', '2020-07-16', '2020-07-01', '2020-06-16', '2020-06-01', '2020-05-16', '2020-05-01', '2020-04-16', '2020-04-01', '2020-03-16', '2020-03-01', '2020-02-16', '2020-02-01', '2020-01-16', '2020-01-01', '2019-12-16', '2019-12-01', '2019-11-16', '2019-11-01']
+                      }
+        test = params["koefficients"]
+        dates = params["dates"]
+        colmslist = get_colms_names_from_dates(dates, params["dateslist"])
+        self.assertIsNotNone(colmslist[0])
+        self.assertIsNotNone(colmslist[1])
+        self.assertEqual(app_list[37].counters_list[0].get_value1(), 875)
+        self.assertEqual(app_list[37].counters_list[0].get_value2(), 829)
+        filenamestring = gv_csv
+        dflist = get_df_list_from_filename_string(filenamestring)
+        t2 = update_counters_by_colms(app_list, counters_list, colmslist, dflist[0])
+        self.assertEqual(counters_list[37],
+                         [25482673,
+                          25482672,])
+        self.assertEqual(app_list[37].counters_list[0].get_value1(), 178)
+        self.assertEqual(app_list[37].counters_list[0].get_value2(), 140)
+        filenamestring = gv_rlv
+        dflist = get_df_list_from_filename_string(filenamestring)
+        self.assertEqual(app_list[37].counters_list[0].get_value1(), 178)
+        self.assertEqual(app_list[37].counters_list[0].get_value2(), 140)
+        t2 = update_counters_by_colms(app_list, counters_list, colmslist, dflist[0])
+        self.assertEqual(app_list[37].counters_list[0].get_value1(), 209)
+        self.assertEqual(app_list[37].counters_list[0].get_value2(), 169)
+        filenamestring = "Data_files/None.csv.rlv"
+        dflist = get_df_list_from_filename_string(filenamestring)
+        t2 = update_counters_by_colms(app_list, counters_list, colmslist, dflist[0])
+        # print(gui_log)
+        self.assertEqual(app_list[37].counters_list[0].get_value1(), 209)
+        self.assertEqual(app_list[37].counters_list[0].get_value2(), 169)
 
     def test_gen_OSBB_report(self): 
         app_list, t2 = populate_apps(self.df)

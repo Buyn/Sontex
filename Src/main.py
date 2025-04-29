@@ -410,7 +410,11 @@ def get_df_list_from_filename_string(string):
   r=[]
   for path_csv in string.split(";"):
     if path_csv=="" or path_csv==" ": continue
-    r.append(load_db(path_csv.strip()))
+    try:
+      r.append(load_db(path_csv.strip()))
+    except Exception:
+      print_to_log("Помилка завантаження файлу:" + path_csv.strip())
+      r.append(None)
   return r
 
 def get_dates_from_colums_list(df, colist):
@@ -603,45 +607,24 @@ def update_counters(app_list, counters_list, df_csv, data_i = 1):
     print_to_log("Показники csv зафіксовані на дату"+ str(data_list))
     return str(data_list)
 
-def update_counters_by_colms(app_list, couters_list, colmslist, df_csv, dates): 
+def update_counters_by_colms(app_list, counters_list, colmslist, df_csv): 
     if df_csv is None:
         return None
-    name_date = gv_csv_name_date + str(gv_csv_name_i)
-    # print(name_date)
-    name_value = gv_csv_name_value + str(gv_csv_name_i)
-    # print(name_value)
-    data_list =set()
     id_list =set()
-    for i, adress_list in enumerate(counters_list):
-        if counters_list[i]:
-            r = app_list[i].update_allvalues1_by_id(df_csv,  name_value, name_date)
-            if r:
-                data_list.update(r)
-            else:
-                id_list.update(app_list[i].not_found_ids)
-                app_list[i].not_found_ids.clear()
-            # print("data_ r = ", r) 
-            # print("data_list = ", data_list) 
-    # print("values", len(data_list))
-    if len(data_list)==0:
-        print_to_log("помилка даних csv. Файл не містить жодного ID з exel")
-        # print("ошибка даных csv. фаил не содержит не одного ID из exel ")
-        print_to_log("csv зіпсований. Обробку зупинено")
-        raise NameError("csv corupt. no id exels in csv file ", "len(data_list) = ", len(data_list) )
-    if len(data_list)!=1:
-        for data in data_list:
-          print_to_log("помилка даних csv. Більше однієї дати у стовпці "+ name_date+ " = "+ data)
-          print("помилка даних csv. Більше однієї дати у стовпці "+ name_date+ " = "+ data)
-        # print_to_log("csv uспорчен. Обработка остановлена")
-        print_to_log("csv зіпсований. Обробку не зупинено")
-        data_list = data_list.pop();
-        print_to_log("назва стовбчика змінено на = " + str(data_list))
-        # raise NameError("csv corupt. more then one date in csv column ", name_date, "len(data_list) = ", len(data_list) )
-    # print("values from csv add on dates = ", data_list)
-    if len(id_list)>0:
-        print_to_log("Ці ID вказані у файлі, але відсутні у Excel" + str(id_list))
-    print_to_log("Показники csv зафіксовані на дату"+ str(data_list))
-    return str(data_list)
+    if colmslist[0]:
+      for i, adress_list in enumerate(counters_list):
+          if counters_list[i]:
+              app_list[i].update_allvalues1_by_id(df_csv,  colmslist[0])
+              id_list.update(app_list[i].not_found_ids)
+              app_list[i].not_found_ids.clear()
+        
+    if colmslist[1]:
+      for i, adress_list in enumerate(counters_list):
+          if counters_list[i]:
+            app_list[i].update_allvalues2_by_id(df_csv,  colmslist[1])
+            id_list.update(app_list[i].not_found_ids)
+            app_list[i].not_found_ids.clear()
+    return id_list
 
 if __name__ == "__main__": 
     import sys
