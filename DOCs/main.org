@@ -930,10 +930,11 @@ if __name__ == "__main__":
 ***** imports:
 # ----------------------------------------------
 import winmain as wm
+from global_values import *
 #+begin_src python
 import sys
 import pandas as pd
-from global_values import *
+import global_values as gv
 from appart_values import *
 from rules import *
 import datetime
@@ -955,6 +956,8 @@ g_csv = gv_csv
 
 
 #+end_src
+gk_Qfun_sys = gk_Qfun_sys
+gk_Qmzk = gk_Qmzk
 ***** main:
 ****** def cli:
 # ----------------------------------------------
@@ -1116,6 +1119,25 @@ def is_test(argv):
             return True
     return False
 
+
+#+end_src
+# ----------------------------------------------
+# ** ------------------------------------------:
+****** CANCELED def set_global_coefficients:
+CLOSED: [2025-04-30 Wed 10:47]
+# ----------------------------------------------
+#+begin_src python :tangle no
+def set_global_coefficients(_gk_Qfun_sys = None, _gk_Qmzk = None):
+    global gk_Qfun_sys, gk_Qmzk
+    print("_gk_Qfun_sys before set to", _gk_Qfun_sys)
+    print("_gk_Qmzk before set to", _gk_Qmzk)
+    if not _gk_Qfun_sys == None:
+      gk_Qfun_sys = _gk_Qfun_sys
+      print("gk_Qfun_sys set to", gk_Qfun_sys)
+    if not _gk_Qmzk == None:
+      gk_Qmzk = _gk_Qmzk
+      print("gk_Qmzk set to", gk_Qmzk)
+        
 
 #+end_src
 # ----------------------------------------------
@@ -1839,13 +1861,18 @@ if __name__ == "__main__":
 :header-args: :tangle ../Src/test_main.py
 :END:
 ***** import block:
+from global_values import *
 #+begin_src python
 import unittest
 from main import *
-from global_values import *
+import global_values as gv
 
 
 #+end_src
+# from main import set_global_coefficients as _set_global_coefficients
+      set_global_coefficients = set_global_coefficients
+gk_Qfun_sys = gk_Qfun_sys
+gk_Qmzk = gk_Qmzk
 
 #+RESULTS:
 
@@ -2345,70 +2372,21 @@ class setUp_Test(unittest.TestCase):
       # self.assertEqual(gui_log[0], 2)
 
 ****** test set_global_coefficients
-      params = {"dates":["", ""],
-                "filenamestring":"Data_files/test.rlv;Data_files/test.csv",
-                "homecounter":"Data_files/test.rlv;Data_files/test.csv",
-                "coefficients":[20,30],
-                "inputexel":"Data_files/test.exel",
-                "outputexel":"Data_files/test_output.exel",
-                "dateslist":['19.04.2021 13:52:24', '2021-04-16', '2021-04-01', '2021-03-16', '2021-03-01', '2021-02-16', '2021-02-01', '2021-01-16', '2021-01-01', '2020-12-16', '2020-12-01', '2020-11-16', '2020-11-01', '2020-10-16', '2020-10-01', '2020-09-16', '2020-09-01', '2020-08-16', '2020-08-01', '2020-07-16', '2020-07-01', '2020-06-16', '2020-06-01', '2020-05-16', '2020-05-01', '2020-04-16', '2020-04-01', '2020-03-16', '2020-03-01', '2020-02-16', '2020-02-01', '2020-01-16', '2020-01-01', '2019-12-16', '2019-12-01', '2019-11-16', '2019-11-01']
-                        }
-      dates = params["dates"]
-      dateslist = params["dateslist"]
-gk_Qfun_sys = 0.05
-# gk_Qfun_sys = 0
-# обсяг тепла на опалення МЗК = 10% від
-# при значение 0 переменая не используется
-gk_Qmzk = 0.1
-# gk_Qmzk = 0
-# Мінімальна частка середнього питомого споживання
-    #+begin_src python :tangle no
+    #+begin_src python 
     def test_set_global_coefficients(self):
-      self.assertEqual(gk_Qfun_sys, 0)
-      self.assertEqual(gk_Qmzk, 0)
-      set_global_coefficients(gk_Qfun_sys = 0)
-      self.assertEqual(gk_Qfun_sys, 0)
-      set_global_coefficients(gk_Qmzk = 0)
-      self.assertEqual(gk_Qmzk, 0)
-      set_global_coefficients(gk_Qmzk = 10, gk_Qfun_sys = 10)
-      self.assertEqual(gk_Qfun_sys, 10)
-      self.assertEqual(gk_Qmzk, 10)
+      self.assertEqual(gv.gk_Qfun_sys, 0.05)
+      self.assertEqual(gv.gk_Qmzk, 0.1)
+      gv.set_global_coefficients(Qfun_sys = 0)
+      # gk_Qfun_sys = 0
+      self.assertEqual(gv.gk_Qfun_sys, 0)
+      gv.set_global_coefficients(Qmzk = 0)
+      self.assertEqual(gv.gk_Qmzk, 0)
+      gv.set_global_coefficients(Qmzk = 10, Qfun_sys = 10)
+      self.assertEqual(gv.gk_Qfun_sys, 10)
+      self.assertEqual(gv.gk_Qmzk, 10)
 
 
 #+end_src
-      dates = [None, "2021-02-01"]
-      test = get_colms_names_from_dates(dates, dateslist)
-      self.assertEqual(test, [None, "Historic value - 6"])
-      dates = ["R col exel", "S col exel"]
-      test = get_colms_names_from_dates(dates, dateslist)
-      self.assertEqual(test, [None, None])
-      dates = ["19.04.2021 13:52:24", "2021-04-01"]
-      test = get_colms_names_from_dates(dates, dateslist)
-      self.assertEqual(test, ["Heating units totalizer", "Historic value - 2"])
-
-      dates = ["02.04.2023","01.04.2023"]
-      dateslist = ['02.04.2023', '01.04.2023', '01.03.2023', '01.02.2023', '01.01.2023', '01.12.2022', '01.11.2022', '01.10.2022', '01.09.2022', '01.08.2022', '01.07.2022', '01.06.2022', '01.05.2022', '01.04.2022', '01.03.2022', '01.02.2022', '01.01.2022', '01.12.2021', '01.11.2021']
-      gui_log.clear()
-      self.assertEqual(len(gui_log), 0)
-      test = get_colms_names_from_dates(dates, dateslist)
-      self.assertEqual(test, ['Heating units totalizer', 'Historic value - 1'])
-      # print_to_log("використання колонки DB файлу - " + " test")
-      self.assertEqual(len(gui_log), 2)
-      # self.assertEqual(gui_log[1], 2)
-      dates = ["01.03.2023","01.02.2023"]
-      test = get_colms_names_from_dates(dates, dateslist)
-      self.assertEqual(test, ['Historic value - 2', 'Historic value - 3'])
-      self.assertEqual(len(gui_log), 4)
-      dates = ["01.03.2022","01.02.2022"]
-      test = get_colms_names_from_dates(dates, dateslist)
-      self.assertEqual(test, ['Historic value - 14', 'Historic value - 15'])
-      self.assertEqual(len(gui_log), 6)
-      gui_log.clear()
-      self.assertEqual(len(gui_log), 0)
-      test = get_colms_names_from_dates(["",""], dateslist)
-      self.assertEqual(len(gui_log), 2)
-      # self.assertEqual(gui_log[1], 2)
-      # self.assertEqual(gui_log[0], 2)
 
 ****** test update_counters_by_colms
     #+begin_src python 
@@ -3295,7 +3273,6 @@ if __name__ == "__main__":
 gg_eel_mode = 'chrome'
 gg_GUI = True
 # gg_GUI = False
-
 #+end_src
 ***** .xlsx:
 #+begin_src python
@@ -3477,8 +3454,186 @@ gr_rule_len_col = 2
 gr_rule_params_start_col = 3
 
 #+end_src
+***** functions
+****** set_global_coefficients
+    # print("_gk_Qfun_sys before set to", _gk_Qfun_sys)
+    # print("_gk_Qmzk before set to", _gk_Qmzk)
+#+begin_src python
+def set_global_coefficients(Qfun_sys = None, Qmzk = None):
+    global gk_Qfun_sys, gk_Qmzk
+    if not Qfun_sys == None:
+      gk_Qfun_sys = Qfun_sys
+    if not Qmzk == None:
+      gk_Qmzk = Qmzk
+#+end_src
+      # print("gk_Qfun_sys set to", gk_Qfun_sys)
+      # print("gk_Qmzk set to", gk_Qmzk)
+
 *** test_global_values.py
-/home/buyn/Dev/Python/Sontex/Src/test_global_values.py
+**** file
+(find-file-other-frame "~/Dev/Python/Sontex/Src/test_global_values.py")
+**** src test_global_values
+:PROPERTIES:
+:header-args: :tangle ../Src/test_global_values
+:END:
+#+begin_src python :tangle no
+# ----------------------------------------------
+# * imports : 
+# ----------------------------------------------
+
+
+# ----------------------------------------------
+# * vars :
+# ----------------------------------------------
+# ** GUI:
+# *** main window:
+# gg_eel_mode = 'electron'
+# gg_eel_mode = 'chrome'
+# gg_eel_mode = None
+# gg_eel_mode = 'edge'
+gg_eel_mode = 'chrome'
+gg_GUI = True
+# gg_GUI = False
+# ** .xlsx:
+# gv_filename = "Data_files/metod01.xlsx"
+gv_output = "Data_files/output.xlsx"
+gv_filename = "Data_files/metod01.xlsx"
+# sheet_name = "показники"
+gv_sheet_name = "квартири, площі"
+gv_sheet_report = "report"
+
+# ** .csv : 
+gv_csv = "Data_files/test.csv"
+# кодировка файла
+gv_csv_encoding = "cp1252"
+# строки с которых начинается имена колонок
+gv_csv_header   = 1
+# номер колонки от 0 в котором указаны индефикаторы устройств 
+gv_csv_index_col= 5
+# символ раздилитель используюшийся в файле
+gv_csv_sep      = ";"
+gv_csv_name_i   = 1
+gv_csv_name_date= "Historic date - "
+gv_csv_name_value="Historic value - "
+# name_text = "Historic date - " + str(gv_csv_name_i)
+# name_value = "Historic value - " + str(gv_csv_name_i)
+
+# ** .rlv : 
+gv_rlv = "Data_files/test.rlv"
+# gv_rlv = "Data_files/test.rlv"
+# кодировка файла
+gv_rlv_encoding = "utf-16le"
+# строки с которых начинается имена колонок
+gv_rlv_header   = 0
+# номер колонки от 0 в котором указаны индефикаторы устройств 
+gv_rlv_index_col= 5
+# символ раздилитель используюшийся в файле
+# gv_rlv_sep      = ";"
+gv_rlv_sep      = "\t"
+# gv_rlv_sep      = "	"
+# gv_rlv_sep      = ""
+gv_rlv_name_i   = 1
+gv_rlv_name_date= "Historic date - "
+gv_rlv_name_value="Historic value - "
+# name_text = "Historic date - " + str(gv_rlv_name_i)
+# name_value = "Historic value - " + str(gv_rlv_name_i)
+# ** Kooficeints:
+# обсяг тепла на функц. системи = 5% якщо є погодне регулювання в ІТП або 15% якщо не має від
+# при значение 0 переменая не используется
+gk_Qfun_sys = 0.05
+# gk_Qfun_sys = 0
+# обсяг тепла на опалення МЗК = 10% від
+# при значение 0 переменая не используется
+gk_Qmzk = 0.1
+# gk_Qmzk = 0
+# Мінімальна частка середнього питомого споживання
+gk_Qop_min = 0.5
+# Обсяг споживання тепла приміщенням без розподілювачів
+# k = 2, якщо площа необладнаних приміщень менще 25% та 1,5 якщо більше
+qk_k_no_surge_proc    = 0.25
+qk_k_no_surge_if_more = 1.5
+qk_k_no_surge_if_less = 2
+# ** setings:
+# количество знаков после запятой для gk_Qop_min переменой
+# при повышение точности в этой переменой разница силльно растёт
+# False для максимальной точности
+# True для
+# 3 значения соответствуюшее екселю
+gk_Qop_min_after_point = False
+# максимальное количество повторений поика нуля
+# (повторения циклов распределения)
+# 2 для значений близких к exel
+gs_recalc_surcharge_times = 200
+# печатать шаг на котором найден ноль
+gs_recalc_surcharge_print_result = False
+# gs_recalc_surcharge_print_result = True
+gs_recalc_surcharge_print = False
+# gs_recalc_surcharge_print = True
+# ** exel coordinats:
+# *** "квартири, площі":
+gl_app_sum_area_column = 4 # номер колонки (Площа загальна по даним КТЕ)
+gl_app_heating_area_column = 5 # номер колонки (Площа опалювальна по КТЕ)
+gl_counters_column = 6 # номер колонки (№ розподілювача)
+gl_counters_k_priv_column = 15 # номер колонки (К приведене)
+gl_counters_value1_column = 17 # номер колонки (показники на 01.12)
+gl_counters_value2_column = 18 # номер колонки (показники на 01.11)
+gl_ferst_app_row = 1 # номер ряда первого апартамента
+gl_exl_shift_rows = 1 # количество рядов сдвига адреса в экселе от дата фрема в выдачи ошибки
+# сдвиг строки от значения end для : по будинку за т/ліч
+gl_shift_home_counter_value1 = 2
+gl_shift_home_counter_value2 = 2
+# колонки : по будинку за т/ліч
+gl_column_home_counter_value1 = 17
+gl_column_home_counter_value2 = 18
+# *** report sheet:
+# 0 № п/п	
+gl_num_column = 0
+# 1 № квартири	
+gl_app_num_column = 1
+# 2 Ітого по распр., Гкал
+gl_total_couter_e_column = 2
+# 3 Ітого по м2, Гкал
+gl_total_no_couter_e_column = 3
+# 4 функціонування системи
+gl_func_sys_column = 4
+# 5 МЗК
+gl_mzk_column = 5
+# 6 ВСЬОГО, Гкал
+gl_total_e_column = 6
+# ** report names:
+gv_osbb_report = "ОСББ"
+# ** osbb report names:
+gv_osbb_report = "ОСББ"
+gv_enable_full_report = False
+# gv_enable_full_report = True
+# 0 № п/п	
+gn_num_column = "№ п/п"
+# 1 № квартири	
+gn_app_num_column = "№ квартири"
+# 2 Ітого по распр., Гкал
+gn_total_couter_e_column = "Ітого по распр., Гкал"
+# 3 Ітого по м2, Гкал
+gn_total_no_couter_e_column = "Ітого по м2, Гкал"
+# 4 функціонування системи
+gn_func_sys_column = "функціонування системи"
+# 5 МЗК
+gn_mzk_column = "МЗК"
+# 6 ВСЬОГО, Гкал
+gn_total_e_column = "ВСЬОГО, Гкал"
+# ** Теплоенрго report names:
+gv_TE_report = "Теплоенрго"
+# 0 Особовий рахунок	
+gn_TE_num_column = "Особовий рахунок"
+# 1 № Адреса	
+gn_TE_adders_column = "Адреса"
+# 2 № віртуального ліч-ка
+gn_TE_num_virt_column = "№ віртуального ліч-ка"
+# 3 Період
+gn_TE_period = "Період"
+# 4 Обсяг споживання,  Гкал
+gn_TE_total_e_column = "Обсяг споживання,  Гкал"
+# * -------------------------------------------:
+#+end_src
 ** integration test
 *** ingtest01.py
 :PROPERTIES:

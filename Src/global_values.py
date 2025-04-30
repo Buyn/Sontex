@@ -156,3 +156,10 @@ gr_rule_tag = "rule"
 gr_rule_name_col = 1
 gr_rule_len_col = 2
 gr_rule_params_start_col = 3
+
+def set_global_coefficients(Qfun_sys = None, Qmzk = None):
+    global gk_Qfun_sys, gk_Qmzk
+    if not Qfun_sys == None:
+      gk_Qfun_sys = Qfun_sys
+    if not Qmzk == None:
+      gk_Qmzk = Qmzk

@@ -8,6 +8,7 @@ CLOSED: [2025-04-15 Tue 03:25]
 import pandas as pd
 #+begin_src python 
 from global_values import *
+from main import *
 #+end_src
 *** get value
 #+begin_src python
@@ -31,6 +32,8 @@ def fun01():
   print("in fun 01 befor gk_Qmzk=", gk_Qmzk)
 
 fun01()
+print("after 01 gk_Qfun_sys=", gk_Qfun_sys)
+print("after 01 gk_Qmzk=", gk_Qmzk)
 
 #+end_src
 

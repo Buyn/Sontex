@@ -1,6 +1,6 @@
 import unittest
 from main import *
-from global_values import *
+import global_values as gv
 
 # filename = gv_filename
 # sheet_name = gv_sheet_name 
@@ -304,6 +304,18 @@ class setUp_Test(unittest.TestCase):
       self.assertEqual(len(gui_log), 0)
       test = get_colms_names_from_dates(["",""], dateslist)
       self.assertEqual(len(gui_log), 2)
+
+    def test_set_global_coefficients(self):
+      self.assertEqual(gv.gk_Qfun_sys, 0.05)
+      self.assertEqual(gv.gk_Qmzk, 0.1)
+      gv.set_global_coefficients(Qfun_sys = 0)
+      # gk_Qfun_sys = 0
+      self.assertEqual(gv.gk_Qfun_sys, 0)
+      gv.set_global_coefficients(Qmzk = 0)
+      self.assertEqual(gv.gk_Qmzk, 0)
+      gv.set_global_coefficients(Qmzk = 10, Qfun_sys = 10)
+      self.assertEqual(gv.gk_Qfun_sys, 10)
+      self.assertEqual(gv.gk_Qmzk, 10)
 
     def test_update_counters_by_colms(self): 
         gv_filename = "Data_files/test.xlsx"

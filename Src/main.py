@@ -1,6 +1,6 @@
 import sys
 import pandas as pd
-from global_values import *
+import global_values as gv
 from appart_values import *
 from rules import *
 import datetime
