@@ -5350,13 +5350,362 @@ if __name__ == "__main__":
     # runner.run(suite_Init())
 ** rules
 *** rules.py
+**** file
 #+begin_src emacs-lisp :results output silent
 (find-file-other-frame "/home/buyn/Dev/Python/Sontex/Src/rules.py")
 #+end_src
+**** src rules.py
+:PROPERTIES:
+:header-args: :tangle ../Src/rules.py
+:END:
+#+begin_src python
+# ----------------------------------------------
+# * imports:
+# ----------------------------------------------
+import pandas as pd
+from global_values import *
+
+
+# ----------------------------------------------
+# * Postprocessing functions:
+# ----------------------------------------------
+# **  def postproc_test:
+def postproc_test(df, arg):
+    if arg[0]!="test":
+        print(arg)
+    return df, arg
+
+
+# **  def postproc_divider:
+def postproc_divider(df:pd.DataFrame, arg):
+    # print("arg = ", arg)
+    # print("arg = ", arg[2])
+    strarg = arg[2].split("\"")
+    # print("strarg = ", strarg)
+    newrow = [i for i in strarg if i and i != " "]
+    # print("newrow = ", newrow)
+    # print(df.shape)
+    if df.shape[1] > len(newrow):
+        for col in range(df.shape[1] - len(newrow)):
+            newrow.append("")
+    # print(arg[0])
+    # print(df[df[0]==arg[0]])
+    target_index = int((df[df[0]==arg[0]].index.values)[0])
+    # tmp_int = df[df[0]==arg[0]].index.values
+    # print("tmp_int =", tmp_int)
+    # print("(int(tmp_int)) = ", int(tmp_int))
+    # target_index = int(tmp_int)
+    # print("index.values = ", target_index)
+    target_value = df.iloc[target_index, arg[1]-1]
+    # print("target_value = ", target_value)
+    value_k = arg[3]
+    # print("value_k = ", value_k)
+    new_value = float(target_value) * float(value_k)
+    df.iloc[target_index, arg[1]-1] = float( gv_TE_report_formar_len( target_value - new_value))
+    # print(df.iloc[target_index, arg[1]-1])
+    newrow[arg[1]-1] = float( gv_TE_report_formar_len( new_value))
+    newrow[2] = newrow[0]
+    # newrow[arg[1]-3] = 
+    # print(arg)
+    # print(arg[3])
+    # print(arg[5])
+    # print(newrow[arg[1]-4])
+    # print(len(newrow))
+    # print(newrow)
+    # print(newrow[2])
+    # print(len(newrow))
+    # print(df)
+    #  Inserting the new row
+    # Inserting a Row at a Specific Index
+    df.loc[target_index + 0.5] = newrow
+    # print(target_index + 0.5)
+    #  Reset the index
+    df = df.sort_index().reset_index(drop=True)
+    # print(df)
+    return df, newrow
+
+
+# ** ------------------------------------------:
+# * vars:
+# ----------------------------------------------
+rules_dic = {
+    "test" : postproc_test,
+    "post_divider" : postproc_divider,
+}
+
+
+# ----------------------------------------------
+# * functions:
+# ----------------------------------------------
+# **  get_all_rules:
+def get_all_rules(df):
+    r = []
+    for i in range(0, df.shape[0]):
+        # print("i = ", i)
+        value_i = df.iloc[i, 0]
+        if df.iloc[i, 0] == "rule":
+            # print("rule found on index = ", i)
+            # print("value of i = ", df.iloc[i, 0])
+            ruls_name = df.iloc[i, 1]
+            ruls_params = df.iloc[i, 2]
+            ruls_params_list =[df.iloc[i, p] for p in range(3, 3 + ruls_params)]
+            r.append((i, ruls_name, ruls_params_list))
+    return r
+
+
+# **  use_rule:
+def use_rule(df, index, rule_name, rule_params, test = False):
+    try:
+        return rules_dic[rule_name](df, rule_params)
+    except Exception:
+        if not test:
+            print("no such rule in dictionary from row=",index+1, " ", rule_name)
+            # wm.print_to_log("немає такого правила у словнику з row="+ index+1+ " "+ rule_name)
+        return df, None
+
+# **  postprocessing_df_with_rules_df:
+def postprocessing_df_with_rules_df(df, df_rules):
+    rules_list = get_all_rules(df_rules)
+    if not rules_list: return df
+    for rule in rules_list: 
+        df, args = use_rule(df = df,
+                            index = rule[0],
+                            rule_name = rule[1],
+                            rule_params = rule[2],)
+    return df
+# ** ------------------------------------------:
+# * -------------------------------------------:
+#+end_src
 *** test_rules.py
+**** file
 #+begin_src emacs-lisp :results output silent
 (find-file-other-frame "/home/buyn/Dev/Python/Sontex/Src/test_rules.py")
 #+end_src
+**** src test_rules.py
+:PROPERTIES:
+:header-args: :tangle ../Src/test_rules.py
+:END:
+#+begin_src python
+# ----------------------------------------------
+# * import block :
+import unittest
+
+from rules import *
+# ----------------------------------------------
+# * functions:
+# ----------------------------------------------
+# * def load_exel:
+def load_exel(filename, sheet_name): 
+    df = pd.read_excel(filename,
+                      sheet_name = sheet_name,
+                      engine='openpyxl',
+                      # index_col=0,
+                      header=None,
+                      )
+    return df
+
+
+# ----------------------------------------------
+# * class setUp_Test:
+# ** ------------------------------------------:
+class setUp_Test(unittest.TestCase):
+# ** @classmethod setUpClass: 
+    @classmethod #setUpClass#
+    def setUpClass(self):
+        gv_filename = "Data_files/test.xlsx"
+        sheet_name = "rules"
+        self._df_rules = load_exel(gv_filename, sheet_name)
+        # sheet_name = "report"
+        sheet_name = "Теплоенрго"
+        self._df_report = load_exel(gv_filename, sheet_name)
+
+
+# ** @classmethod setUp: 
+    # @classmethod #setUp#
+    @classmethod #setUp#
+    def setUp(self):
+        self.df_rules = self._df_rules.copy()
+        self.df_report = self._df_report.copy()
+
+
+# ** @classmethod tearDown: 
+    # @classmethod #tearDown#
+    @classmethod #tearDown#
+    def tearDown(self):
+        self.df_rules = None
+        self.df_report = None
+
+
+# ** def test_init1 : 
+    def test_init(self):
+        self.assertIsNotNone( self.df_report )
+        self.assertEqual(self.df_report.iloc[1, 0], 1)
+        self.assertIsNotNone( self.df_rules )
+        self.assertEqual(self.df_rules.iloc[1, 0], "rule")
+        with self.assertRaises(ValueError):
+            test = load_exel(gv_filename, "error rules")
+            self.assertIsNone(test)
+
+
+# ** def test_postproc_test : 
+    def test_postproc_test(self): 
+        test_df, test = postproc_test (self.df_report, ["test", 2 ,3])
+
+
+# ** def test_postproc_divider : 
+    def test_postproc_divider(self): 
+        self.assertIsNotNone( self.df_report )
+        # print(self.df_report)
+        # print(self.df_report.iloc[2, 3])
+        self.assertEqual(self.df_report.shape[0], 41)
+        # arg = [2, '"2b" "êâ.2b"', '0.50']
+        arg =  [2, 5, '"2b" "ea.2b"', '0.50']
+        self.assertEqual(self.df_report.iloc[2, 4], 2.04)
+        test_df, test = postproc_divider(self.df_report, arg)
+        self.assertEqual(test_df.shape[0], 42)
+        self.assertEqual(test_df.iloc[2, 4], 1.02)
+        # print(self.df_report.iloc[2, 1])
+        # print(self.df_report.iloc[3, 1])
+        self.assertEqual(test_df.iloc[3, 0], "2b")
+        self.assertEqual(test_df.iloc[3, 4], 1.02)
+
+
+# ** def test_postproc_divider_fix : 
+    def test_postproc_divider_fix(self): 
+        self.assertIsNotNone( self.df_report )
+        # print(self.df_report)
+        # print(self.df_report.iloc[2, 3])
+        self.assertEqual(self.df_report.shape[0], 41)
+        # arg = [2, '"2b" "êâ.2b"', '0.50']
+        # arg =  [2, 5, '"2b" "ea.2b"', '0.50']
+        # rule	post_divider	4	3300145734	5	"3300145735" "3300145734 вулиця Скрипника, 7 кв.2b"	0.50
+        # print(arg[0])
+        # print(df[df[0]==arg[0]])
+        # target_index = int(df[df[0]==arg[0]].index.values)
+        # self.assertEqual(self.df_report.iloc[73, 0], 3300145734)
+        df = self.df_report
+        # print(df[df[0]==3300145734])
+        #  Reset the index
+        # df.loc[27 + 0.5] = ["3300145735", "3300145734 вулиця Скрипника, 7 кв.2b", " ", " ", '0.50']
+        # df.loc[27 + 0.5] = [3300145735, "3300145734 вулиця Скрипника, 7 кв.2b", " ", " ", '0.50']
+        # df = df.sort_index().reset_index(drop=True)
+        # print(df)
+        arg =  [3300145734, 5, '"3300145735" "3300145735 вулиця Скрипника, 7 кв.2b"', '0.50']
+        self.assertEqual(self.df_report.iloc[28, 4], 1.8)
+        test_df, test = postproc_divider(self.df_report, arg)
+        test_df = test_df.sort_index().reset_index(drop=True)
+        # print(test_df)
+        self.assertEqual(test_df.shape[0], 42)
+        self.assertEqual(test_df.iloc[28, 4], 0.9)
+        # print(self.df_report.iloc[2, 1])
+        # print(self.df_report.iloc[3, 1])
+        # print(test_df.iloc[29, 0])
+        # print(test_df.iloc[29, 1])
+        self.assertEqual(test_df.iloc[29, 0], "3300145735")
+        self.assertEqual(test_df.iloc[29, 4], 0.9)
+
+
+# ** def test_rule_postproc_divider : 
+    def test_rule_postproc_divider(self): 
+        self.assertIsNotNone( self.df_report )
+        self.assertEqual(self.df_report.shape[0], 41)
+        rules_list = get_all_rules(self.df_rules)
+
+        rule = rules_list[0]
+        # print(rule)
+        # 
+        self.assertEqual(self.df_report.iloc[2, 4], 2.04)
+        test_df, test = use_rule(df = self.df_report,
+                                 index = rule[0],
+                                 rule_name = rule[1],
+                                 rule_params = rule[2],)
+        # test_df, test = postproc_divider (self.df_report, ["test", 2 ,3])
+        self.assertEqual(self.df_report.shape[0], 42)
+        self.assertEqual(test_df.iloc[2, 4], 1.02)
+        self.assertEqual(test_df.iloc[3, 0], "2b")
+        self.assertEqual(test_df.iloc[3, 4], 1.02)
+        # self.assertEqual(test_df.iloc[29, 0], "3300145735")
+        # self.assertEqual(test_df.iloc[29, 0], 3300145735)
+        # self.assertEqual(test_df.iloc[30, 0], 3300145735)
+        # self.assertEqual(test_df.iloc[29, 4], 0.9)
+        # print (test_df)
+
+
+# ** def test_get_all_rules : 
+    def test_get_all_rules(self): 
+        test = get_all_rules(self.df_rules)
+        # print(test)
+        self.assertIsNotNone(test)
+        self.assertEqual(len(test), 4)
+        self.assertEqual(test[0][0], 1)
+        self.assertEqual(test[0][1], "post_divider")
+
+
+# ** def test_use_rule : 
+    def test_use_rule(self): 
+        # test = use_rule(self.df_report, 0, "test", ("test",2,3), test=True)
+        test_df, test = use_rule(df= self.df_report,
+                                 index=0,
+                                 rule_name= "test",
+                                 rule_params= ("test",2,3),
+                                 test=True)
+        self.assertIsNotNone(test_df)
+        self.assertEqual(test, ("test",2,3))
+        test_df, test = use_rule(self.df_report, 0, "test_no", ("test",2,3), test=True)
+        self.assertIsNotNone(test_df)
+        self.assertIsNone(test)
+        # with self.assertRaises(NameError):
+        #     test = get_last_app_line(t1[:-1])
+        #     self.assertEqual(test , 103)
+
+
+# ** def test_postprocessing_df_with_rules_df:
+    def test_postprocessing_df_with_rules_df(self): 
+        # test = use_rule(self.df_report, 0, "test", ("test",2,3), test=True)
+        self.assertEqual(self.df_report.iloc[2, 4], 2.04)
+        self.assertEqual(self.df_report.shape[0], 41)
+        test_df = postprocessing_df_with_rules_df(self.df_report, self.df_rules)
+        # test_df, test = use_rule(df= self.df_report,
+        #                          index=0,
+        #                          rule_name= "test",
+        #                          rule_params= ("test",2,3),
+        #                          test=True)
+        self.assertIsNotNone(test_df)
+        # print(test_df.shape)
+        self.assertEqual(test_df.shape[0], 43)
+        self.assertEqual(test_df.iloc[2, 4], 1.02)
+        self.assertEqual(test_df.iloc[3, 0], "2b")
+        self.assertEqual(test_df.iloc[3, 4], 1.02)
+        # self.assertEqual(test, ("test",2,3))
+        # test_df, test = use_rule(self.df_report, 0, "test_no", ("test",2,3), test=True)
+        self.assertEqual(test_df.iloc[29, 0], 3300145734)
+        self.assertEqual(test_df.iloc[29, 4], 0.9)
+        self.assertEqual(test_df.iloc[30, 0], "3300145735")
+        self.assertEqual(test_df.iloc[30, 1], "3300145734 вулиця Скрипника, 7 кв.2b")
+        self.assertEqual(test_df.iloc[30, 2], "3300145735")
+        # self.assertIsNotNone(test_df)
+        # self.assertIsNone(test)
+        # with self.assertRaises(NameError):
+        #     test = get_last_app_line(t1[:-1])
+        #     self.assertEqual(test , 103)
+
+
+# ** ------------------------------------------:
+# * Test runer: 
+# ** ------------------------------------------:
+# (compile " D:/Development/version-control/GitHub/Vadim/Tochil/main_test.py -k init")
+# (compile " python -m unittest D:/Development/version-control/GitHub/Vadim/Tochil/main_test.py ")
+# ** if __main__: 
+if __name__ == "__main__":
+    # runner = unittest.TextTestRunner()
+    # runner.run(suite_Init())
+    unittest.main()
+
+
+#+end_src
+# ----------------------------------------------
+# * -------------------------------------------:
+# * -------------------------------------------:
 ** .projectile
 #+begin_src emacs-lisp :results output silent
 (find-file-other-frame "D:/Development/version-control/GitHub/Zmei/Sontex/Src/.projectile")
