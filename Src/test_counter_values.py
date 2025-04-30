@@ -155,61 +155,61 @@ class setUp_Test(unittest.TestCase):
         test = Counter_values(self.df, 7)
         self.assertEqual(
             test.get_value(
-                gl_counters_k_priv_column,
+                gv.gl_counters_k_priv_column,
                 "gl_counters_k_priv_column"),
             1.91808)
         self.assertEqual(
             test.get_value(
-                gl_counters_value1_column,
+                gv.gl_counters_value1_column,
                 "gl_counters_value1_column"),
             653)
         test = Counter_values(self.df, 8)
         self.assertEqual(
             test.get_value(
-                gl_counters_k_priv_column,
+                gv.gl_counters_k_priv_column,
                 "gl_counters_k_priv_column"),
             2.34432)
         with self.assertRaises(NameError):
             test = Counter_values(self.df, 104)
             test.get_value(
-                gl_counters_k_priv_column,
+                gv.gl_counters_k_priv_column,
                 "gl_counters_k_priv_column"),
 
     def test_set_value(self): 
         test = Counter_values(self.df, 7)
         self.assertEqual(
             test.get_value(
-                gl_counters_k_priv_column,
+                gv.gl_counters_k_priv_column,
                 "gl_counters_k_priv_column"),
             1.91808)
         self.assertEqual(
             test.get_value(
-                gl_counters_value1_column,
+                gv.gl_counters_value1_column,
                 "gl_counters_value1_column"),
             653)
         r = test.set_value(
-                gl_counters_k_priv_column,
+                gv.gl_counters_k_priv_column,
                 "gl_counters_k_priv_column", 1.9180800000000009)
         # print(r)
         self.assertEqual(
             test.get_value(
-                gl_counters_k_priv_column,
+                gv.gl_counters_k_priv_column,
                 "gl_counters_k_priv_column"),
                     1.9180800000000009)
         r = test.set_value(
-                gl_counters_k_priv_column,
+                gv.gl_counters_k_priv_column,
                 "gl_counters_k_priv_column", 1.9180800000000002)
         r = test.set_value(
-                gl_counters_value1_column,
+                gv.gl_counters_value1_column,
                 "gl_counters_value1_column",
                 153)
         self.assertEqual(
             test.get_value(
-                gl_counters_value1_column,
+                gv.gl_counters_value1_column,
                 "gl_counters_value1_column"),
             153)
         r = test.set_value(
-                gl_counters_value1_column,
+                gv.gl_counters_value1_column,
                 "gl_counters_value1_column",
                 653)
 

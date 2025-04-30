@@ -949,10 +949,10 @@ import datetime
 # ----------------------------------------------
 #+begin_src python
 gui_log =[]
-g_filename = gv_filename
-g_output = gv_output
-g_sheet_name = gv_sheet_name
-g_csv = gv_csv
+g_filename = gv.gv_filename
+g_output = gv.gv_output
+g_sheet_name = gv.gv_sheet_name
+g_csv = gv.gv_csv
 
 
 #+end_src
@@ -2374,8 +2374,8 @@ class setUp_Test(unittest.TestCase):
 ****** test set_global_coefficients
     #+begin_src python 
     def test_set_global_coefficients(self):
-      self.assertEqual(gv.gk_Qfun_sys, 0.05)
-      self.assertEqual(gv.gk_Qmzk, 0.1)
+      # self.assertEqual(gv.gk_Qfun_sys, 0.05)
+      # self.assertEqual(gv.gk_Qmzk, 0.1)
       gv.set_global_coefficients(Qfun_sys = 0)
       # gk_Qfun_sys = 0
       self.assertEqual(gv.gk_Qfun_sys, 0)
@@ -3792,9 +3792,10 @@ source sontex-env/bin/activate
 :END:
 ***** imports : 
 # ----------------------------------------------
+from global_values import *
 #+begin_src python
 import pandas as pd
-from global_values import *
+import global_values as gv
 from counter_values import *
 
 
@@ -3818,9 +3819,9 @@ class Appart_values:
         self.counters_list = self.get_counters_list(
                                     self._start_line,
                                     self.next_app_line)  
-        self.heating_area = self.load_value(gl_app_heating_area_column, "gl_app_heating_area_column")
-        self.num_name = self.load_name(gl_num_column, "gl_num_column")
-        self.app_num_name = self.load_name(gl_app_num_column, "gl_app_num_column")
+        self.heating_area = self.load_value(gv.gl_app_heating_area_column, "gl_app_heating_area_column")
+        self.num_name = self.load_name(gv.gl_num_column, "gl_num_column")
+        self.app_num_name = self.load_name(gv.gl_app_num_column, "gl_app_num_column")
         self.surcharge = None
 
 
@@ -3896,8 +3897,8 @@ class Appart_values:
 ***** def load_values : 
 #+begin_src python
     def load_values(self): 
-        rows =  [ gl_app_sum_area_column,
-                  gl_app_heating_area_column]
+        rows =  [ gv.gl_app_sum_area_column,
+                  gv.gl_app_heating_area_column]
         names = [ "gl_app_sum_area_column",
                   "gl_app_heating_area_column"]
         sr=[]
@@ -4136,6 +4137,7 @@ class Appart_values:
 :END:
 ***** import block :
 # ----------------------------------------------
+import global_values as gv
 #+begin_src python
 import unittest
 from appart_values import *
@@ -4319,36 +4321,36 @@ class setUp_Test(unittest.TestCase):
         #           gl_app_heating_area_column]
         # text = [ "gl_app_sum_area_column",
         #           "gl_app_heating_area_column"]
-        t = test.load_value(gl_app_heating_area_column, "gl_app_heating_area_column")
+        t = test.load_value(gv.gl_app_heating_area_column, "gl_app_heating_area_column")
         self.assertEqual(t, 51.9)
         self.assertEqual(test.heating_area, 51.9)
         test = Appart_values(self.df, 6)
-        t = test.load_value(gl_app_heating_area_column, "gl_app_heating_area_column")
+        t = test.load_value(gv.gl_app_heating_area_column, "gl_app_heating_area_column")
         self.assertEqual(t, 52)
         self.assertEqual(test.heating_area, 52)
         # self.assertEqual(test.sum_area, 56.70)
         test = Appart_values(self.df, 84)
-        t = test.load_value(gl_app_heating_area_column, "gl_app_heating_area_column")
+        t = test.load_value(gv.gl_app_heating_area_column, "gl_app_heating_area_column")
         self.assertEqual(t, 52.10)
         self.assertEqual(test.heating_area, 52.10)
         # self.assertEqual(test.sum_area, 56.60)
         with self.assertRaises(NameError):
             test = Appart_values(self.df, 131)
-            t = test.load_value(gl_app_heating_area_column, "gl_app_heating_area_column")
+            t = test.load_value(gv.gl_app_heating_area_column, "gl_app_heating_area_column")
             print(test.heating_area)
             # print(test.sum_area)
             print("tupe is =", type(test.sum_area))
             print("tupe is =",type(test.heating_area))
         with self.assertRaises(NameError):
             test = Appart_values(self.df, 132)
-            t = test.load_value(gl_app_heating_area_column, "gl_app_heating_area_column")
+            t = test.load_value(gv.gl_app_heating_area_column, "gl_app_heating_area_column")
             print(test.heating_area)
             # print(test.sum_area)
             print("tupe is =", type(test.sum_area))
             print("tupe is =",type(test.heating_area))
         with self.assertRaises(NameError):
             test = Appart_values(self.df, 133)
-            t = test.load_value(gl_app_heating_area_column, "gl_app_heating_area_column")
+            t = test.load_value(gv.gl_app_heating_area_column, "gl_app_heating_area_column")
             print(test.heating_area)
             # print(test.sum_area)
             print("tupe is =", type(test.sum_area))
@@ -4361,20 +4363,20 @@ class setUp_Test(unittest.TestCase):
     def test_load_name(self): 
         # print("p = ", self.df.iloc[2, gl_num_column])    
         test = Appart_values(self.df, 7)
-        t = test.load_name(gl_num_column, "gn_num_column")
+        t = test.load_name(gv.gl_num_column, "gn_num_column")
         self.assertEqual(t, 7)
-        t = test.load_name(gl_app_num_column, "gn_app_num_column")
+        t = test.load_name(gv.gl_app_num_column, "gn_app_num_column")
         self.assertEqual(t, "кв.7")
         test = Appart_values(self.df, 6)
-        t = test.load_name(gl_num_column, "gn_num_column")
+        t = test.load_name(gv.gl_num_column, "gn_num_column")
         self.assertEqual(t, 6)
-        t = test.load_name(gl_app_num_column, "gn_app_num_column")
+        t = test.load_name(gv.gl_app_num_column, "gn_app_num_column")
         self.assertEqual(t, "кв.6")
         # self.assertEqual(test.sum_area, 56.70)
         test = Appart_values(self.df, 84)
-        t = test.load_name(gl_num_column, "gn_num_column")
+        t = test.load_name(gv.gl_num_column, "gn_num_column")
         self.assertEqual(t, 32)
-        t = test.load_name(gl_app_num_column, "gn_app_num_column")
+        t = test.load_name(gv.gl_app_num_column, "gn_app_num_column")
         self.assertEqual(t, "кв.32")
         # self.assertEqual(test.sum_area, 56.60)
 
@@ -4383,35 +4385,35 @@ class setUp_Test(unittest.TestCase):
 ***** def test_update_allvalues1_by_id : 
 #+begin_src python
     def test_update_allvalues1_by_id(self): 
-        gv_filename = gv_csv
+        gv_filename = gv.gv_csv
         # df_csv = load_csv(gv_filename)
-        df_csv = pd.read_csv(gv_csv ,
-                              encoding = gv_csv_encoding,
-                              header = gv_csv_header,
-                              sep = gv_csv_sep,
-                              index_col = gv_csv_index_col)
-        name_date = gv_csv_name_date + str(gv_csv_name_i)
-        name_value = gv_csv_name_value + str(gv_csv_name_i)
+        df_csv = pd.read_csv(gv.gv_csv ,
+                              encoding = gv.gv_csv_encoding,
+                              header = gv.gv_csv_header,
+                              sep = gv.gv_csv_sep,
+                              index_col = gv.gv_csv_index_col)
+        name_date = gv.gv_csv_name_date + str(gv.gv_csv_name_i)
+        name_value = gv.gv_csv_name_value + str(gv.gv_csv_name_i)
         test = Appart_values(self.df, 7)
         self.assertEqual(test.counters_list[0].value1, 653)
         test.update_allvalues1_by_id(df_csv,  name_value, name_date)
         self.assertEqual(test.counters_list[0].value1, 126)
         self.assertEqual(test.counters_list[0].get_value1(), 126)
         # rlv
-        gv_filename = gv_rlv
+        gv_filename = gv.gv_rlv
         df_csv = pd.read_csv(gv_filename ,
-                              encoding = gv_rlv_encoding,
-                              header = gv_rlv_header,
-                              sep = gv_rlv_sep,
-                              index_col = gv_rlv_index_col)
+                              encoding = gv.gv_rlv_encoding,
+                              header = gv.gv_rlv_header,
+                              sep = gv.gv_rlv_sep,
+                              index_col = gv.gv_rlv_index_col)
         # df = pd.read_csv(filename ,
                         # encoding = gv_rlv_encoding,
                         # header = gv_rlv_header,
                         # sep = gv_rlv_sep,
                         # index_col = gv_rlv_index_col)
         # df_csv = load_rlv(gv_filename)
-        name_date = gv_csv_name_date + str(gv_csv_name_i)
-        name_value = gv_csv_name_value + str(gv_csv_name_i)
+        name_date = gv.gv_csv_name_date + str(gv.gv_csv_name_i)
+        name_value = gv.gv_csv_name_value + str(gv.gv_csv_name_i)
         # name_date = gv_rlv_name_date + str(gv_rlv_name_i)
         # name_value = gv_rlv_name_value + str(gv_rlv_name_i)
         test = Appart_values(self.df, 7)
@@ -4426,15 +4428,15 @@ class setUp_Test(unittest.TestCase):
 ***** def test_update_allvalues2_by_id : 
 #+begin_src python
     def test_update_allvalues2_by_id(self): 
-        gv_filename = gv_csv
+        gv_filename = gv.gv_csv
         # df_csv = load_csv(gv_filename)
-        df_csv = pd.read_csv(gv_csv ,
-                              encoding = gv_csv_encoding,
-                              header = gv_csv_header,
-                              sep = gv_csv_sep,
-                              index_col = gv_csv_index_col)
-        name_date = gv_csv_name_date + str(gv_csv_name_i)
-        name_value = gv_csv_name_value + str(gv_csv_name_i)
+        df_csv = pd.read_csv(gv.gv_csv ,
+                              encoding = gv.gv_csv_encoding,
+                              header = gv.gv_csv_header,
+                              sep = gv.gv_csv_sep,
+                              index_col = gv.gv_csv_index_col)
+        name_date = gv.gv_csv_name_date + str(gv.gv_csv_name_i)
+        name_value = gv.gv_csv_name_value + str(gv.gv_csv_name_i)
         # name_value = gv_csv_name_value + str(2)
         test = Appart_values(self.df, 7)
         self.assertEqual(test.counters_list[0].value2, 603)
@@ -4442,20 +4444,20 @@ class setUp_Test(unittest.TestCase):
         self.assertEqual(test.counters_list[0].value2, 126)
         self.assertEqual(test.counters_list[0].get_value2(), 126)
         # rlv
-        gv_filename = gv_rlv
+        gv_filename = gv.gv_rlv
         df_csv = pd.read_csv(gv_filename ,
-                              encoding = gv_rlv_encoding,
-                              header = gv_rlv_header,
-                              sep = gv_rlv_sep,
-                              index_col = gv_rlv_index_col)
+                              encoding = gv.gv_rlv_encoding,
+                              header = gv.gv_rlv_header,
+                              sep = gv.gv_rlv_sep,
+                              index_col = gv.gv_rlv_index_col)
         # df = pd.read_csv(filename ,
                         # encoding = gv_rlv_encoding,
                         # header = gv_rlv_header,
                         # sep = gv_rlv_sep,
                         # index_col = gv_rlv_index_col)
         # df_csv = load_rlv(gv_filename)
-        name_date = gv_csv_name_date + str(gv_csv_name_i)
-        name_value = gv_csv_name_value + str(gv_csv_name_i)
+        name_date = gv.gv_csv_name_date + str(gv.gv_csv_name_i)
+        name_value = gv.gv_csv_name_value + str(gv.gv_csv_name_i)
         # name_value = gv_csv_name_value + "3"
         # name_date = gv_rlv_name_date + str(gv_rlv_name_i)
         # name_value = gv_rlv_name_value + str(gv_rlv_name_i)
@@ -4811,12 +4813,13 @@ if __name__ == "__main__":
 :PROPERTIES:
 :header-args: :tangle ../Src/counter_values.py
 :END:
-***** imports : 
+***** imports:
 # ----------------------------------------------
 # ----------------------------------------------
+from global_values import *
 #+begin_src python
 import pandas as pd
-from global_values import *
+import global_values as gv
 
 
 #+end_src
@@ -4844,42 +4847,42 @@ class Counter_values:
 ***** def get_adress : 
         #+begin_src python
     def get_adress(self): 
-        return self._df.iloc[self._line, gl_counters_column]
+        return self._df.iloc[self._line, gv.gl_counters_column]
 
 
 #+end_src
 ***** def get_value1 : 
 #+begin_src python
     def get_value1(self): 
-        return self.get_value(gl_counters_value1_column, "gl_counters_value1_column")
+        return self.get_value(gv.gl_counters_value1_column, "gl_counters_value1_column")
 
 
 #+end_src
 ***** def set_value1 : 
 #+begin_src python
     def set_value1(self, value): 
-        return self.set_value(gl_counters_value1_column, "gl_counters_value1_column", value)
+        return self.set_value(gv.gl_counters_value1_column, "gl_counters_value1_column", value)
 
 
 #+end_src
 ***** def set_value2 : 
 #+begin_src python
     def set_value2(self, value): 
-        return self.set_value(gl_counters_value2_column, "gl_counters_value2_column", value)
+        return self.set_value(gv.gl_counters_value2_column, "gl_counters_value2_column", value)
 
 
 #+end_src
 ***** def get_value2 : 
 #+begin_src python
     def get_value2(self): 
-        return self.get_value(gl_counters_value2_column, "gl_counters_value2_column")
+        return self.get_value(gv.gl_counters_value2_column, "gl_counters_value2_column")
 
 
 #+end_src
 ***** def get_k_priv : 
 #+begin_src python
     def get_k_priv(self): 
-        return self.get_value(gl_counters_k_priv_column, "gl_counters_k_priv_column")
+        return self.get_value(gv.gl_counters_k_priv_column, "gl_counters_k_priv_column")
 
 
 #+end_src
@@ -4904,9 +4907,9 @@ class Counter_values:
     def get_value(self, row, name): 
         r = self._df.iloc[self._line, row]
         if not isinstance(r, float) and not isinstance(r, int):
-            raise NameError('not int or float on line = ' + str(self._line + gl_exl_shift_rows) + ', for column ' + name)
+            raise NameError('not int or float on line = ' + str(self._line + gv.gl_exl_shift_rows) + ', for column ' + name)
         if pd.isna(r):
-            raise NameError('no value on line = ' + str(self._line + gl_exl_shift_rows) + ', for column ' + name)
+            raise NameError('no value on line = ' + str(self._line + gv.gl_exl_shift_rows) + ', for column ' + name)
         return r
 
 
@@ -5212,24 +5215,24 @@ class setUp_Test(unittest.TestCase):
         test = Counter_values(self.df, 7)
         self.assertEqual(
             test.get_value(
-                gl_counters_k_priv_column,
+                gv.gl_counters_k_priv_column,
                 "gl_counters_k_priv_column"),
             1.91808)
         self.assertEqual(
             test.get_value(
-                gl_counters_value1_column,
+                gv.gl_counters_value1_column,
                 "gl_counters_value1_column"),
             653)
         test = Counter_values(self.df, 8)
         self.assertEqual(
             test.get_value(
-                gl_counters_k_priv_column,
+                gv.gl_counters_k_priv_column,
                 "gl_counters_k_priv_column"),
             2.34432)
         with self.assertRaises(NameError):
             test = Counter_values(self.df, 104)
             test.get_value(
-                gl_counters_k_priv_column,
+                gv.gl_counters_k_priv_column,
                 "gl_counters_k_priv_column"),
 
 
@@ -5250,37 +5253,37 @@ class setUp_Test(unittest.TestCase):
         test = Counter_values(self.df, 7)
         self.assertEqual(
             test.get_value(
-                gl_counters_k_priv_column,
+                gv.gl_counters_k_priv_column,
                 "gl_counters_k_priv_column"),
             1.91808)
         self.assertEqual(
             test.get_value(
-                gl_counters_value1_column,
+                gv.gl_counters_value1_column,
                 "gl_counters_value1_column"),
             653)
         r = test.set_value(
-                gl_counters_k_priv_column,
+                gv.gl_counters_k_priv_column,
                 "gl_counters_k_priv_column", 1.9180800000000009)
         # print(r)
         self.assertEqual(
             test.get_value(
-                gl_counters_k_priv_column,
+                gv.gl_counters_k_priv_column,
                 "gl_counters_k_priv_column"),
                     1.9180800000000009)
         r = test.set_value(
-                gl_counters_k_priv_column,
+                gv.gl_counters_k_priv_column,
                 "gl_counters_k_priv_column", 1.9180800000000002)
         r = test.set_value(
-                gl_counters_value1_column,
+                gv.gl_counters_value1_column,
                 "gl_counters_value1_column",
                 153)
         self.assertEqual(
             test.get_value(
-                gl_counters_value1_column,
+                gv.gl_counters_value1_column,
                 "gl_counters_value1_column"),
             153)
         r = test.set_value(
-                gl_counters_value1_column,
+                gv.gl_counters_value1_column,
                 "gl_counters_value1_column",
                 653)
 

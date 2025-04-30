@@ -133,36 +133,36 @@ class setUp_Test(unittest.TestCase):
         #           gl_app_heating_area_column]
         # text = [ "gl_app_sum_area_column",
         #           "gl_app_heating_area_column"]
-        t = test.load_value(gl_app_heating_area_column, "gl_app_heating_area_column")
+        t = test.load_value(gv.gl_app_heating_area_column, "gl_app_heating_area_column")
         self.assertEqual(t, 51.9)
         self.assertEqual(test.heating_area, 51.9)
         test = Appart_values(self.df, 6)
-        t = test.load_value(gl_app_heating_area_column, "gl_app_heating_area_column")
+        t = test.load_value(gv.gl_app_heating_area_column, "gl_app_heating_area_column")
         self.assertEqual(t, 52)
         self.assertEqual(test.heating_area, 52)
         # self.assertEqual(test.sum_area, 56.70)
         test = Appart_values(self.df, 84)
-        t = test.load_value(gl_app_heating_area_column, "gl_app_heating_area_column")
+        t = test.load_value(gv.gl_app_heating_area_column, "gl_app_heating_area_column")
         self.assertEqual(t, 52.10)
         self.assertEqual(test.heating_area, 52.10)
         # self.assertEqual(test.sum_area, 56.60)
         with self.assertRaises(NameError):
             test = Appart_values(self.df, 131)
-            t = test.load_value(gl_app_heating_area_column, "gl_app_heating_area_column")
+            t = test.load_value(gv.gl_app_heating_area_column, "gl_app_heating_area_column")
             print(test.heating_area)
             # print(test.sum_area)
             print("tupe is =", type(test.sum_area))
             print("tupe is =",type(test.heating_area))
         with self.assertRaises(NameError):
             test = Appart_values(self.df, 132)
-            t = test.load_value(gl_app_heating_area_column, "gl_app_heating_area_column")
+            t = test.load_value(gv.gl_app_heating_area_column, "gl_app_heating_area_column")
             print(test.heating_area)
             # print(test.sum_area)
             print("tupe is =", type(test.sum_area))
             print("tupe is =",type(test.heating_area))
         with self.assertRaises(NameError):
             test = Appart_values(self.df, 133)
-            t = test.load_value(gl_app_heating_area_column, "gl_app_heating_area_column")
+            t = test.load_value(gv.gl_app_heating_area_column, "gl_app_heating_area_column")
             print(test.heating_area)
             # print(test.sum_area)
             print("tupe is =", type(test.sum_area))
@@ -171,53 +171,53 @@ class setUp_Test(unittest.TestCase):
     def test_load_name(self): 
         # print("p = ", self.df.iloc[2, gl_num_column])    
         test = Appart_values(self.df, 7)
-        t = test.load_name(gl_num_column, "gn_num_column")
+        t = test.load_name(gv.gl_num_column, "gn_num_column")
         self.assertEqual(t, 7)
-        t = test.load_name(gl_app_num_column, "gn_app_num_column")
+        t = test.load_name(gv.gl_app_num_column, "gn_app_num_column")
         self.assertEqual(t, "кв.7")
         test = Appart_values(self.df, 6)
-        t = test.load_name(gl_num_column, "gn_num_column")
+        t = test.load_name(gv.gl_num_column, "gn_num_column")
         self.assertEqual(t, 6)
-        t = test.load_name(gl_app_num_column, "gn_app_num_column")
+        t = test.load_name(gv.gl_app_num_column, "gn_app_num_column")
         self.assertEqual(t, "кв.6")
         # self.assertEqual(test.sum_area, 56.70)
         test = Appart_values(self.df, 84)
-        t = test.load_name(gl_num_column, "gn_num_column")
+        t = test.load_name(gv.gl_num_column, "gn_num_column")
         self.assertEqual(t, 32)
-        t = test.load_name(gl_app_num_column, "gn_app_num_column")
+        t = test.load_name(gv.gl_app_num_column, "gn_app_num_column")
         self.assertEqual(t, "кв.32")
         # self.assertEqual(test.sum_area, 56.60)
 
     def test_update_allvalues1_by_id(self): 
-        gv_filename = gv_csv
+        gv_filename = gv.gv_csv
         # df_csv = load_csv(gv_filename)
-        df_csv = pd.read_csv(gv_csv ,
-                              encoding = gv_csv_encoding,
-                              header = gv_csv_header,
-                              sep = gv_csv_sep,
-                              index_col = gv_csv_index_col)
-        name_date = gv_csv_name_date + str(gv_csv_name_i)
-        name_value = gv_csv_name_value + str(gv_csv_name_i)
+        df_csv = pd.read_csv(gv.gv_csv ,
+                              encoding = gv.gv_csv_encoding,
+                              header = gv.gv_csv_header,
+                              sep = gv.gv_csv_sep,
+                              index_col = gv.gv_csv_index_col)
+        name_date = gv.gv_csv_name_date + str(gv.gv_csv_name_i)
+        name_value = gv.gv_csv_name_value + str(gv.gv_csv_name_i)
         test = Appart_values(self.df, 7)
         self.assertEqual(test.counters_list[0].value1, 653)
         test.update_allvalues1_by_id(df_csv,  name_value, name_date)
         self.assertEqual(test.counters_list[0].value1, 126)
         self.assertEqual(test.counters_list[0].get_value1(), 126)
         # rlv
-        gv_filename = gv_rlv
+        gv_filename = gv.gv_rlv
         df_csv = pd.read_csv(gv_filename ,
-                              encoding = gv_rlv_encoding,
-                              header = gv_rlv_header,
-                              sep = gv_rlv_sep,
-                              index_col = gv_rlv_index_col)
+                              encoding = gv.gv_rlv_encoding,
+                              header = gv.gv_rlv_header,
+                              sep = gv.gv_rlv_sep,
+                              index_col = gv.gv_rlv_index_col)
         # df = pd.read_csv(filename ,
                         # encoding = gv_rlv_encoding,
                         # header = gv_rlv_header,
                         # sep = gv_rlv_sep,
                         # index_col = gv_rlv_index_col)
         # df_csv = load_rlv(gv_filename)
-        name_date = gv_csv_name_date + str(gv_csv_name_i)
-        name_value = gv_csv_name_value + str(gv_csv_name_i)
+        name_date = gv.gv_csv_name_date + str(gv.gv_csv_name_i)
+        name_value = gv.gv_csv_name_value + str(gv.gv_csv_name_i)
         # name_date = gv_rlv_name_date + str(gv_rlv_name_i)
         # name_value = gv_rlv_name_value + str(gv_rlv_name_i)
         test = Appart_values(self.df, 7)
@@ -228,15 +228,15 @@ class setUp_Test(unittest.TestCase):
         self.assertEqual(test.counters_list[0].get_value1(), 126)
 
     def test_update_allvalues2_by_id(self): 
-        gv_filename = gv_csv
+        gv_filename = gv.gv_csv
         # df_csv = load_csv(gv_filename)
-        df_csv = pd.read_csv(gv_csv ,
-                              encoding = gv_csv_encoding,
-                              header = gv_csv_header,
-                              sep = gv_csv_sep,
-                              index_col = gv_csv_index_col)
-        name_date = gv_csv_name_date + str(gv_csv_name_i)
-        name_value = gv_csv_name_value + str(gv_csv_name_i)
+        df_csv = pd.read_csv(gv.gv_csv ,
+                              encoding = gv.gv_csv_encoding,
+                              header = gv.gv_csv_header,
+                              sep = gv.gv_csv_sep,
+                              index_col = gv.gv_csv_index_col)
+        name_date = gv.gv_csv_name_date + str(gv.gv_csv_name_i)
+        name_value = gv.gv_csv_name_value + str(gv.gv_csv_name_i)
         # name_value = gv_csv_name_value + str(2)
         test = Appart_values(self.df, 7)
         self.assertEqual(test.counters_list[0].value2, 603)
@@ -244,20 +244,20 @@ class setUp_Test(unittest.TestCase):
         self.assertEqual(test.counters_list[0].value2, 126)
         self.assertEqual(test.counters_list[0].get_value2(), 126)
         # rlv
-        gv_filename = gv_rlv
+        gv_filename = gv.gv_rlv
         df_csv = pd.read_csv(gv_filename ,
-                              encoding = gv_rlv_encoding,
-                              header = gv_rlv_header,
-                              sep = gv_rlv_sep,
-                              index_col = gv_rlv_index_col)
+                              encoding = gv.gv_rlv_encoding,
+                              header = gv.gv_rlv_header,
+                              sep = gv.gv_rlv_sep,
+                              index_col = gv.gv_rlv_index_col)
         # df = pd.read_csv(filename ,
                         # encoding = gv_rlv_encoding,
                         # header = gv_rlv_header,
                         # sep = gv_rlv_sep,
                         # index_col = gv_rlv_index_col)
         # df_csv = load_rlv(gv_filename)
-        name_date = gv_csv_name_date + str(gv_csv_name_i)
-        name_value = gv_csv_name_value + str(gv_csv_name_i)
+        name_date = gv.gv_csv_name_date + str(gv.gv_csv_name_i)
+        name_value = gv.gv_csv_name_value + str(gv.gv_csv_name_i)
         # name_value = gv_csv_name_value + "3"
         # name_date = gv_rlv_name_date + str(gv_rlv_name_i)
         # name_value = gv_rlv_name_value + str(gv_rlv_name_i)

@@ -6,10 +6,10 @@ from rules import *
 import datetime
 
 gui_log =[]
-g_filename = gv_filename
-g_output = gv_output
-g_sheet_name = gv_sheet_name
-g_csv = gv_csv
+g_filename = gv.gv_filename
+g_output = gv.gv_output
+g_sheet_name = gv.gv_sheet_name
+g_csv = gv.gv_csv
 
 def cli(argv): 
     filename, csv, sheet_name = cmd_line_arg(argv)

@@ -1,5 +1,5 @@
 import pandas as pd
-from global_values import *
+import global_values as gv
 from counter_values import *
 
 class Appart_values:
@@ -14,9 +14,9 @@ class Appart_values:
         self.counters_list = self.get_counters_list(
                                     self._start_line,
                                     self.next_app_line)  
-        self.heating_area = self.load_value(gl_app_heating_area_column, "gl_app_heating_area_column")
-        self.num_name = self.load_name(gl_num_column, "gl_num_column")
-        self.app_num_name = self.load_name(gl_app_num_column, "gl_app_num_column")
+        self.heating_area = self.load_value(gv.gl_app_heating_area_column, "gl_app_heating_area_column")
+        self.num_name = self.load_name(gv.gl_num_column, "gl_num_column")
+        self.app_num_name = self.load_name(gv.gl_app_num_column, "gl_app_num_column")
         self.surcharge = None
 
     def get_counters_list(self, start, end): 
@@ -68,8 +68,8 @@ class Appart_values:
         return [x.adress for x in self.counters_list] if self.counters_list else None
 
     def load_values(self): 
-        rows =  [ gl_app_sum_area_column,
-                  gl_app_heating_area_column]
+        rows =  [ gv.gl_app_sum_area_column,
+                  gv.gl_app_heating_area_column]
         names = [ "gl_app_sum_area_column",
                   "gl_app_heating_area_column"]
         sr=[]
