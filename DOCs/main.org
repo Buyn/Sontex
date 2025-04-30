@@ -5358,17 +5358,18 @@ if __name__ == "__main__":
 :PROPERTIES:
 :header-args: :tangle ../Src/rules.py
 :END:
+***** imports:
+# ----------------------------------------------
+# ----------------------------------------------
 #+begin_src python
-# ----------------------------------------------
-# * imports:
-# ----------------------------------------------
 import pandas as pd
 from global_values import *
 
-
+#+end_src
+***** Postprocessing functions:
 # ----------------------------------------------
-# * Postprocessing functions:
 # ----------------------------------------------
+#+begin_src python
 # **  def postproc_test:
 def postproc_test(df, arg):
     if arg[0]!="test":
@@ -5433,10 +5434,11 @@ rules_dic = {
     "post_divider" : postproc_divider,
 }
 
-
+#+end_src
+***** functions:
 # ----------------------------------------------
-# * functions:
 # ----------------------------------------------
+#+begin_src python
 # **  get_all_rules:
 def get_all_rules(df):
     r = []
@@ -5473,9 +5475,9 @@ def postprocessing_df_with_rules_df(df, df_rules):
                             rule_name = rule[1],
                             rule_params = rule[2],)
     return df
+#+end_src
 # ** ------------------------------------------:
 # * -------------------------------------------:
-#+end_src
 *** test_rules.py
 **** file
 #+begin_src emacs-lisp :results output silent
@@ -5485,15 +5487,17 @@ def postprocessing_df_with_rules_df(df, df_rules):
 :PROPERTIES:
 :header-args: :tangle ../Src/test_rules.py
 :END:
+***** import block:
 #+begin_src python
 # ----------------------------------------------
-# * import block :
 import unittest
 
 from rules import *
+#+end_src
+***** functions:
 # ----------------------------------------------
-# * functions:
 # ----------------------------------------------
+#+begin_src python
 # * def load_exel:
 def load_exel(filename, sheet_name): 
     df = pd.read_excel(filename,
@@ -5504,10 +5508,11 @@ def load_exel(filename, sheet_name):
                       )
     return df
 
-
+#+end_src
+***** class setUp_Test:
 # ----------------------------------------------
-# * class setUp_Test:
 # ** ------------------------------------------:
+#+begin_src python
 class setUp_Test(unittest.TestCase):
 # ** @classmethod setUpClass: 
     @classmethod #setUpClass#
@@ -5689,20 +5694,21 @@ class setUp_Test(unittest.TestCase):
         #     test = get_last_app_line(t1[:-1])
         #     self.assertEqual(test , 103)
 
-
+#+end_src
+***** Test runer: 
 # ** ------------------------------------------:
-# * Test runer: 
 # ** ------------------------------------------:
 # (compile " D:/Development/version-control/GitHub/Vadim/Tochil/main_test.py -k init")
 # (compile " python -m unittest D:/Development/version-control/GitHub/Vadim/Tochil/main_test.py ")
-# ** if __main__: 
+****** if __main__: 
+#+begin_src python
 if __name__ == "__main__":
-    # runner = unittest.TextTestRunner()
-    # runner.run(suite_Init())
     unittest.main()
 
 
 #+end_src
+    # runner = unittest.TextTestRunner()
+    # runner.run(suite_Init())
 # ----------------------------------------------
 # * -------------------------------------------:
 # * -------------------------------------------:

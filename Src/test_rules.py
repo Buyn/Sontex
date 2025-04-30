@@ -1,11 +1,8 @@
 # ----------------------------------------------
-# * import block :
 import unittest
 
 from rules import *
-# ----------------------------------------------
-# * functions:
-# ----------------------------------------------
+
 # * def load_exel:
 def load_exel(filename, sheet_name): 
     df = pd.read_excel(filename,
@@ -16,10 +13,6 @@ def load_exel(filename, sheet_name):
                       )
     return df
 
-
-# ----------------------------------------------
-# * class setUp_Test:
-# ** ------------------------------------------:
 class setUp_Test(unittest.TestCase):
 # ** @classmethod setUpClass: 
     @classmethod #setUpClass#
@@ -201,14 +194,5 @@ class setUp_Test(unittest.TestCase):
         #     test = get_last_app_line(t1[:-1])
         #     self.assertEqual(test , 103)
 
-
-# ** ------------------------------------------:
-# * Test runer: 
-# ** ------------------------------------------:
-# (compile " D:/Development/version-control/GitHub/Vadim/Tochil/main_test.py -k init")
-# (compile " python -m unittest D:/Development/version-control/GitHub/Vadim/Tochil/main_test.py ")
-# ** if __main__: 
 if __name__ == "__main__":
-    # runner = unittest.TextTestRunner()
-    # runner.run(suite_Init())
     unittest.main()

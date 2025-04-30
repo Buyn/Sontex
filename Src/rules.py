@@ -1,13 +1,6 @@
-# ----------------------------------------------
-# * imports:
-# ----------------------------------------------
 import pandas as pd
 from global_values import *
 
-
-# ----------------------------------------------
-# * Postprocessing functions:
-# ----------------------------------------------
 # **  def postproc_test:
 def postproc_test(df, arg):
     if arg[0]!="test":
@@ -72,10 +65,6 @@ rules_dic = {
     "post_divider" : postproc_divider,
 }
 
-
-# ----------------------------------------------
-# * functions:
-# ----------------------------------------------
 # **  get_all_rules:
 def get_all_rules(df):
     r = []
@@ -112,5 +101,3 @@ def postprocessing_df_with_rules_df(df, df_rules):
                             rule_name = rule[1],
                             rule_params = rule[2],)
     return df
-# ** ------------------------------------------:
-# * -------------------------------------------:
