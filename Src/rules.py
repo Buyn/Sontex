@@ -1,5 +1,5 @@
 import pandas as pd
-from global_values import *
+import global_values as gv
 
 # **  def postproc_test:
 def postproc_test(df, arg):
@@ -33,9 +33,9 @@ def postproc_divider(df:pd.DataFrame, arg):
     value_k = arg[3]
     # print("value_k = ", value_k)
     new_value = float(target_value) * float(value_k)
-    df.iloc[target_index, arg[1]-1] = float( gv_TE_report_formar_len( target_value - new_value))
+    df.iloc[target_index, arg[1]-1] = float( gv.gv_TE_report_formar_len( target_value - new_value))
     # print(df.iloc[target_index, arg[1]-1])
-    newrow[arg[1]-1] = float( gv_TE_report_formar_len( new_value))
+    newrow[arg[1]-1] = float( gv.gv_TE_report_formar_len( new_value))
     newrow[2] = newrow[0]
     # newrow[arg[1]-3] = 
     # print(arg)

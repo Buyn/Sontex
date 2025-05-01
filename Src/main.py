@@ -20,7 +20,7 @@ def cli(argv):
     df = load_exel(filename, sheet_name)
     app_list, couters_list = populate_apps(df) 
     app_list = calc_all_values_in_apps( df, app_list)
-    df_report = load_exel(filename, gv_sheet_report)
+    df_report = load_exel(filename, gv.gv_sheet_report)
     df_report = set_to_report(df_report, app_list)
     save_data_frame(output, df, df_report)
 
@@ -28,7 +28,7 @@ def end_app(arg):
     sys.exit(arg)
 
 def main(argv):
-    if gg_GUI and not is_test(argv):
+    if gv.gg_GUI and not is_test(argv):
         print("run winmain.py")
         # gui(argv) 
     else:
@@ -61,7 +61,7 @@ def gui_calc(_filename, _csv, _output, _home_count = None):
                                        couters_list,
                                        load_db(path_csv)))
     #  замена имени столбца
-    df.iloc[gl_ferst_app_row - 1, gl_column_home_counter_value1] = "показники на " + ";".join(udate_data)
+    df.iloc[gv.gl_ferst_app_row - 1, gv.gl_column_home_counter_value1] = "показники на " + ";".join(udate_data)
     # TODO: remove duble populate_apps
     app_list, couters_list = populate_apps(df) 
 
@@ -71,7 +71,7 @@ def gui_calc(_filename, _csv, _output, _home_count = None):
     # df_report = set_to_report(df_report, app_list)
 # *** generating reports:
     df_report = None
-    if gv_enable_full_report:
+    if gv.gv_enable_full_report:
         df_report = gen_OSBB_report(app_list)
     df_TE_report = gen_TE_report(app_list)
 # *** postprocessing block:
@@ -113,7 +113,7 @@ def cmd_line_arg(argv):
         #         print("File not exists: ", arg)
         #         sys.exit()
         #     # print("file found")
-        #     gv_filename = arg
+        #     gv.gv_filename = arg
     return g_filename, g_csv, g_output
 
 def is_test(argv): 
@@ -154,36 +154,36 @@ def get_home_value(df, line, column):
     r =  df.iloc[line, column]
     # print("value = ", r)
     if not isinstance(r, float) and not isinstance(r, int):
-        print_to_log('Помилка у вхідному Excel файлі: не числовий формат показника у клітини in get_home_value not int or float on line = ' + str(line + gl_exl_shift_rows) + ', for column ' + str(column))
-        raise NameError('in get_home_value not int or float on line = ' + str(line + gl_exl_shift_rows) + ', for column ' + str(column))
+        print_to_log('Помилка у вхідному Excel файлі: не числовий формат показника у клітини in get_home_value not int or float on line = ' + str(line + gv.gl_exl_shift_rows) + ', for column ' + str(column))
+        raise NameError('in get_home_value not int or float on line = ' + str(line + gv.gl_exl_shift_rows) + ', for column ' + str(column))
     if pd.isna(r):
-        print_to_log('Помилка у вхідному Excel файлі: у клітини відсутнє значення no value on line = ' + str(line + gl_exl_shift_rows) + ', for column ' + str(column))
-        raise NameError('no value on line = ' + str(line + gl_exl_shift_rows) + ', for column ' + str(column))
+        print_to_log('Помилка у вхідному Excel файлі: у клітини відсутнє значення no value on line = ' + str(line + gv.gl_exl_shift_rows) + ', for column ' + str(column))
+        raise NameError('no value on line = ' + str(line + gv.gl_exl_shift_rows) + ', for column ' + str(column))
     return r
 
 def set_home_counter(df, g_line, values): 
     if not values or values[0] == "" and values[1] == "":
         return "значення загальнобудинкового лічильника використані з Excel"
     if values[0] != "":
-      df.iloc[g_line + gl_shift_home_counter_value1, gl_column_home_counter_value1] = float(values[0])
+      df.iloc[g_line + gv.gl_shift_home_counter_value1, gv.gl_column_home_counter_value1] = float(values[0])
     if values[1] != "":
-      df.iloc[g_line + gl_shift_home_counter_value2, gl_column_home_counter_value2] = float(values[1])
+      df.iloc[g_line + gv.gl_shift_home_counter_value2, gv.gl_column_home_counter_value2] = float(values[1])
     return "значення загальнобудинкового лічильника в екселі оновлено" + str(values[0]) + " ; " + str(values[0])
 
 def gen_delta_value_home_counter(df, g_line): 
     return get_home_value(df,
-                g_line + gl_shift_home_counter_value1,
-                gl_column_home_counter_value1) - get_home_value(df,
-                    g_line + gl_shift_home_counter_value2,
-                    gl_column_home_counter_value2)
+                g_line + gv.gl_shift_home_counter_value1,
+                gv.gl_column_home_counter_value1) - get_home_value(df,
+                    g_line + gv.gl_shift_home_counter_value2,
+                    gv.gl_column_home_counter_value2)
 
 def gen_Qfun_sys(delta_value_home_counter): 
     # обсяг тепла на функц. системи = 5% якщо є погодне регулювання в ІТП або 15% якщо не має від
-    return delta_value_home_counter * gk_Qfun_sys
+    return delta_value_home_counter * gv.gk_Qfun_sys
 
 def gen_Qmzk(delta_value_home_counter): 
     # обсяг тепла на опалення МЗК = 10% від
-    return delta_value_home_counter * gk_Qmzk
+    return delta_value_home_counter * gv.gk_Qmzk
 
 def gen_Qroz(delta_value_home_counter, sum_heated_area): 
     # Питомий обсяг спожитої енергії на опалення усіх приміщень
@@ -199,8 +199,8 @@ def gen_Qop_min(q_roz):
     # False для максимальной точности
     # True для
     # 3 значения соответствуюшее екселю
-    r = gk_Qop_min * q_roz
-    if gk_Qop_min_after_point:
+    r = gv.gk_Qop_min * q_roz
+    if gv.gk_Qop_min_after_point:
         r = float("{:.3f}".format(r))
     return r
 
@@ -226,9 +226,9 @@ def calc_surcharge(app_list, q_pit_roz, q_op_min):
 def recalc_surcharge(app_list,
                      q_op_min,
                      e_for_redistibut,
-                     times =gs_recalc_surcharge_times) : 
+                     times =gv.gs_recalc_surcharge_times) : 
     start_times = times
-    if gs_recalc_surcharge_print:
+    if gv.gs_recalc_surcharge_print:
         print(start_times - times +1, ":e_for_redistibut = ", e_for_redistibut)
         print(start_times - times +1, ":suM surcharge = ", sum([app.surcharge for app in app_list]))
     # while times>=0 and e_for_redistibut >= 0:
@@ -244,10 +244,10 @@ def recalc_surcharge(app_list,
         # питомий обсяг енергій якій буде перерозподілено
         e_for_redistibut = gen_e_for_redistribute(app_list)
         times -=1
-        if gs_recalc_surcharge_print:
+        if gv.gs_recalc_surcharge_print:
             print(start_times - times +1, ":e_for_redistibut = ", e_for_redistibut)
             print(start_times - times +1, ":suM surcharge = ", sum([app.surcharge for app in app_list]))  # 
-    if gs_recalc_surcharge_print_result:
+    if gv.gs_recalc_surcharge_print_result:
         print("Zero recalculate surcharge found on step =", start_times - times +1)
     return e_for_redistibut
 
@@ -279,7 +279,7 @@ def gen_Q_no_surge(app_list, q_roz):
              * q_roz)
 
 def gen_k_no_surge(apps): 
-    return  qk_k_no_surge_if_less if gen_no_counter_sum_area(apps) / gen_sum_heated_area(apps) < qk_k_no_surge_proc else qk_k_no_surge_if_more
+    return  gv.qk_k_no_surge_if_less if gen_no_counter_sum_area(apps) / gen_sum_heated_area(apps) < gv.qk_k_no_surge_proc else gv.qk_k_no_surge_if_more
 
 def calc_no_counter_e( app_list,
                        q_no_surge): 
@@ -376,10 +376,10 @@ def load_csv(filename):
         return None
     print_to_log("Завантажуємо файл csv")
     df = pd.read_csv(filename ,
-                    encoding = gv_csv_encoding,
-                    header = gv_csv_header,
-                    sep = gv_csv_sep,
-                     index_col = gv_csv_index_col)
+                    encoding = gv.gv_csv_encoding,
+                    header = gv.gv_csv_header,
+                    sep = gv.gv_csv_sep,
+                     index_col = gv.gv_csv_index_col)
     print_to_log("Файл csv завантажений")
     return df
 
@@ -388,10 +388,10 @@ def load_rlv(filename):
         return None
     print_to_log("Завантажуємо файл rlv")
     df = pd.read_csv(filename ,
-                    encoding = gv_rlv_encoding,
-                    header = gv_rlv_header,
-                    sep = gv_rlv_sep,
-                     index_col = gv_rlv_index_col)
+                    encoding = gv.gv_rlv_encoding,
+                    header = gv.gv_rlv_header,
+                    sep = gv.gv_rlv_sep,
+                     index_col = gv.gv_rlv_index_col)
     print_to_log("файл rlv завантажений")
     return df
 
@@ -436,7 +436,7 @@ def get_colms_names_from_dates(dates, dateslist):
   r = []
   for date in dates:
     try:
-      r.append(gv_rlv_colums_name_values_list[dateslist.index(date)])
+      r.append(gv.gv_rlv_colums_name_values_list[dateslist.index(date)])
     except Exception:
       r.append(None)
   text= [ "використання колонки S вхідного файлу звіту ексель",
@@ -454,26 +454,26 @@ def set_to_report(df, app_list):
     for app in app_list:
         if app.counters_list:
             # 2 Ітого по распр., Гкал
-            app.set_to_report(df, gl_total_couter_e_column, app.specified_used_E)
+            app.set_to_report(df, gv.gl_total_couter_e_column, app.specified_used_E)
         else:    
             # 3 Ітого по м2, Гкал
-            app.set_to_report(df, gl_total_no_couter_e_column, app.specified_used_E)
+            app.set_to_report(df, gv.gl_total_no_couter_e_column, app.specified_used_E)
         # 4 функціонування системи
-        app.set_to_report(df, gl_func_sys_column, app.total_fun_sys)
+        app.set_to_report(df, gv.gl_func_sys_column, app.total_fun_sys)
         # 5 МЗК
-        app.set_to_report(df, gl_mzk_column, app.total_Mkz)
+        app.set_to_report(df, gv.gl_mzk_column, app.total_Mkz)
         # 6 ВСЬОГО, Гкал
-        app.set_to_report(df, gl_total_e_column, app.total_e)
+        app.set_to_report(df, gv.gl_total_e_column, app.total_e)
     return df
 
 def gen_OSBB_report(app_list): 
-    df = [[gn_num_column,
-           gn_app_num_column,
-           gn_total_couter_e_column, 
-           gn_total_no_couter_e_column,
-           gn_func_sys_column ,
-           gn_mzk_column ,
-           gn_total_e_column ]]
+    df = [[gv.gn_num_column,
+           gv.gn_app_num_column,
+           gv.gn_total_couter_e_column, 
+           gv.gn_total_no_couter_e_column,
+           gv.gn_func_sys_column ,
+           gv.gn_mzk_column ,
+           gv.gn_total_e_column ]]
     for app in app_list:
         # 0 № п/п 
         # 1 № квартири  
@@ -498,15 +498,15 @@ def gen_OSBB_report(app_list):
 def gen_TE_report(app_list): 
     df = [[
         # 0 Особовий рахунок  
-        gn_TE_num_column,
+        gv.gn_TE_num_column,
         # 1 № Адреса  
-        gn_TE_adders_column ,
+        gv.gn_TE_adders_column ,
         # 2 № віртуального ліч-ка
-        gn_TE_num_virt_column ,
+        gv.gn_TE_num_virt_column ,
         # 3 Період
-        gn_TE_period ,
+        gv.gn_TE_period ,
         # 4 Обсяг споживання,  Гкал
-        gn_TE_total_e_column ]]
+        gv.gn_TE_total_e_column ]]
     sum_total = 0
     for app in app_list:
         row =[
@@ -521,13 +521,13 @@ def gen_TE_report(app_list):
         # 4 Обсяг споживання,  Гкал
         # row.append(app.total_e)
         # row.append(float(gv_TE_report_formar_len.format(app.total_e)))
-        row.append(float(gv_TE_report_formar_len(app.total_e)))
+        row.append(float(gv.gv_TE_report_formar_len(app.total_e)))
         df.append(row)
         sum_total += app.total_e
     df.append([])
     df.append([
         "", "", "","Всього:",
-        (float(gv_TE_report_formar_len(sum_total)))
+        (float(gv.gv_TE_report_formar_len(sum_total)))
         # sum_total
     ])
     return pd.DataFrame(df)
@@ -544,19 +544,19 @@ def save_data_frame(output, df, df_report, df_rules=None, df_TE_report=None):
                     # if_sheet_exists="replace"
                     # if_sheet_exists='append'
                       ) as writer:
-    df.to_excel(writer, index=False, header=False, sheet_name=gv_sheet_name)
+    df.to_excel(writer, index=False, header=False, sheet_name=gv.gv_sheet_name)
     if df_rules is not None:
         df_rules.to_excel(writer, index=False, header=False, sheet_name=gr_rule_sheet_name)
     if df_report is not None:
-        df_report.to_excel(writer, index=False, header=False, sheet_name=gv_osbb_report)
+        df_report.to_excel(writer, index=False, header=False, sheet_name=gv.gv_osbb_report)
     if df_TE_report is not None:
-        df_TE_report.to_excel(writer, index=False, header=False, sheet_name=gv_TE_report)
+        df_TE_report.to_excel(writer, index=False, header=False, sheet_name=gv.gv_TE_report)
     print_to_log("output report path "+ output)
 
 def populate_apps(df): 
     al =[]
     cl =[]
-    app_line = gl_ferst_app_row
+    app_line = gv.gl_ferst_app_row
     while True:
         app = Appart_values(df, app_line)
         app_line = app.next_app_line
@@ -570,9 +570,9 @@ def populate_apps(df):
 def update_counters(app_list, counters_list, df_csv, data_i = 1): 
     if df_csv is None:
         return None
-    name_date = gv_csv_name_date + str(gv_csv_name_i)
+    name_date = gv.gv_csv_name_date + str(gv.gv_csv_name_i)
     # print(name_date)
-    name_value = gv_csv_name_value + str(gv_csv_name_i)
+    name_value = gv.gv_csv_name_value + str(gv.gv_csv_name_i)
     # print(name_value)
     data_list =set()
     id_list =set()

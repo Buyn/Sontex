@@ -3,7 +3,7 @@ import sys
 import eel  
 from tkinter import filedialog
 from tkinter import *
-from global_values import *
+import global_values as gv
 import main as m
 
 def winmain(argv):
@@ -37,7 +37,7 @@ def pull_log():
 def get_dates_from_filename_string(filenames):  
   df_list = m.get_df_list_from_filename_string(filenames)
   if df_list and not len(df_list)==0:
-    return m.get_dates_from_colums_list(df_list[0], gv_rlv_colums_name_dates_list)
+    return m.get_dates_from_colums_list(df_list[0], gv.gv_rlv_colums_name_dates_list)
 
 @eel.expose
 def btn_ask_open_exel_file(path,

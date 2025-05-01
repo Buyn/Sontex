@@ -2,13 +2,6 @@ import unittest
 from main import *
 import global_values as gv
 
-# filename = gv_filename
-# sheet_name = gv_sheet_name 
-# g_filename = gv_filename
-# g_output = gv_output
-# g_sheet_name = gv_sheet_name
-# g_csv = gv_csv
-
 class Test_Init(unittest.TestCase):
 
     def test_main(self):# {{{
@@ -39,7 +32,7 @@ class Test_Init(unittest.TestCase):
         self.assertEqual( df.iloc[105, 3], 1)
 
     def test_load_csv(self):
-        gv_filename = gv_csv
+        gv_filename = gv.gv_csv
         df = load_csv(gv_filename)
         i = 1
         ser_id = 25482311
@@ -49,7 +42,7 @@ class Test_Init(unittest.TestCase):
         self.assertEqual( df.loc[ser_id , name_value], 126)
 
     def test_load_rlv(self):
-        gv_filename = gv_rlv
+        gv_filename = gv.gv_rlv
         df = load_rlv(gv_filename)
         i = 1
         ser_id = 25482420
@@ -75,7 +68,7 @@ class Test_Init(unittest.TestCase):
 
     def test_load_db(self):
         # test =  ['Data_files/test.rlv', 'Data_files/test2.csv.rlv', 'Data_files/test.csv', '']
-        test_path = gv_rlv+";"+"Data_files/test2.csv.rlv"+";"+ gv_csv +";"
+        test_path = gv.gv_rlv+";"+"Data_files/test2.csv.rlv"+";"+ gv.gv_csv +";"
         # print("test_path = ", test_path)
         # print("test_path = ", test_path.split(";"))
         path = test_path.split(";")[0]
@@ -106,7 +99,7 @@ class Test_Init(unittest.TestCase):
         self.assertIsNotNone(test_df[1])
         self.assertIsNotNone(test_df[2])
         # gv_filename = gv_rlv
-        gv_filename = gv_rlv
+        gv_filename = gv.gv_rlv
         df = load_db(gv_filename)
         i = 1
         ser_id = 25482420
@@ -131,7 +124,7 @@ class Test_Init(unittest.TestCase):
         self.assertEqual( df.loc[ser_id , name_text], "01.04.2023")
         self.assertEqual( df.loc[ser_id , name_value], 102)
         # gv_csv
-        gv_filename = gv_csv
+        gv_filename = gv.gv_csv
         df = load_db(gv_filename)
         i = 1
         ser_id = 25482311
@@ -192,7 +185,7 @@ class Test_Init(unittest.TestCase):
       df = get_df_list_from_filename_string(string)
       self.assertIsNotNone(df)
       self.assertEqual(len(df), 1)
-      t = get_dates_from_colums_list(df[0], gv_rlv_colums_name_dates_list)
+      t = get_dates_from_colums_list(df[0], gv.gv_rlv_colums_name_dates_list)
       self.assertIsNotNone(t)
       self.assertEqual(len(t), 19)
       self.assertEqual(t[0], "02.04.2023")
@@ -203,7 +196,7 @@ class Test_Init(unittest.TestCase):
       df = get_df_list_from_filename_string(string)
       self.assertIsNotNone(df)
       self.assertEqual(len(df), 1)
-      t = get_dates_from_colums_list(df[0], gv_rlv_colums_name_dates_list)
+      t = get_dates_from_colums_list(df[0], gv.gv_rlv_colums_name_dates_list)
       self.assertIsNotNone(t)
       self.assertEqual(len(t), 37)
       self.assertEqual(t[0], "19.04.2021 13:52:24")
@@ -348,7 +341,7 @@ class setUp_Test(unittest.TestCase):
         self.assertIsNotNone(colmslist[1])
         self.assertEqual(app_list[37].counters_list[0].get_value1(), 875)
         self.assertEqual(app_list[37].counters_list[0].get_value2(), 829)
-        filenamestring = gv_csv
+        filenamestring = gv.gv_csv
         dflist = get_df_list_from_filename_string(filenamestring)
         t2 = update_counters_by_colms(app_list, counters_list, colmslist, dflist[0])
         self.assertEqual(counters_list[37],
@@ -356,7 +349,7 @@ class setUp_Test(unittest.TestCase):
                           25482672,])
         self.assertEqual(app_list[37].counters_list[0].get_value1(), 178)
         self.assertEqual(app_list[37].counters_list[0].get_value2(), 140)
-        filenamestring = gv_rlv
+        filenamestring = gv.gv_rlv
         dflist = get_df_list_from_filename_string(filenamestring)
         self.assertEqual(app_list[37].counters_list[0].get_value1(), 178)
         self.assertEqual(app_list[37].counters_list[0].get_value2(), 140)
@@ -461,7 +454,7 @@ class setUp_Test(unittest.TestCase):
                           25482669,
                           25482694,])
         app_list, couters_list = t1, t2
-        gv_filename = gv_csv
+        gv_filename = gv.gv_csv
         df_csv = load_csv(gv_filename)
         self.assertEqual(app_list[37].counters_list[0].get_value1(), 875)
         # print(df_csv)
@@ -471,7 +464,7 @@ class setUp_Test(unittest.TestCase):
                          [25482673,
                           25482672,])
         self.assertEqual(app_list[37].counters_list[0].get_value1(), 178)
-        gv_filename = gv_rlv
+        gv_filename = gv.gv_rlv
         df_csv = load_rlv(gv_filename)
         self.assertEqual(app_list[37].counters_list[0].get_value1(), 178)
         update_counters(app_list, couters_list, df_csv) 
@@ -512,17 +505,17 @@ class setUp_Test(unittest.TestCase):
         t1, t2 = populate_apps(self.df)
         last_app_line = get_last_app_line(t1)
         test = get_home_value(self.df , last_app_line +
-                                        gl_shift_home_counter_value1,
-                                        gl_column_home_counter_value1)
+                                        gv.gl_shift_home_counter_value1,
+                                        gv.gl_column_home_counter_value1)
         self.assertEqual(test, 1613.72)
         test = get_home_value(self.df , last_app_line +
-                                        gl_shift_home_counter_value2,
-                                        gl_column_home_counter_value2)
+                                        gv.gl_shift_home_counter_value2,
+                                        gv.gl_column_home_counter_value2)
         self.assertEqual(test, 1550.00)
         with self.assertRaises(NameError):
             test = get_home_value(self.df , 
-                                  gl_shift_home_counter_value2,
-                                  gl_column_home_counter_value2)
+                                  gv.gl_shift_home_counter_value2,
+                                  gv.gl_column_home_counter_value2)
 
     def test_gen_delta_value_home_counter(self):
         t1, t2 = populate_apps(self.df)
@@ -538,12 +531,12 @@ class setUp_Test(unittest.TestCase):
         test = gen_delta_value_home_counter(self.df , last_app_line)
         self.assertEqual(float("{:.3f}".format(test)) , 63.72)
         test = get_home_value(self.df , last_app_line +
-                                        gl_shift_home_counter_value1,
-                                        gl_column_home_counter_value1)
+                                        gv.gl_shift_home_counter_value1,
+                                        gv.gl_column_home_counter_value1)
         self.assertEqual(test, 1613.72)
         test = get_home_value(self.df , last_app_line +
-                                        gl_shift_home_counter_value2,
-                                        gl_column_home_counter_value2)
+                                        gv.gl_shift_home_counter_value2,
+                                        gv.gl_column_home_counter_value2)
         self.assertEqual(test, 1550.00)
         # start set_home_counter : 
         set_home_counter(self.df , last_app_line, [300.111, 200.222])
@@ -551,12 +544,12 @@ class setUp_Test(unittest.TestCase):
         test = gen_delta_value_home_counter(self.df , last_app_line)
         self.assertEqual(float("{:.3f}".format(test)) , 99.889)
         test = get_home_value(self.df , last_app_line +
-                                        gl_shift_home_counter_value1,
-                                        gl_column_home_counter_value1)
+                                        gv.gl_shift_home_counter_value1,
+                                        gv.gl_column_home_counter_value1)
         self.assertEqual(test, 300.111)
         test = get_home_value(self.df , last_app_line +
-                                        gl_shift_home_counter_value2,
-                                        gl_column_home_counter_value2)
+                                        gv.gl_shift_home_counter_value2,
+                                        gv.gl_column_home_counter_value2)
         self.assertEqual(test, 200.222)
 
     def test_gen_Qfun_sys(self): 

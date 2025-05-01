@@ -48,7 +48,7 @@ class setUp_Test(unittest.TestCase):
         self.assertIsNotNone( self.df_rules )
         self.assertEqual(self.df_rules.iloc[1, 0], "rule")
         with self.assertRaises(ValueError):
-            test = load_exel(gv_filename, "error rules")
+            test = load_exel(gv.gv_filename, "error rules")
             self.assertIsNone(test)
 
 
