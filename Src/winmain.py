@@ -10,7 +10,7 @@ def winmain(argv):
     eel.init("web")    
     # Start the index.html file  
     eel.start("index.html"
-              , mode=gg_eel_mode)
+              , mode=gv.gg_eel_mode)
 
 @eel.expose      
 def start_calc(exel_path, csv_path, output_path, home_counter):  

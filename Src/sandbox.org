@@ -1,9 +1,77 @@
 :PROPERTIES:
 :header-args: :tangle sandbox.py
 :END:
-* 2025-04-16 populate and calc
+* 2025-05-02 append list
+** 03
+#+begin_src python
+a = [None, None, [1, 2 ,4, 5,7] ,[3, 2 ,4, 5,7] , [1, 2 ,4, 5,7], None , [1, 2 ,4, 5], None]
+# print([x for lst in a if lst for x in lst ])
+b = set([x for lst in a if lst for x in lst ])
+# print(set(zip([x for x in a if x])))
+# b = set()
+# for l in [x for x in a if x]:
+# for l in filter(lambda i: True if i else False, a):
+#     b.update(l)
+# b = sum([x for x in a if x])
+print(b)
+    
+#+end_src
+
+#+RESULTS:
+
+** 02
+#+begin_src python :tangle no
+a = [None, None, [1, 2 ,4, 5,7] ,[3, 2 ,4, 5,7] , [1, 2 ,4, 5,7], None , [1, 2 ,4, 5], None]
+# print([x for x in a if x])
+b = set()
+# for l in [x for x in a if x]:
+for lst in filter(lambda elm: True if elm else False, a):
+    b.update(lst)
+print(b)
+    
+#+end_src
+
+#+RESULTS:
+
+* DONE 2025-05-02 set differanse
+CLOSED: [2025-05-02 Пт 19:10]
+:PROPERTIES:
+:header-args: :tangle no
+:END:
+** 01
+#+begin_src python 
+a = [1, 2 ,4, 5,7]
+b = [3, 2 ,4, 5,7]
+aa = [1, 2 ,4, 5,7]
+ac = [1, 2 ,4, 5]
+c = set (a) - set (b)
+d = set (b) - set (a)
+aaa = set (a) - set (aa)
+aca = set (a) - set (aa)
+acc = set (aa) - set (a)
+print(c)
+print(d)
+print(aaa)
+print(" aca = set (a) - set (aa) = ", aca)
+print("acc = set (aa) - set (a) =", acc)
+print(set(a).symmetric_difference(aa))
+if aaa:
+    print("aaa no Nule")
+if c:
+    print("c no Nule")
+
+
+
+#+end_src
+
+#+RESULTS:
+: None
+
 * DONE 2025-04-15 global values change
 CLOSED: [2025-04-15 Tue 03:25]
+:PROPERTIES:
+:header-args: :tangle no
+:END:
 *** import
 import pandas as pd
 #+begin_src python 

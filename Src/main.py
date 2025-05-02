@@ -77,15 +77,86 @@ def gui_calc(_filename, _csv, _output, _home_count = None):
 # *** postprocessing block:
     # df_rules = load_exel(filename, gr_rule_sheet_name)
     try:
-          df_rules = load_exel(filename, gr_rule_sheet_name)
+          df_rules = load_exel(filename, gv.gr_rule_sheet_name)
           df_TE_report = postprocessing_df_with_rules_df(df_TE_report, df_rules)
     except Exception:
           df_rules = None
-          print("Error in load rules sheet = ", gr_rule_sheet_name ," from file =", filename)
-          print_to_log("Помилка під час завантаження аркуша правил = "+ gr_rule_sheet_name + " з файлу =" + filename)
-    if not gr_rule_sheet_enable_in_report:
+          print("Error in load rules sheet = ", gv.gr_rule_sheet_name ," from file =", filename)
+          print_to_log("Помилка під час завантаження аркуша правил = "+ gv.gr_rule_sheet_name + " з файлу =" + filename)
+    if not gv.gr_rule_sheet_enable_in_report:
         df_rules = None
 # *** save block:
+    save_data_frame(output, df,
+                    df_report,
+                    df_rules = df_rules,
+                    df_TE_report = df_TE_report)
+
+def gui_calc_params(params):
+
+    sheet_name = g_sheet_name 
+    filename = params["inputexel"]
+    output =  params["outputexel"]
+
+    gv.set_global_coefficients(Qmzk = params["coefficients"][0], Qfun_sys = params["coefficients"][1])
+
+    df = load_exel(filename, sheet_name)
+    app_list, counters_list = populate_apps(df)
+
+    home_count = params["homecounter"]
+    if home_count[0]:
+        last_app_line = get_last_app_line(app_list)
+        r = set_home_counter(df, last_app_line, home_count)
+        print(r)
+        print_to_log("Значення загальнобудинкового лічильника використовуються, перезаписуючи показники y клітини файлу Excel")
+        print_to_log("використання значення = "+ str(home_count))
+        print_to_log(r)
+
+    dflist = get_df_list_from_filename_string(params["filenamestring"])
+    dates = params["dates"]
+    id_list =set()
+    columslist = get_colms_names_from_dates(dates, params["dateslist"])
+    for df_db in dflist:
+        r = update_counters_by_colms(app_list, counters_list, columslist, df_db)
+        if r:
+          id_list.update(r)
+
+    all_ap_idlist = set()
+    for lst in filter(lambda elm: True if elm else False, counters_list):
+      all_ap_idlist.update(lst)
+    # ID in db file and not in exel
+    not_found_ids = id_list - all_ap_idlist
+    # ID in exel and not in db file
+    not_updated_exel_id = all_ap_idlist - id_list
+    if not_found_ids :
+        print_to_log("Ці ID вказані у файлі, але відсутні у Excel" + str(not_found_ids))
+    if not_updated_exel_id :
+        print_to_log("Ці ID вказані у Excel , але відсутні у файлі" + str(not_updated_exel_id))
+
+    for i , colum in enumerate([gv.gl_column_home_counter_value1, gv.gl_column_home_counter_value2]):
+        if dates[i] and columslist[i]:
+          df.iloc[gv.gl_ferst_app_row - 1, colum] = "показники на" + ": ".join(dates[i])
+          print_to_log("Показники эксель, замінено на csv/rlv, на дату"+ str(dates[i]))
+
+    app_list, counters_list = populate_apps(df)
+
+    app_list = calc_all_values_in_apps( df, app_list)
+
+    df_report = None
+    if gv.gv_enable_full_report:
+        df_report = gen_OSBB_report(app_list)
+    df_TE_report = gen_TE_report(app_list)
+
+    # df_rules = load_exel(filename, gr_rule_sheet_name)
+    try:
+          df_rules = load_exel(filename, gv.gr_rule_sheet_name)
+          df_TE_report = postprocessing_df_with_rules_df(df_TE_report, df_rules)
+    except Exception:
+          df_rules = None
+          print("Error in load rules sheet = ", gv.gr_rule_sheet_name ," from file =", filename)
+          print_to_log("Помилка під час завантаження аркуша правил = "+ gv.gr_rule_sheet_name + " з файлу =" + filename)
+    if not gv.gr_rule_sheet_enable_in_report:
+        df_rules = None
+
     save_data_frame(output, df,
                     df_report,
                     df_rules = df_rules,
@@ -168,7 +239,7 @@ def set_home_counter(df, g_line, values):
       df.iloc[g_line + gv.gl_shift_home_counter_value1, gv.gl_column_home_counter_value1] = float(values[0])
     if values[1] != "":
       df.iloc[g_line + gv.gl_shift_home_counter_value2, gv.gl_column_home_counter_value2] = float(values[1])
-    return "значення загальнобудинкового лічильника в екселі оновлено" + str(values[0]) + " ; " + str(values[0])
+    return "значення загальнобудинкового лічильника в екселі оновлено " + str(values[0]) + " ; " + str(values[1])
 
 def gen_delta_value_home_counter(df, g_line): 
     return get_home_value(df,
@@ -407,15 +478,23 @@ def load_db(filename):
     return None
 
 def get_df_list_from_filename_string(string):
+  if not string:
+      print_to_log("Файл бази даних не використовується. Використані дані ексель без змін.")
+      return [None]
   r=[]
   for path_csv in string.split(";"):
-    if path_csv=="" or path_csv==" ": continue
+    if path_csv=="" or path_csv==" ":
+      continue
     try:
       r.append(load_db(path_csv.strip()))
     except Exception:
       print_to_log("Помилка завантаження файлу:" + path_csv.strip())
       r.append(None)
-  return r
+  if not r == []:
+      return r
+  else:
+      print_to_log("Файл бази даних не використовується. Використані дані ексель без змін.")
+      return [None]
 
 def get_dates_from_colums_list(df, colist):
   r = []
@@ -546,7 +625,7 @@ def save_data_frame(output, df, df_report, df_rules=None, df_TE_report=None):
                       ) as writer:
     df.to_excel(writer, index=False, header=False, sheet_name=gv.gv_sheet_name)
     if df_rules is not None:
-        df_rules.to_excel(writer, index=False, header=False, sheet_name=gr_rule_sheet_name)
+        df_rules.to_excel(writer, index=False, header=False, sheet_name=gv.gr_rule_sheet_name)
     if df_report is not None:
         df_report.to_excel(writer, index=False, header=False, sheet_name=gv.gv_osbb_report)
     if df_TE_report is not None:
@@ -612,18 +691,18 @@ def update_counters_by_colms(app_list, counters_list, colmslist, df_csv):
         return None
     id_list =set()
     if colmslist[0]:
+      print_to_log("заповнюємо ексель стовпець R, даними датафала зі стовпця " + str(colmslist[0]))
       for i, adress_list in enumerate(counters_list):
-          if counters_list[i]:
-              app_list[i].update_allvalues1_by_id(df_csv,  colmslist[0])
-              id_list.update(app_list[i].not_found_ids)
-              app_list[i].not_found_ids.clear()
+        app_list[i].update_allvalues1_by_id(df_csv,  colmslist[0])
+        id_list.update(app_list[i].not_found_ids)
+        app_list[i].not_found_ids.clear()
         
     if colmslist[1]:
+      print_to_log("заповнюємо ексель стовпець S, даними датафала зі стовпця " + str(colmslist[1]))
       for i, adress_list in enumerate(counters_list):
-          if counters_list[i]:
-            app_list[i].update_allvalues2_by_id(df_csv,  colmslist[1])
-            id_list.update(app_list[i].not_found_ids)
-            app_list[i].not_found_ids.clear()
+        app_list[i].update_allvalues2_by_id(df_csv,  colmslist[1])
+        id_list.update(app_list[i].not_found_ids)
+        app_list[i].not_found_ids.clear()
     return id_list
 
 if __name__ == "__main__": 

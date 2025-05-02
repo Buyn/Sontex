@@ -550,7 +550,7 @@ def winmain(argv):
     eel.init("web")    
     # Start the index.html file  
     eel.start("index.html"
-              , mode=gg_eel_mode)  
+              , mode=gv.gg_eel_mode)  
     
 
 #+end_src
@@ -1046,13 +1046,13 @@ def gui_calc(_filename, _csv, _output, _home_count = None):
 # *** postprocessing block:
     # df_rules = load_exel(filename, gr_rule_sheet_name)
     try:
-          df_rules = load_exel(filename, gr_rule_sheet_name)
+          df_rules = load_exel(filename, gv.gr_rule_sheet_name)
           df_TE_report = postprocessing_df_with_rules_df(df_TE_report, df_rules)
     except Exception:
           df_rules = None
-          print("Error in load rules sheet = ", gr_rule_sheet_name ," from file =", filename)
-          print_to_log("Помилка під час завантаження аркуша правил = "+ gr_rule_sheet_name + " з файлу =" + filename)
-    if not gr_rule_sheet_enable_in_report:
+          print("Error in load rules sheet = ", gv.gr_rule_sheet_name ," from file =", filename)
+          print_to_log("Помилка під час завантаження аркуша правил = "+ gv.gr_rule_sheet_name + " з файлу =" + filename)
+    if not gv.gr_rule_sheet_enable_in_report:
         df_rules = None
 # *** save block:
     save_data_frame(output, df,
@@ -1062,6 +1062,129 @@ def gui_calc(_filename, _csv, _output, _home_count = None):
 
 
 #+end_src
+# ----------------------------------------------
+****** def gui_calc_params:
+******* def
+# ----------------------------------------------
+#+begin_src python
+def gui_calc_params(params): 
+#+end_src
+******* set values and params:
+  #+begin_src python
+    sheet_name = g_sheet_name 
+    filename = params["inputexel"]
+    output =  params["outputexel"]
+  #+end_src
+******* set global cofficients
+  #+begin_src python
+    gv.set_global_coefficients(Qmzk = params["coefficients"][0], Qfun_sys = params["coefficients"][1])
+  #+end_src
+
+******* first loading a dataframe from Excel :
+первичная загрузка основновных даных для дальнейшего обновления из файлов датабазы и параметров
+    #+begin_src python
+    df = load_exel(filename, sheet_name)
+    app_list, counters_list = populate_apps(df) 
+    #+end_src
+******* home_count
+    #+begin_src python
+    home_count = params["homecounter"]
+    if home_count[0]:
+        last_app_line = get_last_app_line(app_list)
+        r = set_home_counter(df, last_app_line, home_count)
+        print(r)
+        print_to_log("Значення загальнобудинкового лічильника використовуються, перезаписуючи показники y клітини файлу Excel")
+        print_to_log("використання значення = "+ str(home_count))
+        print_to_log(r)
+    #+end_src
+
+******* loading date frame from CSV or RLV file:
+    #+begin_src python
+    dflist = get_df_list_from_filename_string(params["filenamestring"])
+    dates = params["dates"]
+    id_list =set()
+    columslist = get_colms_names_from_dates(dates, params["dateslist"])
+    for df_db in dflist:
+        r = update_counters_by_colms(app_list, counters_list, columslist, df_db)
+        if r:
+          id_list.update(r)
+
+#+end_src
+******* вывод списка ненайденых ID
+    # print(counters_list)
+    # all_ap_idlist = set([ for ids in counters_list if ids])
+    # for l in [x for x in a if x]:
+    #+begin_src python
+    all_ap_idlist = set()
+    for lst in filter(lambda elm: True if elm else False, counters_list):
+      all_ap_idlist.update(lst)
+    # ID in db file and not in exel
+    not_found_ids = id_list - all_ap_idlist
+    # ID in exel and not in db file
+    not_updated_exel_id = all_ap_idlist - id_list
+    if not_found_ids :
+        print_to_log("Ці ID вказані у файлі, але відсутні у Excel" + str(not_found_ids))
+    if not_updated_exel_id :
+        print_to_log("Ці ID вказані у Excel , але відсутні у файлі" + str(not_updated_exel_id))
+    #+end_src
+
+    #+RESULTS:
+
+    if len(id_list)>0:
+        print_to_log("Ці ID вказані у файлі, але відсутні у Excel" + str(id_list))
+        python append all list togethe
+******* замена имени столбца в эксель на актуальную дату
+#+begin_src python
+    for i , colum in enumerate([gv.gl_column_home_counter_value1, gv.gl_column_home_counter_value2]):
+        if dates[i] and columslist[i]:
+          df.iloc[gv.gl_ferst_app_row - 1, colum] = "показники на" + ": ".join(dates[i])
+          print_to_log("Показники эксель, замінено на csv/rlv, на дату"+ str(dates[i]))
+#+end_src
+******* second loading a dataframe from Excel:
+для убеждёности что не пропустили какуюто инициализацию
+после того как обнавили основной дата фрейм
+возможно избыточно
+    # TODO: remove duble populate_apps
+    для это прочитать что происходит в популяции
+    и прогнать через тесты
+#+begin_src python
+    app_list, counters_list = populate_apps(df) 
+    #+end_src
+******* calculations:
+    #+begin_src python
+    app_list = calc_all_values_in_apps( df, app_list)
+#+end_src
+    # df_report = load_exel(filename, gv_sheet_report)
+    # df_report = set_to_report(df_report, app_list)
+******* generating reports:
+#+begin_src python
+    df_report = None
+    if gv.gv_enable_full_report:
+        df_report = gen_OSBB_report(app_list)
+    df_TE_report = gen_TE_report(app_list)
+#+end_src
+******* postprocessing block:
+#+begin_src python
+    # df_rules = load_exel(filename, gr_rule_sheet_name)
+    try:
+          df_rules = load_exel(filename, gv.gr_rule_sheet_name)
+          df_TE_report = postprocessing_df_with_rules_df(df_TE_report, df_rules)
+    except Exception:
+          df_rules = None
+          print("Error in load rules sheet = ", gv.gr_rule_sheet_name ," from file =", filename)
+          print_to_log("Помилка під час завантаження аркуша правил = "+ gv.gr_rule_sheet_name + " з файлу =" + filename)
+    if not gv.gr_rule_sheet_enable_in_report:
+        df_rules = None
+#+end_src
+******* save block:
+#+begin_src python
+    save_data_frame(output, df,
+                    df_report,
+                    df_rules = df_rules,
+                    df_TE_report = df_TE_report)
+
+
+    #+end_src
 # ----------------------------------------------
 ****** CANCELED def gui:
 CLOSED: [2025-04-11 Fri 09:34]
@@ -1208,7 +1331,7 @@ def get_home_value(df, line, column):
     
 
 #+end_src
-****** def set_home_counter : 
+****** def set_home_counter:
 #+begin_src python
 def set_home_counter(df, g_line, values): 
     if not values or values[0] == "" and values[1] == "":
@@ -1217,7 +1340,7 @@ def set_home_counter(df, g_line, values):
       df.iloc[g_line + gv.gl_shift_home_counter_value1, gv.gl_column_home_counter_value1] = float(values[0])
     if values[1] != "":
       df.iloc[g_line + gv.gl_shift_home_counter_value2, gv.gl_column_home_counter_value2] = float(values[1])
-    return "значення загальнобудинкового лічильника в екселі оновлено" + str(values[0]) + " ; " + str(values[0])
+    return "значення загальнобудинкового лічильника в екселі оновлено " + str(values[0]) + " ; " + str(values[1])
     
 
 #+end_src
@@ -1547,15 +1670,23 @@ def load_db(filename):
     # print_to_log("завантажуємо файл: "+path_csv)
 #+begin_src python
 def get_df_list_from_filename_string(string):
+  if not string:
+      print_to_log("Файл бази даних не використовується. Використані дані ексель без змін.")
+      return [None]
   r=[]
   for path_csv in string.split(";"):
-    if path_csv=="" or path_csv==" ": continue
+    if path_csv=="" or path_csv==" ":
+      continue
     try:
       r.append(load_db(path_csv.strip()))
     except Exception:
       print_to_log("Помилка завантаження файлу:" + path_csv.strip())
       r.append(None)
-  return r
+  if not r == []:
+      return r
+  else:
+      print_to_log("Файл бази даних не використовується. Використані дані ексель без змін.")
+      return [None]
 
 
 #+end_src
@@ -1716,7 +1847,7 @@ def save_data_frame(output, df, df_report, df_rules=None, df_TE_report=None):
                       ) as writer:
     df.to_excel(writer, index=False, header=False, sheet_name=gv.gv_sheet_name)
     if df_rules is not None:
-        df_rules.to_excel(writer, index=False, header=False, sheet_name=gr_rule_sheet_name)
+        df_rules.to_excel(writer, index=False, header=False, sheet_name=gv.gr_rule_sheet_name)
     if df_report is not None:
         df_report.to_excel(writer, index=False, header=False, sheet_name=gv.gv_osbb_report)
     if df_TE_report is not None:
@@ -1798,24 +1929,26 @@ def update_counters(app_list, counters_list, df_csv, data_i = 1):
             # print("data_ r = ", r) 
             # print("data_list = ", data_list) 
     # print("values", len(data_list))
+          if counters_list[i]:
+      if counters_list[i]:
 #+begin_src python
 def update_counters_by_colms(app_list, counters_list, colmslist, df_csv): 
     if df_csv is None:
         return None
     id_list =set()
     if colmslist[0]:
+      print_to_log("заповнюємо ексель стовпець R, даними датафала зі стовпця " + str(colmslist[0]))
       for i, adress_list in enumerate(counters_list):
-          if counters_list[i]:
-              app_list[i].update_allvalues1_by_id(df_csv,  colmslist[0])
-              id_list.update(app_list[i].not_found_ids)
-              app_list[i].not_found_ids.clear()
+        app_list[i].update_allvalues1_by_id(df_csv,  colmslist[0])
+        id_list.update(app_list[i].not_found_ids)
+        app_list[i].not_found_ids.clear()
         
     if colmslist[1]:
+      print_to_log("заповнюємо ексель стовпець S, даними датафала зі стовпця " + str(colmslist[1]))
       for i, adress_list in enumerate(counters_list):
-          if counters_list[i]:
-            app_list[i].update_allvalues2_by_id(df_csv,  colmslist[1])
-            id_list.update(app_list[i].not_found_ids)
-            app_list[i].not_found_ids.clear()
+        app_list[i].update_allvalues2_by_id(df_csv,  colmslist[1])
+        id_list.update(app_list[i].not_found_ids)
+        app_list[i].not_found_ids.clear()
     return id_list
 
 
@@ -1865,6 +1998,8 @@ if __name__ == "__main__":
 from global_values import *
 #+begin_src python
 import unittest
+import os
+import sys
 from main import *
 import global_values as gv
 
@@ -1911,7 +2046,7 @@ class Test_Init(unittest.TestCase):
 ****** def test_main Gui:
         # print(__name__)
 #+begin_src python
-    @unittest.skipIf(len(sys.argv) < 2  or sys.argv[1] != "test_main.Test_Init.test_main_gui", "not sigle test")
+    @unittest.skipIf(len(sys.argv) < 2  or sys.argv[1] != "test_main.Test_Init.test_main_gui", "not single test")
     def test_main_gui(self):
         with self.assertRaises(SystemExit) as cm:
             main(["main path", 
@@ -1922,6 +2057,146 @@ class Test_Init(unittest.TestCase):
 
         
 #+end_src
+# ----------------------------------------------
+****** def test Gui calc with params:
+#+begin_src python
+    @unittest.skipIf(len(sys.argv) < 2  or sys.argv[1] != "test_main.Test_Init.test_gui_calc_params", "not single test")
+    def test_gui_calc_params(self):
+      params = {"dates":['19.04.2021 13:52:24', '2021-04-16',],
+                # "filenamestring":"",
+                "filenamestring":None,
+                "homecounter":[0, 0],
+                "coefficients":[0.05, 0.1],
+                "inputexel":"Data_files/test.xlsx",
+                "outputexel":"Data_files/test_output.xlsx",
+                "dateslist":['19.04.2021 13:52:24', '2021-04-16', '2021-04-01', '2021-03-16', '2021-03-01', '2021-02-16', '2021-02-01', '2021-01-16', '2021-01-01', '2020-12-16', '2020-12-01', '2020-11-16', '2020-11-01', '2020-10-16', '2020-10-01', '2020-09-16', '2020-09-01', '2020-08-16', '2020-08-01', '2020-07-16', '2020-07-01', '2020-06-16', '2020-06-01', '2020-05-16', '2020-05-01', '2020-04-16', '2020-04-01', '2020-03-16', '2020-03-01', '2020-02-16', '2020-02-01', '2020-01-16', '2020-01-01', '2019-12-16', '2019-12-01', '2019-11-16', '2019-11-01']
+                        }
+      output_path = None
+      output_path = params["outputexel"]
+      if os.path.exists(output_path):
+        os.remove(output_path)
+      self.assertFalse (os.path.exists(output_path), "Output file does exist")
+      gui_calc_params(params)
+      # Assert if the output file exists
+      self.assertTrue(os.path.exists(output_path), "Output file does not exist")
+
+      sheet_name = "Теплоенрго"
+      df_report = load_exel(output_path, sheet_name)
+      # print(df_report)
+      self.assertIsNotNone(df_report )
+      self.assertEqual(df_report.iloc[1, 1], "кв.1")
+      self.assertEqual(df_report.iloc[1, 4], 2.326)
+      self.assertEqual(df_report.shape[0], 41)
+      self.assertEqual(df_report.iloc[40, 4], 63.72)
+
+      sheet_name = "квартири, площі"
+      df_report = load_exel(output_path, sheet_name)
+      # print(df_report)
+      self.assertIsNotNone(df_report )
+      self.assertEqual(df_report.iloc[7, 1], "кв.7")
+      # 8
+      self.assertEqual(df_report.iloc[7, 18], 603)
+      self.assertEqual(df_report.iloc[7, 17], 653)
+      # 31
+      self.assertEqual(df_report.iloc[30, 17], 445)
+      self.assertEqual(df_report.iloc[30, 18], 437)
+      self.assertEqual(df_report.shape[0], 141)
+      self.assertEqual(df_report.iloc[109, 17], 1613.72)
+      self.assertEqual(df_report.iloc[109, 18], 1550)
+
+      params = None
+      params = {"dates":['', ''],
+                # "filenamestring":"",
+                "filenamestring":None,
+                "homecounter":[100, 0],
+                "coefficients":[0.05, 0.1],
+                "inputexel":"Data_files/test.xlsx",
+                "outputexel":"Data_files/test_output.xlsx",
+                "dateslist":['19.04.2021 13:52:24', '2021-04-16', '2021-04-01', '2021-03-16', '2021-03-01', '2021-02-16', '2021-02-01', '2021-01-16', '2021-01-01', '2020-12-16', '2020-12-01', '2020-11-16', '2020-11-01', '2020-10-16', '2020-10-01', '2020-09-16', '2020-09-01', '2020-08-16', '2020-08-01', '2020-07-16', '2020-07-01', '2020-06-16', '2020-06-01', '2020-05-16', '2020-05-01', '2020-04-16', '2020-04-01', '2020-03-16', '2020-03-01', '2020-02-16', '2020-02-01', '2020-01-16', '2020-01-01', '2019-12-16', '2019-12-01', '2019-11-16', '2019-11-01']
+                        }
+      output_path = params["outputexel"]
+      if os.path.exists(output_path):
+        os.remove(output_path)
+      self.assertFalse (os.path.exists(output_path), "Output file does exist")
+      gui_calc_params(params)
+      # Assert if the output file exists
+      self.assertTrue(os.path.exists(output_path), "Output file does not exist")
+      sheet_name = "Теплоенрго"
+      df_report = load_exel(output_path, sheet_name)
+      # print(df_report)
+      self.assertIsNotNone(df_report )
+      self.assertEqual(df_report.iloc[40, 4], 100)
+      self.assertEqual(df_report.iloc[1, 1], "кв.1")
+      self.assertEqual(df_report.iloc[1, 4], 3.65)
+      self.assertEqual(df_report.shape[0], 41)
+
+      sheet_name = "квартири, площі"
+      df_report = load_exel(output_path, sheet_name)
+      # print(df_report)
+      self.assertIsNotNone(df_report )
+      self.assertEqual(df_report.iloc[7, 1], "кв.7")
+      # 8
+      self.assertEqual(df_report.iloc[7, 18], 603)
+      self.assertEqual(df_report.iloc[7, 17], 653)
+      # 31
+      self.assertEqual(df_report.iloc[30, 17], 445)
+      self.assertEqual(df_report.iloc[30, 18], 437)
+      self.assertEqual(df_report.shape[0], 141)
+      self.assertEqual(df_report.iloc[109, 17], 100)
+      self.assertEqual(df_report.iloc[109, 18], 0)
+
+
+      
+      params = {"dates":['2021-04-16', '',],
+                "filenamestring":"Data_files/test.rlv",
+                "homecounter":[63.72, 0],
+                "coefficients":[0.05, 0.1],
+                "inputexel":"Data_files/test.xlsx",
+                "outputexel":"Data_files/test_output.xlsx",
+                "dateslist":['19.04.2021 13:52:24', '2021-04-16', '2021-04-01', '2021-03-16', '2021-03-01', '2021-02-16', '2021-02-01', '2021-01-16', '2021-01-01', '2020-12-16', '2020-12-01', '2020-11-16', '2020-11-01', '2020-10-16', '2020-10-01', '2020-09-16', '2020-09-01', '2020-08-16', '2020-08-01', '2020-07-16', '2020-07-01', '2020-06-16', '2020-06-01', '2020-05-16', '2020-05-01', '2020-04-16', '2020-04-01', '2020-03-16', '2020-03-01', '2020-02-16', '2020-02-01', '2020-01-16', '2020-01-01', '2019-12-16', '2019-12-01', '2019-11-16', '2019-11-01']
+                        }
+      output_path = params["outputexel"]
+      if os.path.exists(output_path):
+        os.remove(output_path)
+      self.assertFalse (os.path.exists(output_path), "Output file does exist")
+      gui_calc_params(params)
+      # Assert if the output file exists
+      self.assertTrue(os.path.exists(output_path), "Output file does not exist")
+      sheet_name = "Теплоенрго"
+      df_report = load_exel(output_path, sheet_name)
+      # print(df_report)
+      self.assertIsNotNone(df_report )
+      self.assertEqual(df_report.iloc[40, 4], 63.72)
+      self.assertEqual(df_report.iloc[1, 1], "кв.1")
+      self.assertEqual(df_report.iloc[1, 4], 2.326)
+      self.assertEqual(df_report.shape[0], 41)
+
+      sheet_name = "квартири, площі"
+      df_report = load_exel(output_path, sheet_name)
+      # print(df_report)
+      self.assertIsNotNone(df_report )
+      self.assertEqual(df_report.iloc[7, 1], "кв.7")
+      # 8
+      self.assertEqual(df_report.iloc[7, 18], 603)
+      self.assertEqual(df_report.iloc[7, 17], 653)
+      # 31
+      self.assertEqual(df_report.iloc[30, 17], 195)
+      self.assertEqual(df_report.iloc[30, 18], 437)
+      self.assertEqual(df_report.shape[0], 141)
+      self.assertEqual(df_report.iloc[109, 17], 63.72)
+      self.assertEqual(df_report.iloc[109, 18], 0)
+#+end_src
+
+      params = {"dates":['19.04.2021 13:52:24', '2021-04-16',],
+                "filenamestring":"Data_files/test.rlv;Data_files/test.csv",
+                "homecounter":[63.72, 0],
+                "coefficients":[0.05, 0.1],
+                "inputexel":"Data_files/test.xlsx",
+                "outputexel":"Data_files/test_output.xlsx",
+                "dateslist":['19.04.2021 13:52:24', '2021-04-16', '2021-04-01', '2021-03-16', '2021-03-01', '2021-02-16', '2021-02-01', '2021-01-16', '2021-01-01', '2020-12-16', '2020-12-01', '2020-11-16', '2020-11-01', '2020-10-16', '2020-10-01', '2020-09-16', '2020-09-01', '2020-08-16', '2020-08-01', '2020-07-16', '2020-07-01', '2020-06-16', '2020-06-01', '2020-05-16', '2020-05-01', '2020-04-16', '2020-04-01', '2020-03-16', '2020-03-01', '2020-02-16', '2020-02-01', '2020-01-16', '2020-01-01', '2019-12-16', '2019-12-01', '2019-11-16', '2019-11-01']
+                        }
+#+RESULTS:
+
 # ----------------------------------------------
 ****** def test_load_exel:
         # sheet_name = "показники"
@@ -2211,6 +2486,30 @@ class Test_Init(unittest.TestCase):
       self.assertEqual(len(t), 1)
       self.assertIsNone(t[0])
       t =None
+      string = ""
+      t = get_df_list_from_filename_string(string)
+      self.assertIsNotNone(t)
+      self.assertEqual(len(t), 1)
+      self.assertIsNone(t[0])
+      t =None
+      string = None
+      t = get_df_list_from_filename_string(string)
+      self.assertIsNotNone(t)
+      self.assertEqual(len(t), 1)
+      self.assertIsNone(t[0])
+      t =None
+      t =None
+      string = ";"
+      t = get_df_list_from_filename_string(string)
+      self.assertIsNotNone(t)
+      self.assertEqual(len(t), 1)
+      self.assertIsNone(t[0])
+      t =None
+      string = " "
+      t = get_df_list_from_filename_string(string)
+      self.assertIsNotNone(t)
+      self.assertEqual(len(t), 1)
+      self.assertIsNone(t[0])
 
         
 #+end_src
@@ -2260,6 +2559,9 @@ class setUp_Test(unittest.TestCase):
         # sheet_name = "показники"
         sheet_name = "квартири, площі"
         self.df = load_exel(gv_filename, sheet_name)
+        # self.assertEqual(gv.gk_Qfun_sys, 0.05)
+        # self.assertEqual(gv.gk_Qmzk, 0.1)
+        gv.set_global_coefficients(Qfun_sys = 0.05, Qmzk = 0.1)
 
 
 #+end_src
@@ -3093,7 +3395,7 @@ class setUp_Test(unittest.TestCase):
 
 
 #+end_src
-****** def test_calc_no_counter_e : 
+****** def test_calc_no_counter_e:
 #+begin_src python
     def test_calc_no_counter_e(self): 
         app_list, t2 = populate_apps(self.df)
@@ -3118,7 +3420,7 @@ class setUp_Test(unittest.TestCase):
 
 
 #+end_src
-****** def test_calc_final_totals : 
+****** def test_calc_final_totals:
 #+begin_src python
     def test_calc_final_totals(self): 
         app_list, t2 = populate_apps(self.df)
@@ -3230,6 +3532,26 @@ class setUp_Test(unittest.TestCase):
 
 #+end_src
 # ** ------------------------------------------:
+****** test set_global_coefficients
+    #+begin_src python 
+    def test_set_global_coefficients(self):
+      self.assertEqual(gv.gk_Qfun_sys, 0.05)
+      self.assertEqual(gv.gk_Qmzk, 0.1)
+      gv.set_global_coefficients(Qfun_sys = 0)
+      # gk_Qfun_sys = 0
+      self.assertEqual(gv.gk_Qfun_sys, 0)
+      gv.set_global_coefficients(Qmzk = 0)
+      self.assertEqual(gv.gk_Qmzk, 0)
+      gv.set_global_coefficients(Qmzk = 10, Qfun_sys = 10)
+      self.assertEqual(gv.gk_Qfun_sys, 10)
+      self.assertEqual(gv.gk_Qmzk, 10)
+      gv.set_global_coefficients(Qfun_sys = 0.05, Qmzk = 0.1)
+      self.assertEqual(gv.gk_Qfun_sys, 0.05)
+      self.assertEqual(gv.gk_Qmzk, 0.1)
+
+
+#+end_src
+
 ***** Test runer:
 # ** ------------------------------------------:
 # (compile " D:/Development/version-control/GitHub/Vadim/Tochil/main_test.py -k init")
@@ -3496,8 +3818,8 @@ class setUp_Test(unittest.TestCase):
 ****** test set_global_coefficients
     #+begin_src python 
     def test_set_global_coefficients(self):
-      self.assertEqual(gv.gk_Qfun_sys, 0.05)
       self.assertEqual(gv.gk_Qmzk, 0.1)
+      self.assertEqual(gv.gk_Qfun_sys, 0.05)
       gv.set_global_coefficients(Qfun_sys = 0)
       # gk_Qfun_sys = 0
       self.assertEqual(gv.gk_Qfun_sys, 0)
@@ -3506,6 +3828,9 @@ class setUp_Test(unittest.TestCase):
       gv.set_global_coefficients(Qmzk = 10, Qfun_sys = 10)
       self.assertEqual(gv.gk_Qfun_sys, 10)
       self.assertEqual(gv.gk_Qmzk, 10)
+      gv.set_global_coefficients(Qfun_sys = 0.05, Qmzk = 0.1)
+      self.assertEqual(gv.gk_Qfun_sys, 0.05)
+      self.assertEqual(gv.gk_Qmzk, 0.1)
 
 
 #+end_src
@@ -3935,53 +4260,53 @@ class Appart_values:
 
 #+end_src
 ***** def update_allvalues1_by_id : 
+        # print("name_date = ", name_date)
+        # print("self.counters_list = ", self.counters_list[0])
+                    # print("counter = ", counter)
 #+begin_src python
     def update_allvalues1_by_id(self, df,  name_value, name_date=None):
         r =[]
         self.not_found_ids.clear()
-        # print("name_date = ", name_date)
-        # print("self.counters_list = ", self.counters_list[0])
         if self.counters_list:
             for counter in self.counters_list:
                 try:
-                    # print("counter = ", counter)
                     ser_id = counter.adress
                     counter.value1 = int(df.loc[ser_id , name_value])
                     counter.set_value1(counter.value1)
                     if name_date:
                         r.append(df.loc[ser_id , name_date])
-                        # print("ser_id = ", ser_id, "r = ", r)
                 except Exception:
-                    # print("not in csv id", ser_id)
                     self.not_found_ids.add(ser_id)
         return r
 
 
 #+end_src
+                        # print("ser_id = ", ser_id, "r = ", r)
+                    # print("not in csv id", ser_id)
 ***** def update_allvalues2_by_id : 
+        # print("name_date = ", name_date)
+        # print("self.counters_list = ", self.counters_list[0])
+                    # print("counter = ", counter)
 #+begin_src python
     def update_allvalues2_by_id(self, df,  name_value, name_date=None):
         r =[]
         self.not_found_ids.clear()
-        # print("name_date = ", name_date)
-        # print("self.counters_list = ", self.counters_list[0])
         if self.counters_list:
             for counter in self.counters_list:
                 try:
-                    # print("counter = ", counter)
                     ser_id = counter.adress
                     counter.value2 = int(df.loc[ser_id , name_value])
                     counter.set_value2(counter.value2)
                     if name_date:
                         r.append(df.loc[ser_id , name_date])
-                        # print("ser_id = ", ser_id, "r = ", r)
                 except Exception:
-                    # print("not in csv id", ser_id)
                     self.not_found_ids.add(ser_id)
         return r
 
 
 #+end_src
+                        # print("ser_id = ", ser_id, "r = ", r)
+                    # print("not in csv id", ser_id)
 ***** def gen_E_used : 
 #+begin_src python
     def gen_E_used(self): 
@@ -5718,6 +6043,8 @@ if __name__ == "__main__":
 #+end_src
 * data files
 ** from SRC
+/home/buyn/Dev/Python/Sontex/Src/Data_files/test.xlsx
+/home/buyn/Dev/Python/Sontex/Src/Data_files/test_output.xlsx
 /home/buyn/Dev/Python/Sontex/Src/Data_files/test.csv
 /home/buyn/Dev/Python/Sontex/Src/Data_files/test.rlv
 * sandbox

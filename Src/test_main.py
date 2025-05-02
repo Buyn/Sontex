@@ -1,4 +1,6 @@
 import unittest
+import os
+import sys
 from main import *
 import global_values as gv
 
@@ -12,7 +14,7 @@ class Test_Init(unittest.TestCase):
                   "--test"])
         self.assertEqual(cm.exception.code, 0)
 
-    @unittest.skipIf(len(sys.argv) < 2  or sys.argv[1] != "test_main.Test_Init.test_main_gui", "not sigle test")
+    @unittest.skipIf(len(sys.argv) < 2  or sys.argv[1] != "test_main.Test_Init.test_main_gui", "not single test")
     def test_main_gui(self):
         with self.assertRaises(SystemExit) as cm:
             main(["main path", 
@@ -20,6 +22,132 @@ class Test_Init(unittest.TestCase):
                   "--sheet_name=квартири, площі",
                   ])
         self.assertEqual(cm.exception.code, 0)
+
+    @unittest.skipIf(len(sys.argv) < 2  or sys.argv[1] != "test_main.Test_Init.test_gui_calc_params", "not single test")
+    def test_gui_calc_params(self):
+      params = {"dates":['19.04.2021 13:52:24', '2021-04-16',],
+                # "filenamestring":"",
+                "filenamestring":None,
+                "homecounter":[0, 0],
+                "coefficients":[0.05, 0.1],
+                "inputexel":"Data_files/test.xlsx",
+                "outputexel":"Data_files/test_output.xlsx",
+                "dateslist":['19.04.2021 13:52:24', '2021-04-16', '2021-04-01', '2021-03-16', '2021-03-01', '2021-02-16', '2021-02-01', '2021-01-16', '2021-01-01', '2020-12-16', '2020-12-01', '2020-11-16', '2020-11-01', '2020-10-16', '2020-10-01', '2020-09-16', '2020-09-01', '2020-08-16', '2020-08-01', '2020-07-16', '2020-07-01', '2020-06-16', '2020-06-01', '2020-05-16', '2020-05-01', '2020-04-16', '2020-04-01', '2020-03-16', '2020-03-01', '2020-02-16', '2020-02-01', '2020-01-16', '2020-01-01', '2019-12-16', '2019-12-01', '2019-11-16', '2019-11-01']
+                        }
+      output_path = None
+      output_path = params["outputexel"]
+      if os.path.exists(output_path):
+        os.remove(output_path)
+      self.assertFalse (os.path.exists(output_path), "Output file does exist")
+      gui_calc_params(params)
+      # Assert if the output file exists
+      self.assertTrue(os.path.exists(output_path), "Output file does not exist")
+
+      sheet_name = "Теплоенрго"
+      df_report = load_exel(output_path, sheet_name)
+      # print(df_report)
+      self.assertIsNotNone(df_report )
+      self.assertEqual(df_report.iloc[1, 1], "кв.1")
+      self.assertEqual(df_report.iloc[1, 4], 2.326)
+      self.assertEqual(df_report.shape[0], 41)
+      self.assertEqual(df_report.iloc[40, 4], 63.72)
+
+      sheet_name = "квартири, площі"
+      df_report = load_exel(output_path, sheet_name)
+      # print(df_report)
+      self.assertIsNotNone(df_report )
+      self.assertEqual(df_report.iloc[7, 1], "кв.7")
+      # 8
+      self.assertEqual(df_report.iloc[7, 18], 603)
+      self.assertEqual(df_report.iloc[7, 17], 653)
+      # 31
+      self.assertEqual(df_report.iloc[30, 17], 445)
+      self.assertEqual(df_report.iloc[30, 18], 437)
+      self.assertEqual(df_report.shape[0], 141)
+      self.assertEqual(df_report.iloc[109, 17], 1613.72)
+      self.assertEqual(df_report.iloc[109, 18], 1550)
+
+      params = None
+      params = {"dates":['', ''],
+                # "filenamestring":"",
+                "filenamestring":None,
+                "homecounter":[100, 0],
+                "coefficients":[0.05, 0.1],
+                "inputexel":"Data_files/test.xlsx",
+                "outputexel":"Data_files/test_output.xlsx",
+                "dateslist":['19.04.2021 13:52:24', '2021-04-16', '2021-04-01', '2021-03-16', '2021-03-01', '2021-02-16', '2021-02-01', '2021-01-16', '2021-01-01', '2020-12-16', '2020-12-01', '2020-11-16', '2020-11-01', '2020-10-16', '2020-10-01', '2020-09-16', '2020-09-01', '2020-08-16', '2020-08-01', '2020-07-16', '2020-07-01', '2020-06-16', '2020-06-01', '2020-05-16', '2020-05-01', '2020-04-16', '2020-04-01', '2020-03-16', '2020-03-01', '2020-02-16', '2020-02-01', '2020-01-16', '2020-01-01', '2019-12-16', '2019-12-01', '2019-11-16', '2019-11-01']
+                        }
+      output_path = params["outputexel"]
+      if os.path.exists(output_path):
+        os.remove(output_path)
+      self.assertFalse (os.path.exists(output_path), "Output file does exist")
+      gui_calc_params(params)
+      # Assert if the output file exists
+      self.assertTrue(os.path.exists(output_path), "Output file does not exist")
+      sheet_name = "Теплоенрго"
+      df_report = load_exel(output_path, sheet_name)
+      # print(df_report)
+      self.assertIsNotNone(df_report )
+      self.assertEqual(df_report.iloc[40, 4], 100)
+      self.assertEqual(df_report.iloc[1, 1], "кв.1")
+      self.assertEqual(df_report.iloc[1, 4], 3.65)
+      self.assertEqual(df_report.shape[0], 41)
+
+      sheet_name = "квартири, площі"
+      df_report = load_exel(output_path, sheet_name)
+      # print(df_report)
+      self.assertIsNotNone(df_report )
+      self.assertEqual(df_report.iloc[7, 1], "кв.7")
+      # 8
+      self.assertEqual(df_report.iloc[7, 18], 603)
+      self.assertEqual(df_report.iloc[7, 17], 653)
+      # 31
+      self.assertEqual(df_report.iloc[30, 17], 445)
+      self.assertEqual(df_report.iloc[30, 18], 437)
+      self.assertEqual(df_report.shape[0], 141)
+      self.assertEqual(df_report.iloc[109, 17], 100)
+      self.assertEqual(df_report.iloc[109, 18], 0)
+
+
+      
+      params = {"dates":['2021-04-16', '',],
+                "filenamestring":"Data_files/test.rlv",
+                "homecounter":[63.72, 0],
+                "coefficients":[0.05, 0.1],
+                "inputexel":"Data_files/test.xlsx",
+                "outputexel":"Data_files/test_output.xlsx",
+                "dateslist":['19.04.2021 13:52:24', '2021-04-16', '2021-04-01', '2021-03-16', '2021-03-01', '2021-02-16', '2021-02-01', '2021-01-16', '2021-01-01', '2020-12-16', '2020-12-01', '2020-11-16', '2020-11-01', '2020-10-16', '2020-10-01', '2020-09-16', '2020-09-01', '2020-08-16', '2020-08-01', '2020-07-16', '2020-07-01', '2020-06-16', '2020-06-01', '2020-05-16', '2020-05-01', '2020-04-16', '2020-04-01', '2020-03-16', '2020-03-01', '2020-02-16', '2020-02-01', '2020-01-16', '2020-01-01', '2019-12-16', '2019-12-01', '2019-11-16', '2019-11-01']
+                        }
+      output_path = params["outputexel"]
+      if os.path.exists(output_path):
+        os.remove(output_path)
+      self.assertFalse (os.path.exists(output_path), "Output file does exist")
+      gui_calc_params(params)
+      # Assert if the output file exists
+      self.assertTrue(os.path.exists(output_path), "Output file does not exist")
+      sheet_name = "Теплоенрго"
+      df_report = load_exel(output_path, sheet_name)
+      # print(df_report)
+      self.assertIsNotNone(df_report )
+      self.assertEqual(df_report.iloc[40, 4], 63.72)
+      self.assertEqual(df_report.iloc[1, 1], "кв.1")
+      self.assertEqual(df_report.iloc[1, 4], 2.326)
+      self.assertEqual(df_report.shape[0], 41)
+
+      sheet_name = "квартири, площі"
+      df_report = load_exel(output_path, sheet_name)
+      # print(df_report)
+      self.assertIsNotNone(df_report )
+      self.assertEqual(df_report.iloc[7, 1], "кв.7")
+      # 8
+      self.assertEqual(df_report.iloc[7, 18], 603)
+      self.assertEqual(df_report.iloc[7, 17], 653)
+      # 31
+      self.assertEqual(df_report.iloc[30, 17], 195)
+      self.assertEqual(df_report.iloc[30, 18], 437)
+      self.assertEqual(df_report.shape[0], 141)
+      self.assertEqual(df_report.iloc[109, 17], 63.72)
+      self.assertEqual(df_report.iloc[109, 18], 0)
 
     def test_load_exel(self):
         gv_filename = "Data_files/test.xlsx"
@@ -179,6 +307,30 @@ class Test_Init(unittest.TestCase):
       self.assertEqual(len(t), 1)
       self.assertIsNone(t[0])
       t =None
+      string = ""
+      t = get_df_list_from_filename_string(string)
+      self.assertIsNotNone(t)
+      self.assertEqual(len(t), 1)
+      self.assertIsNone(t[0])
+      t =None
+      string = None
+      t = get_df_list_from_filename_string(string)
+      self.assertIsNotNone(t)
+      self.assertEqual(len(t), 1)
+      self.assertIsNone(t[0])
+      t =None
+      t =None
+      string = ";"
+      t = get_df_list_from_filename_string(string)
+      self.assertIsNotNone(t)
+      self.assertEqual(len(t), 1)
+      self.assertIsNone(t[0])
+      t =None
+      string = " "
+      t = get_df_list_from_filename_string(string)
+      self.assertIsNotNone(t)
+      self.assertEqual(len(t), 1)
+      self.assertIsNone(t[0])
 
     def test_get_dates_from_colums_list(self): 
       string = "Data_files/test.rlv"
@@ -213,6 +365,9 @@ class setUp_Test(unittest.TestCase):
         # sheet_name = "показники"
         sheet_name = "квартири, площі"
         self.df = load_exel(gv_filename, sheet_name)
+        # self.assertEqual(gv.gk_Qfun_sys, 0.05)
+        # self.assertEqual(gv.gk_Qmzk, 0.1)
+        gv.set_global_coefficients(Qfun_sys = 0.05, Qmzk = 0.1)
 
     def test_init(self):# {{{
         self.assertEqual(self.df.iloc[104, 0], 37)
@@ -984,6 +1139,21 @@ class setUp_Test(unittest.TestCase):
         test = sum([app.total_e for app in app_list])
         # print([app.total_e for app in app_list])
         self.assertEqual(float("{:.3f}".format(test)),  63.720)
+
+    def test_set_global_coefficients(self):
+      self.assertEqual(gv.gk_Qfun_sys, 0.05)
+      self.assertEqual(gv.gk_Qmzk, 0.1)
+      gv.set_global_coefficients(Qfun_sys = 0)
+      # gk_Qfun_sys = 0
+      self.assertEqual(gv.gk_Qfun_sys, 0)
+      gv.set_global_coefficients(Qmzk = 0)
+      self.assertEqual(gv.gk_Qmzk, 0)
+      gv.set_global_coefficients(Qmzk = 10, Qfun_sys = 10)
+      self.assertEqual(gv.gk_Qfun_sys, 10)
+      self.assertEqual(gv.gk_Qmzk, 10)
+      gv.set_global_coefficients(Qfun_sys = 0.05, Qmzk = 0.1)
+      self.assertEqual(gv.gk_Qfun_sys, 0.05)
+      self.assertEqual(gv.gk_Qmzk, 0.1)
 
 if __name__ == "__main__":
     unittest.main()
