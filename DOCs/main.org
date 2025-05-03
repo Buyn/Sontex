@@ -2296,6 +2296,52 @@ class Test_Init(unittest.TestCase):
                        "показники на 01.03.2023")
 
       
+      params = {"dates":['19.04.2021 13:52:24', '2021-04-01',],
+                "filenamestring":"Data_files/test.rlv;Data_files/test.csv",
+                "homecounter":[63.72, 0],
+                "coefficients":[0, 0],
+                "inputexel":"Data_files/test.xlsx",
+                "outputexel":"Data_files/test_output.xlsx",
+                "dateslist":['19.04.2021 13:52:24', '2021-04-16', '2021-04-01', '2021-03-16', '2021-03-01', '2021-02-16', '2021-02-01', '2021-01-16', '2021-01-01', '2020-12-16', '2020-12-01', '2020-11-16', '2020-11-01', '2020-10-16', '2020-10-01', '2020-09-16', '2020-09-01', '2020-08-16', '2020-08-01', '2020-07-16', '2020-07-01', '2020-06-16', '2020-06-01', '2020-05-16', '2020-05-01', '2020-04-16', '2020-04-01', '2020-03-16', '2020-03-01', '2020-02-16', '2020-02-01', '2020-01-16', '2020-01-01', '2019-12-16', '2019-12-01', '2019-11-16', '2019-11-01']
+                        }
+      output_path = params["outputexel"]
+      if os.path.exists(output_path):
+        os.remove(output_path)
+      # Assert if the output file exists
+      self.assertFalse (os.path.exists(output_path), "Output file does exist")
+      gui_log.clear()
+      gui_calc_params(params)
+      # Assert if the output file not exists
+      self.assertTrue(os.path.exists(output_path), "Output file does not exist")
+      # gv_filename = "Data_files/test.xlsx"
+      sheet_name = "Теплоенрго"
+      df_report = load_exel(output_path, sheet_name)
+      # print(df_report)
+      self.assertIsNotNone(df_report )
+      self.assertEqual(df_report.iloc[1, 1], "кв.1")
+      self.assertEqual(df_report.iloc[1, 4], 2.448)
+      self.assertEqual(df_report.shape[0], 41)
+      self.assertEqual(df_report.iloc[40, 4], 63.72)
+      sheet_name = "квартири, площі"
+      df_report = load_exel(output_path, sheet_name)
+      # print(df_report)
+      self.assertIsNotNone(df_report )
+      self.assertEqual(df_report.iloc[7, 1], "кв.7")
+      # 8
+      self.assertEqual(df_report.iloc[7, 18], 108)
+      self.assertEqual(df_report.iloc[7, 17], 126)
+      # 31
+      self.assertEqual(df_report.iloc[30, 17], 76)
+      self.assertEqual(df_report.iloc[30, 18], 66)
+      self.assertEqual(df_report.shape[0], 141)
+      self.assertEqual(df_report.iloc[109, 17], 63.72)
+      self.assertEqual(df_report.iloc[109, 18], 0)
+      self.assertEqual(df_report.iloc[gv.gl_ferst_app_row - 1, gv.gl_column_home_counter_value1],
+                       "показники на 19.04.2021 13:52:24")
+      self.assertEqual(df_report.iloc[gv.gl_ferst_app_row - 1, gv.gl_column_home_counter_value2],
+                       "показники на 2021-04-01")
+
+      
 #+end_src
       # print(gui_log)
 
