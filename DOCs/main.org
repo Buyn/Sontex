@@ -2089,8 +2089,8 @@ class Test_Init(unittest.TestCase):
       self.assertIsNotNone(df_report )
       self.assertEqual(df_report.iloc[1, 1], "кв.1")
       self.assertEqual(df_report.iloc[1, 4], 2.326)
-      self.assertEqual(df_report.shape[0], 41)
-      self.assertEqual(df_report.iloc[40, 4], 63.72)
+      self.assertEqual(df_report.shape[0], 43)
+      self.assertEqual(df_report.iloc[42, 4], 63.72)
 
       sheet_name = "квартири, площі"
       df_report = load_exel(output_path, sheet_name)
@@ -2133,10 +2133,10 @@ class Test_Init(unittest.TestCase):
       df_report = load_exel(output_path, sheet_name)
       # print(df_report)
       self.assertIsNotNone(df_report )
-      self.assertEqual(df_report.iloc[40, 4], 100)
+      self.assertEqual(df_report.iloc[42, 4], 100)
       self.assertEqual(df_report.iloc[1, 1], "кв.1")
       self.assertEqual(df_report.iloc[1, 4], 3.65)
-      self.assertEqual(df_report.shape[0], 41)
+      self.assertEqual(df_report.shape[0], 43)
 
       sheet_name = "квартири, площі"
       df_report = load_exel(output_path, sheet_name)
@@ -2179,10 +2179,10 @@ class Test_Init(unittest.TestCase):
       df_report = load_exel(output_path, sheet_name)
       # print(df_report)
       self.assertIsNotNone(df_report )
-      self.assertEqual(df_report.iloc[40, 4], 63.72)
+      self.assertEqual(df_report.iloc[42, 4], 63.72)
       self.assertEqual(df_report.iloc[1, 1], "кв.1")
       self.assertEqual(df_report.iloc[1, 4], 2.326)
-      self.assertEqual(df_report.shape[0], 41)
+      self.assertEqual(df_report.shape[0], 43)
 
       sheet_name = "квартири, площі"
       df_report = load_exel(output_path, sheet_name)
@@ -2229,8 +2229,8 @@ class Test_Init(unittest.TestCase):
       self.assertIsNotNone(df_report )
       self.assertEqual(df_report.iloc[1, 1], "кв.1")
       self.assertEqual(df_report.iloc[1, 4], 2.326)
-      self.assertEqual(df_report.shape[0], 41)
-      self.assertEqual(df_report.iloc[40, 4], 63.72)
+      self.assertEqual(df_report.shape[0], 43)
+      self.assertEqual(df_report.iloc[42, 4], 63.72)
       sheet_name = "квартири, площі"
       df_report = load_exel(output_path, sheet_name)
       # print(df_report)
@@ -2274,8 +2274,8 @@ class Test_Init(unittest.TestCase):
       self.assertIsNotNone(df_report )
       self.assertEqual(df_report.iloc[1, 1], "кв.1")
       self.assertEqual(df_report.iloc[1, 4], 2.326)
-      self.assertEqual(df_report.shape[0], 41)
-      self.assertEqual(df_report.iloc[40, 4], 63.72)
+      self.assertEqual(df_report.shape[0], 43)
+      self.assertEqual(df_report.iloc[42, 4], 63.72)
       sheet_name = "квартири, площі"
       df_report = load_exel(output_path, sheet_name)
       # print(df_report)
@@ -2320,8 +2320,8 @@ class Test_Init(unittest.TestCase):
       self.assertIsNotNone(df_report )
       self.assertEqual(df_report.iloc[1, 1], "кв.1")
       self.assertEqual(df_report.iloc[1, 4], 2.448)
-      self.assertEqual(df_report.shape[0], 41)
-      self.assertEqual(df_report.iloc[40, 4], 63.72)
+      self.assertEqual(df_report.shape[0], 43)
+      self.assertEqual(df_report.iloc[42, 4], 63.72)
       sheet_name = "квартири, площі"
       df_report = load_exel(output_path, sheet_name)
       # print(df_report)
@@ -4069,8 +4069,8 @@ class Test(unittest.TestCase):
     self.assertIsNotNone(df_report )
     self.assertEqual(df_report.iloc[1, 1], "кв.1")
     self.assertEqual(df_report.iloc[1, 4], 2.326)
-    self.assertEqual(df_report.shape[0], 41)
-    self.assertEqual(df_report.iloc[40, 4], 63.72)
+    self.assertEqual(df_report.shape[0], 43)
+    self.assertEqual(df_report.iloc[42, 4], 63.72)
 
     sheet_name = "квартири, площі"
     df_report = load_exel(output_path, sheet_name)
@@ -4115,8 +4115,8 @@ class Test(unittest.TestCase):
     self.assertIsNotNone(df_report )
     self.assertEqual(df_report.iloc[1, 1], "кв.1")
     self.assertEqual(df_report.iloc[1, 4], 3.65)
-    self.assertEqual(df_report.shape[0], 41)
-    self.assertEqual(df_report.iloc[40, 4], 100)
+    self.assertEqual(df_report.shape[0], 43)
+    self.assertEqual(df_report.iloc[42, 4], 100)
 
     sheet_name = "квартири, площі"
     df_report = load_exel(output_path, sheet_name)
@@ -4161,8 +4161,8 @@ class Test(unittest.TestCase):
     self.assertIsNotNone(df_report )
     self.assertEqual(df_report.iloc[1, 1], "кв.1")
     self.assertEqual(df_report.iloc[1, 4], 2.326)
-    self.assertEqual(df_report.shape[0], 41)
-    self.assertEqual(df_report.iloc[40, 4], 63.72)
+    self.assertEqual(df_report.shape[0], 43)
+    self.assertEqual(df_report.iloc[42, 4], 63.72)
 
     sheet_name = "квартири, площі"
     df_report = load_exel(output_path, sheet_name)
@@ -4205,8 +4205,8 @@ class Test(unittest.TestCase):
     self.assertIsNotNone(df_report )
     self.assertEqual(df_report.iloc[1, 1], "кв.1")
     self.assertEqual(df_report.iloc[1, 4], 2.326)
-    self.assertEqual(df_report.shape[0], 41)
-    self.assertEqual(df_report.iloc[40, 4], 63.72)
+    self.assertEqual(df_report.shape[0], 43)
+    self.assertEqual(df_report.iloc[42, 4], 63.72)
     sheet_name = "квартири, площі"
     df_report = load_exel(output_path, sheet_name)
     # print(df_report)
@@ -6001,7 +6001,8 @@ class setUp_Test(unittest.TestCase):
     @classmethod #setUpClass#
     def setUpClass(self):
         gv_filename = "Data_files/test.xlsx"
-        sheet_name = "rules"
+        # sheet_name = "rules"
+        sheet_name = gv.gr_rule_sheet_name
         self._df_rules = load_exel(gv_filename, sheet_name)
         # sheet_name = "report"
         sheet_name = "Теплоенрго"
@@ -6261,6 +6262,7 @@ source sontex-env/bin/activate
 while true; do
   # python -m unittest
   python3 -m unittest ingtest01
+  python3 -m unittest test_main.Test_Init.test_gui_calc_params
   python3 -m unittest test_winmain.Test_Init.test_winmain_test
   python3 -m unittest test_winmain.Test_Init.test_btn_ask_open_exel_file 
   python3 -m unittest test_winmain.Test_Init.test_btn_ask_open_DBfiles 

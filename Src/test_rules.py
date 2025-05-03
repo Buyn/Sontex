@@ -18,7 +18,8 @@ class setUp_Test(unittest.TestCase):
     @classmethod #setUpClass#
     def setUpClass(self):
         gv_filename = "Data_files/test.xlsx"
-        sheet_name = "rules"
+        # sheet_name = "rules"
+        sheet_name = gv.gr_rule_sheet_name
         self._df_rules = load_exel(gv_filename, sheet_name)
         # sheet_name = "report"
         sheet_name = "Теплоенрго"
