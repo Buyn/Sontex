@@ -134,8 +134,9 @@ def gui_calc_params(params):
 
     for i , colum in enumerate([gv.gl_column_home_counter_value1, gv.gl_column_home_counter_value2]):
         if dates[i] and columslist[i]:
-          df.iloc[gv.gl_ferst_app_row - 1, colum] = "показники на" + ": ".join(dates[i])
-          print_to_log("Показники эксель, замінено на csv/rlv, на дату"+ str(dates[i]))
+          df.iloc[gv.gl_ferst_app_row - 1, colum] = "показники на " + str(dates[i])
+
+          print_to_log("Показники ексель у колонці " + str(colum) + " замінені показниками csv/rlv, на дату "+ str(dates[i]))
 
     app_list, counters_list = populate_apps(df)
 
