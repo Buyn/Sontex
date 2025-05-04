@@ -24,6 +24,18 @@ def start_calc(exel_path, csv_path, output_path, home_counter):
     print("end calc")
 
 @eel.expose      
+def start_calc_params(params):  
+    """ 
+    start calculation of all values
+    on geting all values as dictionary
+    exel, csv files and cofficients
+    """  
+    print("start calculations function with params")  
+    print(params)
+    m. gui_calc_params(params)
+    print("end calculations function")
+
+@eel.expose      
 def pull_log():  
     """ 
     Pull values from log variable

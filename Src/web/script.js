@@ -11,6 +11,9 @@ const currCounter = initForm["curr-count"];
 const csvBtn = initForm["csv-btn"];
 const csvInput = initForm["csv-input"];
 
+const mzkInput = initForm["mzk-cof"];
+const fsoInput = initForm["fso-cof"];
+
 const outputBtn = initForm["output-btn"];
 const outputInput = initForm["output-input"];
 
@@ -40,7 +43,7 @@ outputBtn.onclick = () => saveAs( outputInput,
                                   ["excel files","*.xlsx"],
                                   "Зберегти звіт як");
 
-reportBtn.onclick = () => start_calc();
+reportBtn.onclick = () => start_calc_params();
 
 refreshLog();
 setInterval(refreshLog, 3000);
@@ -123,6 +126,55 @@ async function start_calc() {
     const counterValues = currCounter.value && [currCounter.value, 0] || null; 
     console.log(counterValues);
     var r = await eel.start_calc(exelInput.value, csvInput.value, outputInput.value, counterValues)();
+    refreshLog();
+    console.log(exelInput.value);
+    console.log(csvInput.value);
+    console.log(outputInput.value);
+    console.log("result of calc =", r);
+    // refreshLog();
+    await pause(1000);
+    // refreshLog();
+    await pause(1000);
+    // refreshLog();
+    sendToLog("Розрахунок показників завершився успішно");
+    sendToLog("Результат розрахунку збережено у файлі " + outputInput.value);
+    // sendToLog(new Date().toISOString().replace("T", " ").slice(0,16));
+    sendToLog(new Date());
+    sendToLog("==================================================");
+    sendToLog(" ");
+  }
+
+async function start_calc_params() {
+    if(!exelInput.value){
+        sendToLog("не заповнено поле вхідного файлу ексель");
+        return;
+    }
+    if(!outputInput.value){
+        sendToLog("не заповнено поле вихідного файлу звіту ексель");
+        return;
+    }
+    console.log("start calculations ...");
+    sendToLog(" ");
+    sendToLog(" ");
+    sendToLog(new Date());
+    sendToLog("--------------------------------------------------");
+    // sendToLog(new Date().toISOString().replace("T", " ").slice(0,16));
+    sendToLog("Почато розрахунок показників");
+    document.cookie = exelInput.name + "=" + exelInput.value;
+    document.cookie = csvInput.name + "=" + csvInput.value;
+    document.cookie = outputInput.name + "=" + outputInput.value;
+    const counterValues = currCounter.value && [currCounter.value, 0] || [0, 0]; 
+    console.log(counterValues);
+    var params ={
+                "dates":[prevSelect.value, currSelect.value],
+                "filenamestring":csvInput.value,
+                "homecounter":counterValues,
+                "coefficients":[mzkInput.value/100, fsoInput.value/100],
+                "inputexel":exelInput.value,
+                "outputexel":outputInput.value,
+                "dateslist":gdataslist,};
+    console.log(params);
+    var r = await eel.start_calc_params(params)();
     refreshLog();
     console.log(exelInput.value);
     console.log(csvInput.value);
