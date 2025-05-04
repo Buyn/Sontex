@@ -15,6 +15,7 @@
 <html lang="ru">  
 #+end_src
 **** header
+ <link rel="shortcut icon" type="image/x-icon" href="../sa.ico">
 #+begin_src html
 <head>  
   <meta charset="UTF-8" />  
@@ -23,6 +24,8 @@
 initial-scale=1.0" />  
   <title>Sontex</title>  
 
+  <link rel="shortcut icon" type="image/ico" href="sa.ico">
+  <meta name="msapplication-TileImage" content="sa.ico" />
   <link rel="stylesheet" href="dark.css"/>
   <!-- <link rel="stylesheet" href="light.css"/>   -->
   <link rel="stylesheet" href="style.css"/> 
@@ -575,6 +578,13 @@ label {
 
 #+end_src
 
+** resurs files
+/home/buyn/Dev/Python/Sontex/Src/web/antap.png
+krita /home/buyn/Dev/Python/Sontex/Src/web/antap.png
+krita /home/buyn/Dev/Python/Sontex/Src/web/sa.ico
+krita /home/buyn/Dev/Python/Sontex/Src/web/sa.ico.kra
+/home/buyn/Dev/Python/Sontex/Src/web/sontex.png
+krita /home/buyn/Dev/Python/Sontex/Src/web/sontex.png
 * SRC files
 ** winmain
 *** winmain.py
@@ -6300,8 +6310,9 @@ if __name__ == "__main__":
 #+HEADER: :tangle ../Src/Start.sh
 #+begin_src sh 
 source sontex-env/bin/activate
-python main.py
+python winmain.py
 #+end_src
+python main.py
 
 ** test all
 *** win
