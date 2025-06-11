@@ -101,28 +101,28 @@ initial-scale=1.0" />
     </div>
 #+end_src
 
-****** Розрахунковий період з - по
+****** Розрахунковий період по - з
 ******* open <div
 #+begin_src html
     <div class="row" title="
 Розрахунковий період з - по
 ">
       #+end_src
-******* з-
-      #+begin_src html
-      <label>
-Розрахунковий період з-
-      </label>
-      <select id="prev-date" name="prev-date">
-        <option> R col exel </option>
-      </select>
-#+end_src
 ******* по-
 #+begin_src html
       <label>
-  по-
+ Розрахунковий період по-
       </label>
       <select id="curr-date" name="curr-date">
+        <option> R col exel </option>
+      </select>
+#+end_src
+******* з-
+      #+begin_src html
+      <label>
+ з-
+      </label>
+      <select id="prev-date" name="prev-date">
         <option> S col exel </option>
       </select>
 #+end_src
@@ -367,7 +367,7 @@ function sendToLog(text) {
 #+begin_src js :results output silent
 async function refreshLog() {
     var log_strings= await eel.pull_log()();
-    log_strings.reverse();
+    // log_strings.reverse();
     log_strings.forEach(string => sendToLog(string));
     }
 
@@ -1198,6 +1198,8 @@ def gui_calc_params(params):
     # print(counters_list)
     # all_ap_idlist = set([ for ids in counters_list if ids])
     # for l in [x for x in a if x]:
+в id_list добовляются только неповторяюшиеся айди которые вернул
+это только список не найденых айди
     #+begin_src python
     all_ap_idlist = set()
     for lst in filter(lambda elm: True if elm else False, counters_list):
@@ -1212,6 +1214,14 @@ def gui_calc_params(params):
         print_to_log("Ці ID вказані у Excel , але відсутні у файлі" + str(not_updated_exel_id))
     #+end_src
 
+
+    not_updated_exel_id = all_ap_idlist - id_list
+:tangle no
+    #+begin_src python
+    print ("not_updated_exel_id =", not_updated_exel_id)
+    print("all_ap_idlist =", all_ap_idlist)
+    print("id_list = ", id_list)
+#+end_src
     #+RESULTS:
 
     if len(id_list)>0:
@@ -2071,7 +2081,6 @@ if __name__ == "__main__":
 #+end_src
 # ----------------------------------------------
 
-  
 *** test_main.py
 **** file
 #+begin_src emacs-lisp :results output silent
@@ -6286,10 +6295,20 @@ if __name__ == "__main__":
 #+end_src
 * data files
 ** from SRC
+*** test
 /home/buyn/Dev/Python/Sontex/Src/Data_files/test.xlsx
 /home/buyn/Dev/Python/Sontex/Src/Data_files/test_output.xlsx
 /home/buyn/Dev/Python/Sontex/Src/Data_files/test.csv
 /home/buyn/Dev/Python/Sontex/Src/Data_files/test.rlv
+*** raw
+/home/buyn/Dev/Python/Sontex/raw-files/input.xlsx
+/home/buyn/Dev/Python/Sontex/raw-files/new/Скрипника_7_різні_групи_241212_131429_566_read_3.csv
+/home/buyn/Dev/Python/Sontex/raw-files/241212_131429_566_read_3.csv
+
+/home/buyn/Dev/Python/Sontex/raw-files/output.xlsx
+/home/buyn/Dev/Python/Sontex/raw-files/output1.xlsx
+
+
 * sandbox
 ** sandbox.org
 #+begin_src emacs-lisp :results output silent
@@ -6362,6 +6381,32 @@ done
 :PROPERTIES:
 :header-args: :tangle no :dir ../Src 
 :END:
+** run app
+*** start.sh
+#+begin_src elisp :results output silent
+(buyn-shell-start "konsole -e '~/Dev/Python/Sontex/Src/Start.sh'")
+(delete-other-windows)
+#+end_src
+** tests
+*** integer test
+#+begin_src elisp :results output silent
+(buyn-shell-start "konsole -e '~/Dev/Python/Sontex/Src/test_integr.sh'")
+#+end_src
+
+#+begin_src elisp :results output silent
+(buyn-shell-start "~/Dev/Python/Sontex/Src/test_integr.sh")
+#+end_src
+~/Dev/Python/Sontex/Src/test_integr.sh
+~/Dev/Python/Sontex/Src/test_integr.sh
+*** test_all.sh
+#+begin_src elisp :results output silent
+(buyn-shell-start "konsole -e '~/Dev/Python/Sontex/Src/test_all.sh'")
+(delete-other-windows)
+#+end_src
+
+#+begin_src elisp :results output silent
+(buyn-shell-start "~/Dev/Python/Sontex/Src/test_all.sh")
+#+end_src
 ** execute-src-block:
 (save-excursion (progn (org-babel-goto-named-src-block "auto-tangle-block") (org-babel-execute-src-block)))
 (save-excursion (let () (org-babel-goto-named-src-block "auto-tangle-block") (org-babel-execute-src-block)))
@@ -6390,25 +6435,6 @@ pip install numpy matplotlib
 *** open console
 #+begin_src elisp :results output silent :dir ~/Dev/Python/Sontex/Src
 (buyn-shell-start "konsole")
-#+end_src
-
-*** integer test
-#+begin_src elisp :results output silent
-(buyn-shell-start "konsole -e '~/Dev/Python/Sontex/Src/test_integr.sh'")
-#+end_src
-
-#+begin_src elisp :results output silent
-(buyn-shell-start "~/Dev/Python/Sontex/Src/test_integr.sh")
-#+end_src
-~/Dev/Python/Sontex/Src/test_integr.sh
-~/Dev/Python/Sontex/Src/test_integr.sh
-*** test_all.sh
-#+begin_src elisp :results output silent
-(buyn-shell-start "konsole -e '~/Dev/Python/Sontex/Src/test_all.sh'")
-#+end_src
-
-#+begin_src elisp :results output silent
-(buyn-shell-start "~/Dev/Python/Sontex/Src/test_all.sh")
 #+end_src
 ** compile
 *** test_winmain_test

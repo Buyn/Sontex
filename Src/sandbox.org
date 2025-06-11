@@ -1,7 +1,49 @@
 :PROPERTIES:
-:header-args: :tangle sandbox.py
+:header-args: :tangle sandbox.py :comments link
 :END:
-* 2025-05-02 append list
+* dd
+** 00
+#+begin_src python
+print("test 1!")
+#+end_src
+org-babel-detangle
+
+** 01
+#+begin_src python
+print("test 2!")
+#+end_src
+
+** test file sh
+:PROPERTIES:
+:header-args: :tangle sandbox.sh :comments link
+:END:
+#+begin_src sh
+print("test 2!")
+#+end_src
+
+** test file clojure js
+:PROPERTIES:
+:header-args: :tangle sandbox.cljs
+:END:
+****** +original+
+#+begin_src clojure 
+print("test 2!")
+#+end_src
+
+** test file clojure
+:PROPERTIES:
+:header-args: :tangle sandbox.cl
+:END:
+****** +original+
+#+begin_src clojure 
+print("test 2!")
+#+end_src
+
+* DONE 2025-05-02 append list
+CLOSED: [2025-05-11 Sun 15:12]
+:PROPERTIES:
+:header-args: :tangle no
+:END:
 ** 03
 #+begin_src python
 a = [None, None, [1, 2 ,4, 5,7] ,[3, 2 ,4, 5,7] , [1, 2 ,4, 5,7], None , [1, 2 ,4, 5], None]
@@ -484,6 +526,8 @@ and then name the block you want to execute automatically:
 
 ** find-file:
 [[elisp:(org-babel-tangle)]]
+(find-file-other-frame "/home/buyn/Dev/Python/Sontex/Src/sandbox.py")
+
 (find-file-other-frame "D:/Development/version-control/GitHub/my-python/pytts2d/SRC/MouseHandler.py")
 (org-babel-tangle)
 "D:\Development\version-control\GitHub\My-python\pytts2d\DOCs\Brain\MouseHandler.py control Class org.org" 

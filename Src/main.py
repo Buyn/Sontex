@@ -132,6 +132,10 @@ def gui_calc_params(params):
     if not_updated_exel_id :
         print_to_log("Ці ID вказані у Excel , але відсутні у файлі" + str(not_updated_exel_id))
 
+    print ("not_updated_exel_id =", not_updated_exel_id)
+    print("all_ap_idlist =", all_ap_idlist)
+    print("id_list = ", id_list)
+
     for i , colum in enumerate([gv.gl_column_home_counter_value1, gv.gl_column_home_counter_value2]):
         if dates[i] and columslist[i]:
           df.iloc[gv.gl_ferst_app_row - 1, colum] = "показники на " + str(dates[i])

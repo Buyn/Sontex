@@ -100,7 +100,7 @@ function sendToLog(text) {
 
 async function refreshLog() {
     var log_strings= await eel.pull_log()();
-    log_strings.reverse();
+    // log_strings.reverse();
     log_strings.forEach(string => sendToLog(string));
     }
 
