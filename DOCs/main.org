@@ -1984,7 +1984,7 @@ def update_counters(app_list, counters_list, df_csv, data_i = 1):
     id_list =set()
     for i, adress_list in enumerate(counters_list):
         if counters_list[i]:
-            r = app_list[i].update_allvalues1_by_id(df_csv,  name_value, name_date)
+            r = app_list[i].update_allvalues1_by_id_date(df_csv,  name_value, name_date)
             if r:
                 data_list.update(r)
             else:
@@ -3191,7 +3191,7 @@ class setUp_Test(unittest.TestCase):
         # self.assertEqual(app_list[37].counters_list[0].get_value1(), 178)
         # ------
         # print(df_csv)
-        # r = app_list[i].update_allvalues1_by_id(df_csv,  name_value, name_date)
+        # r = app_list[i].update_allvalues1_by_id_date(df_csv,  name_value, name_date)
 ****** def test_gen_sum_heated_area : 
 #+begin_src python
     def test_gen_sum_heated_area(self): 
@@ -4510,12 +4510,12 @@ class Appart_values:
 
 
 #+end_src
-***** def update_allvalues1_by_id : 
+***** def update_allvalues1_by_id_date:
         # print("name_date = ", name_date)
         # print("self.counters_list = ", self.counters_list[0])
                     # print("counter = ", counter)
 #+begin_src python
-    def update_allvalues1_by_id(self, df,  name_value, name_date=None):
+    def update_allvalues1_by_id_date(self, df,  name_value, name_date):
         r =[]
         self.not_found_ids.clear()
         if self.counters_list:
@@ -4534,12 +4534,35 @@ class Appart_values:
 #+end_src
                         # print("ser_id = ", ser_id, "r = ", r)
                     # print("not in csv id", ser_id)
-***** def update_allvalues2_by_id : 
+***** def update_allvalues1_by_id:
         # print("name_date = ", name_date)
         # print("self.counters_list = ", self.counters_list[0])
                     # print("counter = ", counter)
 #+begin_src python
-    def update_allvalues2_by_id(self, df,  name_value, name_date=None):
+    def update_allvalues1_by_id(self, df, name_value):
+        r =[]
+        self.not_found_ids.clear()
+        if self.counters_list:
+            for counter in self.counters_list:
+                try:
+                    ser_id = counter.adress
+                    counter.value1 = int(df.loc[ser_id , name_value])
+                    counter.set_value1(counter.value1)
+                    r.append(ser_id)
+                except Exception:
+                    pass
+        return r
+
+
+#+end_src
+                        # print("ser_id = ", ser_id, "r = ", r)
+                    # print("not in csv id", ser_id)
+***** def update_allvalues2_by_id: 
+        # print("name_date = ", name_date)
+        # print("self.counters_list = ", self.counters_list[0])
+                    # print("counter = ", counter)
+#+begin_src python
+    def update_allvalues2_by_id(self, df,  name_value):
         r =[]
         self.not_found_ids.clear()
         if self.counters_list:
@@ -4548,10 +4571,9 @@ class Appart_values:
                     ser_id = counter.adress
                     counter.value2 = int(df.loc[ser_id , name_value])
                     counter.set_value2(counter.value2)
-                    if name_date:
-                        r.append(df.loc[ser_id , name_date])
+                    r.append(ser_id)
                 except Exception:
-                    self.not_found_ids.add(ser_id)
+                    pass
         return r
 
 
@@ -4957,9 +4979,9 @@ class setUp_Test(unittest.TestCase):
 
 
 #+end_src
-***** def test_update_allvalues1_by_id : 
+***** def test_update_allvalues1_by_id_date:
 #+begin_src python
-    def test_update_allvalues1_by_id(self): 
+    def test_update_allvalues1_by_id_date(self): 
         gv_filename = gv.gv_csv
         # df_csv = load_csv(gv_filename)
         df_csv = pd.read_csv(gv.gv_csv ,
@@ -4971,7 +4993,7 @@ class setUp_Test(unittest.TestCase):
         name_value = gv.gv_csv_name_value + str(gv.gv_csv_name_i)
         test = Appart_values(self.df, 7)
         self.assertEqual(test.counters_list[0].value1, 653)
-        test.update_allvalues1_by_id(df_csv,  name_value, name_date)
+        test.update_allvalues1_by_id_date(df_csv,  name_value, name_date)
         self.assertEqual(test.counters_list[0].value1, 126)
         self.assertEqual(test.counters_list[0].get_value1(), 126)
         # rlv
@@ -4994,13 +5016,13 @@ class setUp_Test(unittest.TestCase):
         test = Appart_values(self.df, 7)
         # print(test.counters_list[0])
         self.assertEqual(test.counters_list[0].value1, 126)
-        test.update_allvalues1_by_id(df_csv,  name_value, name_date)
+        test.update_allvalues1_by_id_date(df_csv,  name_value, name_date)
         self.assertEqual(test.counters_list[0].value1, 126)
         self.assertEqual(test.counters_list[0].get_value1(), 126)
 
 
 #+end_src
-***** def test_update_allvalues2_by_id : 
+***** def test_update_allvalues2_by_id:
 #+begin_src python
     def test_update_allvalues2_by_id(self): 
         gv_filename = gv.gv_csv
@@ -5015,9 +5037,16 @@ class setUp_Test(unittest.TestCase):
         # name_value = gv_csv_name_value + str(2)
         test = Appart_values(self.df, 7)
         self.assertEqual(test.counters_list[0].value2, 603)
-        test.update_allvalues2_by_id(df_csv,  name_value, name_date)
+        t = test.update_allvalues2_by_id(df_csv,  name_value)
         self.assertEqual(test.counters_list[0].value2, 126)
         self.assertEqual(test.counters_list[0].get_value2(), 126)
+        self.assertEqual(t, [25482311, 25482312, 25482313])
+        self.assertEqual(t[0], 25482311)
+        t = test.update_allvalues1_by_id(df_csv,  name_value)
+        self.assertEqual(test.counters_list[0].value1, 126)
+        self.assertEqual(test.counters_list[0].get_value1(), 126)
+        self.assertEqual(t, [25482311, 25482312, 25482313])
+        self.assertEqual(t[0], 25482311)
         # rlv
         gv_filename = gv.gv_rlv
         df_csv = pd.read_csv(gv_filename ,
@@ -5039,9 +5068,14 @@ class setUp_Test(unittest.TestCase):
         test = Appart_values(self.df, 7)
         # print(test.counters_list[0])
         self.assertEqual(test.counters_list[0].value2, 126)
-        test.update_allvalues2_by_id(df_csv,  name_value, name_date)
+        t = test.update_allvalues2_by_id(df_csv,  name_value)
         self.assertEqual(test.counters_list[0].value2, 126)
         self.assertEqual(test.counters_list[0].get_value2(), 126)
+        self.assertEqual(t, [])
+        t = test.update_allvalues1_by_id(df_csv,  name_value)
+        self.assertEqual(test.counters_list[0].value1, 126)
+        self.assertEqual(test.counters_list[0].get_value1(), 126)
+        self.assertEqual(t, [])
 
 
 #+end_src
@@ -6407,17 +6441,6 @@ done
 #+begin_src elisp :results output silent
 (buyn-shell-start "~/Dev/Python/Sontex/Src/test_all.sh")
 #+end_src
-** execute-src-block:
-(save-excursion (progn (org-babel-goto-named-src-block "auto-tangle-block") (org-babel-execute-src-block)))
-(save-excursion (let () (org-babel-goto-named-src-block "auto-tangle-block") (org-babel-execute-src-block)))
-and then name the block you want to execute automatically:
-
-** find-file:
-[[elisp:(org-babel-tangle)]]
-(find-file-other-frame "D:/Development/version-control/GitHub/my-python/pytts2d/SRC/MouseHandler.py")
-(org-babel-tangle)
-"D:\Development\version-control\GitHub\My-python\pytts2d\DOCs\Brain\MouseHandler.py control Class org.org" 
-
 ** evormnt
 python -m venv prime-env
 
@@ -6431,6 +6454,17 @@ pip install matplotlib
 pip install numpy matplotlib
 
 (pyvenv-activate "sontex-env")
+** execute-src-block:
+(save-excursion (progn (org-babel-goto-named-src-block "auto-tangle-block") (org-babel-execute-src-block)))
+(save-excursion (let () (org-babel-goto-named-src-block "auto-tangle-block") (org-babel-execute-src-block)))
+and then name the block you want to execute automatically:
+
+** find-file:
+[[elisp:(org-babel-tangle)]]
+(find-file-other-frame "D:/Development/version-control/GitHub/my-python/pytts2d/SRC/MouseHandler.py")
+(org-babel-tangle)
+"D:\Development\version-control\GitHub\My-python\pytts2d\DOCs\Brain\MouseHandler.py control Class org.org" 
+
 ** console
 *** open console
 #+begin_src elisp :results output silent :dir ~/Dev/Python/Sontex/Src

@@ -662,7 +662,7 @@ def update_counters(app_list, counters_list, df_csv, data_i = 1):
     id_list =set()
     for i, adress_list in enumerate(counters_list):
         if counters_list[i]:
-            r = app_list[i].update_allvalues1_by_id(df_csv,  name_value, name_date)
+            r = app_list[i].update_allvalues1_by_id_date(df_csv,  name_value, name_date)
             if r:
                 data_list.update(r)
             else:

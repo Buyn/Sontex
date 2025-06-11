@@ -96,7 +96,7 @@ class Appart_values:
         #     raise NameError('no value on line = ' + str(self._start_line) + ', for rows ' + text)
         return r
 
-    def update_allvalues1_by_id(self, df,  name_value, name_date=None):
+    def update_allvalues1_by_id_date(self, df,  name_value, name_date):
         r =[]
         self.not_found_ids.clear()
         if self.counters_list:
@@ -111,7 +111,21 @@ class Appart_values:
                     self.not_found_ids.add(ser_id)
         return r
 
-    def update_allvalues2_by_id(self, df,  name_value, name_date=None):
+    def update_allvalues1_by_id(self, df, name_value):
+        r =[]
+        self.not_found_ids.clear()
+        if self.counters_list:
+            for counter in self.counters_list:
+                try:
+                    ser_id = counter.adress
+                    counter.value1 = int(df.loc[ser_id , name_value])
+                    counter.set_value1(counter.value1)
+                    r.append(ser_id)
+                except Exception:
+                    pass
+        return r
+
+    def update_allvalues2_by_id(self, df,  name_value):
         r =[]
         self.not_found_ids.clear()
         if self.counters_list:
@@ -120,10 +134,9 @@ class Appart_values:
                     ser_id = counter.adress
                     counter.value2 = int(df.loc[ser_id , name_value])
                     counter.set_value2(counter.value2)
-                    if name_date:
-                        r.append(df.loc[ser_id , name_date])
+                    r.append(ser_id)
                 except Exception:
-                    self.not_found_ids.add(ser_id)
+                    pass
         return r
 
     def gen_E_used(self): 

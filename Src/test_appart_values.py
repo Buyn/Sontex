@@ -188,7 +188,7 @@ class setUp_Test(unittest.TestCase):
         self.assertEqual(t, "кв.32")
         # self.assertEqual(test.sum_area, 56.60)
 
-    def test_update_allvalues1_by_id(self): 
+    def test_update_allvalues1_by_id_date(self): 
         gv_filename = gv.gv_csv
         # df_csv = load_csv(gv_filename)
         df_csv = pd.read_csv(gv.gv_csv ,
@@ -200,7 +200,7 @@ class setUp_Test(unittest.TestCase):
         name_value = gv.gv_csv_name_value + str(gv.gv_csv_name_i)
         test = Appart_values(self.df, 7)
         self.assertEqual(test.counters_list[0].value1, 653)
-        test.update_allvalues1_by_id(df_csv,  name_value, name_date)
+        test.update_allvalues1_by_id_date(df_csv,  name_value, name_date)
         self.assertEqual(test.counters_list[0].value1, 126)
         self.assertEqual(test.counters_list[0].get_value1(), 126)
         # rlv
@@ -223,7 +223,7 @@ class setUp_Test(unittest.TestCase):
         test = Appart_values(self.df, 7)
         # print(test.counters_list[0])
         self.assertEqual(test.counters_list[0].value1, 126)
-        test.update_allvalues1_by_id(df_csv,  name_value, name_date)
+        test.update_allvalues1_by_id_date(df_csv,  name_value, name_date)
         self.assertEqual(test.counters_list[0].value1, 126)
         self.assertEqual(test.counters_list[0].get_value1(), 126)
 
@@ -240,9 +240,16 @@ class setUp_Test(unittest.TestCase):
         # name_value = gv_csv_name_value + str(2)
         test = Appart_values(self.df, 7)
         self.assertEqual(test.counters_list[0].value2, 603)
-        test.update_allvalues2_by_id(df_csv,  name_value, name_date)
+        t = test.update_allvalues2_by_id(df_csv,  name_value)
         self.assertEqual(test.counters_list[0].value2, 126)
         self.assertEqual(test.counters_list[0].get_value2(), 126)
+        self.assertEqual(t, [25482311, 25482312, 25482313])
+        self.assertEqual(t[0], 25482311)
+        t = test.update_allvalues1_by_id(df_csv,  name_value)
+        self.assertEqual(test.counters_list[0].value1, 126)
+        self.assertEqual(test.counters_list[0].get_value1(), 126)
+        self.assertEqual(t, [25482311, 25482312, 25482313])
+        self.assertEqual(t[0], 25482311)
         # rlv
         gv_filename = gv.gv_rlv
         df_csv = pd.read_csv(gv_filename ,
@@ -264,9 +271,14 @@ class setUp_Test(unittest.TestCase):
         test = Appart_values(self.df, 7)
         # print(test.counters_list[0])
         self.assertEqual(test.counters_list[0].value2, 126)
-        test.update_allvalues2_by_id(df_csv,  name_value, name_date)
+        t = test.update_allvalues2_by_id(df_csv,  name_value)
         self.assertEqual(test.counters_list[0].value2, 126)
         self.assertEqual(test.counters_list[0].get_value2(), 126)
+        self.assertEqual(t, [])
+        t = test.update_allvalues1_by_id(df_csv,  name_value)
+        self.assertEqual(test.counters_list[0].value1, 126)
+        self.assertEqual(test.counters_list[0].get_value1(), 126)
+        self.assertEqual(t, [])
 
     def test_gen_E_used(self):
         # сумарне споживання по квартирі, од.
