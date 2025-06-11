@@ -132,10 +132,6 @@ def gui_calc_params(params):
     if not_updated_exel_id :
         print_to_log("Ці ID вказані у Excel , але відсутні у файлі" + str(not_updated_exel_id))
 
-    print ("not_updated_exel_id =", not_updated_exel_id)
-    print("all_ap_idlist =", all_ap_idlist)
-    print("id_list = ", id_list)
-
     for i , colum in enumerate([gv.gl_column_home_counter_value1, gv.gl_column_home_counter_value2]):
         if dates[i] and columslist[i]:
           df.iloc[gv.gl_ferst_app_row - 1, colum] = "показники на " + str(dates[i])
@@ -698,16 +694,12 @@ def update_counters_by_colms(app_list, counters_list, colmslist, df_csv):
     if colmslist[0]:
       print_to_log("заповнюємо ексель стовпець R, даними датафала зі стовпця " + str(colmslist[0]))
       for i, adress_list in enumerate(counters_list):
-        app_list[i].update_allvalues1_by_id(df_csv,  colmslist[0])
-        id_list.update(app_list[i].not_found_ids)
-        app_list[i].not_found_ids.clear()
+        id_list.update(app_list[i].update_allvalues1_by_id(df_csv,  colmslist[0]))
         
     if colmslist[1]:
       print_to_log("заповнюємо ексель стовпець S, даними датафала зі стовпця " + str(colmslist[1]))
       for i, adress_list in enumerate(counters_list):
-        app_list[i].update_allvalues2_by_id(df_csv,  colmslist[1])
-        id_list.update(app_list[i].not_found_ids)
-        app_list[i].not_found_ids.clear()
+        id_list.update(app_list[i].update_allvalues2_by_id(df_csv,  colmslist[1]))
     return id_list
 
 if __name__ == "__main__": 

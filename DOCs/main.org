@@ -1199,7 +1199,7 @@ def gui_calc_params(params):
     # all_ap_idlist = set([ for ids in counters_list if ids])
     # for l in [x for x in a if x]:
 в id_list добовляются только неповторяюшиеся айди которые вернул
-это только список не найденых айди
+это список найденых айди
     #+begin_src python
     all_ap_idlist = set()
     for lst in filter(lambda elm: True if elm else False, counters_list):
@@ -1216,8 +1216,7 @@ def gui_calc_params(params):
 
 
     not_updated_exel_id = all_ap_idlist - id_list
-:tangle no
-    #+begin_src python
+    #+begin_src python :tangle no
     print ("not_updated_exel_id =", not_updated_exel_id)
     print("all_ap_idlist =", all_ap_idlist)
     print("id_list = ", id_list)
@@ -2028,6 +2027,9 @@ def update_counters(app_list, counters_list, df_csv, data_i = 1):
     # print("values", len(data_list))
           if counters_list[i]:
       if counters_list[i]:
+
+        id_list.update(app_list[i].not_found_ids)
+        app_list[i].not_found_ids.clear()
 #+begin_src python
 def update_counters_by_colms(app_list, counters_list, colmslist, df_csv): 
     if df_csv is None:
@@ -2036,20 +2038,20 @@ def update_counters_by_colms(app_list, counters_list, colmslist, df_csv):
     if colmslist[0]:
       print_to_log("заповнюємо ексель стовпець R, даними датафала зі стовпця " + str(colmslist[0]))
       for i, adress_list in enumerate(counters_list):
-        app_list[i].update_allvalues1_by_id(df_csv,  colmslist[0])
-        id_list.update(app_list[i].not_found_ids)
-        app_list[i].not_found_ids.clear()
+        id_list.update(app_list[i].update_allvalues1_by_id(df_csv,  colmslist[0]))
         
     if colmslist[1]:
       print_to_log("заповнюємо ексель стовпець S, даними датафала зі стовпця " + str(colmslist[1]))
       for i, adress_list in enumerate(counters_list):
-        app_list[i].update_allvalues2_by_id(df_csv,  colmslist[1])
-        id_list.update(app_list[i].not_found_ids)
-        app_list[i].not_found_ids.clear()
+        id_list.update(app_list[i].update_allvalues2_by_id(df_csv,  colmslist[1]))
     return id_list
 
 
 #+end_src
+
+#+RESULTS:
+: None
+
       print_to_log("назва стовбчика змінено на = " + str(data_list))
     # if len(data_list)==0:
     #     print_to_log("помилка даних csv. Файл не містить жодного ID з exel")
