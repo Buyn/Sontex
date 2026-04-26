@@ -6344,7 +6344,6 @@ if __name__ == "__main__":
 /home/buyn/Dev/Python/Sontex/raw-files/output.xlsx
 /home/buyn/Dev/Python/Sontex/raw-files/output1.xlsx
 
-
 * sandbox
 ** sandbox.org
 #+begin_src emacs-lisp :results output silent
@@ -6444,18 +6443,21 @@ done
 (buyn-shell-start "~/Dev/Python/Sontex/Src/test_all.sh")
 #+end_src
 ** evormnt
-python -m venv prime-env
+python -m venv sontex-env
 
 source sontex-env/bin/activate
 
 pip install eel
 pip install openpyxl
-
+pip install pandas
 pip install numpy 
 pip install matplotlib
 pip install numpy matplotlib
 
 (pyvenv-activate "sontex-env")
+
+pip freeze > requirements.txt
+pip install -r requirements.txt
 ** execute-src-block:
 (save-excursion (progn (org-babel-goto-named-src-block "auto-tangle-block") (org-babel-execute-src-block)))
 (save-excursion (let () (org-babel-goto-named-src-block "auto-tangle-block") (org-babel-execute-src-block)))
